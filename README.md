@@ -1,5 +1,15 @@
 # wiq_en3b
 
+## Members
+
+- Carlos Menéndez González (UO288056@uniovi.es)
+- Didier Yamil Reyes Castro (UO287866@uniovi.es)
+- Iyán Robles Suárez (UO288780@uniovi.es)
+- Raúl Mera Soto (UO287827@uniovi.es)
+- Mateo Rico Iglesias (UO277172@uniovi.es)
+- Anna Kutova (UO305098@uniovi.es)
+- Diego Murias Suárez (UO290009@uniovi.es)
+
 [![Deploy on release](https://github.com/Arquisoft/wiq_en3b/actions/workflows/release.yml/badge.svg)](https://github.com/Arquisoft/wiq_en3b/actions/workflows/release.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en3b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en3b)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en3b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en3b)

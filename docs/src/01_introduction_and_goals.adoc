@@ -2,20 +2,40 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 [[section-introduction-and-goals]]
 == Introduction and Goals
+RTVE wants to offer a web application based on the famous Spanish TV show 
+https://es.wikipedia.org/wiki/Saber_y_ganar["Saber y Ganar"] 
+to its users in commemoration of the 28th anniversary of the show. This show consisted on 
+answering a number of questions with different types and subjects obtaining a prize for 
+each question well answered.
+
+The expected goal is to offer a well-desgined game that maintains all the quality standards
+that the company offers like maintainability, security, etc...; while trying to fulfill the
+user's needs to provide a positive UX.   
 
 [role="arc42help"]
 ****
-Describes the relevant requirements and the driving forces that software architects and development team must consider. 
-These include
-
-* underlying business goals, 
-* essential features, 
-* essential functional requirements, 
-* quality goals for the architecture and
-* relevant stakeholders and their expectations
+Notes:
+The shown requirements may increase if during the development
+of the project more features are included. Please, refer to
+https://github.com/Arquisoft/wiq_en3b/wiki/Lab-Assignment-Overview#optional-features[Optional features] for more info.
 ****
 
 === Requirements Overview
+
+The web application must meet the following requirements:
+
+[options="header",cols="1,2" ]
+|===
+| Requirement | Description  
+| Accesibility | It must be taken care of the different HTML standards so Screen-readers users can also play the game. Also, take care of features like coloring.  
+| Availability | The system must always be available so users can play at any time.
+| User Registration and Login | Users must be able to register into game so its data is stored for later consult.
+| WikiData | The questions and answer options must be generated using the WikiData API.
+| Timer | All the questions must have a time to answer.
+| APIs | The game must expose two APIs that retrieves information about 1. Users and 2. Questions generated. 
+|===
+
+
 
 [role="arc42help"]
 ****
@@ -43,51 +63,28 @@ See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 docum
 
 === Quality Goals
 
-[role="arc42help"]
-****
-.Contents
-The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders. 
-We really mean quality goals for the architecture. Don't confuse them with project goals.
-They are not necessarily identical.
-
-Consider this overview of potential topics (based upon the ISO 25010 standard):
-
-image::01_2_iso-25010-topics-EN.drawio.png["Categories of Quality Requirements"]
-
-.Motivation
-You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions. 
-Make sure to be very concrete about these qualities, avoid buzzwords.
-If you as an architect do not know how the quality of your work will be judged...
-
-.Form
-A table with quality goals and concrete scenarios, ordered by priorities
-****
 
 === Stakeholders
 
-[role="arc42help"]
-****
-.Contents
-Explicit overview of stakeholders of the system, i.e. all person, roles or organizations that
-
-* should know the architecture
-* have to be convinced of the architecture
-* have to work with the architecture or with code
-* need the documentation of the architecture for their work
-* have to come up with decisions about the system or its development
-
-.Motivation
-You should know all parties involved in development of the system or affected by the system.
-Otherwise, you may get nasty surprises later in the development process.
-These stakeholders determine the extent and the level of detail of your work and its results.
-
-.Form
-Table with role names, person names, and their expectations with respect to the architecture and its documentation.
-****
-
-[options="header",cols="1,2,2"]
+[options="header",cols="1,2a,2" ]
 |===
 |Role/Name|Contact|Expectations
-| _<Role-1>_ | _<Contact-1>_ | _<Expectation-1>_
-| _<Role-2>_ | _<Contact-2>_ | _<Expectation-2>_
+| RTVE | rtve.dircom@rtve.es | A web application that emulates the functionality of the famous Spanish TV show "Saber y Ganar". 
+| HappySw | contact_projects@happysw.es | An application that meets all the  requirements asked by RTVE mantaining the quality that offers the company. 
+| Professors 
+| 
+* Pablo González: gonzalezgpablo@uniovi.es 
+* Jose Labra: labra@uniovi.es
+| A well-designed web application that fulfills the functional requirements for the game to work, as well as, the quality requirements.
+| Users |  | A "Saber y Ganar" web game to test their knowdlege on different fields. The game must be easy to use and must record all of their past games. 
+| Development team
+|
+* Carlos Menéndez González (UO288056@uniovi.es)
+* Didier Yamil Reyes Castro (UO287866@uniovi.es)
+* Iyán Robles Suárez (UO288780@uniovi.es)
+* Raúl Mera Soto (UO287827@uniovi.es)
+* Mateo Rico Iglesias (UO277172@uniovi.es)
+* Anna Kutova (UO305098@uniovi.es)
+* Diego Murias Suárez (UO290009@uniovi.es)
+| A good documented and clean code that fulfills the expected requirements. Also, a well implemented System that makes it easier for maintenance and extension.
 |===

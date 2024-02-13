@@ -30,3 +30,25 @@ Refer to details in the following sections.
 See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
 
 ****
+
+=== Technologies
+
+- *React* : React will simplify the task build reusable and modular UI elements for our application thanks to its component-based structure. It'll also allow mobile app development with React Native.
+- *Express* : Web application framework for Node.js which will simplify development on the server side. There is also available a wide range of third-party middlewares that we could include on our application.
+- *TypeScript* : Since we will be using JavaScript and are more familiar with statically typed languages we will use TypeScript. This will also reduce the likelihood of some unexpected error at runtime.
+- *MongoDB* : We chose MongoDB since we consider we could take advantage of it's flexible schema. Its native support for JSON and its simple query language also influennced our decision. We also consider this a valauable oportunity to learn and work with a document database.
+- *And more...*
+
+
+=== Decomposition of the System (TBD)
+ - Microservices??
+
+=== Decisions to Achieve Quality Goals (TBD)
+- Security??
+- Performannce??
+- Usability??
+- Responsive Design??
+
+=== Organization
+Each week we will have a meeting of which decisions will be registered on the Wiki on GitHub. We will also dicuss the work to be done the following week, of which progress we will keep track by means of the Kanban and the issues.
+Any unforeseen issue that may arise during development will be discussed in the issue itself or via our WhatsApp group if of low relevance or importance.

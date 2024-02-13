@@ -40,14 +40,34 @@ See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentat
 - *And more...*
 
 
-=== Decomposition of the System (TBD)
- - Microservices??
+=== Decomposition of the System 
 
-=== Decisions to Achieve Quality Goals (TBD)
-- Security??
-- Performannce??
-- Usability??
-- Responsive Design??
+We chose to use microservices as they allow specific functionality for each service.
+This approach gives more flexibility and modularity in development, allowing us to focus on specific functionalities on our own.
+
+Microservices also make it easier to manage and expand, as we can update or extend specific services without affecting the entire system.
+
+ - *Wikidata Query Service* : We will use the Wikidata Query Service to dynamically generate questions and options for the quiz game. By querying Wikidata, we can access a diverse range of information.
+ - *GitHub* : The project is stored in a public space, as advised by our professors. Everyone in the team can work together on it, and we really focus on using pull requests when we want to add or change the code.
+// - *? User Authentication Microservice* :
+// - *? Game Engine Microservice* :
+
+
+=== Decisions to Achieve Quality Goals 
+
+|===
+| Quality goal | Scenario | Approach 
+
+| Security |  Ensuring secure methods of authentication, such as login credentials (username and password), to protect user accounts from unauthorized access.  | Implementation of secure authentication mechanisms, such as OAuth or JWT, encryption for data in transit using HTTPS, and at rest using encryption algorithms.
+| Performance | Web-app should work smoothly and respond quickly.  |
+- Implementing caching mechanisms
+
+- Optimizing database queries through indexing and query optimization techniques.
+| Usability | The application aims for user-friendly accessibility with an intuitive design. | 
+// TBD 
+| Responsive Design | Seamless user experience across different devices and screen sizes. |  Implementing responsive design principles with a combination of CSS frameworks (e.g., Bootstrap or Tailwind CSS) and React components, ensuring dynamic and interactive UI elements within our React-based interface.
+|===
+
 
 === Organization
 Each week we will have a meeting of which decisions will be registered on the Wiki on GitHub. We will also dicuss the work to be done the following week, of which progress we will keep track by means of the Kanban and the issues.

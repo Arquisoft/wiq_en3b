@@ -4,12 +4,12 @@
     "description": "Npm project just for the docs",
     "main": "index.js",
     "scripts": {
-      "build": "shx rm -rf build && asciidoctor -D build -a imagesdir=./images -r asciidoctor-diagram index.adoc && shx cp -R images build",
-      "deploy": "gh-pages -d build"
+        "build": "shx rm -rf build && asciidoctor -D build -a imagesdir=./images -r asciidoctor-diagram index.adoc && shx cp -R images build",
+        "deploy": "gh-pages -d build"
     },
     "dependencies": {
-      "gh-pages": "^3.2.3",
-      "shx": "^0.3.3"
+        "gh-pages": "^3.2.3",
+        "ruby": "^0.6.1",
+        "shx": "^0.3.3"
     }
-  }
-  
+}

@@ -33,6 +33,17 @@ The web application must meet the following requirements:
 | WikiData | The questions and answer options must be generated using the WikiData API.
 | Timer | All the questions must have a time to answer.
 | APIs | The game must expose two APIs that retrieves information about 1. Users and 2. Questions generated. 
+| Game History
+| Maintain a record of users' participation in the game, including the number of games played, questions passed and failed, and times played.
+
+| Question Generation
+| Questions will be automatically generated from data available in Wikidata, and users must answer them within a specific time limit.
+
+| Question Options
+| Each question will have one correct answer and several automatically generated incorrect options or distractors.
+
+| API Access
+| The system will provide access to user information and information about the generated questions through APIs.
 |===
 
 
@@ -62,6 +73,48 @@ See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 docum
 ****
 
 === Quality Goals
+
+[cols="1,1,1,1",options="header"]
+|===
+| Priority | Quality Goal | Description | Considerations
+
+| 1
+| Usability
+| As with any application, response time, learning curve, and navigability of the application should meet standards and expected minimums. The system should be easy to use and not require specific or complex knowledge. | Consider incorporating user feedback and usability testing to refine the user interface.
+
+| 2
+| Availability
+| The application must be accessible 24 hours a day. While complete availability may be impossible over extended periods, minimizing downtime and making interruptions imperceptible to users is key. | Implementing redundancy and failover mechanisms can help ensure continuous availability.
+
+| 3
+| Security
+| The application should adhere to industry best practices for security to protect against unauthorized access, data breaches, and other threats. | Regular security audits and implementing basic security controls are essential.
+
+| 4
+| Maintainability
+| The application should demonstrate good architecture and design to showcase the team's capabilities and ensure easy maintenance. | Documenting code and following best practices contribute to maintainability.
+
+| 5
+| Privacy
+| Users must be assured that their personal information is protected when using the application. | Implementing basic data protection measures and ensuring compliance with relevant regulations enhance privacy.
+
+| 6
+| Performance
+| The software should have acceptable response time to provide a smooth user experience. | Basic optimization techniques can improve performance.
+
+| 7
+| Efficiency
+| Application functionalities should be efficient for users to accomplish their tasks effectively. | Streamlining workflows and minimizing redundant processes contribute to efficiency.
+
+| 8
+| Testability
+| The application must be designed to facilitate testing across various scenarios to ensure robustness and reliability. | Implementing basic testing frameworks and writing unit tests support testability.
+
+| 9
+| Adaptability
+| The application should adapt seamlessly to different devices and screen sizes. While primarily developed for desktops, it should also provide a satisfactory user experience on mobile devices. | Utilizing responsive design principles and conducting compatibility testing across devices can enhance adaptability.
+
+|===
 
 
 === Stakeholders

@@ -28,6 +28,9 @@ See https://docs.arc42.org/section-3/[Context and Scope] in the arc42 documentat
 
 ****
 
+=== Introduction
+
+The WIQ project aims to develop a new experimental version of the Saber y Ganar quiz show for RTVE, led by the software development company HappySw. This project involves creating a web application where users can register, log in, and participate in quiz games. Questions for the quiz will be automatically generated from data available in Wikidata.
 
 === Business Context
 
@@ -48,9 +51,15 @@ The title of the table is the name of your system, the three columns contain the
 
 ****
 
-**<Diagram or Table>**
+image::03_business_context.png["Business Context"]
 
-**<optionally: Explanation of external domain interfaces>**
+|===
+|Communication partner|Inputs|Outputs
+| User | Interacts with WIQ by putting user credentials and answering to questions. | Receives question status (correct/incorrect) and prize information.
+| WIQ | User interaction by means of a graphical interface. This includes accepting the answers of questions. | Provides user information and question data including text, options and the correct answer.
+| Database | Receives user data (credentials, number of games, question passed and failed, times...) | Responding to the application with the desired information.
+| Question Generator | Accepts queries for generating questions based on subject and type. | Generates the question data (text, options and correct answer).
+|===
 
 === Technical Context
 
@@ -67,6 +76,15 @@ E.g. UML deployment diagram describing channels to neighboring systems,
 together with a mapping table showing the relationships between channels and input/output.
 
 ****
+
+|===
+| Component | Description
+| Web Front-End | Accessible via the internet, allowing users to interact with the WIQ application. 
+| APIs | Provides access to user information and generated questions, enabling integration with external systems. 
+| Database | Stores and retrieves user data, including registration information and participation history. 
+| Automatic Question Generation | Questions are automatically generated from data available in Wikidata. 
+| Optional Features | WIQ offers features such as internationalization, different game modes, and customizable parameters. 
+|===
 
 **<Diagram or Table>**
 

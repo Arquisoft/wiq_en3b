@@ -30,3 +30,41 @@ Refer to details in the following sections.
 See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
 
 ****
+
+=== Technologies
+
+- *React* : React will simplify the task build reusable and modular UI elements for our application thanks to its component-based structure. It'll also allow mobile app development with React Native.
+- *Express* : Web application framework for Node.js which will simplify development on the server side. There is also available a wide range of third-party middlewares that we could include on our application.
+- *TypeScript* : Since we will be using JavaScript and are more familiar with statically typed languages we will use TypeScript. This will also reduce the likelihood of some unexpected error at runtime.
+- *MongoDB* : We chose MongoDB since we consider we could take advantage of it's flexible schema. Its native support for JSON and its simple query language also influennced our decision. We also consider this a valauable oportunity to learn and work with a document database.
+- *And more...*
+
+
+=== Decomposition of the System 
+
+We chose to use microservices as they allow specific functionality for each service.
+This approach gives more flexibility and modularity in development, allowing us to focus on specific functionalities on our own.
+
+Microservices also make it easier to manage and expand, as we can update or extend specific services without affecting the entire system.
+
+
+
+=== Decisions to Achieve Quality Goals 
+
+|===
+| Quality goal | Scenario | Approach 
+
+| Security |  Ensuring secure methods of authentication, such as login credentials (username and password), to protect user accounts from unauthorized access.  | Implementation of secure authentication mechanisms, such as OAuth or JWT, encryption for data in transit using HTTPS, and at rest using encryption algorithms.
+| Performance | Web-app should work smoothly and respond quickly.  |
+- Implementing caching mechanisms
+
+- Optimizing database queries through indexing and query optimization techniques.
+| Usability | The application aims for user-friendly accessibility with an intuitive design. | 
+// TBD 
+| Responsive Design | Seamless user experience across different devices and screen sizes. |  Implementing responsive design principles with a combination of CSS frameworks (e.g., Bootstrap or Tailwind CSS) and React components, ensuring dynamic and interactive UI elements within our React-based interface.
+|===
+
+
+=== Organization
+Each week we will have a meeting of which decisions will be registered on the Wiki on GitHub. We will also dicuss the work to be done the following week, of which progress we will keep track by means of the Kanban and the issues.
+Any unforeseen issue that may arise during development will be discussed in the issue itself or via our WhatsApp group if of low relevance or importance.

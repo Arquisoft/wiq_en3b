@@ -34,10 +34,9 @@ The development of the application has several architectural constraints that mu
 |===
 |Constraint|Explanation
 | Web front-end | The application must have a web interface to interact with the game.
-| User data storage and authentication | It is required that the application stores historical data from users (number of games, questions, etc.) and allows them to register.
-| Integration wikidata | Wikidata must be used to generate the questions, so the application must implement mechanisms to fetch information from it.
-| API | The system must be accessible through an API, giving access to information about users and generated questions.
-| GitHub | It is required that the developement team uses github for version control.
+| User data storage and authentication | The application must be able to store historical data from users (number of games, questions, etc.) and allow them to register.
+| Integration wikidata | Wikidata will be used to generate the questions, so the application must implement mechanisms to fetch information from it.
+| GitHub | The developement team must use github for version control.
 |===
 
 === Organizational constraints
@@ -54,7 +53,7 @@ The development of the application has several architectural constraints that mu
 [options="header",cols="1,3"]
 |===
 |Constraint|Explanation
-| Language | All the project will be developed in English.
+| Language | All the project must be developed in English.
 | ARC42 | The documentation of the project must use the ARC42 template.
 | GitHub conventions | Changes in the project must be carried out by using different branches. Issues are used as official communication means.
 |===

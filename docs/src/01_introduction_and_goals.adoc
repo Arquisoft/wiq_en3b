@@ -29,48 +29,12 @@ The web application must meet the following requirements:
 | Requirement | Description  
 | Accesibility | It must be taken care of the different HTML standards so Screen-readers users can also play the game. Also, take care of features like coloring.  
 | Availability | The system must always be available so users can play at any time.
-| User Registration and Login | Users must be able to register into game so its data is stored for later consult.
-| WikiData | The questions and answer options must be generated using the WikiData API.
+| User Registration and Login | Users must be able to register into game or login into the game.
+| WikiData | The questions and answer options (a correct one and three distractors) must be generated using the WikiData API.
 | Timer | All the questions must have a time to answer.
 | APIs | The game must expose two APIs that retrieves information about 1. Users and 2. Questions generated. 
-| Game History
-| Maintain a record of users' participation in the game, including the number of games played, questions passed and failed, and times played.
-
-| Question Generation
-| Questions will be automatically generated from data available in Wikidata, and users must answer them within a specific time limit.
-
-| Question Options
-| Each question will have one correct answer and several automatically generated incorrect options or distractors.
-
-| API Access
-| The system will provide access to user information and information about the generated questions through APIs.
+| User History | Maintain a record of users' participation in the game, including the number of games played, questions passed and failed, and times played.
 |===
-
-
-
-[role="arc42help"]
-****
-.Contents
-Short description of the functional requirements, driving forces, extract (or abstract)
-of requirements. Link to (hopefully existing) requirements documents
-(with version number and information where to find it).
-
-.Motivation
-From the point of view of the end users a system is created or modified to
-improve support of a business activity and/or improve the quality.
-
-.Form
-Short textual description, probably in tabular use-case format.
-If requirements documents exist this overview should refer to these documents.
-
-Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.
-
-
-.Further Information
-
-See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 documentation.
-
-****
 
 === Quality Goals
 
@@ -88,7 +52,7 @@ See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 docum
 
 | 3
 | Security
-| The application should adhere to industry best practices for security to protect against unauthorized access, data breaches, and other threats. | Regular security audits and implementing basic security controls are essential.
+| The application should stick to industry best practices for security to protect against unauthorized access, data breaches, and other threats. | Regular security audits and implementing basic security controls are essential.
 
 | 4
 | Maintainability
@@ -112,7 +76,7 @@ See https://docs.arc42.org/section-1/[Introduction and Goals] in the arc42 docum
 
 | 9
 | Adaptability
-| The application should adapt seamlessly to different devices and screen sizes. While primarily developed for desktops, it should also provide a satisfactory user experience on mobile devices. | Utilizing responsive design principles and conducting compatibility testing across devices can enhance adaptability.
+| The application should adapt seamlessly to different devices and screen sizes. While primarily developed for desktops, it should also provide a satisfactory user experience on mobile devices. | Utilising responsive design principles and conducting compatibility testing across devices can enhance adaptability.
 
 |===
 

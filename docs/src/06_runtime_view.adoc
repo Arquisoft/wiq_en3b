@@ -76,9 +76,7 @@ building block instances depicted in this diagram.>_
 It is possible to use a sequence diagram:
 
 === Question Generation
-
-* _<insert runtime diagram or textual description of the scenario>_ TBD
-* _<insert description of the notable aspects of the interactions between the building block instances depicted in this diagram.>_ TBD
+When a user starts a game, all the questions for the game are created. The process is represented on the following diagram.
 
 [mermaid]
 ....

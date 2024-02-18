@@ -39,6 +39,35 @@ See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
 
 === <Runtime Scenario 1>
 
+**Diagram**
+
+image::loginSequence.svg[Login]
+
+**Mermaid code**
+[mermaid]
+....
+sequenceDiagram
+    Title: User Login
+    User->Frontend: Navigates to login page
+    Frontend->Backend: Requests login page
+    Backend-->Frontend: Sends login page
+    Frontend-->User: Displays login page
+    User->Frontend: Enters details (username, password)
+    Frontend->Backend: Sends user details
+    Backend->Database: Verifies user credentials
+    Database-->Backend: Responds with verification status
+    alt Credentials are incorrect
+        Backend-->Frontend: Sends error message "Incorrect credentials"
+        Frontend-->User: Displays error message "Incorrect credentials"
+    else Credentials are correct
+        Backend-->Frontend: Sends success message "Login successful"
+        Frontend-->User: Displays success message "Login successful"
+    end
+....
+
+**Link to the editor**
+
+https://www.mermaidchart.com/app/projects/c3b49db4-8a97-41da-a57e-a5c16b123f08/diagrams/d83267ef-0337-4c1d-b450-39dfb61cc6b4/version/v0.1/edit
 
 * _<insert runtime diagram or textual description of the scenario>_
 * _<insert description of the notable aspects of the interactions between the

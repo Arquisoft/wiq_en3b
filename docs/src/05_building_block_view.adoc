@@ -7,7 +7,20 @@ ifndef::imagesdir[:imagesdir: ../images]
  
 === Whitebox Overall System
 
-image::05_Overall_System.png["Overall System"]
+[mermaid]
+....
+flowchart LR
+    u("fa:fa-users 
+    Users")
+    wiq("fa:fa-question Saber y Ganar 
+    Application")
+    wd("fa:fa-book
+    WikiData")
+    u--"interact"-->wiq
+    wiq--"request"-->wd
+    wd--"response"-->wiq
+....
+
 
 Motivation::
 
@@ -30,12 +43,45 @@ Contained Building Blocks::
 
 === Level 2: Application
 
-Here display with Mermaid the image that we have on Discord. The one that
-shows in more detailed Black Box "Saber y Ganar Application" 
+[mermaid]
+....
+flowchart TD
+    u("fa:fa-users"
+    User) --"interact"--> WebApp
+    subgraph front [Frontend]
+      WebApp
+    end
+    WebApp --"send request"--> Gateway
+    subgraph back [Backend]
+      Gateway
+      AuthService
+      UserService
+      QuestionGenerator
+      wikidata("fa:fa-book" Wikidata)
+    end
+    Gateway --> AuthService
+    AuthService --> Gateway
+    Gateway --> UserService
+    UserService --> Gateway
+    Gateway --> QuestionGenerator
+    QuestionGenerator --> Gateway
+    QuestionGenerator --> wikidata
+    wikidata --> QuestionGenerator
+    style wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
+    classDef subgraphstyle margin-left:3cm
+    class back subgraphstyle
+    class front subgraphstyle
+....
 
 Motivation::
 
-A little bit of description of the workflow or why this division have been performed.
+This diagram shows a more detailed view of the functionality
+of the system, showing the gateway and the different microservices.
+The user interacts with the WebApp, which sends requests to the Gateway. 
+The Gateway then communicates with the different microservices to perform various operations. 
+The QuestionService also interacts with the Wikidata API to generate questions and answers. 
+The results are then sent back to the user through the same path. 
+This architecture allows for a separation of concerns, where each component has a specific role and responsibility.
 
 Contained Building Blocks::
 

@@ -39,7 +39,7 @@ See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
 
 === Login scenario
 
-When the user wants to login into the application (WIQ), the user navigates to the login page. Then, the Frontend requests the login page to the backend. Once it is received, the Frontend displays it. The Frontend will show a form that allows the user to enter their details (username and password), which are then sent to the backend in order to be verified if they are correct or not. If the credentials are incorrect, an error message showing "Incorrect credentials" will appear to the user and if they are correct, a success message "Login successful" confirms the login and the user finally will be able to access the application.
+When the user wants to login into the application (WIQ), the user navigates to the login page. Then, the Frontend requests the login page to the backend. Once it is received, the Frontend displays it. The Frontend will show a form that allows the user to enter their details (username and password), which are then sent to the backend in order to be verified if they are correct or not. Then, the Backend asks the Database for the password given the username. The Database will return an encrypted password. The Backend will encrypt the password provided by the user and then compare it with the one from the database. If the passwords do not match, an error message showing "Incorrect credentials" will appear to the user and if they are correct, a success message "Login successful" confirms the login and the user finally will be able to access the application.
 
 **Diagram**
 
@@ -53,8 +53,9 @@ sequenceDiagram
     Frontend-->User: Displays login page
     User->Frontend: Enters details (username, password)
     Frontend->Backend: Sends user details
-    Backend->Database: Verifies user credentials
-    Database-->Backend: Responds with verification status
+    Backend->Database: Asks for encrypted password by username
+    Database-->Backend: Responds with the encrypted password of the user
+    Backend-->Backend: Tests if passwords are equal after encryptation
     alt Credentials are incorrect
         Backend-->Frontend: Sends error message "Incorrect credentials"
         Frontend-->User: Displays error message "Incorrect credentials"

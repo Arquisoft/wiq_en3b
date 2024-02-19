@@ -37,13 +37,12 @@ See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
 
 ****
 
-=== <Runtime Scenario 1>
+=== Login scenario
+
+When the user wants to login into the application (WIQ), the user navigates to the login page. Then, the Frontend requests the login page to the backend. Once it is received, the Frontend displays it. The Frontend will show a form that allows the user to enter their details (username and password), which are then sent to the backend in order to be verified if they are correct or not. If the credentials are incorrect, an error message showing "Incorrect credentials" will appear to the user and if they are correct, a success message "Login successful" confirms the login and the user finally will be able to access the application.
 
 **Diagram**
 
-image::loginSequence.svg[Login]
-
-**Mermaid code**
 [mermaid]
 ....
 sequenceDiagram
@@ -69,14 +68,11 @@ sequenceDiagram
 
 https://www.mermaidchart.com/app/projects/c3b49db4-8a97-41da-a57e-a5c16b123f08/diagrams/d83267ef-0337-4c1d-b450-39dfb61cc6b4/version/v0.1/edit
 
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
-
-It is possible to use a sequence diagram:
-
 === Question Generation
-When a user starts a game, all the questions for the game are created. The process is represented on the following diagram.
+
+When a user starts a game through the Frontend, it triggers a request for generating questions to the Backend. The Backend (Gateway) works with the QGS (Question Generator Service) to generate questions. For each question, first QGS requests a question template from the Database, which is then filled with relevant data from the WQS (Wikidata Query Service). After filling the template, QGS asks WQS for answers and distractors. Once all questions are generated, QGS sends them back to the Backend, so again the response then can be redirected towards the Frontend. Finally, the Frontend displays the questions of the game.
+
+This case scenario is also represented on the following diagram:
 
 [mermaid]
 ....

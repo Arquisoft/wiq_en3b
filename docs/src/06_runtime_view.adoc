@@ -91,16 +91,16 @@ This case scenario is also represented on the following diagram:
 
     loop for each question
         QGS->>DB: Request Question Template
-        DB->>QGS: Return Question Template
+        DB-->>QGS: Return Question Template
         QGS->>WQS: Request Data
-        WQS->>QGS: Return Data
-        QGS->>QGS: Fill Template
+        WQS-->>QGS: Return Data
+        QGS-->QGS: Fill Template
         QGS->>WQS: Request Answer + Distractors
-        WQS->>QGS: Return Answer + Distractors
-        QGS->>QGS: Create Question
+        WQS-->>QGS: Return Answer + Distractors
+        QGS-->QGS: Create Question
     end 
-    QGS->>BE: Return Questions
-    BE->>FE: Return Questions
+    QGS-->>BE: Return Questions
+    BE-->>FE: Return Questions
     FE->>U: Display Questions
 ....
 

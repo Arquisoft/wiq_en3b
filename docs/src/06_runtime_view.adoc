@@ -104,6 +104,30 @@ This case scenario is also represented on the following diagram:
     FE->>U: Display Questions
 ....
 
+=== User statistics recording scenario
+
+When a user answers a question, the Frontend determines if the answer was correct or not. Then, that data is sent to the Backend and then forwarded to the History Service, which is in charge of updating the Database with the updated user history. This process is repeated for each answer to a question.
+
+This case scenario is also represented on the following diagram:
+
+[mermaid]
+....
+ sequenceDiagram
+    actor U as User
+    participant FE as Frontend 
+    participant BE as Backend 
+    participant HS as History Service
+    participant DB as Database 
+
+    loop for each answer
+        U->>FE: Answers the question
+        FE->>FE: Determines if the answer is correct
+        FE->>BE: Indicates correctness of the answer
+        BE->>HS: Indicates correctness of the answer
+        HS->>DB: Updates the user history
+    end 
+....
+
 === ...
 
 === <Runtime Scenario n>

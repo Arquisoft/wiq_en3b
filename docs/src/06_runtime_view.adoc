@@ -41,33 +41,31 @@ See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
 
 When the user wants to login into the application (WIQ), the user navigates to the login page. Then, the Frontend requests the login page to the backend. Once it is received, the Frontend displays it. The Frontend will show a form that allows the user to enter their details (username and password), which are then sent to the backend in order to be verified if they are correct or not. Then, the Backend asks the Database for the password given the username. The Database will return an encrypted password. The Backend will encrypt the password provided by the user and then compare it with the one from the database. If the passwords do not match, an error message showing "Incorrect credentials" will appear to the user and if they are correct, a success message "Login successful" confirms the login and the user finally will be able to access the application.
 
-**Diagram**
+This case scenario is also represented on the following diagram:
 
 [mermaid]
 ....
 sequenceDiagram
-    Title: User Login
-    User->Frontend: Navigates to login page
-    Frontend->Backend: Requests login page
-    Backend-->Frontend: Sends login page
-    Frontend-->User: Displays login page
-    User->Frontend: Enters details (username, password)
-    Frontend->Backend: Sends user details
-    Backend->Database: Asks for encrypted password by username
-    Database-->Backend: Responds with the encrypted password of the user
+    actor User as User
+    
+    User->>Frontend: Navigates to login page
+    Frontend->>Backend: Requests login page
+    Backend-->>Frontend: Sends login page
+    Frontend-->>User: Displays login page
+    User->>Frontend: Enters details (username, password)
+    Frontend->>Backend: Sends user details
+    Backend->>Database: Asks for encrypted password by username
+    Database-->>Backend: Responds with the encrypted password of the user
     Backend-->Backend: Tests if passwords are equal after encryptation
     alt Credentials are incorrect
-        Backend-->Frontend: Sends error message "Incorrect credentials"
-        Frontend-->User: Displays error message "Incorrect credentials"
+        Backend-->>Frontend: Sends error message "Incorrect credentials"
+        Frontend-->>User: Displays error message "Incorrect credentials"
     else Credentials are correct
-        Backend-->Frontend: Sends success message "Login successful"
-        Frontend-->User: Displays success message "Login successful"
+        Backend-->>Frontend: Sends success message "Login successful"
+        Frontend-->>User: Displays success message "Login successful"
     end
 ....
 
-**Link to the editor**
-
-https://www.mermaidchart.com/app/projects/c3b49db4-8a97-41da-a57e-a5c16b123f08/diagrams/d83267ef-0337-4c1d-b450-39dfb61cc6b4/version/v0.1/edit
 
 === Question Generation
 
@@ -91,16 +89,16 @@ This case scenario is also represented on the following diagram:
 
     loop for each question
         QGS->>DB: Request Question Template
-        DB->>QGS: Return Question Template
+        DB-->>QGS: Return Question Template
         QGS->>WQS: Request Data
-        WQS->>QGS: Return Data
-        QGS->>QGS: Fill Template
+        WQS-->>QGS: Return Data
+        QGS-->QGS: Fill Template
         QGS->>WQS: Request Answer + Distractors
-        WQS->>QGS: Return Answer + Distractors
-        QGS->>QGS: Create Question
+        WQS-->>QGS: Return Answer + Distractors
+        QGS-->QGS: Create Question
     end 
-    QGS->>BE: Return Questions
-    BE->>FE: Return Questions
+    QGS-->>BE: Return Questions
+    BE-->>FE: Return Questions
     FE->>U: Display Questions
 ....
 

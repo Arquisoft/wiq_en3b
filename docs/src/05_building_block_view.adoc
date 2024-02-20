@@ -5,7 +5,7 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 == Building Block View
  
-=== Whitebox Overall System
+=== Scope and Context
 
 [mermaid]
 ....
@@ -20,7 +20,6 @@ flowchart LR
     wiq--"request"-->wd
     wd--"response"-->wiq
 ....
-
 
 Motivation::
 
@@ -41,33 +40,76 @@ Contained Building Blocks::
 | WikiData | API that offers the Application an easy-to-use interface to perform queries for the question and answer generation.
 |===
 
-=== Level 2: Application
+=== Level 1: 
 
 [mermaid]
 ....
 flowchart TD
     u("fa:fa-users"
-    User) --"interact"--> WebApp
-    subgraph front [Frontend]
-      WebApp
+    User) --"interact"--> Frontend
+
+    subgraph app [Saber y Ganar]
+        Frontend("fa:fa-home"
+        Frontend)
+        Gateway(
+        Gateway)
+        Microservices(
+        Microservices)
+       
     end
-    WebApp --"send request"--> Gateway
-    subgraph back [Backend]
-      Gateway
-      AuthService
-      UserService
-      QuestionGenerator
-      wikidata("fa:fa-book" Wikidata)
+    
+    Frontend --> Gateway
+    Gateway --> Microservices
+....
+
+Motivation::
+
+In this level of decomposition, we illustrate the primary services of our system. The Frontend service serves as the entry point for user interactions, directing them to the Gateway. The Gateway then routes these interactions to the appropriate microservices for processing. This diagram emphasizes the flow of interactions through the system's components.
+
+
+Contained Building Blocks::
+
+|===
+| **Building block** | **Description** 
+| Frontend | Service responsible for collecting user interactions and routing them to the Gateway.
+| Gateway | Middleware component that routes user interactions to the appropriate microservices.
+| Microservices | Collection of smaller services responsible for handling various functionalities of the application.
+|===
+
+=== Level 2:
+
+[mermaid]
+....
+flowchart TD
+    u("fa:fa-users" User) --"interact"--> WebApp
+
+    subgraph app [Saber y Ganar]
+        subgraph front [Frontend]
+            WebApp("fa:fa-home" WebApp)
+        end
+        WebApp --"send request"--> Gateway
+        subgraph back [Backend]
+            Gateway
+            AuthService("fa:fa-user-cog" AuthService)
+            UserService("fa:fa-user-cog" UserService)
+            QuestionService("fa:fa-gamepad" QuestionService)
+            UserDatabase("fa:fa-database" UserDatabase)
+        end
     end
+
+    Wikidata("fa:fa-book" Wikidata API)
+    
+    AuthService --> UserDatabase
+    UserService --> UserDatabase
     Gateway --> AuthService
     AuthService --> Gateway
     Gateway --> UserService
     UserService --> Gateway
-    Gateway --> QuestionGenerator
-    QuestionGenerator --> Gateway
-    QuestionGenerator --> wikidata
-    wikidata --> QuestionGenerator
-    style wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
+    Gateway --> QuestionService
+    QuestionService --> Gateway
+    QuestionService --> Wikidata
+    Wikidata --> QuestionService
+    style Wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
     classDef subgraphstyle margin-left:3cm
     class back subgraphstyle
     class front subgraphstyle
@@ -94,10 +136,3 @@ Contained Building Blocks::
 | UserService | It manages all the acions referred to the users such as retrieval of game history.
 | QuestionService | Handles the Question and Answers generation. This action is complemented with the use of Wikidata API.
 |===
-
-=== Level 3
-
-I'm really not sure of what to go deep into detail. :/
-
-Perhaps, we can do in Level2: user > Frontend > Gateway > MicroServices
-and then in Lefel 3: Open the MicroServices Blackbox to explain AuthService, UserService and Question Service

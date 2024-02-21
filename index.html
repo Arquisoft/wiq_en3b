@@ -482,10 +482,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-runtime-view">6. Runtime View</a>
 <ul class="sectlevel2">
-<li><a href="#_runtime_scenario_1">6.1. &lt;Runtime Scenario 1&gt;</a></li>
-<li><a href="#_runtime_scenario_2">6.2. &lt;Runtime Scenario 2&gt;</a></li>
-<li><a href="#">6.3. &#8230;&#8203;</a></li>
-<li><a href="#_runtime_scenario_n">6.4. &lt;Runtime Scenario n&gt;</a></li>
+<li><a href="#_login_scenario">6.1. Login scenario</a></li>
+<li><a href="#_question_generation">6.2. Question Generation</a></li>
+<li><a href="#_user_statistics_recording_scenario">6.3. User statistics recording scenario</a></li>
 </ul>
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
@@ -565,133 +564,153 @@ For documentation of your own system you use better the <em>plain</em> version.<
 <div class="sect1">
 <h2 id="section-introduction-and-goals">1. Introduction and Goals</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>RTVE wants to offer a web application based on the famous Spanish TV show
+<a href="https://es.wikipedia.org/wiki/Saber_y_ganar">"Saber y Ganar"</a>
+to its users in commemoration of the 28th anniversary of the show. This show consisted on
+answering a number of questions with different types and subjects obtaining a prize for
+each question well answered.</p>
+</div>
+<div class="paragraph">
+<p>The expected goal is to offer a well-desgined game that maintains all the quality standards
+that the company offers like maintainability, security, etc&#8230;&#8203;; while trying to fulfill the
+user&#8217;s needs to provide a positive UX.</p>
+</div>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
-<p>Describes the relevant requirements and the driving forces that software architects and development team must consider.
-These include</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>underlying business goals,</p>
-</li>
-<li>
-<p>essential features,</p>
-</li>
-<li>
-<p>essential functional requirements,</p>
-</li>
-<li>
-<p>quality goals for the architecture and</p>
-</li>
-<li>
-<p>relevant stakeholders and their expectations</p>
-</li>
-</ul>
+<p>Notes:
+The shown requirements may increase if during the development
+of the project more features are included. Please, refer to
+<a href="https://github.com/Arquisoft/wiq_en3b/wiki/Lab-Assignment-Overview#optional-features">Optional features</a> for more info.</p>
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_requirements_overview">1.1. Requirements Overview</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
 <div class="paragraph">
-<div class="title">Contents</div>
-<p>Short description of the functional requirements, driving forces, extract (or abstract)
-of requirements. Link to (hopefully existing) requirements documents
-(with version number and information where to find it).</p>
+<p>The web application must meet the following requirements:</p>
 </div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>From the point of view of the end users a system is created or modified to
-improve support of a business activity and/or improve the quality.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Short textual description, probably in tabular use-case format.
-If requirements documents exist this overview should refer to these documents.</p>
-</div>
-<div class="paragraph">
-<p>Keep these excerpts as short as possible. Balance readability of this document with potential redundancy w.r.t to requirements documents.</p>
-</div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-1/">Introduction and Goals</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 66.6667%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Requirement</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accesibility</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It must be taken care of the different HTML standards so Screen-readers users can also play the game. Also, take care of features like coloring.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system must always be available so users can play at any time.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User Registration and Login</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users must be able to register into game or login into the game.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WikiData</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The questions and answer options (a correct one and three distractors) must be generated using the WikiData API.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Timer</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">All the questions must have a time to answer.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">APIs</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The game must expose two APIs that retrieves information about 1. Users and 2. Questions generated.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User History</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maintain a record of users' participation in the game, including the number of games played, questions passed and failed, and times played.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_quality_goals">1.2. Quality Goals</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>The top three (max five) quality goals for the architecture whose fulfillment is of highest importance to the major stakeholders.
-We really mean quality goals for the architecture. Don&#8217;t confuse them with project goals.
-They are not necessarily identical.</p>
-</div>
-<div class="paragraph">
-<p>Consider this overview of potential topics (based upon the ISO 25010 standard):</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/01_2_iso-25010-topics-EN.drawio.png" alt="Categories of Quality Requirements">
-</div>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>You should know the quality goals of your most important stakeholders, since they will influence fundamental architectural decisions.
-Make sure to be very concrete about these qualities, avoid buzzwords.
-If you as an architect do not know how the quality of your work will be judged&#8230;&#8203;</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>A table with quality goals and concrete scenarios, ordered by priorities</p>
-</div>
-</div>
-</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+<col style="width: 25%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Priority</th>
+<th class="tableblock halign-left valign-top">Quality Goal</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Considerations</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">1</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">As with any application, response time, learning curve, and navigability of the application should meet standards and expected minimums. The system should be easy to use and not require specific or complex knowledge.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Consider incorporating user feedback and usability testing to refine the user interface.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be accessible 24 hours a day. While complete availability may be impossible over extended periods, minimizing downtime and making interruptions imperceptible to users is key.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing redundancy and failover mechanisms can help ensure continuous availability.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application should stick to industry best practices for security to protect against unauthorized access, data breaches, and other threats.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Regular security audits and implementing basic security controls are essential.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maintainability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application should demonstrate good architecture and design to showcase the team&#8217;s capabilities and ensure easy maintenance.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Documenting code and following best practices contribute to maintainability.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users must be assured that their personal information is protected when using the application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing basic data protection measures and ensuring compliance with relevant regulations enhance privacy.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The software should have acceptable response time to provide a smooth user experience.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Basic optimization techniques can improve performance.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Efficiency</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application functionalities should be efficient for users to accomplish their tasks effectively.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Streamlining workflows and minimizing redundant processes contribute to efficiency.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Testability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be designed to facilitate testing across various scenarios to ensure robustness and reliability.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing basic testing frameworks and writing unit tests support testability.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adaptability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application should adapt seamlessly to different devices and screen sizes. While primarily developed for desktops, it should also provide a satisfactory user experience on mobile devices.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Utilising responsive design principles and conducting compatibility testing across devices can enhance adaptability.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
 <h3 id="_stakeholders">1.3. Stakeholders</h3>
-<div class="sidebarblock arc42help">
-<div class="content">
-<div class="paragraph">
-<div class="title">Contents</div>
-<p>Explicit overview of stakeholders of the system, i.e. all person, roles or organizations that</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>should know the architecture</p>
-</li>
-<li>
-<p>have to be convinced of the architecture</p>
-</li>
-<li>
-<p>have to work with the architecture or with code</p>
-</li>
-<li>
-<p>need the documentation of the architecture for their work</p>
-</li>
-<li>
-<p>have to come up with decisions about the system or its development</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<div class="title">Motivation</div>
-<p>You should know all parties involved in development of the system or affected by the system.
-Otherwise, you may get nasty surprises later in the development process.
-These stakeholders determine the extent and the level of detail of your work and its results.</p>
-</div>
-<div class="paragraph">
-<div class="title">Form</div>
-<p>Table with role names, person names, and their expectations with respect to the architecture and its documentation.</p>
-</div>
-</div>
-</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 20%;">
@@ -707,14 +726,66 @@ These stakeholders determine the extent and the level of detail of your work and
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Role-1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-1&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-1&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">RTVE</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="mailto:rtve.dircom@rtve.es">rtve.dircom@rtve.es</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A web application that emulates the functionality of the famous Spanish TV show "Saber y Ganar".</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Role-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Contact-2&gt;</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Expectation-2&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">HappySw</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="paragraph">
+<p><a href="mailto:contact_projects@happysw.es">contact_projects@happysw.es</a></p>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">An application that meets all the  requirements asked by RTVE mantaining the quality that offers the company.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Professors</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Pablo González: <a href="mailto:gonzalezgpablo@uniovi.es">gonzalezgpablo@uniovi.es</a></p>
+</li>
+<li>
+<p>Jose Labra: <a href="mailto:labra@uniovi.es">labra@uniovi.es</a></p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A well-designed web application that fulfills the functional requirements for the game to work, as well as, the quality requirements.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A "Saber y Ganar" web game to test their knowdlege on different fields. The game must be easy to use and must record all of their past games.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Development team</p></td>
+<td class="tableblock halign-left valign-top"><div class="content"><div class="ulist">
+<ul>
+<li>
+<p>Carlos Menéndez González (<a href="mailto:UO288056@uniovi.es">UO288056@uniovi.es</a>)</p>
+</li>
+<li>
+<p>Didier Yamil Reyes Castro (<a href="mailto:UO287866@uniovi.es">UO287866@uniovi.es</a>)</p>
+</li>
+<li>
+<p>Iyán Robles Suárez (<a href="mailto:UO288780@uniovi.es">UO288780@uniovi.es</a>)</p>
+</li>
+<li>
+<p>Raúl Mera Soto (<a href="mailto:UO287827@uniovi.es">UO287827@uniovi.es</a>)</p>
+</li>
+<li>
+<p>Mateo Rico Iglesias (<a href="mailto:UO277172@uniovi.es">UO277172@uniovi.es</a>)</p>
+</li>
+<li>
+<p>Anna Kutova (<a href="mailto:UO305098@uniovi.es">UO305098@uniovi.es</a>)</p>
+</li>
+<li>
+<p>Diego Murias Suárez (<a href="mailto:UO290009@uniovi.es">UO290009@uniovi.es</a>)</p>
+</li>
+</ul>
+</div></div></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A good documented and clean code that fulfills the expected requirements. Also, a well implemented System that makes it easier for maintenance and extension.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1235,7 +1306,7 @@ and answers that the user will have to choose.</p>
 <h3 id="_level_2">5.3. Level 2:</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-6846006cdf0d9c2133bb40d3d39e0c0d.png" alt="Diagram" width="766" height="574">
+<img src="./images/diag-mermaid-md5-880bf3f2ab3dd074fd21d5249ddc5969.png" alt="Diagram" width="783" height="574">
 </div>
 </div>
 <div class="dlist">
@@ -1279,7 +1350,7 @@ This architecture allows for a separation of concerns, where each component has 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">UserService</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">It manages all the acions referred to the users such as retrieval of game history.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It manages all the actions referred to the users such as retrieval of game history.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">QuestionService</p></td>
@@ -1357,37 +1428,46 @@ You will mainly capture scenarios in your documentation to communicate your arch
 </div>
 </div>
 <div class="sect2">
-<h3 id="_runtime_scenario_1">6.1. &lt;Runtime Scenario 1&gt;</h3>
-<div class="ulist">
-<ul>
-<li>
-<p><em>&lt;insert runtime diagram or textual description of the scenario&gt;</em></p>
-</li>
-<li>
-<p><em>&lt;insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.&gt;</em></p>
-</li>
-</ul>
+<h3 id="_login_scenario">6.1. Login scenario</h3>
+<div class="paragraph">
+<p>When the user wants to login into the application (WIQ), the user navigates to the login page. Then, the Frontend requests the login page to the backend. Once it is received, the Frontend displays it. The Frontend will show a form that allows the user to enter their details (username and password), which are then sent to the backend in order to be verified if they are correct or not. Then, the Backend asks the Database for the password given the username. The Database will return an encrypted password. The Backend will encrypt the password provided by the user and then compare it with the one from the database. If the passwords do not match, an error message showing "Incorrect credentials" will appear to the user and if they are correct, a success message "Login successful" confirms the login and the user finally will be able to access the application.</p>
 </div>
 <div class="paragraph">
-<p>It is possible to use a sequence diagram:</p>
+<p>This case scenario is also represented on the following diagram:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/Sequence%20diagram.png" alt="Sequence diagram" width="332" height="335">
+<img src="./images/diag-mermaid-md5-f85a74fba9f4ca3a5c4dc62ce4b49337.png" alt="Diagram" width="784" height="503">
 </div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_runtime_scenario_2">6.2. &lt;Runtime Scenario 2&gt;</h3>
-
+<h3 id="_question_generation">6.2. Question Generation</h3>
+<div class="paragraph">
+<p>When a user starts a game through the Frontend, it triggers a request for generating questions to the Backend. The Backend (Gateway) works with the QS (Question Service) to generate questions. For each question, first QS requests a question template from the Database, which is then filled with relevant data from the WQS (Wikidata Query Service). After filling the template, QS asks WQS for answers and distractors. Once all questions are generated, QS sends them back to the Backend, so again the response then can be redirected towards the Frontend. Finally, the Frontend displays the questions of the game.</p>
+</div>
+<div class="paragraph">
+<p>This case scenario is also represented on the following diagram:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/diag-mermaid-md5-eea4c3ddee897d6c1ba1b3de1fa9866d.png" alt="Diagram" width="784" height="552">
+</div>
+</div>
 </div>
 <div class="sect2">
-<h3 id="">6.3. &#8230;&#8203;</h3>
-
+<h3 id="_user_statistics_recording_scenario">6.3. User statistics recording scenario</h3>
+<div class="paragraph">
+<p>When a user answers a question, the Frontend determines if the answer was correct or not. Then, that data is sent to the Backend and then forwarded to the User Service, which is in charge of updating the Database with the updated user history. This process is repeated for each answer to a question.</p>
 </div>
-<div class="sect2">
-<h3 id="_runtime_scenario_n">6.4. &lt;Runtime Scenario n&gt;</h3>
+<div class="paragraph">
+<p>This case scenario is also represented on the following diagram:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/diag-mermaid-md5-54ff583d4b77952fd34cf4ac5e8fe381.png" alt="Diagram" width="784" height="281">
+</div>
+</div>
 <div style="page-break-after: always;"></div>
 </div>
 </div>

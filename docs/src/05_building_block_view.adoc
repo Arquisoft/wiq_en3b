@@ -94,6 +94,7 @@ flowchart TD
             UserService("fa:fa-user-cog" UserService)
             QuestionService("fa:fa-gamepad" QuestionService)
             UserDatabase("fa:fa-database" UserDatabase)
+            TemplateDatabase("fa:fa-database" TemplateDatabase)
         end
     end
 
@@ -109,6 +110,8 @@ flowchart TD
     QuestionService --> Gateway
     QuestionService --> Wikidata
     Wikidata --> QuestionService
+    QuestionService --> TemplateDatabase
+    TemplateDatabase --> QuestionService
     style Wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
     classDef subgraphstyle margin-left:3cm
     class back subgraphstyle
@@ -133,6 +136,6 @@ Contained Building Blocks::
 | WebApp | Component that Users interact with. It represents all the visuals and interactivity of the Web Application.
 | Gateway | MiddleWare that connects the WebApplication with the different MicroServices of the Application.
 | AuthService | It manages all the actions referred to the authentication of a user into the system. Also, the different registration of them.
-| UserService | It manages all the acions referred to the users such as retrieval of game history.
+| UserService | It manages all the actions referred to the users such as retrieval of game history.
 | QuestionService | Handles the Question and Answers generation. This action is complemented with the use of Wikidata API.
 |===

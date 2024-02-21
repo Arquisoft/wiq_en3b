@@ -117,15 +117,9 @@ This case scenario is also represented on the following diagram:
     participant HS as History Service
     participant DB as Database 
 
-    loop for each answer
-        U->>FE: Answers the question
-        FE->>FE: Determines if the answer is correct
-        FE->>BE: Indicates correctness of the answer
-        BE->>HS: Indicates correctness of the answer
-        HS->>DB: Updates the user history
-    end 
+    U->>FE: Answers a Question
+    FE-->FE: Determines if the answer is correct
+    FE->>BE: Indicates correctness of the answer
+    BE->>HS: Save the user history
+    HS->>DB: Updates the user history
 ....
-
-=== ...
-
-=== <Runtime Scenario n>

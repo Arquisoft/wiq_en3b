@@ -69,7 +69,7 @@ sequenceDiagram
 
 === Question Generation
 
-When a user starts a game through the Frontend, it triggers a request for generating questions to the Backend. The Backend (Gateway) works with the QGS (Question Generator Service) to generate questions. For each question, first QGS requests a question template from the Database, which is then filled with relevant data from the WQS (Wikidata Query Service). After filling the template, QGS asks WQS for answers and distractors. Once all questions are generated, QGS sends them back to the Backend, so again the response then can be redirected towards the Frontend. Finally, the Frontend displays the questions of the game.
+When a user starts a game through the Frontend, it triggers a request for generating questions to the Backend. The Backend (Gateway) works with the QS (Question Service) to generate questions. For each question, first QS requests a question template from the Database, which is then filled with relevant data from the WQS (Wikidata Query Service). After filling the template, QS asks WQS for answers and distractors. Once all questions are generated, QS sends them back to the Backend, so again the response then can be redirected towards the Frontend. Finally, the Frontend displays the questions of the game.
 
 This case scenario is also represented on the following diagram:
 
@@ -79,7 +79,7 @@ This case scenario is also represented on the following diagram:
     actor U as User
     participant FE as Frontend 
     participant BE as Backend 
-    participant QGS as Question Generation Service 
+    participant QGS as Question Service
     participant WQS as Wikidata Query Service 
     participant DB as Database 
 
@@ -104,7 +104,7 @@ This case scenario is also represented on the following diagram:
 
 === User statistics recording scenario
 
-When a user answers a question, the Frontend determines if the answer was correct or not. Then, that data is sent to the Backend and then forwarded to the History Service, which is in charge of updating the Database with the updated user history. This process is repeated for each answer to a question.
+When a user answers a question, the Frontend determines if the answer was correct or not. Then, that data is sent to the Backend and then forwarded to the User Service, which is in charge of updating the Database with the updated user history. This process is repeated for each answer to a question.
 
 This case scenario is also represented on the following diagram:
 
@@ -114,7 +114,7 @@ This case scenario is also represented on the following diagram:
     actor U as User
     participant FE as Frontend 
     participant BE as Backend 
-    participant HS as History Service
+    participant HS as User Service
     participant DB as Database 
 
     U->>FE: Answers a Question

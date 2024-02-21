@@ -37,29 +37,89 @@ See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
 
 ****
 
-=== <Runtime Scenario 1>
+=== Login scenario
+
+When the user wants to login into the application (WIQ), the user navigates to the login page. Then, the Frontend requests the login page to the backend. Once it is received, the Frontend displays it. The Frontend will show a form that allows the user to enter their details (username and password), which are then sent to the backend in order to be verified if they are correct or not. Then, the Backend asks the Database for the password given the username. The Database will return an encrypted password. The Backend will encrypt the password provided by the user and then compare it with the one from the database. If the passwords do not match, an error message showing "Incorrect credentials" will appear to the user and if they are correct, a success message "Login successful" confirms the login and the user finally will be able to access the application.
+
+This case scenario is also represented on the following diagram:
+
+[mermaid]
+....
+sequenceDiagram
+    actor User as User
+    
+    User->>Frontend: Navigates to login page
+    Frontend->>Backend: Requests login page
+    Backend-->>Frontend: Sends login page
+    Frontend-->>User: Displays login page
+    User->>Frontend: Enters details (username, password)
+    Frontend->>Backend: Sends user details
+    Backend->>Database: Asks for encrypted password by username
+    Database-->>Backend: Responds with the encrypted password of the user
+    Backend-->Backend: Tests if passwords are equal after encryptation
+    alt Credentials are incorrect
+        Backend-->>Frontend: Sends error message "Incorrect credentials"
+        Frontend-->>User: Displays error message "Incorrect credentials"
+    else Credentials are correct
+        Backend-->>Frontend: Sends success message "Login successful"
+        Frontend-->>User: Displays success message "Login successful"
+    end
+....
 
 
-* _<insert runtime diagram or textual description of the scenario>_
-* _<insert description of the notable aspects of the interactions between the
-building block instances depicted in this diagram.>_
+=== Question Generation
 
-It is possible to use a sequence diagram:
+When a user starts a game through the Frontend, it triggers a request for generating questions to the Backend. The Backend (Gateway) works with the QS (Question Service) to generate questions. For each question, first QS requests a question template from the Database, which is then filled with relevant data from the WQS (Wikidata Query Service). After filling the template, QS asks WQS for answers and distractors. Once all questions are generated, QS sends them back to the Backend, so again the response then can be redirected towards the Frontend. Finally, the Frontend displays the questions of the game.
 
-[plantuml,"Sequence diagram",png]
-----
-actor Alice
-actor Bob
-database Pod as "Bob's Pod"
-Alice -> Bob: Authentication Request
-Bob --> Alice: Authentication Response
-Alice  --> Pod: Store route
-Alice -> Bob: Another authentication Request
-Alice <-- Bob: another authentication Response
-----
+This case scenario is also represented on the following diagram:
 
-=== <Runtime Scenario 2>
+[mermaid]
+....
+ sequenceDiagram
+    actor U as User
+    participant FE as Frontend 
+    participant BE as Backend 
+    participant QGS as Question Service
+    participant WQS as Wikidata Query Service 
+    participant DB as Database 
 
-=== ...
+    U->>FE: Starts a Game
+    FE->>BE: Requests Questions
+    BE->>QGS: Generate Questions
 
-=== <Runtime Scenario n>
+    loop for each question
+        QGS->>DB: Request Question Template
+        DB-->>QGS: Return Question Template
+        QGS->>WQS: Request Data
+        WQS-->>QGS: Return Data
+        QGS-->QGS: Fill Template
+        QGS->>WQS: Request Answer + Distractors
+        WQS-->>QGS: Return Answer + Distractors
+        QGS-->QGS: Create Question
+    end 
+    QGS-->>BE: Return Questions
+    BE-->>FE: Return Questions
+    FE->>U: Display Questions
+....
+
+=== User statistics recording scenario
+
+When a user answers a question, the Frontend determines if the answer was correct or not. Then, that data is sent to the Backend and then forwarded to the User Service, which is in charge of updating the Database with the updated user history. This process is repeated for each answer to a question.
+
+This case scenario is also represented on the following diagram:
+
+[mermaid]
+....
+ sequenceDiagram
+    actor U as User
+    participant FE as Frontend 
+    participant BE as Backend 
+    participant HS as User Service
+    participant DB as Database 
+
+    U->>FE: Answers a Question
+    FE-->FE: Determines if the answer is correct
+    FE->>BE: Indicates correctness of the answer
+    BE->>HS: Save the user history
+    HS->>DB: Updates the user history
+....

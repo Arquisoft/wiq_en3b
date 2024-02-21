@@ -85,9 +85,3 @@ together with a mapping table showing the relationships between channels and inp
 | Automatic Question Generation | Questions are automatically generated from data available in Wikidata. 
 | Optional Features | WIQ offers features such as internationalization, different game modes, and customizable parameters. 
 |===
-
-**<Diagram or Table>**
-
-**<optionally: Explanation of technical interfaces>**
-
-**<Mapping Input/Output to Channels>**

@@ -67,29 +67,68 @@ Other options include using the container services that most cloud services prov
 
 We are going to use the first approach, creating a virtual machine in a cloud service and after installing docker and docker-compose, deploy our containers there using GitHub Actions and SSH.
 
-### Machine requirements for deployment
+### Step 1: Creating a Virtual Machine
 
-The machine for deployment can be created in services like Microsoft Azure or Amazon AWS. These are in general the settings that it must have:
+The machine for deployment can be created in services like Microsoft Azure or Amazon AWS. These are the steps you must follow:
 
-- Linux machine with Ubuntu > 20.04.
-- Docker and docker-compose installed.
-- Open ports for the applications installed (in this case, ports 3000 for the webapp and 8000 for the gateway service).
+1. Log in to the Azure/AWS portal and create a new virtual machine.
+2. Select Ubuntu 20.04 as the operating system and configure the lowest possible hardware characteristics to minimize credit consumption.
+3. In the network configuration, open the following ports:
+   - Port 22 for SSH (default).
+   - Port 3000 (for the webapp).
+   - Port 8000 (for the gateway service).
 
-Once you have the virtual machine created, you can install **docker** and **docker-compose** using the following instructions:
+### Step 2: Configuring the Virtual Machine
 
-```ssh
+Once you have the virtual machine created, you can install **docker** and **docker-compose**:
+
+1. Connect to the virtual machine via SSH using tools like MobaXterm or Putty.
+2. Execute the following commands to install Docker and Docker Compose.
+
+```bash
 sudo apt update
+```
+
+```bash
 sudo apt install apt-transport-https ca-certificates curl software-properties-common
+```
+
+```bash
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+```
+
+```bash
 sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+```
+
+```bash
 sudo apt update
+```
+
+```bash
 sudo apt install docker-ce
+```
+
+```bash
 sudo usermod -aG docker ${USER}
+```
+
+```bash
 sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+```
+
+```bash
 sudo chmod +x /usr/local/bin/docker-compose
 ```
 
-### Continuous delivery (GitHub Actions)
+### Step 3: Configuring the Virtual Repository for GitHub Actions
+
+1. In the GitHub repository, go to `Settings` > `Secrets and variables` > `Action`.
+2. Add the following keys:
+   - In the `key` section, place the contents of the file `.pem` from the virtual machine.
+   - In the `host` section, input the public IP address of the virtual machine.
+
+### Step 4: Continuous delivery (GitHub Actions)
 
 Once we have our machine ready, we could deploy by hand the application, taking our docker-compose file and executing it in the remote machine.
 
@@ -124,10 +163,10 @@ deploy:
           docker compose --profile prod up -d
 ```
 
-This action uses three secrets that must be configured in the repository:
+This action uses three secrets that we already have configured in the previous step:
 
-- DEPLOY_HOST: IP of the remote machine.
-- DEPLOY_USER: user with permission to execute the commands in the remote machine.
-- DEPLOY_KEY: key to authenticate the user in the remote machine.
+- DEPLOY_HOST: public IP of the remote machine.
+- DEPLOY_USER: user with permission to execute the commands in the remote machine (for Azure is `azureuser`).
+- DEPLOY_KEY: key to authenticate the user in the remote machine (that is the file `.pem`).
 
 Note that this action logs in the remote machine and downloads the docker-compose file from the repository and launches it. Obviously, previous actions have been executed which have uploaded the docker images to the GitHub Packages repository.

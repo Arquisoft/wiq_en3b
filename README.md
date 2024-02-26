@@ -132,7 +132,9 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 Once we have our machine ready, we could deploy by hand the application, taking our docker-compose file and executing it in the remote machine.
 
-In this repository, this process is done automatically using **GitHub Actions**. The idea is to trigger a series of actions when some condition is met in the repository.
+In this repository, this process is done automatically using **GitHub Actions**.
+
+The idea is to trigger a series of actions when some condition is met in the repository. In our case, we are going to trigger the deployment when a new release is created. In order to create a new release, we must create a new tag in the repository. This can be done in the GitHub web interface.
 
 As you can see, unitary tests of each module and e2e tests are executed before pushing the docker images and deploying them. Using this approach we avoid deploying versions that do not pass the tests.
 

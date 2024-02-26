@@ -1,20 +1,10 @@
 # wiq_en3b
 
-## Members
-
-- Carlos Menéndez González (UO288056@uniovi.es)
-- Didier Yamil Reyes Castro (UO287866@uniovi.es)
-- Iyán Robles Suárez (UO288780@uniovi.es)
-- Raúl Mera Soto (UO287827@uniovi.es)
-- Mateo Rico Iglesias (UO277172@uniovi.es)
-- Anna Kutova (UO305098@uniovi.es)
-- Diego Murias Suárez (UO290009@uniovi.es)
-
 [![Deploy on release](https://github.com/Arquisoft/wiq_en3b/actions/workflows/release.yml/badge.svg)](https://github.com/Arquisoft/wiq_en3b/actions/workflows/release.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en3b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en3b)
 [![Coverage](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en3b&metric=coverage)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en3b)
 
-This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html). 
+This is a base repo for the [Software Architecture course](http://arquisoft.github.io/) in [2023/2024 edition](https://arquisoft.github.io/course2324.html).
 
 This repo is a basic application composed of several components.
 
@@ -24,6 +14,18 @@ This repo is a basic application composed of several components.
 - **Webapp**. React web application that uses the gateway service to allow basic login and new user features.
 
 Both the user and auth service share a Mongo database that is accessed with mongoose.
+
+## Members
+
+| Name                      | Email              |
+| ------------------------- | ------------------ |
+| Carlos Menéndez González  | UO288056@uniovi.es |
+| Didier Yamil Reyes Castro | UO287866@uniovi.es |
+| Iyán Robles Suárez        | UO288780@uniovi.es |
+| Raúl Mera Soto            | UO287827@uniovi.es |
+| Mateo Rico Iglesias       | UO277172@uniovi.es |
+| Anna Kutova               | UO305098@uniovi.es |
+| Diego Murias Suárez       | UO290009@uniovi.es |
 
 ## Quick start guide
 
@@ -45,7 +47,7 @@ docker compose --profile dev up --build
 
 First, start the database. Either install and run Mongo or run it using docker:
 
-```docker run -d -p 27017:27017 --name=my-mongo mongo:latest```
+`docker run -d -p 27017:27017 --name=my-mongo mongo:latest`
 
 You can also use services like Mongo Altas for running a Mongo database in the cloud.
 
@@ -57,11 +59,11 @@ After all the components are launched, the app should be available in localhost 
 
 ## Deployment
 
-For the deployment, we have several options. 
+For the deployment, we have several options.
 
-The first and more flexible is to deploy to a virtual machine using SSH. This will work with any cloud service (or with our own server). 
+The first and more flexible is to deploy to a virtual machine using SSH. This will work with any cloud service (or with our own server).
 
-Other options include using the container services that most cloud services provide. This means, deploying our Docker containers directly. 
+Other options include using the container services that most cloud services provide. This means, deploying our Docker containers directly.
 
 We are going to use the first approach, creating a virtual machine in a cloud service and after installing docker and docker-compose, deploy our containers there using GitHub Actions and SSH.
 
@@ -89,9 +91,9 @@ sudo chmod +x /usr/local/bin/docker-compose
 
 ### Continuous delivery (GitHub Actions)
 
-Once we have our machine ready, we could deploy by hand the application, taking our docker-compose file and executing it in the remote machine. 
+Once we have our machine ready, we could deploy by hand the application, taking our docker-compose file and executing it in the remote machine.
 
-In this repository, this process is done automatically using **GitHub Actions**. The idea is to trigger a series of actions when some condition is met in the repository. 
+In this repository, this process is done automatically using **GitHub Actions**. The idea is to trigger a series of actions when some condition is met in the repository.
 
 As you can see, unitary tests of each module and e2e tests are executed before pushing the docker images and deploying them. Using this approach we avoid deploying versions that do not pass the tests.
 
@@ -99,10 +101,16 @@ The deploy action is the following:
 
 ```yml
 deploy:
-    name: Deploy over SSH
-    runs-on: ubuntu-latest
-    needs: [docker-push-userservice,docker-push-authservice,docker-push-gatewayservice,docker-push-webapp]
-    steps:
+  name: Deploy over SSH
+  runs-on: ubuntu-latest
+  needs:
+    [
+      docker-push-userservice,
+      docker-push-authservice,
+      docker-push-gatewayservice,
+      docker-push-webapp,
+    ]
+  steps:
     - name: Deploy over SSH
       uses: fifsky/ssh-action@master
       with:
@@ -117,6 +125,7 @@ deploy:
 ```
 
 This action uses three secrets that must be configured in the repository:
+
 - DEPLOY_HOST: IP of the remote machine.
 - DEPLOY_USER: user with permission to execute the commands in the remote machine.
 - DEPLOY_KEY: key to authenticate the user in the remote machine.

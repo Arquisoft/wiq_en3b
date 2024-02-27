@@ -34,6 +34,9 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 |===
 |Term |Definition
 
+|Know and Win (KAW)
+|The name of our project.
+
 |RTVE
 |Radiotelevisión Española, the Spanish public television broadcaster.
 

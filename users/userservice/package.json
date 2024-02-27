@@ -3,11 +3,10 @@
   "version": "1.0.0",
   "description": "User service, in charge of handling users in the application",
   "main": "service.js",
-  "type": "module",
   "scripts": {
     "start": "node build/index.js",
     "tsc": "tsc",
-    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
+    "test": "jest"
   },
   "repository": {
     "type": "git",

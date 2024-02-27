@@ -1,12 +1,14 @@
-import request from 'supertest';
-import MongoMemoryServer from 'mongodb-memory-server';
+const request = require('supertest');
+const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let mongoServer;
+let app;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
+  app = require('../build/app.js');
 });
 
 afterAll(async () => {

@@ -4,7 +4,8 @@
     "description": " Authentication service, in charge of authenticating users in the application",
     "main": "service.js",
     "scripts": {
-        "start": "node auth-service.js",
+        "start": "node build/index.js",
+        "tsc": "tsc",
         "test": "jest"
     },
     "repository": {
@@ -17,6 +18,9 @@
         "url": "https://github.com/arquisoft/wiq_en3b/issues"
     },
     "homepage": "https://github.com/arquisoft/wiq_en3b#readme",
+    "jest": {
+        "transform": {}
+    },
     "dependencies": {
         "bcrypt": "^5.1.1",
         "body-parser": "^1.20.2",
@@ -25,8 +29,12 @@
         "mongoose": "^8.0.4"
     },
     "devDependencies": {
+        "@types/bcrypt": "^5.0.2",
+        "@types/express": "^4.17.21",
+        "@types/jsonwebtoken": "^9.0.2",
         "jest": "^29.7.0",
         "mongodb-memory-server": "^9.1.5",
-        "supertest": "^6.3.4"
+        "supertest": "^6.3.4",
+        "typescript": "^5.3.3"
     }
 }

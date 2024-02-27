@@ -1,14 +1,12 @@
-const request = require('supertest');
-const { MongoMemoryServer } = require('mongodb-memory-server');
+import request from 'supertest';
+import MongoMemoryServer from 'mongodb-memory-server';
 
 let mongoServer;
-let app;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
-  app = require('../user-service');
 });
 
 afterAll(async () => {
@@ -17,6 +15,7 @@ afterAll(async () => {
 });
 
 describe('User Service', () => {
+  console.log(app);
   it('should add a new user on POST /adduser', async () => {
     const newUser = {
       username: 'testuser',

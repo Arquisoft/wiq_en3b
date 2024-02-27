@@ -3,10 +3,11 @@
   "version": "1.0.0",
   "description": "User service, in charge of handling users in the application",
   "main": "service.js",
+  "type": "module",
   "scripts": {
     "start": "node build/index.js",
     "tsc": "tsc",
-    "test": "jest"
+    "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +19,9 @@
     "url": "https://github.com/arquisoft/wiq_en3b/issues"
   },
   "homepage": "https://github.com/arquisoft/wiq_en3b#readme",
+  "jest": {
+    "transform": {}
+  },
   "dependencies": {
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",

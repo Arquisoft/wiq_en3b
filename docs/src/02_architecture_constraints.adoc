@@ -35,6 +35,7 @@ The development of the application has several architectural constraints that mu
 |Constraint|Explanation
 | Web front-end | The application must be accessible through a web interface to interact with the game.
 | Data storage | The application must be able to store historical data from users (number of games, questions, etc.) and allow them to register.
+| Wikidata | Wikidata will be used to generate the questions, so the application must implement mechanisms to fetch information from it.
 | Deployment | The application will be deployable on a Linux server.
 |===
 

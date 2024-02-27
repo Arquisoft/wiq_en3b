@@ -8,12 +8,12 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
-  app = require('./user-service'); 
+  app = require('../user-service');
 });
 
 afterAll(async () => {
-    app.close();
-    await mongoServer.stop();
+  app.close();
+  await mongoServer.stop();
 });
 
 describe('User Service', () => {

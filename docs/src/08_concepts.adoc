@@ -3,72 +3,105 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Cross-cutting Concepts
 
+=== Domain model
 
-[role="arc42help"]
-****
-.Content
-This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as
+=== UX
 
-* models, especially domain models
-* architecture or design patterns
-* rules for using specific technology
-* principal, often technical decisions of an overarching (= cross-cutting) nature
-* implementation rules
+=== Security
+
+=== Architecture and design patterns
+
+==== MicroServices
 
 
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity) of the architecture. 
-Thus, they are an important contribution to achieve inner qualities of your system.
+=== "Under-the-hood" concepts
 
-Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety. 
+==== Persistency
 
+As stated in point 4.1, the chosen database for the project is MongoDB 
+which offers us a document-oriented schema. This type of database fits
+perfectly with our services since the mainly work with JSON-formatted data. 
 
-.Form
-The form can be varied:
+===== ER model
 
-* concept papers with any kind of structure
-* cross-cutting model excerpts or scenarios using notations of the architecture views
-* sample implementations, especially for technical concepts
-* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
+[mermaid]
+....
+erDiagram
+    
+    QUESTION_TEMPLATE ||--|| QUESTION_TYPE:has
+    USER ||--|| USER_HISTORY:has
 
-.Structure
-A potential (but not mandatory) structure for this section could be:
+    USER{
+        Long id
+        String username
+        String password
+    }
 
-* Domain concepts
-* User Experience concepts (UX)
-* Safety and security concepts
-* Architecture and design patterns
-* "Under-the-hood"
-* development concepts
-* operational concepts
+    USER_HISTORY{
+        int passedQuestions
+        int wrongQuestions
+        int gamesPlayed
+        String timesPlayed
+        int points
+    }
+    
+    QUESTION_TEMPLATE{
+        Long id
+        String template
+    }
+    
+    QUESTION_TYPE{
+        String name
+        String query
+    }
+....
 
-Note: it might be difficult to assign individual concepts to one specific topic
-on this list.
+|===
+| Document | Description 
+| USER 
+| Holds all the data relationed to a user registered into our game. It
+has a relation with *ONE USER_HISTORY* document which represents the records/statistics 
+of them as it is a system requisite.  
+| QUESTION_TEMPLATE
+| Holds the template needed to query the WikiData API for the Question generation. It
+has a reation with *ONE QUESTION_TYPE* document which represents a category for that
+question (e.g. Capitals) together with its SPARQL query.
+|===
 
-image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutting concepts"]
+===== Connection to MongoDB
 
+To make it easier the connection from Services (using ExpressJS) to MongoDB, the
+usage of *Mongoose* has been chosen. This is a JS library that help us to create these 
+connections. 
 
-.Further Information
+flowchart LR
+    subgraph back [Backend]
+        subgraph micro [MicroServices]
+            as("fa:fa-user-cog" AuthService)
+            us("fa:fa-user-cog" UserService)
+            qs("fa:fa-gamepad" QuestionService)
+        end
+        m("fa:fa-book
+        Mongoose Schema")
+        subgraph mongo [MongoDB]
+            ud("fa:fa-database" UserDatabase)
+            td("fa:fa-database" TemplateDatabase)
+        end
+    end
+    as <--> m <--> ud
+    us <--> m
+    qs <--> m <-->td
 
-See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
-****
+==== Session handling
 
-**TDB**
+==== Business Rules
 
-=== _<Concept 1>_
+=== Development concepts
 
-_<explanation>_
+==== Testing
 
+==== Deployment
 
+< Could add more in the future...Refer to https://docs.arc42.org/section-8/ >
 
-=== _<Concept 2>_
-
-_<explanation>_
-
-...
-
-=== _<Concept n>_
-
-_<explanation>_
+=== 

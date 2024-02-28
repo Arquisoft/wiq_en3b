@@ -1,10 +1,6 @@
 const request = require('supertest');
 const axios = require('axios');
-const app = require('./gateway-service'); 
-
-afterAll(async () => {
-    app.close();
-  });
+const app = require('../build/app.js').default;
 
 jest.mock('axios');
 

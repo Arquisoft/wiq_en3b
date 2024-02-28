@@ -1,7 +1,8 @@
 const request = require('supertest');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 const bcrypt = require('bcrypt');
-const User = require('./auth-model');
+const User = require('../build/models/auth-model.js').default;
+const mongoose = require('mongoose');
 
 let mongoServer;
 let app;
@@ -12,7 +13,7 @@ const user = {
   password: 'testpassword',
 };
 
-async function addUser(user){
+async function addUser(user) {
   const hashedPassword = await bcrypt.hash(user.password, 10);
   const newUser = new User({
     username: user.username,
@@ -26,13 +27,14 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
-  app = require('./auth-service'); 
+  await mongoose.connect(mongoUri);
+  app = require('../build/app.js').default;
   //Load database with initial conditions
   await addUser(user);
 });
 
 afterAll(async () => {
-  app.close();
+  await mongoose.connection.close();
   await mongoServer.stop();
 });
 

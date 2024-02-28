@@ -5,13 +5,84 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Domain model
 
+Once we have some things worked on, we could
+add something to here.
+
 === UX
 
+==== User Interface
+Add here different wireframes we have?
+
+==== Internationalization *TALK ABOUT*
+
+One of the things to increase accesibility is giving our application the
+capability of beign in various language so people around the world can play
+our game. Obviously, internationalization is more than just changing the 
+language of the Application but due to time constraints we will just apply 
+Spanish and English languages.
+
+The library used for it is called *react-i18next*. For simplicity (and due to
+just only having two languages), all of the messages properties are going
+to be located in the frontend Application. Eventually, if the Application
+grows and we wanted to  have more than 2 languages the best approach is to
+store those properties in a server and let the application to request
+those on the fly. Again, for simplicity the option of having all bundle
+together in the Frontend just fits.
+
+
+*REMOVE LINK BELOW - JUST A VIDEO ON HOW TO IMPLEMENT i18n to project*
+https://www.youtube.com/watch?v=3BPM_M4gGso
+
 === Security
+
+==== Bcrypt
+Keeping a secure website for our users is one of our main quality
+goals. For that, all the passwords stored in MongoDB are simply
+hashes so attackers cannot decypher easily. The library used
+in the AuthService and UserService to store or compare passwords
+is called *bcrypt*. This library provides with an easy way
+to hash passwords and keep user's data secured.
+
+*THE FOLLOWING HAS TO BE DISCUSSED*
+Also, all users are enforced to have a password with at least 5
+characters and 1 number. This security measure makes a lot of
+sense if we want to really ensure the security of our users.
+Although sometimes it could be a bit cumbersome for some,
+the introduction of this measure make security to grow exponentially.
+
 
 === Architecture and design patterns
 
 ==== MicroServices
+
+The reason behind, is that with Microservices architecture we can forget about dealing
+with a single complex application. Instead, we make a "Divide and Conquer" approach by 
+identifying those modules that made up our system and making it independently deployable 
+services, each serving a specific business function.
+
+==== Gateway
+
+This architectural pattern makes it easier for the Frontend subsystem to communicate 
+with the different MicroServices that composes our Application since it has to focus
+on a single entry point instead of knowing each service. It also help us to tackle 
+the requirement of APIs by using this pattern since it acts like a REST API where
+other users (not our Application) can make petitions to it to retrieve some data.
+
+[mermaid]
+....
+flowchart LR
+    ex("External Agent")
+    wa("WebApp")
+    g("Gateway")
+    m("MicroServices")
+    ex<--API questions-->g
+    wa<--"/game/questions/size"-->g
+    wa<--"/game/user/history/save"-->g
+    wa<--"/game/user/history/newgame"-->g
+    g<--"getQuestions"-->m
+    g<--"saveHistory"-->m
+    g<--"newGame"-->m
+....
 
 
 === "Under-the-hood" concepts
@@ -74,12 +145,17 @@ To make it easier the connection from Services (using ExpressJS) to MongoDB, the
 usage of *Mongoose* has been chosen. This is a JS library that help us to create these 
 connections. 
 
+[mermaid]
+....
 flowchart LR
     subgraph back [Backend]
         subgraph micro [MicroServices]
-            as("fa:fa-user-cog" AuthService)
-            us("fa:fa-user-cog" UserService)
-            qs("fa:fa-gamepad" QuestionService)
+            as("fa:fa-user-cog" 
+            AuthService)
+            us("fa:fa-user-cog" 
+            UserService)
+            qs("fa:fa-gamepad" 
+            QuestionService)
         end
         m("fa:fa-book
         Mongoose Schema")
@@ -91,17 +167,25 @@ flowchart LR
     as <--> m <--> ud
     us <--> m
     qs <--> m <-->td
+....
 
 ==== Session handling
+Perhaps, talk about JWT token found in auth-service.js
 
-==== Business Rules
+==== Communication
+Talk about HTTPS request of our system? A bullet point list?
 
 === Development concepts
 
+==== Code generation
+Perhaps talk about the different components we have on React?
+
 ==== Testing
+- Talk about "super-test" dependency to test expresJS
+- Perhaps, research about Testing for React
+- Test automation by Github Actions
 
 ==== Deployment
+- More about Docker containers? but this explained in section 7
 
-< Could add more in the future...Refer to https://docs.arc42.org/section-8/ >
-
-=== 
+Could add more in the future...Refer to https://docs.arc42.org/section-8/

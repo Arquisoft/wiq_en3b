@@ -110,7 +110,7 @@ flowchart TD
     subgraph server [Server Hosting]
         
         subgraph docker [Docker]
-            subgraph app [Saber y Ganar]
+            subgraph app [KaW]
                 
                 WebApp("fa:fa-home" WebApp) --"send request : port 8000"--> Gateway
                 Gateway(Gateway)
@@ -141,6 +141,70 @@ flowchart TD
     class back subgraphstyle
     class front subgraphstyle
 
+----
+[mermaid]
+----
+flowchart TD
+
+    DockerCompose(Docker compose)
+       
+    subgraph server [Server Hosting]
+        
+        KaW("fa:fa-home" KaW)
+        
+    end
+
+    DockerCompose --> KaW
+
+    Wikidata("fa:fa-book" Wikidata API)
+
+    
+
+    User("fa:fa-users" User) --"Web browser : port 3000"--> KaW    
+    KaW <--> Wikidata
+
+    style Wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
+    classDef subgraphstyle margin-left:3cm
+    class back subgraphstyle
+    class front subgraphstyle
+----
+[mermaid]
+----
+flowchart TD
+    User("fa:fa-users" User) --"Web browser : port 3000"----> WebApp
+
+    subgraph github [Github]
+            subgraph githubActions [Github Actions]
+                DockerCompose(Docker compose)
+            end 
+        end
+
+    subgraph server [Server Hosting]
+        
+        subgraph docker [Docker]
+            subgraph app [KaW]
+                
+                subgraph container1 [Container 1]
+                    WebApp("fa:fa-home" WebApp)
+                end
+                
+                subgraph container2 [Container 2]
+                    Gateway(Gateway)
+                end
+                
+            end
+        end
+    end
+
+    docker <--"Event create new Release"--> githubActions
+
+    Wikidata("fa:fa-book" Wikidata API)
+    Gateway  <--"send request : port 8000"--> WebApp
+    Gateway <--> Wikidata
+    style Wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
+    classDef subgraphstyle margin-left:3cm
+    class back subgraphstyle
+    class front subgraphstyle
 ----
 
 Motivation::

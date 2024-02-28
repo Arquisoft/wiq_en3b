@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 # Expose the port the app runs on
-EXPOSE 8003
+EXPOSE 8004
 
 # Compile TypeScript
 RUN npm run tsc

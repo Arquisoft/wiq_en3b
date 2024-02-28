@@ -1,4 +1,5 @@
 const request = require('supertest');
+const mongoose = require('mongoose');
 const { MongoMemoryServer } = require('mongodb-memory-server');
 
 let mongoServer;
@@ -8,16 +9,16 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
-  app = require('../build/app.js');
+  await mongoose.connect(mongoUri);
+  app = require('../build/app.js').default;
 });
 
 afterAll(async () => {
-  app.close();
+  await mongoose.connection.close();
   await mongoServer.stop();
 });
 
 describe('User Service', () => {
-  console.log(app);
   it('should add a new user on POST /adduser', async () => {
     const newUser = {
       username: 'testuser',

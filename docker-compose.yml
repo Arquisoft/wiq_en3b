@@ -11,16 +11,17 @@ services:
     networks:
       - mynetwork
 
-  questionMongodb:
-    container_name: mongodb-${teamname:-defaultASW}
+  mongodbQuestion:
+    container_name: mongodbQuestion-${teamname:-defaultASW}
     image: mongo
     profiles: [ "dev", "prod" ]
     volumes:
-      - mongodb_data:/data/db
+      - mongodb_question_data:/data/db
     ports:
       - "27018:27018"
     networks:
       - mynetwork
+    command: mongod --port 27018
 
   authservice:
     container_name: authservice-${teamname:-defaultASW}
@@ -50,33 +51,19 @@ services:
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
 
-  historyservice:
-    container_name: historyservice-${teamname:-defaultASW}
-    image: ghcr.io/arquisoft/wiq_en3b/historyservice:latest
-    profiles: [ "dev", "prod" ]
-    build: ./users/historyservice
-    depends_on:
-      - mongodb
-    ports:
-      - "8003:8003"
-    networks:
-      - mynetwork
-    environment:
-      MONGODB_URI: mongodb://mongodb:27017/userdb
-
   questionservice:
     container_name: questionservice-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_en3b/questionservice:latest
     profiles: [ "dev", "prod" ]
-    build: ./questions/questionservice
+    build: ./questionservice
     depends_on:
-      - questionMongodb
+      - mongodbQuestion
     ports:
       - "8004:8004"
     networks:
       - mynetwork
     environment:
-      MONGODB_URI: mongodb://mongodb:27018/questiondb
+      MONGODB_URI: mongodb://mongodbQuestion:27018/questiondb
 
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
@@ -85,10 +72,9 @@ services:
     build: ./gatewayservice
     depends_on:
       - mongodb
-      - questionMongodb
+      - mongodbQuestion
       - userservice
       - authservice
-      - historyservice
       - questionservice
     ports:
       - "8000:8000"
@@ -145,6 +131,7 @@ services:
 
 volumes:
   mongodb_data:
+  mongodb_question_data:
   prometheus_data:
   grafana_data:
 

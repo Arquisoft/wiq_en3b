@@ -14,7 +14,8 @@ const addUser = async (req: Request, res: Response) => {
     validateNotEmpty(req, ['username']);
     validateRequiredLength(req, ['password'], 8);
 
-    const { username, password } = req.body;
+    const username = req.body.username.toString();
+    const password = req.body.password.toString();
 
     if (await User.findOne({ username })) {
       throw new Error(

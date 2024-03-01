@@ -30,7 +30,13 @@ const addUser = async (req: Request, res: Response) => {
     });
 
     await newUser.save();
-    res.json(newUser);
+
+    const response: any = newUser;
+
+    response.password = undefined;
+    response.history = undefined;
+
+    res.json(response);
   } catch (error) {
     res.status(400).json({ error: (error as Error).message });
   }

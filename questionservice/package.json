@@ -4,7 +4,8 @@
   "description": " Question service, in charge of creating the questions of the game",
   "main": "service.js",
   "scripts": {
-    "start": "node build/index.js",
+    "start": "npm run tsc && npm run build",
+    "build": "node build/index.js",
     "tsc": "tsc",
     "test": "jest"
   },

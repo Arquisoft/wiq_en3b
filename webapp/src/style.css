@@ -242,3 +242,35 @@ input {
     background: #000000;
     box-shadow: -15px -15px 30px 0 #fff, 15px 15px 30px 0 #1d0dca17;
 }
+
+.signup-button {
+    background: #2b2b2b;
+    border: 0;
+    border-radius: 8px;
+    box-shadow: -10px -10px 30px 0 #ffffff, 10px 10px 30px 0 #2929294a;
+    box-sizing: border-box;
+    color: #dddddd;
+    cursor: pointer;
+    display: inline-flex;
+    font-family: "Cascadia Code", Consolas, Monaco, "Andale Mono", "Ubuntu Mono", monospace;
+    font-size: 1rem;
+    justify-content:center;
+    line-height: 1.5rem;
+    padding: 1em;
+    position: relative;
+    text-align: center;
+    transition: .2s;
+    user-select: none;
+    -webkit-user-select: none;
+    touch-action: manipulation;
+    white-space: pre;
+    word-break: normal;
+    word-spacing: normal; 
+    width: 300px;
+    margin: 1em;
+}
+
+.signup-button:hover {
+    background: #000000;
+    box-shadow: -15px -15px 30px 0 #fff, 15px 15px 30px 0 #1d0dca17;
+}

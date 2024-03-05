@@ -16,10 +16,10 @@ app.use(express.json());
 const metricsMiddleware = promBundle({ includeMethod: true });
 app.use(metricsMiddleware);
 
-app.get('/health', statusRouter);
-app.post('/login', authRouter);
-app.post('/adduser', userRouter);
-app.post('/history', historyRouter);
-app.post('/questions', questionRouter)
+app.use(statusRouter);
+app.use(authRouter);
+app.use(userRouter);
+app.use(historyRouter);
+app.use(questionRouter);
 
 export default app;

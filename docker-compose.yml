@@ -82,7 +82,7 @@ services:
       - mynetwork
     environment:
       QUESTION_SERVICE_URL: http://questionservice:8004
-      HISTORY_SERVICE_URL: http://historyservice:8003
+      HISTORY_SERVICE_URL: http://userservice:8001
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
 

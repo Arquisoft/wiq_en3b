@@ -1,5 +1,5 @@
 import { Request, Response } from 'express';
-import User from '../models/auth-model';
+import User from '../models/user-model';
 
 const getHistory = async (req: Request, res: Response) => {
   try {

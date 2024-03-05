@@ -21,6 +21,8 @@ describe('Gateway Service', () => {
   (axios.get as jest.Mock).mockImplementation((url, _) => {
     if (url.endsWith('/questions')) {
       return Promise.resolve({ data: { size: 10 } });
+    } else if (url.endsWith('/history')) {
+      return Promise.resolve({ data: { gamesPlayed: 10 } });
     } else if (url.endsWith('/health')) {
       return Promise.resolve();
     }
@@ -48,11 +50,22 @@ describe('Gateway Service', () => {
     expect(response.body.userId).toBe('mockedUserId');
   });
 
-  // Test /history endpoint
+  // Test POST /history endpoint
   it('should forward history request to auth service', async () => {
     const response = await request(app)
       .post('/history')
       .send({ username: 'testuser', gamesPlayed: 10 });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.gamesPlayed).toBe(10);
+  });
+
+  // Test GET /history endpoint
+  it('should forward history request to auth service', async () => {
+    const response = await request(app)
+      .get('/history')
+      .query({ user: 'newuser' })
+      .send();
 
     expect(response.statusCode).toBe(200);
     expect(response.body.gamesPlayed).toBe(10);

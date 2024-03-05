@@ -2,19 +2,13 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import {
-  validateRequiredFields,
-  validateNotEmpty,
-  validateRequiredLength,
-} from '../utils/field-validations';
+import { validateRequiredFields } from '../utils/field-validations';
 
 import User from '../models/auth-model';
 
 const loginUser = async (req: Request, res: Response) => {
   try {
     validateRequiredFields(req, ['username', 'password']);
-    validateNotEmpty(req, ['username']);
-    validateRequiredLength(req, ['password'], 8);
 
     const username = req.body.username.toString();
     const password = req.body.password.toString();
@@ -29,12 +23,19 @@ const loginUser = async (req: Request, res: Response) => {
         expiresIn: '1h',
       });
       // Respond with the token and user information
-      res.json({ token: token, username: username, createdAt: user.createdAt });
+      res.json({
+        status: 'success',
+        data: {
+          user: { token: token, username: username, createdAt: user.createdAt },
+        },
+      });
     } else {
-      res.status(401).json({ error: 'Invalid credentials' });
+      res
+        .status(401)
+        .json({ status: 'fail', data: { error: 'Invalid credentials' } });
     }
-  } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+  } catch (error: any) {
+    res.status(400).json({ status: 'fail', data: { error: error.message } });
   }
 };
 

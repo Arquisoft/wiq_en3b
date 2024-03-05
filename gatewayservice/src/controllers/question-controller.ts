@@ -1,19 +1,21 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
 import { QUESTION_SERVICE_URL } from '../utils/constants';
 
-const getQuestions = async (_req: Request, res: Response) => {
+const getQuestions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const questionResponse = await axios.get(
-      QUESTION_SERVICE_URL + '/questions'
+      QUESTION_SERVICE_URL + '/questions',
+      { params: req.query }
     );
 
     res.json(questionResponse.data);
   } catch (error: any) {
-    console.log(error);
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+    next(error);
   }
 };
 

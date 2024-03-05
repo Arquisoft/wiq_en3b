@@ -37,9 +37,19 @@ const addUser = async (req: Request, res: Response) => {
     response.password = undefined;
     response.history = undefined;
 
-    res.json(response);
+    res.json({
+      status: 'success',
+      data: {
+        user: response,
+      },
+    });
   } catch (error) {
-    res.status(400).json({ error: (error as Error).message });
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        error: (error as Error).message,
+      },
+    });
   }
 };
 

@@ -1,12 +1,10 @@
 import { Request, Response } from 'express';
 
-const updateHistory = async (req: Request, res: Response) => {
-  //TODO This is just a placeholder.
+const updateHistory = async (_req: Request, res: Response) => {
   try {
-    req.body;
-    res.json({ message: 'History updated' });
+    res.json({ status: 'success', data: { history: 'To be done' } });
   } catch (error) {
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
   }
 };
 

@@ -10,13 +10,7 @@ const addUser = async (req: Request, res: Response, next: NextFunction) => {
     );
     res.json(userResponse.data);
   } catch (error: any) {
-    if (error.response) {
-      res
-        .status(error.response.status)
-        .json({ error: error.response.data.error });
-    } else {
-      next('error');
-    }
+    next(error);
   }
 };
 

@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import axios from 'axios';
 import { QUESTION_SERVICE_URL } from '../utils/constants';
 
-const updateQuestion = async (req: Request, res: Response) => {
+const getQuestions = async (req: Request, res: Response) => {
   try {
     const questionResponse = await axios.post(
       QUESTION_SERVICE_URL + '/questions',
@@ -16,4 +16,4 @@ const updateQuestion = async (req: Request, res: Response) => {
   }
 };
 
-export { updateQuestion };
+export { getQuestions };

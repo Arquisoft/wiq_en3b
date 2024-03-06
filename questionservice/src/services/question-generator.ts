@@ -1,12 +1,7 @@
 import {QuestionModel,generateSampleTest} from '../models/question-model'
-//import axios from 'axios'
 import { getWikidataSparql } from '@entitree/helper';
 
-
-
 let onlyOnce = true; // TODO: REMOVE
-
-
 
 const generateQuestions = async (n: number) =>{
     
@@ -27,22 +22,59 @@ const generateQuestions = async (n: number) =>{
             { $sample: { size: n } }
         ]);
 
+        // TODO: The method above actually gets n random (NOT EQUAL) documents
+        // so if trying to retrieve 10 questions but only 7 documents are
+        // available, only retrieves that
+
+
         // For each template...
-        randomQuestionsTemplates.forEach( template => {
-            //let question:string = template.questionTemplate
-            let sparqlQuery:string = template.question_type.query
-
-            // Make wikidata request and obtain response
-            let responseFillers = makeWikidataRequest(sparqlQuery);
+        randomQuestionsTemplates.forEach( (template,templateNumber) => {
             
-            /*
-            let numberFillers = responseFillers.length as number
+            // Template Query
+            let sparqlQuery:string = template.question_type.query
+            
+            // Options may be present...
+            let optionEntities = template.question_type.entities as string[]
+            if(optionEntities.length > 0){
+                let randomEntity = getRandomItem(optionEntities)
+                sparqlQuery = sparqlQuery.replace(/\$\$\$/g, randomEntity)
+            }
+            
+            // Make wikidata request and obtain response
+            // WORKS!!! BUT AT WHAT COST...
+            getWikidataSparql(sparqlQuery).then( res => {
+                
+                // Pick random responses
+                let randomIndexes: number[] = new Array()
+                for(let i = 0; i < 4; i++){
+                    
+                    let possibleRandom = Math.floor(Math.random() * res.length)
+                    while(randomIndexes.includes(possibleRandom))
+                        possibleRandom = Math.floor(Math.random() * res.length)
 
-            let randomIndexFiller = Math.floor(Math.random(responseFillers.length))
-            */
+                    randomIndexes[i] = possibleRandom
+                }
 
-            console.log(typeof responseFillers)
+                // Generate questions
+                let question = template.questionTemplate.replace(/\$\$\$/g, res[randomIndexes[0]].templateLabel)
+                console.log("\nQuestion " + templateNumber + " --> " + question)
+                console.log("Answer --> " + res[randomIndexes[0]].answerLabel)
+                for(let i = 1; i < 4; i++)
+                    console.log("Distractor " + i + " --> " + res[randomIndexes[i]].answerLabel)
+                console.log("--------------------------------")
+
+
+            }).catch(error => {
+                console.log("Error while fetching Wikidata")
+                throw error
+            })
+            
+            
         })
+
+        // TODO: JSON FOR QUESTIONS!!
+        // TODO: REFACTORING!!!
+        // TODO: QUESTION TEMPLATES DUMP
 
         return randomQuestionsTemplates;
         
@@ -55,29 +87,9 @@ const generateQuestions = async (n: number) =>{
 
 }
 
-const makeWikidataRequest =  async (query:string) => {
-
-    let data = await getWikidataSparql(query)
-    console.log(data)
-    // WORKS!!! BUT AT WHAT COST...
-    return "jeje"
-
-    /*
-    // Get info from Wikidata.org
-    axios.get(baseURL + encodeURI(query))
-        .then( res => {
-
-            // Once we got a response, we return json
-
-            console.log(res)
-
-            return res.data.results.bindings;
-        })
-        .catch( error => {
-            console.error("Error while accessing Wikidata")
-            throw error
-        })
-    */
+function getRandomItem<T>(array: T[]): T{
+    const randomIndex = Math.floor(Math.random() * array.length);
+    return array[randomIndex];
 }
 
 export { generateQuestions };

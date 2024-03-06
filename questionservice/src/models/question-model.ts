@@ -7,13 +7,13 @@ import { Schema, model } from 'mongoose';
 interface QuestionType {
   name: String;
   query: String;
-  question_type_entities: String[];
+  entities: String[];
 }
 
 const questionTypeSchema = new Schema<QuestionType>({
   name: { type: String, required: true },
   query: { type: String, required: true },
-  question_type_entities: { type: [String], required: false }
+  entities: { type: [String], required: false }
 });
 
 interface Question {
@@ -46,7 +46,7 @@ const generateSampleTest = async () => {
             }
             ORDER BY UUID() # Add randomness to the results
             LIMIT 10`,
-      question_type_entities: ["Q6256" // Country (any)
+      entities: ["Q6256" // Country (any)
         , "Q10742" // Autonomous Community of Spain
         , "Q35657"] // State of the United States
     }
@@ -67,7 +67,7 @@ const generateSampleTest = async () => {
             }
             ORDER BY UUID() # Add randomness to the results
             LIMIT 10`,
-      question_type_entities: ["Q6256" // Country (any)
+      entities: ["Q6256" // Country (any)
         , "Q10742" // Autonomous Community of Spain
         , "Q35657" // State of the United States
         , "Q515"] // City
@@ -92,7 +92,7 @@ const generateSampleTest = async () => {
       ORDER BY UUID()
       LIMIT 10
       `,
-      question_type_entities: ["Q6256" // Country (any)
+      entities: ["Q6256" // Country (any)
         , "Q10742" // Autonomous Community of Spain
         , "Q35657" // State of the United States
         , "Q6881511" // Company
@@ -118,13 +118,13 @@ const generateSampleTest = async () => {
       ORDER BY UUID()
       LIMIT 10
       `,
-      question_type_entities: ["Q1190554" // Any event (maybe too general)
-        , "Q6107280" // Revolt
+      entities: ["Q6107280" // Revolt
         , "Q198" // War
         , "Q209715"] // Coronation of a king/queen
     }
   });
 
+  aQuestion.save()
 
   // Who wrote...?
   aQuestion = new QuestionModel({
@@ -137,13 +137,14 @@ const generateSampleTest = async () => {
                 wdt:P800 ?answer.
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en,es". }
       }
-      ORDER BY UUID()
       LIMIT 10
       `,
+      entities:[]
     }
   });
 
   aQuestion.save();
+
 
   // Chemical symbol of an element
   // We make a first query searching for any element in the periodic table
@@ -160,9 +161,14 @@ const generateSampleTest = async () => {
                  wdt:P246 ?answer;
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
       }
-      `
+      ORDER BY UUID()
+      LIMIT 10
+      `,
+      entities:[]
     }
   });
+
+  aQuestion.save()
 
   // Atomic number of an element
   // Here it's not necessary to increase difficulty, it's hard enough.
@@ -177,7 +183,10 @@ const generateSampleTest = async () => {
                  wdt:P1086 ?answer;
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
       }
-      `
+      ORDER BY UUID()
+      LIMIT 10
+      `,
+      entities:[]
     }
   });
   aQuestion.save();

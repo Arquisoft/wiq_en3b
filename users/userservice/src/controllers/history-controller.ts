@@ -1,5 +1,9 @@
 import { Request, Response } from 'express';
 import User from '../models/user-model';
+import {
+  validateRequiredFields,
+  validateNotEmpty,
+} from '../utils/field-validations';
 
 const getHistory = async (req: Request, res: Response) => {
   try {
@@ -32,11 +36,33 @@ const getHistory = async (req: Request, res: Response) => {
   }
 };
 
-const updateHistory = async (_req: Request, res: Response) => {
+const updateHistory = async (req: Request, res: Response) => {
   try {
-    res.json({ status: 'success', data: { history: 'To be done' } });
+    validateRequiredFields(req, ['username', 'history']);
+    validateNotEmpty(req, ['username']);
+
+    const username = req.body.username;
+
+    const updatedUser = await User.findOneAndUpdate(
+        { username },
+        { $set: { history: req.body.history } },
+        { new: true }
+    );
+
+    if (!updatedUser) {
+      throw new Error(
+          `The provided user '${username}' is not registered in the application`
+      );
+    }
+
+    res.json({ status: 'success', data: null});
   } catch (error) {
-    res.status(500).json({ status: 'error', message: 'Internal Server Error' });
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        error: (error as Error).message,
+      },
+    });
   }
 };
 

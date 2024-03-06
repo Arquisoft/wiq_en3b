@@ -1,9 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/user-model';
-import {
-  validateRequiredFields,
-  validateNotEmpty,
-} from '../utils/field-validations';
+import { validateRequiredFields } from '../utils/field-validations';
+import { verifyJWT } from '../utils/async-verification';
 
 const getHistory = async (req: Request, res: Response) => {
   try {
@@ -37,27 +35,36 @@ const getHistory = async (req: Request, res: Response) => {
 };
 
 const updateHistory = async (req: Request, res: Response) => {
+  let auth = false;
+
   try {
-    validateRequiredFields(req, ['username', 'history']);
-    validateNotEmpty(req, ['username']);
+    const { authorization } = req.headers;
 
-    const username = req.body.username;
-
-    const updatedUser = await User.findOneAndUpdate(
-        { username },
-        { $set: { history: req.body.history } },
-        { new: true }
-    );
-
-    if (!updatedUser) {
-      throw new Error(
-          `The provided user '${username}' is not registered in the application`
-      );
+    if (!authorization || !authorization.startsWith('Bearer')) {
+      throw new Error('You must be logged in to update your history');
     }
 
-    res.json({ status: 'success', data: null});
+    const token = authorization.split(' ')[1];
+    const decoded: any = await verifyJWT(token);
+    const { userId } = decoded;
+    const user = await User.findById(userId);
+
+    if (user === null) {
+      throw new Error("User does not exist. Log in again.'");
+    }
+
+    auth = true;
+
+    validateRequiredFields(req, ['history']);
+
+    user.history = { ...user.history, ...req.body.history };
+    await user.save();
+
+    res.json({ status: 'success', data: user.history });
   } catch (error) {
-    res.status(400).json({
+    const statusCode = auth ? 400 : 401;
+
+    res.status(statusCode).json({
       status: 'fail',
       data: {
         error: (error as Error).message,

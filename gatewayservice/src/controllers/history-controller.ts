@@ -22,7 +22,12 @@ const updateHistory = async (
   try {
     const authResponse = await axios.post(
       HISTORY_SERVICE_URL + '/history',
-      req.body
+      req.body,
+      {
+        headers: {
+          authorization: req.headers?.['authorization'] ?? '',
+        },
+      }
     );
 
     res.json(authResponse.data);

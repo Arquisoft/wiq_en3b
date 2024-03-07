@@ -29,9 +29,9 @@ const questionSchema = new Schema<Question>({
 
 const QuestionModel = model<Question>('Question', questionSchema);
 
-const generateSampleTest = async () => {
+const generateSampleTest = () => {
   // -------- TEST!! REMOVE THIS DATA SAMPLE....WE NEED ANOTHER WAY TO STORE 
-  // TEMPLATES UPON CONSTRUCTION
+  // TEMPLATES ----- UPON CONSTRUCTION
 
   // Capital of a place
   let aQuestion = new QuestionModel({

@@ -26,6 +26,6 @@ describe('User Service', () => {
 
     const response = await request(app).post('/adduser').send(newUser);
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('username', 'testuser');
+    expect(response.body.data.user).toHaveProperty('username', 'testuser');
   });
 });

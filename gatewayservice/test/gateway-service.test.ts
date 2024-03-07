@@ -11,6 +11,20 @@ describe('Gateway Service', () => {
       return Promise.resolve({ data: { token: 'mockedToken' } });
     } else if (url.endsWith('/adduser')) {
       return Promise.resolve({ data: { userId: 'mockedUserId' } });
+    } else if (url.endsWith('/history')) {
+      return Promise.resolve({ data: { gamesPlayed: 10 } });
+    }
+
+    return;
+  });
+
+  (axios.get as jest.Mock).mockImplementation((url, _) => {
+    if (url.endsWith('/questions')) {
+      return Promise.resolve({ data: { size: 10 } });
+    } else if (url.endsWith('/history')) {
+      return Promise.resolve({ data: { gamesPlayed: 10 } });
+    } else if (url.endsWith('/health')) {
+      return Promise.resolve();
     }
 
     return;
@@ -34,5 +48,44 @@ describe('Gateway Service', () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.body.userId).toBe('mockedUserId');
+  });
+
+  // Test POST /history endpoint
+  it('should forward history request to auth service', async () => {
+    const response = await request(app)
+      .post('/history')
+      .send({ username: 'testuser', gamesPlayed: 10 });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.gamesPlayed).toBe(10);
+  });
+
+  // Test GET /history endpoint
+  it('should forward history request to auth service', async () => {
+    const response = await request(app)
+      .get('/history')
+      .query({ user: 'newuser' })
+      .send();
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.gamesPlayed).toBe(10);
+  });
+
+  // Test /questions endpoint
+  it('should forward questions request to question service', async () => {
+    const response = await request(app)
+      .get('/questions')
+      .query({ size: 10 })
+      .send();
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.size).toBe(10);
+  });
+
+  // Test /health endpoint
+  it('should perform the health request', async () => {
+    const response = await request(app).get('/health').send();
+
+    expect(response.statusCode).toBe(200);
   });
 });

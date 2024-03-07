@@ -42,6 +42,6 @@ describe('Auth Service', () => {
   it('Should perform a login operation /login', async () => {
     const response = await request(app).post('/login').send(user);
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty('username', 'testuser');
+    expect(response.body.data.user).toHaveProperty('username', 'testuser');
   });
 });

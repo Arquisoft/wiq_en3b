@@ -1,8 +1,8 @@
-import { Request, Response } from 'express';
+import { Request, Response, NextFunction } from 'express';
 import axios from 'axios';
 import { AUTH_SERVICE_URL } from '../utils/constants';
 
-const login = async (req: Request, res: Response) => {
+const login = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const authResponse = await axios.post(
       AUTH_SERVICE_URL + '/login',
@@ -10,9 +10,7 @@ const login = async (req: Request, res: Response) => {
     );
     res.json(authResponse.data);
   } catch (error: any) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+    next(error);
   }
 };
 

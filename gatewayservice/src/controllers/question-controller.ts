@@ -1,19 +1,22 @@
-import { Request, Response } from 'express';
+import { NextFunction, Request, Response } from 'express';
 import axios from 'axios';
 import { QUESTION_SERVICE_URL } from '../utils/constants';
 
-const updateQuestion = async (req: Request, res: Response) => {
+const getQuestions = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
-    const questionResponse = await axios.post(
+    const questionResponse = await axios.get(
       QUESTION_SERVICE_URL + '/questions',
-      req.body
+      { params: req.query }
     );
+
     res.json(questionResponse.data);
   } catch (error: any) {
-    res
-      .status(error.response.status)
-      .json({ error: error.response.data.error });
+    next(error);
   }
 };
 
-export { updateQuestion };
+export { getQuestions };

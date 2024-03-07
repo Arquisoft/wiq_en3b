@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import User from '../models/user-model';
 import { validateRequiredFields } from '../utils/field-validations';
-import { verifyJWT } from '../utils/async-verification';
+import { validateHistoryBody } from '../utils/history-body-validation';
 
 const getHistory = async (req: Request, res: Response) => {
   try {
@@ -35,36 +35,22 @@ const getHistory = async (req: Request, res: Response) => {
 };
 
 const updateHistory = async (req: Request, res: Response) => {
-  let auth = false;
-
   try {
-    const { authorization } = req.headers;
+    const user = req.user;
 
-    if (!authorization || !authorization.startsWith('Bearer')) {
-      throw new Error('You must be logged in to update your history');
+    if (!user) {
+      throw new Error('Unknown error. User does not appear.');
     }
-
-    const token = authorization.split(' ')[1];
-    const decoded: any = await verifyJWT(token);
-    const { userId } = decoded;
-    const user = await User.findById(userId);
-
-    if (user === null) {
-      throw new Error("User does not exist. Log in again.'");
-    }
-
-    auth = true;
 
     validateRequiredFields(req, ['history']);
+    validateHistoryBody(req, user);
 
     user.history = { ...user.history, ...req.body.history };
     await user.save();
 
     res.json({ status: 'success', data: user.history });
   } catch (error) {
-    const statusCode = auth ? 400 : 401;
-
-    res.status(statusCode).json({
+    res.status(400).json({
       status: 'fail',
       data: {
         error: (error as Error).message,
@@ -73,4 +59,32 @@ const updateHistory = async (req: Request, res: Response) => {
   }
 };
 
-export { getHistory, updateHistory };
+const incrementHistory = async (req: Request, res: Response) => {
+  try {
+    const user = req.user;
+
+    if (!user) {
+      throw new Error('Unknown error. User does not appear.');
+    }
+
+    validateRequiredFields(req, ['history']);
+    validateHistoryBody(req, user);
+
+    Object.keys(req.body.history).forEach(key => {
+      (user.history as any)[key] += req.body.history[key];
+    });
+
+    await user.save();
+
+    res.json({ status: 'success', data: user.history });
+  } catch (error) {
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        error: (error as Error).message,
+      },
+    });
+  }
+};
+
+export { getHistory, updateHistory, incrementHistory };

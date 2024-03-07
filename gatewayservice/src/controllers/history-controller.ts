@@ -36,4 +36,26 @@ const updateHistory = async (
   }
 };
 
-export { getHistory, updateHistory };
+const incrementHistory = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const authResponse = await axios.post(
+      HISTORY_SERVICE_URL + '/history/increment',
+      req.body,
+      {
+        headers: {
+          authorization: req.headers?.['authorization'] ?? '',
+        },
+      }
+    );
+
+    res.json(authResponse.data);
+  } catch (error: any) {
+    next(error);
+  }
+};
+
+export { getHistory, updateHistory, incrementHistory };

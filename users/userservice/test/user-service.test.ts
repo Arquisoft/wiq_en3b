@@ -1,19 +1,20 @@
 const request = require('supertest');
-const { MongoMemoryServer } = require('mongodb-memory-server');
+import mongoose from 'mongoose';
+import { MongoMemoryServer } from 'mongodb-memory-server';
+import app from '../src/app';
 
-let mongoServer;
-let app;
+let mongoServer: MongoMemoryServer;
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
-  app = require('./user-service'); 
+  await mongoose.connect(mongoUri);
 });
 
 afterAll(async () => {
-    app.close();
-    await mongoServer.stop();
+  await mongoose.connection.close();
+  await mongoServer.stop();
 });
 
 describe('User Service', () => {

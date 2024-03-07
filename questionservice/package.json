@@ -1,11 +1,11 @@
 {
-  "name": "authservice",
+  "name": "questionservice",
   "version": "1.0.0",
-  "description": " Authentication service, in charge of authenticating users in the application",
+  "description": " Question service, in charge of creating the questions of the game",
   "main": "service.js",
   "scripts": {
     "start": "node build/index.js",
-    "tsc": "tsc --project tsconfig.prod.json",
+    "tsc": "tsc",
     "test": "jest"
   },
   "repository": {
@@ -28,12 +28,10 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
-    "@types/jest": "^29.5.12",
     "@types/jsonwebtoken": "^9.0.2",
     "jest": "^29.7.0",
     "mongodb-memory-server": "^9.1.5",
     "supertest": "^6.3.4",
-    "ts-jest": "^29.1.2",
     "typescript": "^5.3.3"
   }
 }

@@ -1,21 +1,19 @@
 const request = require('supertest');
-const axios = require('axios');
-const app = require('./gateway-service'); 
-
-afterAll(async () => {
-    app.close();
-  });
+import axios from 'axios';
+import app from '../src/app';
 
 jest.mock('axios');
 
 describe('Gateway Service', () => {
   // Mock responses from external services
-  axios.post.mockImplementation((url, data) => {
+  (axios.post as jest.Mock).mockImplementation((url, _) => {
     if (url.endsWith('/login')) {
       return Promise.resolve({ data: { token: 'mockedToken' } });
     } else if (url.endsWith('/adduser')) {
       return Promise.resolve({ data: { userId: 'mockedUserId' } });
     }
+
+    return;
   });
 
   // Test /login endpoint

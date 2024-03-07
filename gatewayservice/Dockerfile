@@ -13,5 +13,8 @@ RUN npm install
 # Copy the app source code to the working directory
 COPY . .
 
+# Compile TypeScript
+RUN npm run tsc
+
 # Define the command to run your app
-CMD ["node", "gateway-service.js"]
+CMD ["npm", "start"]

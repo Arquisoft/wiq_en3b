@@ -5,15 +5,14 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 === Domain model
 
-Once we have some things worked on, we could
-add something to here.
+*TBD*
 
 === UX
 
 ==== User Interface
-Add here different wireframes we have?
+*TBD*: Add here different wireframes.
 
-==== Internationalization *TALK ABOUT*
+==== Internationalization
 
 One of the things to increase accesibility is giving our application the
 capability of beign in various language so people around the world can play
@@ -29,10 +28,6 @@ store those properties in a server and let the application to request
 those on the fly. Again, for simplicity the option of having all bundle
 together in the Frontend just fits.
 
-
-*REMOVE LINK BELOW - JUST A VIDEO ON HOW TO IMPLEMENT i18n to project*
-https://www.youtube.com/watch?v=3BPM_M4gGso
-
 === Security
 
 ==== Bcrypt
@@ -43,12 +38,11 @@ in the AuthService and UserService to store or compare passwords
 is called *bcrypt*. This library provides with an easy way
 to hash passwords and keep user's data secured.
 
-*THE FOLLOWING HAS TO BE DISCUSSED*
-Also, all users are enforced to have a password with at least 5
-characters and 1 number. This security measure makes a lot of
-sense if we want to really ensure the security of our users.
-Although sometimes it could be a bit cumbersome for some,
-the introduction of this measure make security to grow exponentially.
+Also, all users are enforced to have a password with at least 8
+characters. This security measure makes a lot of sense if we 
+want to really ensure the security of our users. Although 
+sometimes it could be a bit cumbersome for some, the introduction 
+of this measure make security to grow exponentially.
 
 
 === Architecture and design patterns
@@ -76,7 +70,7 @@ flowchart LR
     g("Gateway")
     m("MicroServices")
     ex<--API questions-->g
-    wa<--"/game/questions/size"-->g
+    wa<--"/game/questions?size"-->g
     wa<--"/game/user/history/save"-->g
     wa<--"/game/user/history/newgame"-->g
     g<--"getQuestions"-->m
@@ -170,22 +164,15 @@ flowchart LR
 ....
 
 ==== Session handling
-Perhaps, talk about JWT token found in auth-service.js
-
-==== Communication
-Talk about HTTPS request of our system? A bullet point list?
+*TBD*: talk about JWT token found in auth-service.js
 
 === Development concepts
 
-==== Code generation
-Perhaps talk about the different components we have on React?
-
 ==== Testing
-- Talk about "super-test" dependency to test expresJS
-- Perhaps, research about Testing for React
-- Test automation by Github Actions
+*TBD*
 
-==== Deployment
-- More about Docker containers? but this explained in section 7
+- Talk about "super-test" dependency to test expresJS
+- JEST
+- Test automation by Github Actions
 
 Could add more in the future...Refer to https://docs.arc42.org/section-8/

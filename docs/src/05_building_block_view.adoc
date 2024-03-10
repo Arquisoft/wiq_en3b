@@ -12,13 +12,14 @@ ifndef::imagesdir[:imagesdir: ../images]
 flowchart LR
     u("fa:fa-users 
     Users")
-    wiq("fa:fa-question Saber y Ganar 
+    wiq("fa:fa-question KaW 
     Application")
     wd("fa:fa-book
     WikiData")
     u--"interact"-->wiq
     wiq--"request"-->wd
     wd--"response"-->wiq
+    style wd fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
 ....
 
 Motivation::
@@ -36,7 +37,7 @@ Contained Building Blocks::
 [cols="1,2" options="header"]
 |===
 | **Building block** | **Description** 
-| Saber y Ganar Application | The core block that manages the game itself and the visuals of it.
+| KaW Application | The core block that manages the game itself and the visuals of it.
 | WikiData | API that offers the Application an easy-to-use interface to perform queries for the question and answer generation.
 |===
 
@@ -44,11 +45,11 @@ Contained Building Blocks::
 
 [mermaid]
 ....
-flowchart TD
+flowchart LR
     u("fa:fa-users"
     User) --"interact"--> Frontend
 
-    subgraph app [Saber y Ganar]
+    subgraph app [KaW]
         Frontend("fa:fa-home"
         Frontend)
         Gateway(
@@ -57,9 +58,13 @@ flowchart TD
         Microservices)
        
     end
+
+    Wikidata("fa:fa-book" Wikidata API)
     
     Frontend --> Gateway
     Gateway --> Microservices
+    Microservices --> Wikidata
+    style Wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
 ....
 
 Motivation::
@@ -72,7 +77,7 @@ Contained Building Blocks::
 |===
 | **Building block** | **Description** 
 | Frontend | Service responsible for collecting user interactions and routing them to the Gateway.
-| Gateway | Middleware component that routes user interactions to the appropriate microservices.
+| Gateway | Middleware component that routes user interactions to the appropriate microservices and serves as an API entrance point.
 | Microservices | Collection of smaller services responsible for handling various functionalities of the application.
 |===
 
@@ -83,18 +88,24 @@ Contained Building Blocks::
 flowchart TD
     u("fa:fa-users" User) --"interact"--> WebApp
 
-    subgraph app [Saber y Ganar]
+    subgraph app [KaW]
         subgraph front [Frontend]
-            WebApp("fa:fa-home" WebApp)
+            WebApp("fa:fa-home" 
+            WebApp)
         end
         WebApp --"send request"--> Gateway
         subgraph back [Backend]
             Gateway
-            AuthService("fa:fa-user-cog" AuthService)
-            UserService("fa:fa-user-cog" UserService)
-            QuestionService("fa:fa-gamepad" QuestionService)
-            UserDatabase("fa:fa-database" UserDatabase)
-            TemplateDatabase("fa:fa-database" TemplateDatabase)
+            AuthService("fa:fa-user-cog" 
+            AuthService)
+            UserService("fa:fa-user-cog" 
+            UserService)
+            QuestionService("fa:fa-gamepad" 
+            QuestionService)
+            UserDatabase("fa:fa-database" 
+            UserDatabase)
+            TemplateDatabase("fa:fa-database" 
+            TemplateDatabase)
         end
     end
 
@@ -102,16 +113,11 @@ flowchart TD
     
     AuthService --> UserDatabase
     UserService --> UserDatabase
-    Gateway --> AuthService
-    AuthService --> Gateway
-    Gateway --> UserService
-    UserService --> Gateway
-    Gateway --> QuestionService
-    QuestionService --> Gateway
-    QuestionService --> Wikidata
-    Wikidata --> QuestionService
-    QuestionService --> TemplateDatabase
-    TemplateDatabase --> QuestionService
+    Gateway <--> AuthService
+    Gateway <--> UserService
+    Gateway <--> QuestionService
+    QuestionService <--> Wikidata
+    QuestionService <--> TemplateDatabase
     style Wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
     classDef subgraphstyle margin-left:3cm
     class back subgraphstyle
@@ -134,7 +140,7 @@ Contained Building Blocks::
 |===
 | **Building block** | **Description** 
 | WebApp | Component that Users interact with. It represents all the visuals and interactivity of the Web Application.
-| Gateway | MiddleWare that connects the WebApplication with the different MicroServices of the Application.
+| Gateway | MiddleWare that connects the WebApplication with the different MicroServices of the Application and serves as an API entrance point.
 | AuthService | It manages all the actions referred to the authentication of a user into the system. Also, the different registration of them.
 | UserService | It manages all the actions referred to the users such as retrieval of game history.
 | QuestionService | Handles the Question and Answers generation. This action is complemented with the use of Wikidata API.

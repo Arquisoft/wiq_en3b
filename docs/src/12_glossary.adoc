@@ -38,7 +38,7 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 |The name of our project.
 
 |RTVE
-|Radiotelevisión Española, the Spanish public television broadcaster.
+|Radiotelevisión Española, the Spanish public television broadcaster and one of our stakeholders.
 
 |"Saber y Ganar"
 |A famous Spanish TV show involving answering questions to win prizes.
@@ -46,54 +46,13 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 |WikiData
 |A structured database that provides data to various applications, used here for generating questions and answers.
 
-|Maintainability
-|The ease with which a software system can be maintained or modified.
-
-|Security
-|Measures taken to protect the application against unauthorized access, data breaches, and threats.
-
-|Accessibility
-|Ensuring that the web application is usable by people with disabilities, including screen-reader users.
-
-|APIs (Application Programming Interfaces)
-|Interfaces that allow different software components to communicate with each other.
-
-|Responsive Design
-|Design approach that ensures the application works seamlessly across different devices and screen sizes.
-
-|Microservices
-|A software architectural style where the application is composed of small, independent services that communicate with each other.
 
 |OAuth and JWT
 |Secure authentication mechanisms used to protect user accounts.
 
-|HTTPS
-|Hypertext Transfer Protocol Secure, a secure communication protocol.
-
-|MongoDB
-|A NoSQL document database.
-
-|Git
-|Version control system used for collaborative development.
-
-|ARC42
-|A template for documenting software architectures (the one used for this documentation).
-
-|React
-|A JavaScript library for building user interfaces.
-
-|Express
-|A web application framework for Node.js.
-
-|TypeScript
-|A superset of JavaScript that adds static typing.
-
-|UML
-|Unified Modeling Language, a standard language for modeling software systems.
-
 |Kanban
 |A project management method used to visualize workflow.
 
-|CSS Frameworks (e.g., Bootstrap, Tailwind CSS)
+|CSS Frameworks
 |Pre-designed styles and components for building responsive and visually appealing user interfaces.
 |===

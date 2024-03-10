@@ -18,6 +18,22 @@ function App() {
   //State for opening and closing the navigation
   const [openNav, setOpenNav] = useState(false);
 
+  const [questions, setQuestions] = useState([]);
+
+  useEffect(() => {
+
+    console.log(questions);
+
+    (async () => {
+      const questions = await getQuestions();
+      setQuestions(questions);
+      console.log(questions);
+    })();
+
+    console.log(questions);
+
+  }, []);
+
   //State for the theme
   const [theme, setTheme] = useState("light");
 
@@ -51,6 +67,15 @@ function App() {
     setTimerValue(e.target.value);
   };
 
+  const getQuestions = async () => {
+    const response = await fetch("http://localhost:8000/questions?size=5");
+    console.log(response);
+    const data = await response.json();
+    console.log(data);
+    return data;
+  }
+
+
   return (
     <div className={theme}>
       <Header onToggleNav={toggleNavHandler} onChangeTheme={changeThemeHandler} theme={theme} />
@@ -60,7 +85,7 @@ function App() {
       <main>
         <Routes>
           <Route path="home" element={<Home />}></Route>
-          <Route path="game" element={<Game quizData={data} timerValue={timerValue} />}></Route>
+          <Route path="game" element={<Game quizData={questions} timerValue={timerValue} />}></Route>
           <Route path="profile" element={<Profile />}></Route>
           <Route path="leaderboard" element={<Leaderboard />}></Route>
           <Route path="settings" element={<Settings onChangeTimerValue={changeTimerValueHandler} timerValue={timerValue} />}></Route>

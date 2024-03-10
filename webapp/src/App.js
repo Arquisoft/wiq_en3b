@@ -1,38 +1,26 @@
-import React, { useState } from 'react';
-import AddUser from './components/AddUser';
-import Login from './components/Login';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import React from 'react';
+import { useHistory } from 'react-router-dom';
+import './style.css';
 
-function App() {
-  const [showLogin, setShowLogin] = useState(true);
-
-  const handleToggleView = () => {
-    setShowLogin(!showLogin);
+const KnowAndWin = () => {
+  const history = useHistory();
+  
+  const handleStartButtonClick = () => {
+    history.push('/signup');
   };
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
-        Welcome to the 2024 edition of the Software Architecture course
-      </Typography>
-      {showLogin ? <Login /> : <AddUser />}
-      <Typography component="div" align="center" sx={{ marginTop: 2 }}>
-        {showLogin ? (
-          <Link name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
-            Don't have an account? Register here.
-          </Link>
-        ) : (
-          <Link component="button" variant="body2" onClick={handleToggleView}>
-            Already have an account? Login here.
-          </Link>
-        )}
-      </Typography>
-    </Container>
+    <div>
+      <div className="header">
+        <a href="#" className="thatstyle">Know & Win</a>
+      </div>
+      <div className="content">
+        <h1 className="thatstyle">Welcome to Know & Win!</h1>
+        <p>Press Start! to start up the game</p>
+        <button className="login-button" onClick={handleStartButtonClick}>Start!</button>
+      </div>
+    </div>
   );
 }
 
-export default App;
+export default KnowAndWin;

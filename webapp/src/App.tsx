@@ -3,7 +3,6 @@ import React from 'react';
 const KnowAndWin: React.FC = () => {
   
   const handleStartButtonClick = () => {
-    // Agrega aquí la lógica que deseas ejecutar cuando se hace clic en el botón "Start!"
     console.log("Button clicked!");
   };
 

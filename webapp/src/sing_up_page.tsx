@@ -35,7 +35,6 @@ const Register: React.FC = () => {
   };
 
   const handleSignUpButtonClick = () => {
-    // Aquí puedes acceder a los valores de formData y hacer lo que necesites, como enviarlos a un servidor
     console.log(formData);
   };
 

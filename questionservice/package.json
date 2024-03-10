@@ -21,6 +21,8 @@
   },
   "homepage": "https://github.com/arquisoft/wiq_en3b#readme",
   "dependencies": {
+    "@entitree/helper": "^0.8.0",
+    "axios": "^1.6.7",
     "bcrypt": "^5.1.1",
     "body-parser": "^1.20.2",
     "express": "^4.18.2",

@@ -30,3 +30,53 @@ Refer to details in the following sections.
 See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentation.
 
 ****
+
+=== Technologies
+
+- *React* : React will simplify the task build reusable and modular UI elements for our application thanks to its component-based structure. It'll also allow mobile app development with React Native.
+- *Express* : Web application framework for Node.js which will simplify development on the server side. There is also available a wide range of third-party middlewares that we could include on our application.
+- *TypeScript* : Since we will be using JavaScript and are more familiar with statically typed languages we will use TypeScript. This will also reduce the likelihood of some unexpected error at runtime.
+- *MongoDB* : We chose MongoDB since we consider we could take advantage of it's flexible schema. Its native support for JSON and its simple query language also influenced our decision. We also consider this a valauable oportunity to learn and work with a document database.
+- *Docker*: To deploy our project, Docker was chosen due to its handy portability and its perfect integration with microservices applications. 
+
+
+=== Decomposition of the System 
+
+==== Arquitectural patterns
+- *Microservices*: 
+As the main architecture for the whole project. The system is divided into several modules representing
+a functional requirement like question generation. Each of these modules will be independent from
+each other and have its own database.
+
+- *Gateway*: 
+A middleware that acts as an API-frontend for clients to access various services within our system.
+This component can be also seen as a "Controller" since it receives petitions from outside, call the
+corresponding service that answers that petition and return its value.
+
+
+=== Decisions to Achieve Quality Goals 
+
+|===
+| Quality goal | Scenario | Approach 
+
+| Security 
+| Ensuring secure methods of authentication, such as login credentials (username and password), to protect user accounts from unauthorized access.  
+| Implementation of secure authentication mechanisms, such as OAuth or JWT, encryption for data in transit using HTTPS, and at rest using encryption algorithms.
+
+| Performance 
+| Web-app should work smoothly and respond quickly.  
+|
+- Implementing caching mechanisms
+
+- Optimizing database queries through indexing and query optimization techniques.
+
+| Usability 
+| The application aims for user-friendly accessibility with an intuitive design. 
+| Different web tools can be used to test accesibility and responsive design such as 
+https://chromewebstore.google.com/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=es&pli=1[Google LightHouse], https://webaim.org/resources/contrastchecker/[Contrast Checker] or https://wave.webaim.org/[Wave].
+|===
+
+
+=== Organization
+Each week we will have a meeting of which decisions will be registered on the Wiki on GitHub. We will also dicuss the work to be done the following week, of which progress we will keep track by means of the Kanban and the issues.
+Any unforeseen issue that may arise during development will be discussed in the issue itself or via our WhatsApp group if of low relevance or importance.

@@ -25,3 +25,36 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 See https://docs.arc42.org/section-2/[Architecture Constraints] in the arc42 documentation.
 
 ****
+
+The development of the application has several architectural constraints that must be addressed.
+
+=== Technical constraints
+
+[options="header",cols="1,3"]
+|===
+|Constraint|Explanation
+| Web front-end | The application must be accessible through a web interface to interact with the game.
+| Data storage | The application must be able to store historical data from users (number of games, questions, etc.) and allow them to register.
+| Wikidata | Wikidata will be used to generate the questions, so the application must implement mechanisms to fetch information from it.
+| Deployment | The application will be deployable on a Linux server.
+|===
+
+=== Organizational constraints
+
+[options="header",cols="1,3"]
+|===
+|Constraint|Explanation
+| Team members | The team is composed of 7 members from the same lab team.
+| Time | The application is developed in a limited time (the semester).
+| Meetings | At least one meeting per week will have place in order to discuss what needs to be done next.
+| Git | The developement team must use git for version control management.
+|===
+
+=== Conventions
+[options="header",cols="1,3"]
+|===
+|Constraint|Explanation
+| Language | All the project must be developed in English.
+| ARC42 | The documentation of the project must use the ARC42 template.
+| GitHub conventions | Changes in the project must be carried out by using different branches. Issues are used as official communication means.
+|===

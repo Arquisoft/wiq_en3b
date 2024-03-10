@@ -86,3 +86,4 @@ image::03_technical_context.png["Technical Context"]
 | Database | Stores and retrieves user data, including registration information and participation history. 
 | Wikidata | Accepts SPARQL queries and returns the requested data about questions. 
 |===
+

@@ -1,0 +1,17 @@
+import express from 'express';
+import { generateQuestionsController } from '../controllers/question-controller';
+
+const router = express.Router();
+
+router.get('/questions', generateQuestionsController);
+
+// Default endpoint
+router.get('/', (_req,res) =>{
+    res.json({
+        serviceName: "Question Service",
+        greet: "Hello! I think you are trying to connect to the Question Service. Pls," +
+        "access through other endpoint like /questions?size=10"
+    });
+});
+
+export default router;

@@ -77,11 +77,12 @@ together with a mapping table showing the relationships between channels and inp
 
 ****
 
+image::03_technical_context.png["Technical Context"]
+
 |===
 | Component | Description
-| Web Front-End | Accessible via the internet, allowing users to interact with the KaW application. 
-| APIs | Provides access to user information and generated questions, enabling integration with external systems. 
+| WebApp | Accessible via the internet, allowing users to interact with the KaW application. 
+| Services | Provides access to user information and generated questions, enabling integration with external systems. 
 | Database | Stores and retrieves user data, including registration information and participation history. 
-| Automatic Question Generation | Questions are automatically generated from data available in Wikidata. 
-| Optional Features | KaW offers features such as internationalization, different game modes, and customizable parameters. 
+| Wikidata | Accepts SPARQL queries and returns the requested data about questions. 
 |===

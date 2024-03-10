@@ -1,0 +1,11 @@
+.answer-list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  .answer-list {
+    grid-template-columns: 1fr 1fr;
+  }
+}

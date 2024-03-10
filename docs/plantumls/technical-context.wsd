@@ -1,0 +1,18 @@
+@startuml Technical Context
+
+actor User
+
+node Application {
+    component  WebApp
+    component  Services
+    component Database
+}
+
+cloud  Wikidata
+
+User ..> WebApp : http
+WebApp <-> Services : http
+Services <-> Database : mongoose
+Services <--> Wikidata : SPARQL
+
+@enduml

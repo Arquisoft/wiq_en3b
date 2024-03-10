@@ -1,0 +1,13 @@
+.settings h1 {
+  margin-bottom: 50px;
+}
+
+.settings label {
+  margin-bottom: 10px;
+  display: inline-block;
+}
+
+.settings select {
+  display: block;
+  padding: 5px;
+}

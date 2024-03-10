@@ -1,0 +1,20 @@
+.button {
+  cursor: pointer;
+  padding: 20px 50px;
+  border: 2px solid transparent;
+  border-radius: 100px;
+  background-color: #717aef;
+  color: #fff;
+  font-weight: 700;
+  transition: all 0.4s ease;
+}
+
+.button:hover {
+  background-color: #fff;
+  border-color: #717aef;
+  color: #717aef;
+}
+
+.button--sm {
+  padding: 10px;
+}

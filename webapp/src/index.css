@@ -1,13 +1,75 @@
-body {
+@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+
+* {
   margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
-    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
-    sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  padding: 0;
+  box-sizing: border-box;
 }
 
-code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+:root {
+  --dark-gray: #121212;
+  --black: #000;
+}
+
+body {
+  font-family: "Poppins", sans-serif;
+  overflow-x: hidden;
+}
+
+ul {
+  list-style-type: none;
+}
+
+main {
+  padding: 20px;
+  min-height: 100vh;
+}
+
+.light {
+  background-color: #dbdefd;
+  transition: all 0.4s ease;
+}
+
+.dark {
+  background-color: var(--black);
+  color: #fff;
+  transition: all 0.4s ease;
+}
+
+.dark .header,
+.dark .question,
+.dark .answer-item,
+.dark .nav {
+  background-color: var(--dark-gray);
+}
+
+.dark .nav-link {
+  color: #fff;
+}
+
+.dark .nav-link:hover {
+  color: #4f6fdd;
+}
+
+.dark .nav-link-icon {
+  fill: #fff;
+}
+
+.dark .answer-item:hover {
+  background-color: var(--dark-gray);
+  border-color: var(--dark-gray);
+  color: #fff;
+}
+
+.dark .quiz-counter {
+  background-color: var(--dark-gray);
+  border: 2px solid #fff;
+}
+
+.dark .form-create {
+  background-color: var(--dark-gray);
+}
+
+.dark .form-create input {
+  background-color: var(--dark-gray);
 }

@@ -30,7 +30,7 @@ See https://docs.arc42.org/section-3/[Context and Scope] in the arc42 documentat
 
 === Introduction
 
-The WIQ project aims to develop a new experimental version of the Saber y Ganar quiz show for RTVE, led by the software development company HappySw. This project involves creating a web application where users can register, log in, and participate in quiz games. Questions for the quiz will be automatically generated from data available in Wikidata.
+The KaW project aims to develop a new experimental version of the Saber y Ganar quiz show for RTVE, led by the software development company HappySw. This project involves creating a web application where users can register, log in, and participate in quiz games. Questions for the quiz will be automatically generated from data available in Wikidata.
 
 === Business Context
 
@@ -55,10 +55,10 @@ image::03_business_context.png["Business Context"]
 
 |===
 |Communication partner|Inputs|Outputs
-| User | Interacts with WIQ by putting user credentials and answering to questions. | Receives question status (correct/incorrect) and prize information.
-| WIQ | User interaction by means of a graphical interface. This includes accepting the answers of questions. | Provides user information and question data including text, options and the correct answer.
-| Database | Receives user data (credentials, number of games, question passed and failed, times...) | Responding to the application with the desired information.
-| Question Generator | Accepts queries for generating questions based on subject and type. | Generates the question data (text, options and correct answer).
+| User | Interacts with KaW by putting user credentials and answering to questions. | Receives question status (correct/incorrect) and prize information.
+| KaW | User interaction by means of a graphical interface. This includes accepting the answers of questions. | Provides user information and question data including text, options and the correct answer.
+| Wikidata | Receives queries from the Question Service in order to generate the data of the question | Responds to the queries with all the data of the generated question.
+| Question Service | Accepts queries for generating questions based on subject and type. | Generates the question data (text, options and correct answer).
 |===
 
 === Technical Context
@@ -79,15 +79,9 @@ together with a mapping table showing the relationships between channels and inp
 
 |===
 | Component | Description
-| Web Front-End | Accessible via the internet, allowing users to interact with the WIQ application. 
+| Web Front-End | Accessible via the internet, allowing users to interact with the KaW application. 
 | APIs | Provides access to user information and generated questions, enabling integration with external systems. 
 | Database | Stores and retrieves user data, including registration information and participation history. 
 | Automatic Question Generation | Questions are automatically generated from data available in Wikidata. 
-| Optional Features | WIQ offers features such as internationalization, different game modes, and customizable parameters. 
+| Optional Features | KaW offers features such as internationalization, different game modes, and customizable parameters. 
 |===
-
-**<Diagram or Table>**
-
-**<optionally: Explanation of technical interfaces>**
-
-**<Mapping Input/Output to Channels>**

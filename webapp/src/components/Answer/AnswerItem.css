@@ -1,0 +1,29 @@
+.answer-item {
+  padding: 20px;
+  border: 2px solid #e0e1f3;
+  cursor: pointer;
+  transition: all 0.4s ease;
+  border-radius: 10px;
+  background-color: #fff;
+  text-align: center;
+}
+
+.answer-item:hover {
+  background-color: #e8e9fe;
+  color: #858acc;
+  border-color: #858acc;
+}
+
+.success,
+.answer-item.success:hover {
+  background-color: lightgreen;
+  border-color: lightgreen;
+  color: #fff;
+}
+
+.error,
+.answer-item.error:hover {
+  background-color: lightcoral;
+  border-color: lightcoral;
+  color: #fff;
+}

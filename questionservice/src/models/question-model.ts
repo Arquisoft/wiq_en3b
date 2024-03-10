@@ -112,15 +112,18 @@ const generateSampleTest = () => {
       WHERE {
         ?template wdt:P31 wd:$$$; # Entity
                  wdt:P571 ?answer;
-        SERVICE wikibase:label { bd:serviceParam wikibase:language "en"}.
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en,es"}.
         BIND(YEAR(?answer) AS ?answerLabel)
       }
       ORDER BY UUID()
       LIMIT 10
       `,
-      entities: ["Q6107280" // Revolt
-        , "Q198" // War
-        , "Q209715"] // Coronation of a king/queen
+      entities:
+        ["Q6107280" // Revolt
+          , "Q198" // War
+        ]
+
+      // , "Q209715"] // Coronation of a king/queen
     }
   });
 
@@ -130,16 +133,19 @@ const generateSampleTest = () => {
   aQuestion = new QuestionModel({
     questionTemplate: "Who wrote $$$?",
     question_type: {
-      name: "Events",
-      query: `SELECT ?templateLabel ?answerLabel
+      name: "Books",
+      query: `SELECT ?templateLabel ?answerLabel 
       WHERE {
-        ?template wdt:P106 wd:Q36180; 
-                wdt:P800 ?answer.
+        ?answer wdt:P31 wd:Q5;  # Ensure the entity is a human
+                wdt:P27 wd:Q174193;  
+                wdt:P106 wd:Q36180;  # Ensure the occupation is writer
+                wdt:P800 ?template.  # Retrieve the books written by the writer
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en,es". }
       }
-      LIMIT 10
+      ORDER BY UUID()
+      LIMIT 5
       `,
-      entities:[]
+      entities: []
     }
   });
 
@@ -164,7 +170,7 @@ const generateSampleTest = () => {
       ORDER BY UUID()
       LIMIT 10
       `,
-      entities:[]
+      entities: []
     }
   });
 
@@ -186,7 +192,7 @@ const generateSampleTest = () => {
       ORDER BY UUID()
       LIMIT 10
       `,
-      entities:[]
+      entities: []
     }
   });
   aQuestion.save();

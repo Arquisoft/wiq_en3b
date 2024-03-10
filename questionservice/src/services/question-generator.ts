@@ -1,15 +1,15 @@
-import {QuestionModel,generateSampleTest} from '../models/question-model'
+import { QuestionModel, generateSampleTest } from '../models/question-model'
 import { getWikidataSparql } from '@entitree/helper';
 
 // Gets a random Item from an array
-function getRandomItem<T>(array: T[]): T{
+function getRandomItem<T>(array: T[]): T {
     const randomIndex = Math.floor(Math.random() * array.length);
     return array[randomIndex];
 }
 
 // Builds a question JSON out of parameters
-const questionJsonBuilder = (templateNumber: number, questionGen: string, answersArray: object[]): object =>{
-    
+const questionJsonBuilder = (templateNumber: number, questionGen: string, answersArray: object[]): object => {
+
     const myJson = {
         id: templateNumber,
         question: questionGen,
@@ -18,12 +18,12 @@ const questionJsonBuilder = (templateNumber: number, questionGen: string, answer
     }
 
     console.log(myJson)
-    
+
     return myJson
 }
 
 // In charge of asking wikidata the sparql query and building JSON question response
-const generateQuestionJson = async (document:any, templateNumber:number): Promise<object | void> => {
+const generateQuestionJson = async (document: any, templateNumber: number): Promise<object | void> => {
 
     try {
         // Template Query
@@ -69,10 +69,10 @@ const generateQuestionJson = async (document:any, templateNumber:number): Promis
         throw error;
     }
 
-}        
+}
 
 // Generate the JSON questions Array
-const generateQuestionsArray = async (randomQuestionsTemplates: any): Promise<object[]> =>{
+const generateQuestionsArray = async (randomQuestionsTemplates: any): Promise<object[]> => {
 
     // Simply a fx to add the JSON questions to the Array
     var resQuestions: object[] = [];
@@ -104,10 +104,11 @@ async function generateQuestions(n: number): Promise<object[] | void> {
 
     try {
         generateSampleTest(); // Generating sample test. TODO: To be removed for next iteration
-        
+
         // Obtain n random documents
         const randomQuestionsTemplates = await QuestionModel.aggregate([{ $sample: { size: n } }]);
-        
+        console.log(randomQuestionsTemplates[0].question_type.name);
+
         // Generate and return questions generated from those documents
         const questionsArray = await generateQuestionsArray(randomQuestionsTemplates);
         return questionsArray;

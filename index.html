@@ -495,9 +495,12 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-concepts">8. Cross-cutting Concepts</a>
 <ul class="sectlevel2">
-<li><a href="#_concept_1">8.1. <em>&lt;Concept 1&gt;</em></a></li>
-<li><a href="#_concept_2">8.2. <em>&lt;Concept 2&gt;</em></a></li>
-<li><a href="#_concept_n">8.3. <em>&lt;Concept n&gt;</em></a></li>
+<li><a href="#_domain_model">8.1. Domain model</a></li>
+<li><a href="#_ux">8.2. UX</a></li>
+<li><a href="#_security">8.3. Security</a></li>
+<li><a href="#_architecture_and_design_patterns">8.4. Architecture and design patterns</a></li>
+<li><a href="#_under_the_hood_concepts">8.5. "Under-the-hood" concepts</a></li>
+<li><a href="#_development_concepts">8.6. Development concepts</a></li>
 </ul>
 </li>
 <li><a href="#section-design-decisions">9. Architecture Decisions</a></li>
@@ -604,6 +607,14 @@ of the project more features are included. Please, refer to
 </thead>
 <tbody>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accesibility</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">It must be taken care of the different HTML standards so Screen-readers users can also play the game. Also, take care of features like coloring.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The system must always be available so users can play at any time.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User Registration and Login</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Users must be able to register into game or login into the game.</p></td>
 </tr>
@@ -658,21 +669,45 @@ of the project more features are included. Please, refer to
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Accesibility</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Any user must be able to enjoy playing with our application despite any disability they could have.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">HTML standards must be followed to try to minimize the lack of Accesibility of our Application. Another important feature is the contrast of our web. All of these can be tested with Accessibilty tools available on Internet.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The application should stick to industry best practices for security to protect against unauthorized access, data breaches, and other threats.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Regular security audits and implementing basic security controls are essential.</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maintainability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application should demonstrate good architecture and design to showcase the team&#8217;s capabilities and ensure easy maintenance.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Documenting code and following best practices contribute to maintainability.</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users must be assured that their personal information is protected when using the application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing basic data protection measures and ensuring compliance with relevant regulations enhance privacy.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">6</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The software should have acceptable response time to provide a smooth user experience.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Basic optimization techniques can improve performance.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">7</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Efficiency</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Application functionalities should be efficient for users to accomplish their tasks effectively.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Streamlining workflows and minimizing redundant processes contribute to efficiency.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">8</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Testability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be designed to facilitate testing across various scenarios to ensure robustness and reliability.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing basic testing frameworks and writing unit tests support testability.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">9</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adaptability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The application should adapt seamlessly to different devices and screen sizes. While primarily developed for desktops, it should also provide a satisfactory user experience on mobile devices.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Utilising responsive design principles and conducting compatibility testing across devices can enhance adaptability.</p></td>
 </tr>
 </tbody>
 </table>
@@ -724,7 +759,7 @@ of the project more features are included. Please, refer to
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Users</p></td>
 <td class="tableblock halign-left valign-top"><div class="content"></div></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">A quiz game to test their knowdlege on different fields. The game must be easy to use and must record all of their past games.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">A "Saber y Ganar" web game to test their knowdlege on different fields. The game must be easy to use and must record all of their past games.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Development team</p></td>
@@ -929,7 +964,7 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 <div class="sect2">
 <h3 id="_introduction">3.1. Introduction</h3>
 <div class="paragraph">
-<p>The KaW project aims to develop a new experimental version of the Saber y Ganar quiz show for RTVE, led by the software development company HappySw. This project involves creating a web application where users can register, log in, and participate in quiz games. Questions for the quiz will be automatically generated from data available in Wikidata.</p>
+<p>The WIQ project aims to develop a new experimental version of the Saber y Ganar quiz show for RTVE, led by the software development company HappySw. This project involves creating a web application where users can register, log in, and participate in quiz games. Questions for the quiz will be automatically generated from data available in Wikidata.</p>
 </div>
 </div>
 <div class="sect2">
@@ -974,21 +1009,21 @@ The title of the table is the name of your system, the three columns contain the
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Interacts with KaW by putting user credentials and answering to questions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interacts with WIQ by putting user credentials and answering to questions.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Receives question status (correct/incorrect) and prize information.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">KaW</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WIQ</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">User interaction by means of a graphical interface. This includes accepting the answers of questions.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Provides user information and question data including text, options and the correct answer.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Wikidata</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Receives queries from the Question Service in order to generate the data of the question</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Responds to the queries with all the data of the generated question.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Receives user data (credentials, number of games, question passed and failed, times&#8230;&#8203;)</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Responding to the application with the desired information.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Question Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Question Generator</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Accepts queries for generating questions based on subject and type.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Generates the question data (text, options and correct answer).</p></td>
 </tr>
@@ -1014,11 +1049,6 @@ together with a mapping table showing the relationships between channels and inp
 </div>
 </div>
 </div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/03_technical_context.png" alt="Technical Context">
-</div>
-</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 50%;">
@@ -1030,11 +1060,11 @@ together with a mapping table showing the relationships between channels and inp
 <td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">WebApp</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Accessible via the internet, allowing users to interact with the KaW application.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web Front-End</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accessible via the internet, allowing users to interact with the WIQ application.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Services</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">APIs</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Provides access to user information and generated questions, enabling integration with external systems.</p></td>
 </tr>
 <tr>
@@ -1042,8 +1072,12 @@ together with a mapping table showing the relationships between channels and inp
 <td class="tableblock halign-left valign-top"><p class="tableblock">Stores and retrieves user data, including registration information and participation history.</p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Wikidata</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Accepts SPARQL queries and returns the requested data about questions.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Automatic Question Generation</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Questions are automatically generated from data available in Wikidata.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Optional Features</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WIQ offers features such as internationalization, different game modes, and customizable parameters.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1109,34 +1143,22 @@ Refer to details in the following sections.</p>
 <p><strong>TypeScript</strong> : Since we will be using JavaScript and are more familiar with statically typed languages we will use TypeScript. This will also reduce the likelihood of some unexpected error at runtime.</p>
 </li>
 <li>
-<p><strong>MongoDB</strong> : We chose MongoDB since we consider we could take advantage of it&#8217;s flexible schema. Its native support for JSON and its simple query language also influenced our decision. We also consider this a valauable oportunity to learn and work with a document database.</p>
+<p><strong>MongoDB</strong> : We chose MongoDB since we consider we could take advantage of it&#8217;s flexible schema. Its native support for JSON and its simple query language also influennced our decision. We also consider this a valauable oportunity to learn and work with a document database.</p>
 </li>
 <li>
-<p><strong>Docker</strong>: To deploy our project, Docker was chosen due to its handy portability and its perfect integration with microservices applications.</p>
+<p><strong>And more&#8230;&#8203;</strong></p>
 </li>
 </ul>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_decomposition_of_the_system">4.2. Decomposition of the System</h3>
-<div class="sect3">
-<h4 id="_arquitectural_patterns">4.2.1. Arquitectural patterns</h4>
-<div class="ulist">
-<ul>
-<li>
-<p><strong>Microservices</strong>:
-As the main architecture for the whole project. The system is divided into several modules representing
-a functional requirement like question generation. Each of these modules will be independent from
-each other and have its own database.</p>
-</li>
-<li>
-<p><strong>Gateway</strong>:
-A middleware that acts as an API-frontend for clients to access various services within our system.
-This component can be also seen as a "Controller" since it receives petitions from outside, call the
-corresponding service that answers that petition and return its value.</p>
-</li>
-</ul>
+<div class="paragraph">
+<p>We chose to use microservices as they allow specific functionality for each service.
+This approach gives more flexibility and modularity in development, allowing us to focus on specific functionalities on our own.</p>
 </div>
+<div class="paragraph">
+<p>Microservices also make it easier to manage and expand, as we can update or extend specific services without affecting the entire system.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1169,8 +1191,12 @@ corresponding service that answers that petition and return its value.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The application aims for user-friendly accessibility with an intuitive design.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Different web tools can be used to test accesibility and responsive design such as
-<a href="https://chromewebstore.google.com/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=es&amp;pli=1">Google LightHouse</a>, <a href="https://webaim.org/resources/contrastchecker/">Contrast Checker</a> or <a href="https://wave.webaim.org/">Wave</a>.</p></td>
+<td class="tableblock halign-left valign-top"></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Responsive Design</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Seamless user experience across different devices and screen sizes.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing responsive design principles with a combination of CSS frameworks (e.g., Bootstrap or Tailwind CSS) and React components, ensuring dynamic and interactive UI elements within our React-based interface.</p></td>
 </tr>
 </tbody>
 </table>
@@ -1192,7 +1218,7 @@ Any unforeseen issue that may arise during development will be discussed in the 
 <h3 id="_scope_and_context">5.1. Scope and Context</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-ed79cba539d8cad55211d0cbfddef30b.png" alt="Diagram" width="465" height="74">
+<img src="./images/diag-mermaid-md5-2f5056c445b3e003f1e51bedf31f0839.png" alt="Diagram" width="501" height="74">
 </div>
 </div>
 <div class="dlist">
@@ -1223,7 +1249,7 @@ and answers that the user will have to choose.</p>
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">KaW Application</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Saber y Ganar Application</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"> The core block that manages the game itself and the visuals of it.</p></td>
 </tr>
 <tr>
@@ -1237,7 +1263,7 @@ and answers that the user will have to choose.</p>
 <h3 id="_level_1">5.2. Level 1:</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-6e195844f704a79cfec6f95bd4fb3655.png" alt="Diagram" width="760" height="139">
+<img src="./images/diag-mermaid-md5-8e07b92c64b14d8cf4255c40811b375f.png" alt="Diagram" width="197" height="409">
 </div>
 </div>
 <div class="dlist">
@@ -1265,7 +1291,7 @@ and answers that the user will have to choose.</p>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gateway</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Middleware component that routes user interactions to the appropriate microservices and serves as an API entrance point.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Middleware component that routes user interactions to the appropriate microservices.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Microservices</p></td>
@@ -1278,7 +1304,7 @@ and answers that the user will have to choose.</p>
 <h3 id="_level_2">5.3. Level 2:</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-494f0bdada78054739f636cdc154e09e.png" alt="Diagram" width="736" height="631">
+<img src="./images/diag-mermaid-md5-880bf3f2ab3dd074fd21d5249ddc5969.png" alt="Diagram" width="783" height="574">
 </div>
 </div>
 <div class="dlist">
@@ -1314,7 +1340,7 @@ This architecture allows for a separation of concerns, where each component has 
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Gateway</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">MiddleWare that connects the WebApplication with the different MicroServices of the Application and serves as an API entrance point.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">MiddleWare that connects the WebApplication with the different MicroServices of the Application.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">AuthService</p></td>
@@ -1402,14 +1428,14 @@ You will mainly capture scenarios in your documentation to communicate your arch
 <div class="sect2">
 <h3 id="_login_scenario">6.1. Login scenario</h3>
 <div class="paragraph">
-<p>When the user wants to login into the application (KaW), the user navigates to the login page. The Frontend will show a form that allows the user to enter their details (username and password), which are then sent to the backend in order to be verified if they are correct or not. Then, the Backend asks the Database for the password given the username. The Database will return an encrypted password. The Backend will encrypt the password provided by the user and then compare it with the one from the database. If the passwords do not match, an error message showing "Incorrect credentials" will appear to the user and if they are correct, a success message "Login successful" confirms the login and the user finally will be able to access the application.</p>
+<p>When the user wants to login into the application (WIQ), the user navigates to the login page. Then, the Frontend requests the login page to the backend. Once it is received, the Frontend displays it. The Frontend will show a form that allows the user to enter their details (username and password), which are then sent to the backend in order to be verified if they are correct or not. Then, the Backend asks the Database for the password given the username. The Database will return an encrypted password. The Backend will encrypt the password provided by the user and then compare it with the one from the database. If the passwords do not match, an error message showing "Incorrect credentials" will appear to the user and if they are correct, a success message "Login successful" confirms the login and the user finally will be able to access the application.</p>
 </div>
 <div class="paragraph">
 <p>This case scenario is also represented on the following diagram:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-a9af2f26844adc8d3ea5b03483631b21.png" alt="Diagram" width="784" height="402">
+<img src="./images/diag-mermaid-md5-f85a74fba9f4ca3a5c4dc62ce4b49337.png" alt="Diagram" width="784" height="503">
 </div>
 </div>
 </div>
@@ -1592,129 +1618,175 @@ when your infrastructure is more complex.</p>
 <div class="sect1">
 <h2 id="section-concepts">8. Cross-cutting Concepts</h2>
 <div class="sectionbody">
-<div class="sidebarblock arc42help">
-<div class="content">
+<div class="sect2">
+<h3 id="_domain_model">8.1. Domain model</h3>
 <div class="paragraph">
-<div class="title">Content</div>
-<p>This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as</p>
+<p><strong>TBD</strong></p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>models, especially domain models</p>
-</li>
-<li>
-<p>architecture or design patterns</p>
-</li>
-<li>
-<p>rules for using specific technology</p>
-</li>
-<li>
-<p>principal, often technical decisions of an overarching (= cross-cutting) nature</p>
-</li>
-<li>
-<p>implementation rules</p>
-</li>
-</ul>
+</div>
+<div class="sect2">
+<h3 id="_ux">8.2. UX</h3>
+<div class="sect3">
+<h4 id="_user_interface">8.2.1. User Interface</h4>
+<div class="paragraph">
+<p><strong>TBD</strong>: Add here different wireframes.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_internationalization">8.2.2. Internationalization</h4>
+<div class="paragraph">
+<p>One of the things to increase accesibility is giving our application the
+capability of beign in various language so people around the world can play
+our game. Obviously, internationalization is more than just changing the
+language of the Application but due to time constraints we will just apply
+Spanish and English languages.</p>
 </div>
 <div class="paragraph">
-<div class="title">Motivation</div>
-<p>Concepts form the basis for <em>conceptual integrity</em> (consistency, homogeneity) of the architecture.
-Thus, they are an important contribution to achieve inner qualities of your system.</p>
+<p>The library used for it is called <strong>react-i18next</strong>. For simplicity (and due to
+just only having two languages), all of the messages properties are going
+to be located in the frontend Application. Eventually, if the Application
+grows and we wanted to  have more than 2 languages the best approach is to
+store those properties in a server and let the application to request
+those on the fly. Again, for simplicity the option of having all bundle
+together in the Frontend just fits.</p>
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_security">8.3. Security</h3>
+<div class="sect3">
+<h4 id="_bcrypt">8.3.1. Bcrypt</h4>
+<div class="paragraph">
+<p>Keeping a secure website for our users is one of our main quality
+goals. For that, all the passwords stored in MongoDB are simply
+hashes so attackers cannot decypher easily. The library used
+in the AuthService and UserService to store or compare passwords
+is called <strong>bcrypt</strong>. This library provides with an easy way
+to hash passwords and keep user&#8217;s data secured.</p>
 </div>
 <div class="paragraph">
-<p>Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety.</p>
+<p>Also, all users are enforced to have a password with at least 8
+characters. This security measure makes a lot of sense if we
+want to really ensure the security of our users. Although
+sometimes it could be a bit cumbersome for some, the introduction
+of this measure make security to grow exponentially.</p>
 </div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_architecture_and_design_patterns">8.4. Architecture and design patterns</h3>
+<div class="sect3">
+<h4 id="_microservices">8.4.1. MicroServices</h4>
 <div class="paragraph">
-<div class="title">Form</div>
-<p>The form can be varied:</p>
+<p>The reason behind, is that with Microservices architecture we can forget about dealing
+with a single complex application. Instead, we make a "Divide and Conquer" approach by
+identifying those modules that made up our system and making it independently deployable
+services, each serving a specific business function.</p>
 </div>
-<div class="ulist">
-<ul>
-<li>
-<p>concept papers with any kind of structure</p>
-</li>
-<li>
-<p>cross-cutting model excerpts or scenarios using notations of the architecture views</p>
-</li>
-<li>
-<p>sample implementations, especially for technical concepts</p>
-</li>
-<li>
-<p>reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)</p>
-</li>
-</ul>
 </div>
+<div class="sect3">
+<h4 id="_gateway">8.4.2. Gateway</h4>
 <div class="paragraph">
-<div class="title">Structure</div>
-<p>A potential (but not mandatory) structure for this section could be:</p>
-</div>
-<div class="ulist">
-<ul>
-<li>
-<p>Domain concepts</p>
-</li>
-<li>
-<p>User Experience concepts (UX)</p>
-</li>
-<li>
-<p>Safety and security concepts</p>
-</li>
-<li>
-<p>Architecture and design patterns</p>
-</li>
-<li>
-<p>"Under-the-hood"</p>
-</li>
-<li>
-<p>development concepts</p>
-</li>
-<li>
-<p>operational concepts</p>
-</li>
-</ul>
-</div>
-<div class="paragraph">
-<p>Note: it might be difficult to assign individual concepts to one specific topic
-on this list.</p>
+<p>This architectural pattern makes it easier for the Frontend subsystem to communicate
+with the different MicroServices that composes our Application since it has to focus
+on a single entry point instead of knowing each service. It also help us to tackle
+the requirement of APIs by using this pattern since it acts like a REST API where
+other users (not our Application) can make petitions to it to retrieve some data.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/08-Crosscutting-Concepts-Structure-EN.png" alt="Possible topics for crosscutting concepts">
+<img src="./images/diag-mermaid-md5-c4577a2e2d10b7f103b2d8dcf6cf4bda.png" alt="Diagram" width="737" height="182">
 </div>
 </div>
-<div class="paragraph">
-<div class="title">Further Information</div>
-<p>See <a href="https://docs.arc42.org/section-8/">Concepts</a> in the arc42 documentation.</p>
-</div>
-</div>
-</div>
-<div class="paragraph">
-<p><strong>TDB</strong></p>
-</div>
-<div class="sect2">
-<h3 id="_concept_1">8.1. <em>&lt;Concept 1&gt;</em></h3>
-<div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_concept_2">8.2. <em>&lt;Concept 2&gt;</em></h3>
+<h3 id="_under_the_hood_concepts">8.5. "Under-the-hood" concepts</h3>
+<div class="sect3">
+<h4 id="_persistency">8.5.1. Persistency</h4>
 <div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
+<p>As stated in point 4.1, the chosen database for the project is MongoDB
+which offers us a document-oriented schema. This type of database fits
+perfectly with our services since the mainly work with JSON-formatted data.</p>
 </div>
+<div class="sect4">
+<h5 id="_er_model">ER model</h5>
+<div class="imageblock">
+<div class="content">
+<img src="./images/diag-mermaid-md5-80008de6a2aba7ffb20b3be5fd860cbf.png" alt="Diagram" width="397" height="364">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Document</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">USER</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Holds all the data relationed to a user registered into our game. It
+has a relation with <strong>ONE USER_HISTORY</strong> document which represents the records/statistics
+of them as it is a system requisite.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QUESTION_TEMPLATE</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Holds the template needed to query the WikiData API for the Question generation. It
+has a reation with <strong>ONE QUESTION_TYPE</strong> document which represents a category for that
+question (e.g. Capitals) together with its SPARQL query.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect4">
+<h5 id="_connection_to_mongodb">Connection to MongoDB</h5>
 <div class="paragraph">
-<p>&#8230;&#8203;</p>
+<p>To make it easier the connection from Services (using ExpressJS) to MongoDB, the
+usage of <strong>Mongoose</strong> has been chosen. This is a JS library that help us to create these
+connections.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/diag-mermaid-md5-9c2b11f8d9543fdc094b53f4c5e39bd6.png" alt="Diagram" width="571" height="406">
+</div>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_session_handling">8.5.2. Session handling</h4>
+<div class="paragraph">
+<p><strong>TBD</strong>: talk about JWT token found in auth-service.js</p>
+</div>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_concept_n">8.3. <em>&lt;Concept n&gt;</em></h3>
+<h3 id="_development_concepts">8.6. Development concepts</h3>
+<div class="sect3">
+<h4 id="_testing">8.6.1. Testing</h4>
 <div class="paragraph">
-<p><em>&lt;explanation&gt;</em></p>
+<p><strong>TBD</strong></p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Talk about "super-test" dependency to test expresJS</p>
+</li>
+<li>
+<p>JEST</p>
+</li>
+<li>
+<p>Test automation by Github Actions</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Could add more in the future&#8230;&#8203;Refer to <a href="https://docs.arc42.org/section-8/" class="bare">https://docs.arc42.org/section-8/</a></p>
 </div>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 </div>
@@ -1946,6 +2018,9 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </div>
 </div>
 </div>
+<div class="paragraph">
+<p><strong>TBD</strong></p>
+</div>
 <table class="tableblock frame-all grid-all stretch">
 <colgroup>
 <col style="width: 33.3333%;">
@@ -1959,32 +2034,12 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </thead>
 <tbody>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Know and Win (KAW)</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>The name of our project.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Term-1&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;definition-1&gt;</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>RTVE</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Radiotelevisión Española, the Spanish public television broadcaster and one of our stakeholders.</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>"Saber y Ganar"</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A famous Spanish TV show involving answering questions to win prizes.</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>WikiData</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A structured database that provides data to various applications, used here for generating questions and answers.</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>OAuth and JWT</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Secure authentication mechanisms used to protect user accounts.</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Kanban</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>A project management method used to visualize workflow.</em></p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>CSS Frameworks</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Pre-designed styles and components for building responsive and visually appealing user interfaces.</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;Term-2&gt;</em></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><em>&lt;definition-2&gt;</em></p></td>
 </tr>
 </tbody>
 </table>

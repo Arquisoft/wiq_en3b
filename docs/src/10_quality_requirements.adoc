@@ -51,11 +51,10 @@ In any case the tree should include links to the scenarios of the following sect
 graph TD
     A[Quality] --> B[Usability]
     A --> C[Availability]
-    A --> D[Security]
-    A --> E[Maintainability]
-    A --> F[Privacy]
-    A --> G[Performance]
-    A --> H[Efficiency]
+    A --> D[Accesibility]
+    A --> E[Security]
+    A --> F[Performance]
+    A --> H[Privacy]
     A --> I[Testability]
     A --> J[Adaptability]
 ....
@@ -92,36 +91,37 @@ Tabular or free form text.
 |===
 | Quality requirement | Scenario | Priority
 
-| Maintainability
-| The application should have an architectura and design so that the code is more modular, allowing easier maintenance. The documentation should also be clear for potential new team members.
-| High
-
 | Usability
-| The web application should provide an intuitive design, making it easier for new users. It should meet usability standards.
+| When new users access the application the design should be intuitive enough, allowing them to navigate through the system and play the game easily.
+The application should meet usability standards.
 | High
 
 | Performance
-| The system reacts to a user's request within one second to ensure a smooth and responsive user experience.
-| High
-
-| Adaptability
-| The application should be able to adapt to screen sizes such as desktop screens or smartphones, providing a satisfactory user experience.
+| When a user interacts with the system it should react within one second to ensure a smooth and responsive user experience.
 | High
 
 | Privacy
-| Users' personal information is protected, and the system implements secure authentication mechanisms to prevent unauthorized access.
+| If a user provides personal information during the registration, the application should securely handle and store user-provided personal information.
+Encryption should be applied for data storage.
 | High
 
-| Testability
-| The application must be designed to facilitate testing across various scenarios, supporting robustness and reliability with basic testing frameworks and unit tests.
+| Security
+| If a malicious user attempts unauthorized access to the application, the application should implement robust authentication mechanisms,
+including secure password storage to prevent unauthorized access.
+| High
+
+| Adaptability
+| If a user accesses the application from a different device than a PC, the application should be able to adapt to the different screen size, providing a satisfactory user experience.
 | Medium
 
-| Efficiency
-| Application functionalities should be efficient for users to accomplish their tasks effectively.
+| Accessibility
+| In case a user with a visual impairment interacts with the web application, it should follow HTML standards to ensure accessibility.
+All interactive elements must be navigable using screen readers, text alternatives should be provided for non-text content.
+Additionally, the application's color contrast should be enough for people with color blindness.
 | Medium
 
 | Availability
-| Users can access the application 24 hours a day, ensuring continuous availability.
+| Users should be able to access the application at any time, with an availability of about 99.9%.
 | Medium
 
 |===
@@ -132,12 +132,23 @@ Tabular or free form text.
 |===
 | Quality requirement | Scenario | Priority
 
+| Maintainability
+| When new functionalities are added to the application, they should be easy to add.
+The application should have a good architecture and design that makes the code more modular, allowing easier maintenance.
+The documentation should also be clear for potential new team members.
+| High
+
 | Usability
-| Usability improvements are implemented based on user feedback and usability testing.
+| New usability improvements should be implemented based on user feedback and usability testing.
 | High
 
 | Security
-| Security controls are updated and strengthened to protect against evolving threats and vulnerabilities.
+| Different components of the application should be updated frequently to protect against evolving threats and vulnerabilities.
 | High
+
+| Testability
+| When new features are added to the application, new test should be performed and they should be easy to add.
+The application must be designed to facilitate testing across new scenarios.
+| Medium
 
 |===

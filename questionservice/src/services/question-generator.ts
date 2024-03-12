@@ -121,8 +121,8 @@ async function generateQuestions(n: number): Promise<object[] | void> {
     const randomQuestionsTemplates = await QuestionModel.aggregate([
       { $sample: { size: n } },
     ]);
-    console.log('124');
-    console.log(randomQuestionsTemplates[0].question_type.name);
+    // console.log('124');
+    // console.log(randomQuestionsTemplates[0].question_type.name);
 
     // Generate and return questions generated from those documents
     const questionsArray = await generateQuestionsArray(

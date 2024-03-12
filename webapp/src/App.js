@@ -11,7 +11,8 @@ import Profile from "./pages/Profile/Profile"
 import Leaderboard from "./pages/Leaderboard/Leaderboard"
 import Settings from "./pages/Settings/Settings"
 import Home from "./pages/Home/Home"
-import data from "./assets/data.json"
+
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 
 function App() {
   //State for opening and closing the navigation
@@ -20,15 +21,12 @@ function App() {
   const [questions, setQuestions] = useState([])
 
   useEffect(() => {
-    console.log(questions)
-      ; (async () => {
-        const questions = await getQuestions()
-        setQuestions(questions)
-        console.log(questions)
-      })()
-
-    console.log(questions)
-  }, [])
+    ; (async () => {
+      const questions = await getQuestions()
+      setQuestions(questions)
+      console.log(questions)
+    })()
+  })
 
   //State for the theme
   const [theme, setTheme] = useState("light")
@@ -63,7 +61,7 @@ function App() {
   }
 
   const getQuestions = async () => {
-    const response = await fetch((process.env.API_URI || 'http://localhost:8000') + "/questions?size=3")
+    const response = await fetch(apiEndpoint + "/questions?size=3")
     console.log(response)
     const data = await response.json()
 

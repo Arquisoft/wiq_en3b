@@ -63,7 +63,7 @@ function App() {
   }
 
   const getQuestions = async () => {
-    const response = await fetch((process.env.API_URI || 'http://localhost:8000') + "/questions?size=3")
+    const response = await fetch((process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000') + "/questions?size=3")
     console.log(response)
     const data = await response.json()
 

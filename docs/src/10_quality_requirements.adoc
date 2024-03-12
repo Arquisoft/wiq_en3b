@@ -133,7 +133,7 @@ Additionally, the application's color contrast should be enough for people with 
 | Quality requirement | Scenario | Priority
 
 | Maintainability
-| When new functionalities are added to the application, they should be easy to add.
+| When new functionalities need to be added to the application, they should be easy to integrate.
 The application should have a good architecture and design that makes the code more modular, allowing easier maintenance.
 The documentation should also be clear for potential new team members.
 | High

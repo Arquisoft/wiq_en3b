@@ -12,7 +12,7 @@ import Leaderboard from "./pages/Leaderboard/Leaderboard"
 import Settings from "./pages/Settings/Settings"
 import Home from "./pages/Home/Home"
 
-const apiEndpoint = "http://20.26.124.30:8000"
+const apiEndpoint = "http://20.117.173.161:8000"
 
 function App() {
   //State for opening and closing the navigation

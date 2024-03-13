@@ -1,80 +1,85 @@
-// src/components/Login.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import React, { useState, useEffect } from "react";
+import basestyle from "../Base.module.css";
+import loginstyle from "./Login.module.css";
+import axios from "axios";
+import { useNavigate, NavLink } from "react-router-dom";
+const Login = ({ setUserState }) => {
+  const navigate = useNavigate();
+  const [formErrors, setFormErrors] = useState({});
+  const [isSubmit, setIsSubmit] = useState(false);
+  const [user, setUserDetails] = useState({
+    email: "",
+    password: "",
+  });
 
-const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loginSuccess, setLoginSuccess] = useState(false);
-  const [createdAt, setCreatedAt] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
-
-  const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
-
-  const loginUser = async () => {
-    try {
-      const response = await axios.post(`${apiEndpoint}/login`, { username, password });
-
-      // Extract data from the response
-      const { createdAt: userCreatedAt } = response.data;
-
-      setCreatedAt(userCreatedAt);
-      setLoginSuccess(true);
-
-      setOpenSnackbar(true);
-    } catch (error) {
-      setError(error.response.data.error);
+  const changeHandler = (e) => {
+    const { name, value } = e.target;
+    setUserDetails({
+      ...user,
+      [name]: value,
+    });
+  };
+  const validateForm = (values) => {
+    const error = {};
+    const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i;
+    if (!values.email) {
+      error.email = "Email is required";
+    } else if (!regex.test(values.email)) {
+      error.email = "Please enter a valid email address";
     }
+    if (!values.password) {
+      error.password = "Password is required";
+    }
+    return error;
   };
 
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
+  const loginHandler = (e) => {
+    e.preventDefault();
+    setFormErrors(validateForm(user));
+    setIsSubmit(true);
+    // if (!formErrors) {
+
+    // }
   };
 
+  useEffect(() => {
+    if (Object.keys(formErrors).length === 0 && isSubmit) {
+      console.log(user);
+      axios.post("http://localhost:9002/login", user).then((res) => {
+        alert(res.data.message);
+        setUserState(res.data.user);
+        navigate("/", { replace: true });
+      });
+    }
+  }, [formErrors]);
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
-      {loginSuccess ? (
-        <div>
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-            Hello {username}!
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
-            Your account was created on {new Date(createdAt).toLocaleDateString()}.
-          </Typography>
-        </div>
-      ) : (
-        <div>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button variant="contained" color="primary" onClick={loginUser}>
-            Login
-          </Button>
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
-          {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
-          )}
-        </div>
-      )}
-    </Container>
+    <div className={loginstyle.login}>
+      <form>
+        <h1>Login</h1>
+        <input
+          type="email"
+          name="email"
+          id="email"
+          placeholder="Email"
+          onChange={changeHandler}
+          value={user.email}
+        />
+        <p className={basestyle.error}>{formErrors.email}</p>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          onChange={changeHandler}
+          value={user.password}
+        />
+        <p className={basestyle.error}>{formErrors.password}</p>
+        <button className={basestyle.button_common} onClick={loginHandler}>
+          Login
+        </button>
+      </form>
+      <NavLink to="/signup">Not yet registered? Register Now</NavLink>
+    </div>
   );
 };
-
 export default Login;

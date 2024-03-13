@@ -4,10 +4,12 @@ import { Route, Routes } from "react-router-dom"
 //Components
 import Header from "./components/Header/Header"
 import Nav from "./components/Nav/Nav"
+import Profile from "./components/Profile/Profile"
+import Login from "./components/Login/Login";
+import Register from "./components/Register/Register";
 
 //Pages
 import Game from "./pages/Game/Game"
-import Profile from "./pages/Profile/Profile"
 import Leaderboard from "./pages/Leaderboard/Leaderboard"
 import Settings from "./pages/Settings/Settings"
 import Home from "./pages/Home/Home"
@@ -91,7 +93,7 @@ function App() {
 
     return array
   }
-
+  const [userstate, setUserState] = useState({});
   return (
     <div className={theme}>
       <Header
@@ -101,9 +103,23 @@ function App() {
       />
 
       <Nav openNav={openNav} onToggleNav={toggleNavHandler} />
-
       <main>
+        <h1>Welcome to</h1>
+        <img src="KaW.png" alt="Logo of Know and Win APP"/>
         <Routes>
+          <Route
+            path="/"
+            element={
+              userstate && userstate._id ? (
+                <Profile
+                  setUserState={setUserState}
+                  username={userstate.fname}
+                />
+              ) : (
+                <Login setUserState={setUserState} />
+              )
+            }
+          ></Route>
           <Route path="home" element={<Home />}></Route>
           <Route
             path="game"
@@ -120,6 +136,11 @@ function App() {
               />
             }
           ></Route>
+          <Route
+            path="/login"
+            element={<Login setUserState={setUserState} />}
+          ></Route>
+          <Route path="/signup" element={<Register />}></Route>
         </Routes>
       </main>
     </div>

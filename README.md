@@ -21,6 +21,10 @@ questions to win juicy prizes 🥇
 | Diego Murias Suárez       | UO290009@uniovi.es |
 
 ## Test our app at 🚀🚀
+http://kawgame.xyz:3000/
+
+And if it doesn't work...
+
 http://20.117.173.161:3000
 
 ## Quick start guide

@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="generator" content="Asciidoctor 2.0.21">
 <title>Template</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,6 +162,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -327,7 +328,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -489,8 +490,9 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </li>
 <li><a href="#section-deployment-view">7. Deployment View</a>
 <ul class="sectlevel2">
-<li><a href="#_infrastructure_level_1">7.1. Infrastructure Level 1</a></li>
-<li><a href="#_infrastructure_level_2">7.2. Infrastructure Level 2</a></li>
+<li><a href="#_quick_deployment_guide">7.1. Quick Deployment Guide</a></li>
+<li><a href="#_infrastructure_level_1">7.2. Infrastructure Level 1</a></li>
+<li><a href="#_infrastructure_level_2">7.3. Infrastructure Level 2</a></li>
 </ul>
 </li>
 <li><a href="#section-concepts">8. Cross-cutting Concepts</a>
@@ -1511,10 +1513,106 @@ when your infrastructure is more complex.</p>
 </div>
 </div>
 <div class="paragraph">
-<p><strong>TBD</strong></p>
+<p>Our project is configured using GitHub actions so that every release triggers unit and end-to-end tests, as well as an attempt to deploy the application to a server. This setup enables our team to achieve continuous deployment and delivery.</p>
 </div>
 <div class="sect2">
-<h3 id="_infrastructure_level_1">7.1. Infrastructure Level 1</h3>
+<h3 id="_quick_deployment_guide">7.1. Quick Deployment Guide</h3>
+<div class="paragraph">
+<p>In our case we are going to use Azure as our cloud provider. The following steps are a quick guide to deploy our application to a virtual machine in Azure:</p>
+</div>
+<div class="olist arabic">
+<ol class="arabic">
+<li>
+<p>Create an Ubuntu-20.04 virtual machine in Azure.</p>
+</li>
+<li>
+<p>Select an available location for the virtual machine.</p>
+</li>
+<li>
+<p>Choose the virtual machine size according to the project’s needs, considering the number of services and the expected traffic. As is not so demading, a small virtual machine is enough.</p>
+</li>
+<li>
+<p>Allow SSH on port 22, by default is already open.</p>
+</li>
+<li>
+<p>Configure GitHub repository secrets for deployment:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Download the private key (.pem file) and paste all of its textual content over <code>DEPLOY_KEY</code>. Save the file for later configurations over SSH at the virtual machine.</p>
+</li>
+<li>
+<p>Check the public IP of the virtual machine at Azure and save it in <code>DEPLOY_HOST</code>.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Once the virtual machine is created and the repository is configured, we have to create some rules for the virtual machine:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Open port 3000 for the gateway.</p>
+</li>
+<li>
+<p>Open port 8000 for the webapp.</p>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Configure the virtual machine by connecting through SSH:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>Use a tool for connecting to the server using SSH (example&#8230;&#8203; PuTTY, MobaXterm…​).</p>
+</li>
+<li>
+<p>Use the public IP address and the file .pem for making the connection.</p>
+</li>
+<li>
+<p>Execute the following commands for preparing the virtual machine:</p>
+<div class="literalblock">
+<div class="content">
+<pre>[source,bash]
+----
+sudo apt update
+sudo apt install apt-transport-https ca-certificates curl software-properties-common
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+sudo apt update
+sudo apt install docker-ce
+sudo usermod -aG docker ${USER}
+sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+sudo chmod +x /usr/local/bin/docker-compose
+----</pre>
+</div>
+</div>
+</li>
+</ul>
+</div>
+</li>
+<li>
+<p>Make a release in GitHub:</p>
+<div class="ulist">
+<ul>
+<li>
+<p>On the right-hand side of the main Code section of our repository, there is a section called Releases. It will be needed to add a new version following the version naming convention.</p>
+</li>
+<li>
+<p>Once the release is made, some GitHub actions will be triggered, and the containers will be tested and running once everything finishes.</p>
+</li>
+<li>
+<p>If some test fails during the process, deployment will be automatically aborted.</p>
+</li>
+</ul>
+</div>
+</li>
+</ol>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_infrastructure_level_1">7.2. Infrastructure Level 1</h3>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -1541,28 +1639,88 @@ when your infrastructure is more complex.</p>
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p><em><strong>&lt;Overview Diagram&gt;</strong></em></p>
+<div class="imageblock">
+<div class="content">
+<img src="./images/diag-mermaid-md5-b20ad5be38f3fe4497d7b407bcb4458d.png" alt="Diagram" width="784" height="1024">
+</div>
 </div>
 <div class="dlist">
 <dl>
 <dt class="hdlist1">Motivation</dt>
 <dd>
-<p><em>&lt;explanation in text form&gt;</em></p>
+<div class="ulist">
+<ul>
+<li>
+<p>The diagram above illustrates the initial version of our architecture and the delineation among its components. Our approach adopts a straightforward client-server architecture, where the server interacts with Wikidata to retrieve questions. This division enforces a clear separation between the client/frontend and the server/backend. Such separation benefits the entire system by ensuring that as long as the common API is implemented, the specific implementations can remain interchangeable.</p>
+</li>
+<li>
+<p>Utilizing an Ubuntu server on Azure provides us with an isolated environment equipped with the essential configurations and installations necessary for running our services. By hosting our server on Azure, we can minimize costs associated with machine uptime while alleviating responsibilities such as security, availability, and maintenance.</p>
+</li>
+<li>
+<p>We use Docker as it is a containerization platform that allows us to package our application and its dependencies into a standardized unit for software development. This approach ensures that our application will run consistently on any environment, regardless of the machine’s configuration. We&#8217;ve opted for a microservices architecture using Docker containers instead of a monolithic setup. Docker allows us to isolate each service, tailoring resources efficiently and preventing conflicts between services. Services operate independently within their containers, promoting scalability and resilience. Each service has its Docker image, enabling flexibility in development and deployment. Currently, our project includes various services, such as web application, gateway, user authentication, and MongoDB server. This Docker-based approach streamlines deployment, management, and resource utilization while enhancing the overall flexibility and scalability of our system.</p>
+</li>
+</ul>
+</div>
 </dd>
 <dt class="hdlist1">Quality and/or Performance Features</dt>
 <dd>
-<p><em>&lt;explanation in text form&gt;</em></p>
+<p>As mentioned earlier, the primary advantage of this architecture lies in the interchangeability of its components. While there are still details to be refined, this represents an initial version with promising potential.</p>
 </dd>
 <dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
 <dd>
-<p><em>&lt;description of the mapping&gt;</em></p>
+<p>The web app, gateway, and services are all contained within Docker containers, which are hosted on a server. The server is responsible for hosting the Docker containers and communicating with Wikidata to retrieve questions. The gateway is responsible for interfacing with the web app and the services, while the services are responsible for managing the user’s data and generating questions.</p>
 </dd>
 </dl>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 22.2222%;">
+<col style="width: 77.7778%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Blocks</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Web App</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User interface to interact with the rest of the application.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Gateway</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Interface that communicates the web app with the different services.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Auth Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service for the authentication of the users.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User Service</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service in charge of managing the users.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users Database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database to save the user’s data as well as the history of the games.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">QuestionService</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Service that generates questions with WikiData.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Question Database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database to save the templates and querys for WikiData.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">WikiData</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The API used to get information from WikiData.</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 <div class="sect2">
-<h3 id="_infrastructure_level_2">7.2. Infrastructure Level 2</h3>
+<h3 id="_infrastructure_level_2">7.3. Infrastructure Level 2</h3>
 <div class="sidebarblock arc42help">
 <div class="content">
 <div class="paragraph">
@@ -1574,13 +1732,13 @@ when your infrastructure is more complex.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_infrastructure_element_1">7.2.1. <em>&lt;Infrastructure Element 1&gt;</em></h4>
+<h4 id="_infrastructure_element_1">7.3.1. <em>&lt;Infrastructure Element 1&gt;</em></h4>
 <div class="paragraph">
 <p><em>&lt;diagram + explanation&gt;</em></p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_infrastructure_element_2">7.2.2. <em>&lt;Infrastructure Element 2&gt;</em></h4>
+<h4 id="_infrastructure_element_2">7.3.2. <em>&lt;Infrastructure Element 2&gt;</em></h4>
 <div class="paragraph">
 <p><em>&lt;diagram + explanation&gt;</em></p>
 </div>
@@ -1589,7 +1747,7 @@ when your infrastructure is more complex.</p>
 </div>
 </div>
 <div class="sect3">
-<h4 id="_infrastructure_element_n">7.2.3. <em>&lt;Infrastructure Element n&gt;</em></h4>
+<h4 id="_infrastructure_element_n">7.3.3. <em>&lt;Infrastructure Element n&gt;</em></h4>
 <div class="paragraph">
 <p><em>&lt;diagram + explanation&gt;</em></p>
 </div>
@@ -1851,9 +2009,6 @@ concrete and measurable.</p>
 </div>
 </div>
 </div>
-<div class="paragraph">
-<p><strong>TBD</strong></p>
-</div>
 <div class="sect2">
 <h3 id="_quality_tree">10.1. Quality Tree</h3>
 <div class="sidebarblock arc42help">
@@ -1883,6 +2038,11 @@ concrete and measurable.</p>
 <div class="paragraph">
 <p>In any case the tree should include links to the scenarios of the following section.</p>
 </div>
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/diag-mermaid-md5-8628ce6326c33842d8c7254731e8d576.png" alt="Diagram" width="784" height="99">
 </div>
 </div>
 </div>
@@ -1926,7 +2086,108 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 </div>
 </div>
 </div>
+<div class="sect3">
+<h4 id="_usage_scenarios">10.2.1. Usage Scenarios</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 60%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Quality requirement</th>
+<th class="tableblock halign-left valign-top">Scenario</th>
+<th class="tableblock halign-left valign-top">Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When new users access the application the design should be intuitive enough, allowing them to navigate through the system and play the game easily.
+The application should meet usability standards.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When a user interacts with the system it should react within one second to ensure a smooth and responsive user experience.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If a user provides personal information during the registration, the application should securely handle and store user-provided personal information.
+Encryption should be applied for data storage.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If a malicious user attempts unauthorized access to the application, the application should implement robust authentication mechanisms,
+including secure password storage to prevent unauthorized access.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adaptability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If a user accesses the application from a different device than a PC, the application should be able to adapt to the different screen size, providing a satisfactory user experience.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Accessibility</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">In case a user with a visual impairment interacts with the web application, it should follow HTML standards to ensure accessibility.
+All interactive elements must be navigable using screen readers, text alternatives should be provided for non-text content.
+Additionally, the application&#8217;s color contrast should be enough for people with color blindness.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users should be able to access the application at any time, with an availability of about 99.9%.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect3">
+<h4 id="_change_scenarios">10.2.2. Change Scenarios</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 20%;">
+<col style="width: 60%;">
+<col style="width: 20%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Quality requirement</th>
+<th class="tableblock halign-left valign-top">Scenario</th>
+<th class="tableblock halign-left valign-top">Priority</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Maintainability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When new functionalities need to be added to the application, they should be easy to integrate.
+The application should have a good architecture and design that makes the code more modular, allowing easier maintenance.
+The documentation should also be clear for potential new team members.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">New usability improvements should be implemented based on user feedback and usability testing.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Different components of the application should be updated frequently to protect against evolving threats and vulnerabilities.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Testability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">When new features are added to the application, new test should be performed and they should be easy to add.
+The application must be designed to facilitate testing across new scenarios.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+</tbody>
+</table>
 <div style="page-break-after: always;"></div>
+</div>
 </div>
 </div>
 </div>
@@ -2131,7 +2392,7 @@ for our stakeholders and users.</p>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-02-13 16:33:38 +0100
+Last updated 2024-03-10 18:40:21 +0100
 </div>
 </div>
 </body>

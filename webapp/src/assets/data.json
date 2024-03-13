@@ -1,0 +1,57 @@
+[
+    {
+        "id": 1,
+        "question": "What is the capital of Azerbaijan?",
+        "answers": [
+            { "id": 1, "text": "Baku" },
+            { "id": 2, "text": "Ganja" },
+            { "id": 3, "text": "Aghdam" },
+            { "id": 4, "text": "Khankendi" }
+        ],
+        "correctAnswerId": 1
+    },
+    {
+        "id": 2,
+        "question": "Which color doesn't include in Azerbaijan's flag?",
+        "answers": [
+            { "id": 1, "text": "Red" },
+            { "id": 2, "text": "Green" },
+            { "id": 3, "text": "Blue" },
+            { "id": 4, "text": "Yellow" }
+        ],
+        "correctAnswerId": 4
+    },
+    {
+        "id": 3,
+        "question": "Which country doesn't have border with Azerbaijan?",
+        "answers": [
+            { "id": 1, "text": "Turkey" },
+            { "id": 2, "text": "Russia" },
+            { "id": 3, "text": "Ukraine" },
+            { "id": 4, "text": "Georgia" }
+        ],
+        "correctAnswerId": 3
+    },
+    {
+        "id": 4,
+        "question": "What is the currency of Azerbaijan?",
+        "answers": [
+            { "id": 1, "text": "Lira" },
+            { "id": 2, "text": "Manat" },
+            { "id": 3, "text": "Ruble" },
+            { "id": 4, "text": "Euro" }
+        ],
+        "correctAnswerId": 2
+    },
+    {
+        "id": 5,
+        "question": "What mountain range covers north and western parts of Azerbaijan?",
+        "answers": [
+            { "id": 1, "text": "Altai" },
+            { "id": 2, "text": "Alps" },
+            { "id": 3, "text": "Himalayas" },
+            { "id": 4, "text": "Caucasus" }
+        ],
+        "correctAnswerId": 4
+    }
+]

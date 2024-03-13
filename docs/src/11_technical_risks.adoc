@@ -23,4 +23,52 @@ List of risks and/or technical debts, probably including suggested measures to m
 See https://docs.arc42.org/section-11/[Risks and Technical Debt] in the arc42 documentation.
 
 ****
-**TBD**
+Identifying potential risks helps mitigate the challenges that the project could have. That's
+why this analysis is crucial for the project's success. Other benefits of this recognition
+are the enhancement of project efficiency, reduce rework, and ensure a good software product
+for our stakeholders and users.
+
+=== Technical risks
+
+[options="header",cols="1,1,1" ]
+|===
+| Risk | Description | Mitigation
+
+| WikiData Service
+| Relying on this external API can cause the QuestionService to stop working and produce our WebApp to not even be playable.
+| Introduce a sort of Cache for questions. When questions are generated from this API, try to store them for later usage or even to improve performance. 
+
+| Inexperience
+| The little knowdlege about new tecnologies used in the project like React, Express or Docker; can cause a failure in the implementation of it.
+| Research and constant learning through development can lead to better understanding of the technologies.
+
+|===
+
+=== Business risks
+
+[options="header",cols="1,1,1" ]
+|===
+| Risk | Description | Mitigation
+
+| Reponse times
+| Having to wait for API responses can cause serious Bottlenecks on the WebApp. Users wpuld have to wait long time for each game they want to play.
+| The usage of asynchronus calls can be very beneficial for this risk to be mitigated.  
+
+| Deadlines
+| Time constraints tied to the constant delivery of features can lead to not ending with the required project features.
+| Team must organize itself well to meet all requirements. Also, continuous team meetings will be carried out to keep in touch with each team member work.  
+
+| 
+
+|===
+
+=== Technical debts
+
+|===
+| Debt | Description
+
+| Azure
+| The decision of using this platform is fully based on the team's knowdlege. Although, it could not be the best option/approach since other platforms such as AWS or hosting ones can have other benefits. 
+
+|===
+

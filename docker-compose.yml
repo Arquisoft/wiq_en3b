@@ -3,7 +3,7 @@ services:
   mongodb:
     container_name: mongodb-${teamname:-defaultASW}
     image: mongo
-    profiles: ["dev", "prod"]
+    profiles: [ "dev", "prod" ]
     volumes:
       - mongodb_data:/data/db
     ports:
@@ -11,10 +11,22 @@ services:
     networks:
       - mynetwork
 
+  mongodbQuestion:
+    container_name: mongodbQuestion-${teamname:-defaultASW}
+    image: mongo
+    profiles: [ "dev", "prod" ]
+    volumes:
+      - mongodb_question_data:/data/db
+    ports:
+      - "27018:27018"
+    networks:
+      - mynetwork
+    command: mongod --port 27018
+
   authservice:
     container_name: authservice-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_en3b/authservice:latest
-    profiles: ["dev", "prod"]
+    profiles: [ "dev", "prod" ]
     build: ./users/authservice
     depends_on:
       - mongodb
@@ -28,7 +40,7 @@ services:
   userservice:
     container_name: userservice-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_en3b/userservice:latest
-    profiles: ["dev", "prod"]
+    profiles: [ "dev", "prod" ]
     build: ./users/userservice
     depends_on:
       - mongodb
@@ -39,37 +51,55 @@ services:
     environment:
       MONGODB_URI: mongodb://mongodb:27017/userdb
 
+  questionservice:
+    container_name: questionservice-${teamname:-defaultASW}
+    image: ghcr.io/arquisoft/wiq_en3b/questionservice:latest
+    profiles: [ "dev", "prod" ]
+    build: ./questionservice
+    depends_on:
+      - mongodbQuestion
+    ports:
+      - "8004:8004"
+    networks:
+      - mynetwork
+    environment:
+      MONGODB_URI: mongodb://mongodbQuestion:27018/questiondb
+
   gatewayservice:
     container_name: gatewayservice-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_en3b/gatewayservice:latest
-    profiles: ["dev", "prod"]
+    profiles: [ "dev", "prod" ]
     build: ./gatewayservice
     depends_on:
       - mongodb
+      - mongodbQuestion
       - userservice
       - authservice
+      - questionservice
     ports:
       - "8000:8000"
     networks:
       - mynetwork
     environment:
+      QUESTION_SERVICE_URL: http://questionservice:8004
+      HISTORY_SERVICE_URL: http://userservice:8001
       AUTH_SERVICE_URL: http://authservice:8002
       USER_SERVICE_URL: http://userservice:8001
 
   webapp:
     container_name: webapp-${teamname:-defaultASW}
     image: ghcr.io/arquisoft/wiq_en3b/webapp:latest
-    profiles: ["dev", "prod"]
+    profiles: [ "dev", "prod" ]
     build: ./webapp
     depends_on:
       - gatewayservice
     ports:
-      - "3000:3000" 
+      - "3000:3000"
 
   prometheus:
     image: prom/prometheus
     container_name: prometheus-${teamname:-defaultASW}
-    profiles: ["dev"]
+    profiles: [ "dev" ]
     networks:
       - mynetwork
     volumes:
@@ -77,13 +107,13 @@ services:
       - prometheus_data:/prometheus
     ports:
       - "9090:9090"
-    depends_on: 
+    depends_on:
       - gatewayservice
-      
+
   grafana:
     image: grafana/grafana
     container_name: grafana-${teamname:-defaultASW}
-    profiles: ["dev"]
+    profiles: [ "dev" ]
     networks:
       - mynetwork
     volumes:
@@ -96,14 +126,15 @@ services:
       - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
     ports:
       - "9091:9091"
-    depends_on: 
+    depends_on:
       - prometheus
-
 
 volumes:
   mongodb_data:
-  prometheus_data: 
-  grafana_data: 
+  mongodb_question_data:
+  prometheus_data:
+  grafana_data:
+
 
 networks:
   mynetwork:

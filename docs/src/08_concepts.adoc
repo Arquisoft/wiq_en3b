@@ -3,72 +3,176 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Cross-cutting Concepts
 
+=== Domain model
 
-[role="arc42help"]
-****
-.Content
-This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
-Such concepts are often related to multiple building blocks.
-They can include many different topics, such as
+*TBD*
 
-* models, especially domain models
-* architecture or design patterns
-* rules for using specific technology
-* principal, often technical decisions of an overarching (= cross-cutting) nature
-* implementation rules
+=== UX
 
+==== User Interface
+*TBD*: Add here different wireframes.
 
-.Motivation
-Concepts form the basis for _conceptual integrity_ (consistency, homogeneity) of the architecture. 
-Thus, they are an important contribution to achieve inner qualities of your system.
+==== Internationalization
 
-Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety. 
+One of the things to increase accesibility is giving our application the
+capability of beign in various language so people around the world can play
+our game. Obviously, internationalization is more than just changing the 
+language of the Application but due to time constraints we will just apply 
+Spanish and English languages.
 
+The library used for it is called *react-i18next*. For simplicity (and due to
+just only having two languages), all of the messages properties are going
+to be located in the frontend Application. Eventually, if the Application
+grows and we wanted to  have more than 2 languages the best approach is to
+store those properties in a server and let the application to request
+those on the fly. Again, for simplicity the option of having all bundle
+together in the Frontend just fits.
 
-.Form
-The form can be varied:
+=== Security
 
-* concept papers with any kind of structure
-* cross-cutting model excerpts or scenarios using notations of the architecture views
-* sample implementations, especially for technical concepts
-* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
+==== Bcrypt
+Keeping a secure website for our users is one of our main quality
+goals. For that, all the passwords stored in MongoDB are simply
+hashes so attackers cannot decypher easily. The library used
+in the AuthService and UserService to store or compare passwords
+is called *bcrypt*. This library provides with an easy way
+to hash passwords and keep user's data secured.
 
-.Structure
-A potential (but not mandatory) structure for this section could be:
-
-* Domain concepts
-* User Experience concepts (UX)
-* Safety and security concepts
-* Architecture and design patterns
-* "Under-the-hood"
-* development concepts
-* operational concepts
-
-Note: it might be difficult to assign individual concepts to one specific topic
-on this list.
-
-image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutting concepts"]
+Also, all users are enforced to have a password with at least 8
+characters. This security measure makes a lot of sense if we 
+want to really ensure the security of our users. Although 
+sometimes it could be a bit cumbersome for some, the introduction 
+of this measure make security to grow exponentially.
 
 
-.Further Information
+=== Architecture and design patterns
 
-See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
-****
+==== MicroServices
 
-**TDB**
+The reason behind, is that with Microservices architecture we can forget about dealing
+with a single complex application. Instead, we make a "Divide and Conquer" approach by 
+identifying those modules that made up our system and making it independently deployable 
+services, each serving a specific business function.
 
-=== _<Concept 1>_
+==== Gateway
 
-_<explanation>_
+This architectural pattern makes it easier for the Frontend subsystem to communicate 
+with the different MicroServices that composes our Application since it has to focus
+on a single entry point instead of knowing each service. It also help us to tackle 
+the requirement of APIs by using this pattern since it acts like a REST API where
+other users (not our Application) can make petitions to it to retrieve some data.
+
+[mermaid]
+....
+flowchart LR
+    ex("External Agent")
+    wa("WebApp")
+    g("Gateway")
+    m("MicroServices")
+    ex<--API questions-->g
+    wa<--"/game/questions?size"-->g
+    wa<--"/game/user/history/save"-->g
+    wa<--"/game/user/history/newgame"-->g
+    g<--"getQuestions"-->m
+    g<--"saveHistory"-->m
+    g<--"newGame"-->m
+....
 
 
+=== "Under-the-hood" concepts
 
-=== _<Concept 2>_
+==== Persistency
 
-_<explanation>_
+As stated in point 4.1, the chosen database for the project is MongoDB 
+which offers us a document-oriented schema. This type of database fits
+perfectly with our services since the mainly work with JSON-formatted data. 
 
-...
+===== ER model
 
-=== _<Concept n>_
+[mermaid]
+....
+erDiagram
+    
+    QUESTION_TEMPLATE ||--|| QUESTION_TYPE:has
+    USER ||--|| USER_HISTORY:has
 
-_<explanation>_
+    USER{
+        Long id
+        String username
+        String password
+    }
+
+    USER_HISTORY{
+        int passedQuestions
+        int wrongQuestions
+        int gamesPlayed
+        String timesPlayed
+        int points
+    }
+    
+    QUESTION_TEMPLATE{
+        Long id
+        String template
+    }
+    
+    QUESTION_TYPE{
+        String name
+        String query
+    }
+....
+
+|===
+| Document | Description 
+| USER 
+| Holds all the data relationed to a user registered into our game. It
+has a relation with *ONE USER_HISTORY* document which represents the records/statistics 
+of them as it is a system requisite.  
+| QUESTION_TEMPLATE
+| Holds the template needed to query the WikiData API for the Question generation. It
+has a reation with *ONE QUESTION_TYPE* document which represents a category for that
+question (e.g. Capitals) together with its SPARQL query.
+|===
+
+===== Connection to MongoDB
+
+To make it easier the connection from Services (using ExpressJS) to MongoDB, the
+usage of *Mongoose* has been chosen. This is a JS library that help us to create these 
+connections. 
+
+[mermaid]
+....
+flowchart LR
+    subgraph back [Backend]
+        subgraph micro [MicroServices]
+            as("fa:fa-user-cog" 
+            AuthService)
+            us("fa:fa-user-cog" 
+            UserService)
+            qs("fa:fa-gamepad" 
+            QuestionService)
+        end
+        m("fa:fa-book
+        Mongoose Schema")
+        subgraph mongo [MongoDB]
+            ud("fa:fa-database" UserDatabase)
+            td("fa:fa-database" TemplateDatabase)
+        end
+    end
+    as <--> m <--> ud
+    us <--> m
+    qs <--> m <-->td
+....
+
+==== Session handling
+*TBD*: talk about JWT token found in auth-service.js
+
+=== Development concepts
+
+==== Testing
+*TBD*
+
+- Talk about "super-test" dependency to test expresJS
+- JEST
+- Test automation by Github Actions
+
+Could add more in the future...Refer to https://docs.arc42.org/section-8/

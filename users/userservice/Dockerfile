@@ -16,5 +16,8 @@ COPY . .
 # Expose the port the app runs on
 EXPOSE 8001
 
+# Compile TypeScript
+RUN npm run tsc
+
 # Define the command to run your app
-CMD ["node", "user-service.js"]
+CMD ["npm", "start"]

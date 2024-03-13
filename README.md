@@ -20,6 +20,9 @@ questions to win juicy prizes 🥇
 | Anna Kutova               | UO305098@uniovi.es |
 | Diego Murias Suárez       | UO290009@uniovi.es |
 
+## Test our app at 🚀🚀
+http://20.117.173.161:3000
+
 ## Quick start guide
 
 ### Using docker

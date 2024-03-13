@@ -25,8 +25,6 @@ See https://docs.arc42.org/section-10/[Quality Requirements] in the arc42 docume
 
 ****
 
-**TBD**
-
 === Quality Tree
 
 [role="arc42help"]
@@ -47,6 +45,19 @@ In any case the tree should include links to the scenarios of the following sect
 
 
 ****
+
+[mermaid]
+....
+graph TD
+    A[Quality] --> B[Usability]
+    A --> C[Availability]
+    A --> D[Accesibility]
+    A --> E[Security]
+    A --> F[Performance]
+    A --> H[Privacy]
+    A --> I[Testability]
+    A --> J[Adaptability]
+....
 
 === Quality Scenarios
 
@@ -73,3 +84,71 @@ more precisely down to a level of scenarios that can be discussed and evaluated.
 .Form
 Tabular or free form text.
 ****
+
+==== Usage Scenarios
+
+[cols="1,3,1",options="header"]
+|===
+| Quality requirement | Scenario | Priority
+
+| Usability
+| When new users access the application the design should be intuitive enough, allowing them to navigate through the system and play the game easily.
+The application should meet usability standards.
+| High
+
+| Performance
+| When a user interacts with the system it should react within one second to ensure a smooth and responsive user experience.
+| High
+
+| Privacy
+| If a user provides personal information during the registration, the application should securely handle and store user-provided personal information.
+Encryption should be applied for data storage.
+| High
+
+| Security
+| If a malicious user attempts unauthorized access to the application, the application should implement robust authentication mechanisms,
+including secure password storage to prevent unauthorized access.
+| High
+
+| Adaptability
+| If a user accesses the application from a different device than a PC, the application should be able to adapt to the different screen size, providing a satisfactory user experience.
+| Medium
+
+| Accessibility
+| In case a user with a visual impairment interacts with the web application, it should follow HTML standards to ensure accessibility.
+All interactive elements must be navigable using screen readers, text alternatives should be provided for non-text content.
+Additionally, the application's color contrast should be enough for people with color blindness.
+| Medium
+
+| Availability
+| Users should be able to access the application at any time, with an availability of about 99.9%.
+| Medium
+
+|===
+
+==== Change Scenarios
+
+[cols="1,3,1",options="header"]
+|===
+| Quality requirement | Scenario | Priority
+
+| Maintainability
+| When new functionalities need to be added to the application, they should be easy to integrate.
+The application should have a good architecture and design that makes the code more modular, allowing easier maintenance.
+The documentation should also be clear for potential new team members.
+| High
+
+| Usability
+| New usability improvements should be implemented based on user feedback and usability testing.
+| High
+
+| Security
+| Different components of the application should be updated frequently to protect against evolving threats and vulnerabilities.
+| High
+
+| Testability
+| When new features are added to the application, new test should be performed and they should be easy to add.
+The application must be designed to facilitate testing across new scenarios.
+| High
+
+|===

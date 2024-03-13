@@ -3,6 +3,7 @@ import basestyle from "../Base.module.css";
 import loginstyle from "./Login.module.css";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
+const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
 const Login = ({ setUserState }) => {
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState({});
@@ -33,13 +34,21 @@ const Login = ({ setUserState }) => {
     return error;
   };
 
-  const loginHandler = (e) => {
+  const loginHandler = async (e) => {
     e.preventDefault();
     setFormErrors(validateForm(user));
     setIsSubmit(true);
     // if (!formErrors) {
 
     // }
+    try {
+      let username = user.email;
+      let password = user.password;
+      const response = await axios.post(`${apiEndpoint}/login`, { username, password });
+      console.log("REPUESTA: " + response);
+    } catch (error){
+      console.log("ERROR: " + error);
+    }
   };
 
   useEffect(() => {

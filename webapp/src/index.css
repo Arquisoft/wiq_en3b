@@ -22,15 +22,8 @@ ul {
 
 main {
   padding: 20px;
-  min-height: 100vh;
-  align-content: center;
-  text-align: center;
-}
-
-main > div {
-  width: 100%;
-  align-content: center;
-  text-align: center;
+  display: grid; 
+  place-items: center;
 }
 
 .light {

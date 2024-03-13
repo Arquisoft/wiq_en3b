@@ -20,9 +20,6 @@ const questionJsonBuilder = (
     correctAnswerId: 1,
   };
 
-  console.log('23');
-  console.log(myJson);
-
   return myJson;
 };
 
@@ -42,8 +39,10 @@ const generateQuestionJson = async (
       sparqlQuery = sparqlQuery.replace(/\$\$\$/g, randomEntity);
     }
 
+    console.log('Stuck?');
     // Make wikidata request and obtain response
     const res = await getWikidataSparql(sparqlQuery);
+    console.log('No');
 
     // Pick random responses
     var randomIndexes: number[] = [];
@@ -84,18 +83,15 @@ const generateQuestionsArray = async (
   randomQuestionsTemplates: any
 ): Promise<object[]> => {
   // Simply a fx to add the JSON questions to the Array
-  var resQuestions: object[] = [];
-  const addObjectResponse = function (res: any) {
-    resQuestions.push(res);
-  };
 
   // For each questionTemplate, we generate an async func to generate the questions
   // and its answers
   const promises = randomQuestionsTemplates.map(
     async (template: any, i: number) => {
       try {
-        const res = await generateQuestionJson(template, i);
-        addObjectResponse(res);
+        const questionJson = await generateQuestionJson(template, i);
+
+        return questionJson;
       } catch (error) {
         console.error(
           'Error while generating question for template: ' + template
@@ -105,11 +101,7 @@ const generateQuestionsArray = async (
     }
   );
 
-  // Waiting for the full generation of questions, it blocks the execution!!!
-  // TODO: think of a way to optimize this
-  await Promise.all(promises);
-
-  return resQuestions;
+  return Promise.all(promises);
 };
 
 // Principal function in charge of generating the questions

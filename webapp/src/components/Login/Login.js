@@ -3,13 +3,13 @@ import basestyle from "../Base.module.css";
 import loginstyle from "./Login.module.css";
 import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+const apiEndpoint = 'http://localhost:8000';
 const Login = ({ setUserState }) => {
   const navigate = useNavigate();
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [user, setUserDetails] = useState({
-    email: "",
+    username: "",
     password: "",
   });
 
@@ -23,10 +23,10 @@ const Login = ({ setUserState }) => {
   const validateForm = (values) => {
     const error = {};
     const regex = /^[^\s+@]+@[^\s@]+\.[^\s@]{2,}$/i;
-    if (!values.email) {
-      error.email = "Email is required";
-    } else if (!regex.test(values.email)) {
-      error.email = "Please enter a valid email address";
+    if (!values.username) {
+      error.username = "Username is required";
+    } else if (!regex.test(values.username)) {
+      error.username = "Please enter a valid username address";
     }
     if (!values.password) {
       error.password = "Password is required";
@@ -42,10 +42,9 @@ const Login = ({ setUserState }) => {
 
     // }
     try {
-      let username = user.email;
+      let username = user.username;
       let password = user.password;
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
-      console.log("REPUESTA: " + response);
     } catch (error){
       console.log("ERROR: " + error);
     }
@@ -66,14 +65,14 @@ const Login = ({ setUserState }) => {
       <form>
         <h1>Login</h1>
         <input
-          type="email"
-          name="email"
-          id="email"
-          placeholder="Email"
+          type="username"
+          name="username"
+          id="username"
+          placeholder="Username"
           onChange={changeHandler}
-          value={user.email}
+          value={user.usernmae}
         />
-        <p className={basestyle.error}>{formErrors.email}</p>
+        <p className={basestyle.error}>{formErrors.usernmae}</p>
         <input
           type="password"
           name="password"

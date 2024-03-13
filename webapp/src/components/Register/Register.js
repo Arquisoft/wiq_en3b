@@ -6,13 +6,13 @@ import axios from "axios";
 import { useNavigate, NavLink } from "react-router-dom";
 const Register = () => {
   const navigate = useNavigate();
-
+  const apiEndpoint = 'http://localhost:8000';
   const [formErrors, setFormErrors] = useState({});
   const [isSubmit, setIsSubmit] = useState(false);
   const [user, setUserDetails] = useState({
     fname: "",
     lname: "",
-    email: "",
+    username: "",
     password: "",
     cpassword: "",
   });
@@ -41,10 +41,8 @@ const Register = () => {
     }
     if (!values.password) {
       error.password = "Password is required";
-    } else if (values.password.length < 4) {
+    } else if (values.password.length < 12) {
       error.password = "Password must be more than 4 characters";
-    } else if (values.password.length > 10) {
-      error.password = "Password cannot exceed more than 10 characters";
     }
     if (!values.cpassword) {
       error.cpassword = "Confirm Password is required";
@@ -53,19 +51,27 @@ const Register = () => {
     }
     return error;
   };
-  const signupHandler = (e) => {
+  const signupHandler = async(e) => {
     e.preventDefault();
     setFormErrors(validateForm(user));
     setIsSubmit(true);
     // if (!formErrors) {
     //   setIsSubmit(true);
     // }
+    try {
+      let username = user.username;
+      let password = user.password;
+      await axios.post(`${apiEndpoint}/adduser`, { username, password });
+      navigate("/login");
+    } catch (error){
+      console.log("ERROR: " + error);
+    }
   };
 
   useEffect(() => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
-      axios.post("http://localhost:9002/signup/", user).then((res) => {
+      axios.post(`${apiEndpoint}/addUser`, user).then((res) => {
         alert(res.data.message);
         navigate("/login", { replace: true });
       });
@@ -95,14 +101,14 @@ const Register = () => {
           />
           <p className={basestyle.error}>{formErrors.lname}</p>
           <input
-            type="email"
-            name="email"
-            id="email"
-            placeholder="Email"
+            type="username"
+            name="username"
+            id="username"
+            placeholder="Username"
             onChange={changeHandler}
-            value={user.email}
+            value={user.username}
           />
-          <p className={basestyle.error}>{formErrors.email}</p>
+          <p className={basestyle.error}>{formErrors.username}</p>
           <input
             type="password"
             name="password"

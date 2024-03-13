@@ -41,7 +41,46 @@ when your infrastructure is more complex.
 See https://docs.arc42.org/section-7/[Deployment View] in the arc42 documentation.
 
 ****
-**TBD**
+
+Our project is configured using GitHub actions so that every release triggers unit and end-to-end tests, as well as an attempt to deploy the application to a server. This setup enables our team to achieve continuous deployment and delivery.
+
+=== Quick Deployment Guide
+
+In our case we are going to use Azure as our cloud provider. The following steps are a quick guide to deploy our application to a virtual machine in Azure:
+
+1. Create an Ubuntu-20.04 virtual machine in Azure.
+2. Select an available location for the virtual machine.
+3. Choose the virtual machine size according to the project’s needs, considering the number of services and the expected traffic. As is not so demading, a small virtual machine is enough.
+4. Allow SSH on port 22, by default is already open.
+5. Configure GitHub repository secrets for deployment:
+   - Download the private key (.pem file) and paste all of its textual content over `DEPLOY_KEY`. Save the file for later configurations over SSH at the virtual machine.
+   - Check the public IP of the virtual machine at Azure and save it in `DEPLOY_HOST`.
+6. Once the virtual machine is created and the repository is configured, we have to create some rules for the virtual machine:
+   - Open port 3000 for the gateway.
+   - Open port 8000 for the webapp.
+7. Configure the virtual machine by connecting through SSH:
+   - Use a tool for connecting to the server using SSH (example... PuTTY, MobaXterm…​).
+   - Use the public IP address and the file .pem for making the connection.
+   - Execute the following commands for preparing the virtual machine:
+
+    [source,bash]
+    ----
+    sudo apt update
+    sudo apt install apt-transport-https ca-certificates curl software-properties-common
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+    sudo apt update
+    sudo apt install docker-ce
+    sudo usermod -aG docker ${USER}
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
+    sudo chmod +x /usr/local/bin/docker-compose
+    ----
+
+8. Make a release in GitHub:
+   - On the right-hand side of the main Code section of our repository, there is a section called Releases. It will be needed to add a new version following the version naming convention.
+   - Once the release is made, some GitHub actions will be triggered, and the containers will be tested and running once everything finishes.
+   - If some test fails during the process, deployment will be automatically aborted.
+
 
 === Infrastructure Level 1
 
@@ -57,18 +96,131 @@ Describe (usually in a combination of diagrams, tables, and text):
 For multiple environments or alternative deployments please copy and adapt this section of arc42 for all relevant environments.
 ****
 
-_**<Overview Diagram>**_
+[mermaid]
+----
+flowchart TD
+    User("fa:fa-users" User)
+    WebApp("fa:fa-home" WebApp)
+    Gateway(Gateway)
+    AuthService("fa:fa-user-cog" AuthService)
+    UserService("fa:fa-user-cog" UserService)
+    QuestionService("fa:fa-gamepad" QuestionService)
+    UserDatabase[("fa:fa-database" UserDatabase)]
+    QuestionDatabase[("fa:fa-database" QuestionDatabase)]
+
+    subgraph github [Github]
+            subgraph githubActions [Github Actions]
+                DockerCompose(docker-compose.yml)
+            end 
+        end
+
+    subgraph server [Server Hosting]
+        
+        subgraph docker [Docker]
+            subgraph app [KaW]
+                
+                
+
+               subgraph container1 [Container 1]
+                    WebApp("fa:fa-home" WebApp)
+                end
+                
+                subgraph container2 [Container 2]
+                    Gateway(Gateway)
+                end
+
+                subgraph container3 [Container 3]
+                    QuestionService
+                end
+
+                subgraph container4 [Container 4]
+                    AuthService
+                end    
+            
+                subgraph container5 [Container 5]
+                    UserService
+                end    
+
+                subgraph container6 [Container 6]
+                    QuestionDatabase
+                end    
+
+                subgraph container7 [Container 7]
+                    UserDatabase
+                end  
+                
+            end
+        end
+    end
+
+    User-."Web browser : port 3000".->WebApp
+    container1-."send request : port 8000".->container2
+
+    docker <--"Event create new Release"-------------> githubActions
+
+    Wikidata("fa:fa-book" Wikidata API)
+    
+    Gateway <---> AuthService
+    Gateway <--> UserService
+    Gateway <--> QuestionService
+
+    AuthService <---> UserDatabase
+    UserService <----> UserDatabase
+    
+    QuestionService <--> Wikidata
+    QuestionService <--> QuestionDatabase
+
+    style Wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
+    classDef subgraphstyle margin-left:3cm
+    class back subgraphstyle
+    class front subgraphstyle
+----
+
 
 Motivation::
 
-_<explanation in text form>_
+    * The diagram above illustrates the initial version of our architecture and the delineation among its components. Our approach adopts a straightforward client-server architecture, where the server interacts with Wikidata to retrieve questions. This division enforces a clear separation between the client/frontend and the server/backend. Such separation benefits the entire system by ensuring that as long as the common API is implemented, the specific implementations can remain interchangeable.
+
+    * Utilizing an Ubuntu server on Azure provides us with an isolated environment equipped with the essential configurations and installations necessary for running our services. By hosting our server on Azure, we can minimize costs associated with machine uptime while alleviating responsibilities such as security, availability, and maintenance.
+
+    * We use Docker as it is a containerization platform that allows us to package our application and its dependencies into a standardized unit for software development. This approach ensures that our application will run consistently on any environment, regardless of the machine’s configuration. We've opted for a microservices architecture using Docker containers instead of a monolithic setup. Docker allows us to isolate each service, tailoring resources efficiently and preventing conflicts between services. Services operate independently within their containers, promoting scalability and resilience. Each service has its Docker image, enabling flexibility in development and deployment. Currently, our project includes various services, such as web application, gateway, user authentication, and MongoDB server. This Docker-based approach streamlines deployment, management, and resource utilization while enhancing the overall flexibility and scalability of our system.
 
 Quality and/or Performance Features::
 
-_<explanation in text form>_
+    As mentioned earlier, the primary advantage of this architecture lies in the interchangeability of its components. While there are still details to be refined, this represents an initial version with promising potential.
 
 Mapping of Building Blocks to Infrastructure::
-_<description of the mapping>_
+
+    The web app, gateway, and services are all contained within Docker containers, which are hosted on a server. The server is responsible for hosting the Docker containers and communicating with Wikidata to retrieve questions. The gateway is responsible for interfacing with the web app and the services, while the services are responsible for managing the user’s data and generating questions.
+
+[cols="2,7"]
+|===
+| Blocks | Description
+
+| Web App
+| User interface to interact with the rest of the application.
+
+| Gateway
+| Interface that communicates the web app with the different services.
+
+| Auth Service
+| Service for the authentication of the users.
+
+| User Service
+| Service in charge of managing the users.
+
+| Users Database
+| Database to save the user’s data as well as the history of the games.
+
+| QuestionService
+| Service that generates questions with WikiData.
+
+| Question Database
+| Database to save the templates and querys for WikiData.
+
+| WikiData
+| The API used to get information from WikiData.
+|===
 
 
 === Infrastructure Level 2

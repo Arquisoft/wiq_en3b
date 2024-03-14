@@ -194,4 +194,73 @@ describe('User Service', () => {
     expect(getResponse.statusCode).toBe(200);
     expect(JSON.stringify(getResponse.body.data.history)).toMatch(JSON.stringify(expectedHistory.history));
   });
+
+  // GET /history/leaderboard with size param
+  it('should obtain n users with the highest scores', async () => {
+    const newUserData = {
+      username: 'highestscoreuser',
+      password: 'testpassword',
+    };
+    // Add a new user to test leaderboard
+    await request(app).post('/adduser').send(newUserData);
+
+    // The new user will have 100000 points
+    const increment = {
+      history: {
+        points: 100000,
+      },
+    };
+    const newUser = await User.findOne({ username:'highestscoreuser' });
+    // Generates a temporary token for this test
+    const testToken2 = jwt.sign({ userId: newUser!._id }, 'your-secret-key', {
+      expiresIn: '2m',
+    });
+
+    await request(app)
+        .post('/history/increment')
+        .send(increment)
+        .set('Authorization', `Bearer ${testToken2}`);
+
+    // The old user will have 99999 points
+    const newHistory = {
+      history: {
+        points: 99999,
+      },
+    };
+    await request(app)
+        .post('/history')
+        .send(newHistory)
+        .set('Authorization', `Bearer ${testToken}`);
+
+    const response = await request(app)
+        .get('/history/leaderboard?size=2');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data.leaderboard.length).toBe(2);
+    expect(response.body.data.leaderboard[0].username).toEqual('highestscoreuser');
+    expect(response.body.data.leaderboard[0].history.points).toBe(100000);
+    expect(response.body.data.leaderboard[1].username).toEqual('testuser');
+    expect(response.body.data.leaderboard[1].history.points).toBe(99999);
+  });
+
+  // GET /history/leaderboard without param
+  it('should obtain users with the highest scores', async () => {
+    // If a request is made without the parameter it will return an amount of users
+    // specified by a constant in the controller (DEFAULT_LEADERBOARD_SIZE)
+    const response = await request(app)
+        .get('/history/leaderboard');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data.leaderboard).not.toBeUndefined();
+  });
+
+  // GET /history/leaderboard negative param
+  it('should obtain users with the highest scores', async () => {
+    // If a request is made with a negative size, it will throw an exception
+    const response = await request(app)
+        .get('/history/leaderboard?size=-1');
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.leaderboard).toBeUndefined();
+  });
 });

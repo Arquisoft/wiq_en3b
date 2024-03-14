@@ -5,6 +5,10 @@ const request = require('supertest');
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import app from '../src/app';
+import {validateHistoryBody} from "../src/utils/history-body-validation";
+import { Request } from 'express';
+import {validateNotEmpty, validateRequiredLength} from "../src/utils/field-validations";
+import {verifyJWT} from "../src/utils/async-verification";
 
 let mongoServer: MongoMemoryServer;
 
@@ -262,5 +266,108 @@ describe('User Service', () => {
 
     expect(response.statusCode).toBe(400);
     expect(response.body.data.leaderboard).toBeUndefined();
+  });
+
+  // Body validation util, not part of the user history
+  it('should get an error when including a parameter that is not in the model', async () => {
+    const mockRequest = {
+      body: {
+        history: {
+          nonexistent: 1
+        }
+      }
+    } as Request;
+    const user = await User.find({ username:'testuser' });
+
+    try {
+      validateHistoryBody(mockRequest, user[0]);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+  });
+
+  // Body validation util, non-numeric
+  it('should get an error when using non-numerical values', async () => {
+    const mockRequest = {
+      body: {
+        history: {
+          gamesPlayed: 'test'
+        }
+      }
+    } as Request;
+    const user = await User.find({ username:'testuser' });
+
+    try {
+      validateHistoryBody(mockRequest, user[0]);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+  });
+
+  // Body validation util, negative
+  it('should get an error when using negative values', async () => {
+    const mockRequest = {
+      body: {
+        history: {
+          gamesPlayed: -1
+        }
+      }
+    } as Request;
+    const user = await User.find({ username:'testuser' });
+
+    try {
+      validateHistoryBody(mockRequest, user[0]);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+  });
+
+  // Empty field validation
+  it('should get an error when passing an empty parameter', async () => {
+    const mockRequest = {
+      body: {}
+    } as Request;
+    mockRequest.body['history'] = '';
+
+    try {
+      validateNotEmpty(mockRequest, ['history']);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+    // Should also get an error when the field does not exist
+    try {
+      validateNotEmpty(mockRequest, ['nonexistent']);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+  });
+
+  // Empty field validation
+  it('should get an error when passing a parameter without the expected length', async () => {
+    const mockRequest = {
+      body: {}
+    } as Request;
+    mockRequest.body['test'] = '123456789';
+
+    try {
+      validateRequiredLength(mockRequest, ['test'], 10);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+    // Should also get an error when the field does not exist
+    try {
+      validateRequiredLength(mockRequest, ['nonexistent'], 10);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+  });
+
+  // Token validator
+  it('should get an error when invoking the function with an invalid token', async () => {
+    try {
+      await verifyJWT('invalidtoken');
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
   });
 });

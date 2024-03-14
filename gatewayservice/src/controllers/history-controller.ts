@@ -14,6 +14,18 @@ const getHistory = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
+const getLeaderboard = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const authResponse = await axios.get(HISTORY_SERVICE_URL + '/history/leaderboard', {
+      params: req.query,
+    });
+
+    res.json(authResponse.data);
+  } catch (error: any) {
+    next(error);
+  }
+};
+
 const updateHistory = async (
   req: Request,
   res: Response,
@@ -58,4 +70,4 @@ const incrementHistory = async (
   }
 };
 
-export { getHistory, updateHistory, incrementHistory };
+export { getHistory, updateHistory, incrementHistory, getLeaderboard };

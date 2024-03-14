@@ -34,6 +34,39 @@ const getHistory = async (req: Request, res: Response) => {
   }
 };
 
+const DEFAULT_LEADERBOARD_SIZE = 10;
+
+const getLeaderboard = async (req: Request, res: Response) => {
+  try {
+    const sizeParam = req.query.size;
+    let size = DEFAULT_LEADERBOARD_SIZE; // Default size if no parameter is received
+    if (sizeParam) {
+      size = parseInt(sizeParam as string, 10);
+    }
+
+    const users = await User.find({})
+        .sort({ 'history.points': -1 }) // Sort in descending order of points
+        .limit(size) // Only take the first (size) users
+        .select('username history'); // Select only username and history (no password, date, etc.)
+
+    const leaderboard = users.map(user => user.toJSON());
+
+    res.json({
+      status: 'success',
+      data: {
+        leaderboard
+      },
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        error: error.message,
+      },
+    });
+  }
+};
+
 const updateHistory = async (req: Request, res: Response) => {
   try {
     const user = req.user;
@@ -87,4 +120,4 @@ const incrementHistory = async (req: Request, res: Response) => {
   }
 };
 
-export { getHistory, updateHistory, incrementHistory };
+export { getHistory, updateHistory, incrementHistory, getLeaderboard };

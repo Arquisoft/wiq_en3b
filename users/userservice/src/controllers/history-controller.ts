@@ -34,21 +34,51 @@ const getHistory = async (req: Request, res: Response) => {
   }
 };
 
+const DEFAULT_LEADERBOARD_SIZE = 10;
+
+const getLeaderboard = async (req: Request, res: Response) => {
+  try {
+    const sizeParam = req.query.size;
+    let size = DEFAULT_LEADERBOARD_SIZE; // Default size if no parameter is received
+    if (sizeParam) {
+      size = parseInt(sizeParam as string, 10);
+      if (size <= 0) {
+        throw new Error('The size must be a positive value.');
+      }
+    }
+
+    const leaderboard = await User.find({})
+        .sort({ 'history.points': -1 }) // Sort in descending order of points
+        .limit(size) // Only take the first (size) users
+        .select('username history'); // Select only username and history (no password, date, etc.)
+
+    res.json({
+      status: 'success',
+      data: {
+        leaderboard
+      },
+    });
+  } catch (error: any) {
+    res.status(400).json({
+      status: 'fail',
+      data: {
+        error: error.message,
+      },
+    });
+  }
+};
+
 const updateHistory = async (req: Request, res: Response) => {
   try {
     const user = req.user;
 
-    if (!user) {
-      throw new Error('Unknown error. User does not appear.');
-    }
-
     validateRequiredFields(req, ['history']);
-    validateHistoryBody(req, user);
+    validateHistoryBody(req, user!);
 
-    user.history = { ...user.history, ...req.body.history };
-    await user.save();
+    user!.history = { ...user!.history, ...req.body.history };
+    await user!.save();
 
-    res.json({ status: 'success', data: user.history });
+    res.json({ status: 'success', data: user!.history });
   } catch (error) {
     res.status(400).json({
       status: 'fail',
@@ -63,20 +93,16 @@ const incrementHistory = async (req: Request, res: Response) => {
   try {
     const user = req.user;
 
-    if (!user) {
-      throw new Error('Unknown error. User does not appear.');
-    }
-
     validateRequiredFields(req, ['history']);
-    validateHistoryBody(req, user);
+    validateHistoryBody(req, user!);
 
     Object.keys(req.body.history).forEach(key => {
-      (user.history as any)[key] += req.body.history[key];
+      (user!.history as any)[key] += req.body.history[key];
     });
 
-    await user.save();
+    await user!.save();
 
-    res.json({ status: 'success', data: user.history });
+    res.json({ status: 'success', data: user!.history });
   } catch (error) {
     res.status(400).json({
       status: 'fail',
@@ -87,4 +113,4 @@ const incrementHistory = async (req: Request, res: Response) => {
   }
 };
 
-export { getHistory, updateHistory, incrementHistory };
+export { getHistory, updateHistory, incrementHistory, getLeaderboard };

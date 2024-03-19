@@ -20,6 +20,13 @@ questions to win juicy prizes 🥇
 | Anna Kutova               | UO305098@uniovi.es |
 | Diego Murias Suárez       | UO290009@uniovi.es |
 
+## Test our app at 🚀🚀
+http://kawgame.xyz:3000/
+
+And if it doesn't work...
+
+http://20.117.173.161:3000
+
 ## Quick start guide
 
 ### Using docker

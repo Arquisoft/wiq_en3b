@@ -14,7 +14,7 @@ import Leaderboard from "./pages/Leaderboard/Leaderboard"
 import Settings from "./pages/Settings/Settings"
 import Home from "./pages/Home/Home"
 
-const apiEndpoint = "http://20.68.241.109:8000"
+const apiEndpoint = "http://20.117.173.161:8000"
 
 function App() {
   //State for opening and closing the navigation
@@ -28,7 +28,7 @@ function App() {
       setQuestions(questions)
       console.log(questions)
     })()
-  })
+  }, [])
 
   //State for the theme
   const [theme, setTheme] = useState("light")

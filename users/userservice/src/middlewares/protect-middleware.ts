@@ -15,11 +15,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     const { userId } = decoded;
     const user = await User.findById(userId);
 
-    if (user === null) {
-      throw new Error("User does not exist. Log in again.'");
-    }
-
-    req.user = user;
+    req.user = user!;
     next();
   } catch (error: any) {
     res.status(400).json({

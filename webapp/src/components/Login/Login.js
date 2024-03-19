@@ -12,6 +12,9 @@ const Login = ({ setUserState }) => {
     username: "",
     password: "",
   });
+  const [error, setError] = useState('');
+  const [loginSuccess, setLoginSuccess] = useState(false);
+  const [createdAt, setCreatedAt] = useState('');
 
   const changeHandler = (e) => {
     const { name, value } = e.target;
@@ -33,6 +36,9 @@ const Login = ({ setUserState }) => {
     }
     return error;
   };
+  const logoutHandler = async (e) => {
+    setLoginSuccess(false);
+  }
 
   const loginHandler = async (e) => {
     e.preventDefault();
@@ -45,6 +51,11 @@ const Login = ({ setUserState }) => {
       let username = user.username;
       let password = user.password;
       const response = await axios.post(`${apiEndpoint}/login`, { username, password });
+      user.username = response.username;
+      console.log(response);
+      const { createdAt: userCreatedAt } = response.data;
+      setCreatedAt(userCreatedAt);
+      setLoginSuccess(true);
       console.log("Login succesfull");
     } catch (error){
       console.log("ERROR: " + error);
@@ -55,13 +66,13 @@ const Login = ({ setUserState }) => {
     if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
       axios.post(`${apiEndpoint}/login`, user).then((res) => {
-        alert(res.data.message);
         setUserState(res.data.user);
         navigate("/", { replace: true });
       });
     }
   }, [formErrors]);
   return (
+    (!loginSuccess) ? (
     <div className={loginstyle.login}>
       <form>
         <h1>Login</h1>
@@ -89,6 +100,11 @@ const Login = ({ setUserState }) => {
       </form>
       <NavLink to="/signup">Not yet registered? Register Now</NavLink>
     </div>
-  );
+  ) : (<div>
+    <h1>Login Success</h1>
+    <p>Welcome {user.username}</p>
+    <button className={basestyle.button_common} onClick={logoutHandler}>
+      Logout
+    </button></div>));
 };
 export default Login;

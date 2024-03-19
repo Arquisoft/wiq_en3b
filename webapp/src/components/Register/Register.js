@@ -41,8 +41,8 @@ const Register = () => {
     }
     if (!values.password) {
       error.password = "Password is required";
-    } else if (values.password.length < 12) {
-      error.password = "Password must be more than 4 characters";
+    } else if (values.password.length <= 12) {
+      error.password = "Password must be at least 12 characters";
     }
     if (!values.cpassword) {
       error.cpassword = "Confirm Password is required";
@@ -58,25 +58,19 @@ const Register = () => {
     // if (!formErrors) {
     //   setIsSubmit(true);
     // }
-    try {
-      let username = user.username;
-      let password = user.password;
-      await axios.post(`${apiEndpoint}/adduser`, { username, password });
-      navigate("/login");
-    } catch (error){
-      console.log("ERROR: " + error);
-    }
   };
 
   useEffect(() => {
-    if (Object.keys(formErrors).length === 0 && isSubmit) {
+    //if (Object.keys(formErrors).length === 0 && isSubmit) {
       console.log(user);
-      axios.post(`${apiEndpoint}/addUser`, user).then((res) => {
-        alert(res.data.message);
+      let username = user.username;
+      let password = user.password;
+      axios.post(`${apiEndpoint}/adduser`, { username, password }).then((res) => {
         navigate("/login", { replace: true });
       });
-    }
+    //}
   }, [formErrors]);
+
   return (
     <>
       <div className={registerstyle.register}>

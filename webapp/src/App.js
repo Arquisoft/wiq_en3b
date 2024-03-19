@@ -103,9 +103,7 @@ function App() {
       />
 
       <Nav openNav={openNav} onToggleNav={toggleNavHandler} />
-      <main>
-        <h1>Welcome to</h1>
-        <img src="KaW.png" alt="Logo of Know and Win APP"/>
+      <main>        
         <Routes>
           <Route
             path="/"

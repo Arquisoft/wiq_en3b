@@ -5,11 +5,14 @@ function Home() {
 
   return (
     <>
-      <div>Inicio</div>
+      <div>Home</div>
       {user ? (
-        <div>{user.username}</div>
+        <>
+          <div>{user.username}</div>
+          <a href="/logout">Logout</a>
+        </>
       ) : (
-        <div>La sesión no ha sido iniciada</div>
+        <div>You need to login</div>
       )}
     </>
   )

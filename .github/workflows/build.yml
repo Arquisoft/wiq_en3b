@@ -17,6 +17,7 @@ jobs:
         node-version: 20
     - run: npm --prefix users/authservice ci
     - run: npm --prefix users/userservice ci
+    - run: npm --prefix questionservice ci
     - run: npm --prefix gatewayservice ci
     - run: npm --prefix webapp ci
     - run: npm --prefix users/authservice test -- --coverage

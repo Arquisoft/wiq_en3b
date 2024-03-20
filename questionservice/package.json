@@ -7,7 +7,7 @@
     "dev": "nodemon src/index.ts",
     "start": "npm run tsc && npm run build",
     "build": "node build/index.js",
-    "tsc": "tsc",
+    "tsc": "tsc --project tsconfig.prod.json",
     "test": "jest"
   },
   "repository": {
@@ -32,11 +32,13 @@
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/express": "^4.17.21",
-    "@types/jsonwebtoken": "^9.0.2",
+    "@types/jest": "^29.5.12",
+    "@types/jsonwebtoken": "^9.0.6",
     "jest": "^29.7.0",
     "mongodb-memory-server": "^9.1.5",
     "nodemon": "^3.1.0",
     "supertest": "^6.3.4",
+    "ts-jest": "^29.1.2",
     "ts-node": "^10.9.2",
     "typescript": "^5.3.3"
   }

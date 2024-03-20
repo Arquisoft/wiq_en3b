@@ -1,27 +1,8 @@
-//import mongoose from 'mongoose';
-//import { MongoMemoryServer } from 'mongodb-memory-server';
 const request = require('supertest');
 import app from '../src/app';
 import { generateQuestions } from '../src/services/question-generator';
 import { generateQuestionsController } from '../src/controllers/question-controller';
 
-/* NOT USED SO FAR IN TEST...
-let mongoServer: MongoMemoryServer;
-
-    // Creating DB connections before ALL tests
-    beforeAll(async () => {
-        mongoServer = await MongoMemoryServer.create();
-        const mongoUri = mongoServer.getUri();
-        process.env.MONGODB_URI = mongoUri;
-        await mongoose.connect(mongoUri);
-    });
-
-    // Closing DB connections after ALL test have been performed
-    afterAll(async () => {
-        await mongoose.connection.close();
-        await mongoServer.stop();
-    });
-*/
 
 describe("Question Service - Health", () => {
 
@@ -79,10 +60,15 @@ describe("Question Service - Erroneous parameters for /questions", () => {
 
 })
 
-// Mocking the generateQuestions(size) function
-jest.mock("../src/services/question-generator")
+// Mocking the question-generator.ts to test question-controller
+// Done to avoid flakiness by calling DB or API
+jest.mock('../src/services/question-generator')
 
-describe("Question Service - Question Controller", () => {
+describe("Question Service - Question Generation", () => {
+
+    beforeEach( () =>{
+        jest.clearAllMocks()
+    })
 
     it("should return questions when controller succeeds", async () =>{
 
@@ -133,8 +119,5 @@ describe("Question Service - Question Controller", () => {
 
 
     })
-
-
-
 
 })

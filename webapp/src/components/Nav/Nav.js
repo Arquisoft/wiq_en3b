@@ -1,17 +1,16 @@
-import "./Nav.css";
+import './Nav.css'
 
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom'
 
-import { ReactComponent as CloseIcon } from "../../assets/xmark-solid.svg";
-import { ReactComponent as SquareQuestionIcon } from "../../assets/square-question.svg";
-import { ReactComponent as UserIcon } from "../../assets/user-solid.svg";
-import { ReactComponent as AwardIcon } from "../../assets/award-solid.svg";
-import { ReactComponent as SettingsIcon } from "../../assets/gear-solid.svg";
+import { ReactComponent as CloseIcon } from '../../assets/xmark-solid.svg'
+import { ReactComponent as SquareQuestionIcon } from '../../assets/square-question.svg'
+import { ReactComponent as UserIcon } from '../../assets/user-solid.svg'
+import { ReactComponent as AwardIcon } from '../../assets/award-solid.svg'
+import { ReactComponent as SettingsIcon } from '../../assets/gear-solid.svg'
 
-
-const Nav = (props) => {
+const Nav = props => {
   return (
-    <div className={`nav ${props.openNav ? "show" : ""}`}>
+    <div className={`nav ${props.openNav ? 'show' : ''}`}>
       <div className="nav-header">
         <div className="close-button" onClick={props.onToggleNav}>
           <CloseIcon />
@@ -19,8 +18,7 @@ const Nav = (props) => {
       </div>
 
       <div className="nav-body">
-
-        <Link to="home" className="nav-link">
+        <Link to="" className="nav-link">
           <div className="nav-link-icon">
             <UserIcon />
           </div>
@@ -56,7 +54,7 @@ const Nav = (props) => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default Nav;
+export default Nav

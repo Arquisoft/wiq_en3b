@@ -1,13 +1,16 @@
-import Quiz from "../../components/Quiz/Quiz"
+import Quiz from '../../components/Quiz/Quiz'
+import { useQuestions } from '../../hooks/useQuestions'
 
-const Game = props => {
-  if (!props.quizData.length) {
+const Game = () => {
+  const { questions } = useQuestions()
+
+  if (!questions.length) {
     return <div className="quiz-wrapper"></div>
   }
 
   return (
     <div className="quiz-wrapper">
-      <Quiz quizData={props.quizData} timerValue={props.timerValue} />
+      <Quiz questions={questions} time={15} />
     </div>
   )
 }

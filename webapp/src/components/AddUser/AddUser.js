@@ -1,28 +1,48 @@
 // src/components/AddUser.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
-
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+import React, { useState } from 'react'
+import axios from 'axios'
+import { Container, Typography, TextField, Button } from '@mui/material'
+import { API_ENDPOINT } from '../../utils/constants'
+import { useAuth } from '../../hooks/useAuth'
 
 const AddUser = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [error, setError] = useState('')
+  const { login } = useAuth()
 
   const addUser = async () => {
     try {
-      await axios.post(`${apiEndpoint}/adduser`, { username, password });
-      setOpenSnackbar(true);
-    } catch (error) {
-      setError(error.response.data.error);
-    }
-  };
+      await axios.post(`${API_ENDPOINT}/adduser`, {
+        username,
+        password,
+      })
 
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
+      const response = await axios.post(`${API_ENDPOINT}/login`, {
+        username,
+        password,
+      })
+
+      const { username: user, token } = response.data.data.user
+
+      const obj = {
+        username: user,
+        token,
+      }
+
+      console.log(obj)
+
+      login(obj)
+    } catch (error) {
+      const status = error.response.data.status
+
+      if (status === 'error') {
+        setError(error.response.data.error)
+      } else {
+        setError(error.response.data.data.error)
+      }
+    }
+  }
 
   return (
     <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
@@ -35,7 +55,7 @@ const AddUser = () => {
         fullWidth
         label="Username"
         value={username}
-        onChange={(e) => setUsername(e.target.value)}
+        onChange={e => setUsername(e.target.value)}
       />
       <TextField
         name="password"
@@ -44,17 +64,14 @@ const AddUser = () => {
         label="Password"
         type="password"
         value={password}
-        onChange={(e) => setPassword(e.target.value)}
+        onChange={e => setPassword(e.target.value)}
       />
       <Button variant="contained" color="primary" onClick={addUser}>
         Add User
       </Button>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
-      {error && (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
-      )}
+      {error && <p style={{ color: '#7b0c0c' }}>Error: {error}</p>}
     </Container>
-  );
-};
+  )
+}
 
-export default AddUser;
+export default AddUser

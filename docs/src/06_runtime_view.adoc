@@ -65,7 +65,7 @@ sequenceDiagram
 
 === Question Generation
 
-When a user starts a game through the Frontend, it triggers a request for generating questions to the Backend. The Backend (Gateway) works with the QS (Question Service) to generate questions. For each question, first QS requests a question template from the Database, which is then filled with relevant data from the WQS (Wikidata Query Service). After filling the template, QS asks WQS for answers and distractors. Once all questions are generated, QS sends them back to the Backend, so again the response then can be redirected towards the Frontend. Finally, the Frontend displays the questions of the game.
+When a user starts a game through the Frontend, it triggers a request for generating questions to the Backend. The Backend (Gateway) works with the QS (Question Service) to generate questions. For each question, first QS requests a question template from the Database, which is then filled with relevant data from the WQS (Wikidata Query Service). After filling the template, QS uses the previous data, obtained from WQS, to also generate answers and distractors. Once all questions are generated, QS sends them back to the Backend, so again the response can then be redirected towards the Frontend. Finally, the Frontend displays the questions of the game.
 
 This case scenario is also represented on the following diagram:
 
@@ -89,8 +89,7 @@ This case scenario is also represented on the following diagram:
         QGS->>WQS: Request Data
         WQS-->>QGS: Return Data
         QGS-->QGS: Fill Template
-        QGS->>WQS: Request Answer + Distractors
-        WQS-->>QGS: Return Answer + Distractors
+        QGS-->QGS: Generate Answer + Distractors
         QGS-->QGS: Create Question
     end 
     QGS-->>BE: Return Questions

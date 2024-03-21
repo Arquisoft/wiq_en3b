@@ -1,8 +1,8 @@
-import "./ActiveQuiz.css";
+import "./Question.css";
 
 import AnswerList from "../Answer/AnswerList";
 
-const ActiveQuiz = (props) => {
+const Question = (props) => {
   return (
     <div className="quiz">
       <div className="quiz-counter">
@@ -19,4 +19,4 @@ const ActiveQuiz = (props) => {
   );
 };
 
-export default ActiveQuiz;
+export default Question;

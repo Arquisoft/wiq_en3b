@@ -34,8 +34,6 @@ async function generateQuestions(n: number): Promise<object[] | void> {
 const generateQuestionsArray = async (
   randomQuestionsTemplates: any
 ): Promise<object[]> => {
-  // Simply a fx to add the JSON questions to the Array
-
   // For each questionTemplate, we generate an async func to generate the questions
   // and its answers
   const promises = randomQuestionsTemplates.map(
@@ -91,7 +89,12 @@ const questionJsonBuilder = (
   return myJson;
 };
 
-// In charge of asking wikidata the sparql query and building JSON question response
+/**
+ * In charge of asking wikidata the sparql query and building JSON question response
+ * @param document the template of the question
+ * @param templateNumber number of the template
+ * @returns JSON with the question and possible answers
+ */
 const generateQuestionJson = async (
   document: any,
   templateNumber: number

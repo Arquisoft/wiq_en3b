@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt';
 import User from '../src/models/auth-model';
 import mongoose from 'mongoose';
 import app from '../src/app';
+import { Request } from 'express';
+import {validateNotEmpty, validateRequiredLength} from "../src/utils/field-validations";
 
 let mongoServer: MongoMemoryServer;
 
@@ -44,4 +46,64 @@ describe('Auth Service', () => {
     expect(response.status).toBe(200);
     expect(response.body.data.user).toHaveProperty('username', 'testuser');
   });
+  it('Should fail the login operation /login when invalid credentials are used', async () => {
+    const invalidUser = {
+      username: 'testuser',
+      password: 'invalidpassword',
+    };
+    const response = await request(app).post('/login').send(invalidUser);
+    expect(response.status).toBe(401);
+  });
+  it('Should fail if no user and password is send in the body', async () => {
+    const invalidBody = {
+    };
+    const response = await request(app).post('/login').send(invalidBody);
+    expect(response.status).toBe(400);
+  });
+
+  // ======================== Tests for utils ========================
+  // Note: this is duplicated code from the userservice, field-validations.ts
+  // should probably be placed outside and imported by both services, as well
+  // as the userSchema.
+
+  // Empty field validation
+  it('should get an error when passing an empty parameter', async () => {
+    const mockRequest = {
+      body: {}
+    } as Request;
+    mockRequest.body['history'] = '';
+
+    try {
+      validateNotEmpty(mockRequest, ['history']);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+    // Should also get an error when the field does not exist
+    try {
+      validateNotEmpty(mockRequest, ['nonexistent']);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+  });
+
+  // Empty field validation
+  it('should get an error when passing a parameter without the expected length', async () => {
+    const mockRequest = {
+      body: {}
+    } as Request;
+    mockRequest.body['test'] = '123456789';
+
+    try {
+      validateRequiredLength(mockRequest, ['test'], 10);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+    // Should also get an error when the field does not exist
+    try {
+      validateRequiredLength(mockRequest, ['nonexistent'], 10);
+      fail('Should get an error in the previous call');
+    } catch (error) {
+    }
+  });
+  // =================================================================
 });

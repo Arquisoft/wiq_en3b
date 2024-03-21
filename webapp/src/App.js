@@ -1,148 +1,123 @@
-import { useState, useEffect } from "react"
-import { Route, Routes } from "react-router-dom"
+import { useState, useEffect } from "react";
+import { Route, Routes, Navigate } from "react-router-dom";
 
 //Components
-import Header from "./components/Header/Header"
-import Nav from "./components/Nav/Nav"
-import Profile from "./components/Profile/Profile"
+import Header from "./components/Header/Header";
+import Nav from "./components/Nav/Nav";
+import Profile from "./components/Profile/Profile";
 import Login from "./components/Login/Login";
 import Register from "./components/Register/Register";
 
 //Pages
-import Game from "./pages/Game/Game"
-import Leaderboard from "./pages/Leaderboard/Leaderboard"
-import Settings from "./pages/Settings/Settings"
-import Home from "./pages/Home/Home"
+import Game from "./pages/Game/Game";
+import Leaderboard from "./pages/Leaderboard/Leaderboard";
+import Settings from "./pages/Settings/Settings";
+import Home from "./pages/Home/Home";
 
-const apiEndpoint = "http://20.117.173.161:8000"
+const apiEndpoint = "http://20.117.173.161:8000";
 
 function App() {
   //State for opening and closing the navigation
-  const [openNav, setOpenNav] = useState(false)
-
-  const [questions, setQuestions] = useState([])
+  const [openNav, setOpenNav] = useState(false);
+  const [questions, setQuestions] = useState([]);
+  const [theme, setTheme] = useState("light");
+  const [timerValue, setTimerValue] = useState(15);
+  const [userstate, setUserState] = useState(null);
 
   useEffect(() => {
-    ; (async () => {
-      const questions = await getQuestions()
-      setQuestions(questions)
-      console.log(questions)
-    })()
-  }, [])
+    (async () => {
+      const questions = await getQuestions();
+      setQuestions(questions);
+    })();
+  }, []);
 
-  //State for the theme
-  const [theme, setTheme] = useState("light")
-
-  //State for the timer value
-  const [timerValue, setTimerValue] = useState(15)
-
-  //Check if the theme is saved in the local storage
   useEffect(() => {
     if (localStorage.getItem("theme")) {
-      setTheme(localStorage.getItem("theme"))
+      setTheme(localStorage.getItem("theme"));
     }
-  }, [theme])
+  }, [theme]);
 
-  //Function to open and close the navigation
   const toggleNavHandler = () => {
-    setOpenNav(prevState => {
-      return !prevState
-    })
-  }
+    setOpenNav(prevState => !prevState);
+  };
 
   const changeThemeHandler = () => {
-    setTheme(prevState => {
-      return prevState === "light" ? "dark" : "light"
-    })
-
-    localStorage.setItem("theme", theme === "light" ? "dark" : "light")
-  }
+    setTheme(prevState => (prevState === "light" ? "dark" : "light"));
+    localStorage.setItem("theme", theme === "light" ? "dark" : "light");
+  };
 
   const changeTimerValueHandler = e => {
-    setTimerValue(e.target.value)
-  }
+    setTimerValue(e.target.value);
+  };
 
   const getQuestions = async () => {
-    const response = await fetch(apiEndpoint + "/questions?size=3")
-    console.log(response)
-    const data = await response.json()
+    const response = await fetch(`${apiEndpoint}/questions?size=3`);
+    const data = await response.json();
 
     data.forEach(question => {
-      question.answers = shuffle(question.answers)
-    })
+      question.answers = shuffle(question.answers);
+    });
 
-    return data
-  }
+    return data;
+  };
 
   function shuffle(array) {
     let currentIndex = array.length,
-      randomIndex
+      randomIndex;
 
-    // While there remain elements to shuffle.
     while (currentIndex > 0) {
-      // Pick a remaining element.
-      randomIndex = Math.floor(Math.random() * currentIndex)
-      currentIndex--
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
 
-        // And swap it with the current element.
-        ;[array[currentIndex], array[randomIndex]] = [
-          array[randomIndex],
-          array[currentIndex]
-        ]
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex]
+      ];
     }
 
-    return array
+    return array;
   }
-  const [userstate, setUserState] = useState({});
+
   return (
     <div className={theme}>
       <Header
         onToggleNav={toggleNavHandler}
         onChangeTheme={changeThemeHandler}
         theme={theme}
+        authenticated={!!userstate}
+        onLogout={() => setUserState(null)}
       />
 
       <Nav openNav={openNav} onToggleNav={toggleNavHandler} />
-      <main>        
+      <main>
         <Routes>
           <Route
             path="/"
-            element={
-              userstate && userstate._id ? (
-                <Profile
-                  setUserState={setUserState}
-                  username={userstate.fname}
-                />
-              ) : (
-                <Login setUserState={setUserState} />
-              )
-            }
-          ></Route>
-          <Route path="home" element={<Home />}></Route>
+            element={userstate ? <Profile setUserState={setUserState} /> : <Navigate to="/login" />}
+          />
+          <Route path="home" element={<Home />} />
           <Route
             path="game"
-            element={<Game quizData={questions} timerValue={timerValue} />}
-          ></Route>
-          <Route path="profile" element={<Profile />}></Route>
-          <Route path="leaderboard" element={<Leaderboard />}></Route>
+            element={userstate ? <Game quizData={questions} timerValue={timerValue} /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="profile"
+            element={userstate ? <Profile setUserState={setUserState} /> : <Navigate to="/login" />}
+          />
+          <Route
+            path="leaderboard"
+            element={userstate ? <Leaderboard /> : <Navigate to="/login" />}
+          />
           <Route
             path="settings"
-            element={
-              <Settings
-                onChangeTimerValue={changeTimerValueHandler}
-                timerValue={timerValue}
-              />
-            }
-          ></Route>
-          <Route
-            path="/login"
-            element={<Login setUserState={setUserState} />}
-          ></Route>
-          <Route path="/signup" element={<Register />}></Route>
+            element={userstate ? <Settings onChangeTimerValue={changeTimerValueHandler} timerValue={timerValue} /> : <Navigate to="/login" />}
+          />
+          <Route path="/login" element={<Login setUserState={setUserState} />} />
+          <Route path="/signup" element={<Register />} />
         </Routes>
       </main>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;

@@ -1,6 +1,6 @@
 import React from "react";
-import basestyle from "../Base.module.css";
-import headerstyle from "./Header.css";
+import "./Header.css";
+import { Link } from "react-router-dom";
 import { ReactComponent as BarIcon } from "../../assets/bars-solid.svg";
 import { ReactComponent as SunIcon } from "../../assets/sun-solid.svg";
 import { ReactComponent as MoonIcon } from "../../assets/moon-solid.svg";
@@ -11,8 +11,6 @@ const Header = ({ onChangeTheme, theme, onToggleNav, authenticated, onLogout }) 
     onLogout();
   };
 
-  
-
   return (
     <header className="header">
       <img src="KaW.png" alt="Logo of Know and Win APP" />
@@ -21,14 +19,14 @@ const Header = ({ onChangeTheme, theme, onToggleNav, authenticated, onLogout }) 
       </div>
       {authenticated ? (
         // Mostrar botón de logout si el usuario está autenticado
-        <div className={basestyle.button_common} onClick={handleLogout}>
+        <div className="header-button" onClick={handleLogout}>
           Logout
         </div>
       ) : (
         // Mostrar botón de login si el usuario no está autenticado
-        <div className={basestyle.button_common} onClick={onToggleNav}>
+        <Link to="/login" className="header-button">
           Login
-        </div>
+        </Link>
       )}
       <div className="header-button" onClick={onToggleNav}>
         <BarIcon />
@@ -38,4 +36,3 @@ const Header = ({ onChangeTheme, theme, onToggleNav, authenticated, onLogout }) 
 };
 
 export default Header;
-

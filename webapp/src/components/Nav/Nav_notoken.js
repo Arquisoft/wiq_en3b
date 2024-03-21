@@ -1,13 +1,13 @@
 import React from "react";
-import "./Nav.css";
 import { Link } from "react-router-dom";
 import { ReactComponent as CloseIcon } from "../../assets/xmark-solid.svg";
 import { ReactComponent as SquareQuestionIcon } from "../../assets/square-question.svg";
 import { ReactComponent as UserIcon } from "../../assets/user-solid.svg";
 import { ReactComponent as AwardIcon } from "../../assets/award-solid.svg";
 import { ReactComponent as SettingsIcon } from "../../assets/gear-solid.svg";
+import "./Nav.css";
 
-const Nav = ({ openNav, onToggleNav, authenticated }) => {
+const Nav = ({ openNav, onToggleNav, isAuthenticated }) => {
   return (
     <div className={`nav ${openNav ? "show" : ""}`}>
       <div className="nav-header">
@@ -24,23 +24,19 @@ const Nav = ({ openNav, onToggleNav, authenticated }) => {
           Home
         </Link>
 
-        {authenticated && (
-          <>
-            <Link to="game" className="nav-link">
-              <div className="nav-link-icon">
-                <SquareQuestionIcon />
-              </div>
-              Play
-            </Link>
+        <Link to="game" className={`nav-link ${isAuthenticated ? "show" : "hide"}`}>
+          <div className="nav-link-icon">
+            <SquareQuestionIcon />
+          </div>
+          Play
+        </Link>
 
-            <Link to="profile" className="nav-link">
-              <div className="nav-link-icon">
-                <UserIcon />
-              </div>
-              Profile
-            </Link>
-          </>
-        )}
+        <Link to="profile" className={`nav-link ${isAuthenticated ? "show" : "hide"}`}>
+          <div className="nav-link-icon">
+            <UserIcon />
+          </div>
+          Profile
+        </Link>
 
         <Link to="leaderboard" className="nav-link">
           <div className="nav-link-icon">
@@ -49,7 +45,7 @@ const Nav = ({ openNav, onToggleNav, authenticated }) => {
           Leaderboard
         </Link>
 
-        <Link to="settings" className="nav-link">
+        <Link to="settings" className={`nav-link ${isAuthenticated ? "show" : "hide"}`}>
           <div className="nav-link-icon">
             <SettingsIcon />
           </div>

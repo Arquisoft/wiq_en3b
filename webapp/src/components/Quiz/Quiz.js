@@ -4,7 +4,7 @@ import React, { useState, useRef, useEffect } from "react";
 import Countdown, { zeroPad } from "react-countdown";
 import Question from "./Question";
 import FinalResult from "../FinalResult/FinalResult";
-
+import CircularProgress from '@mui/material/CircularProgress';
 import { ReactComponent as StopwatchIcon } from "../../assets/stopwatch-solid.svg";
 
 const Quiz = (props) => {
@@ -13,10 +13,12 @@ const Quiz = (props) => {
   const apiEndpoint = "http://localhost:8000"
 
   var [questions, setQuestions] = useState([])
-  const [error, setError] = useState(null) // Add error state
 
+  var [error, setError] = useState(null)
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizData, setQuizData] = useState({});
+
+  const [haveQuestions, setHaveQuestions] = useState(false)
 
   const [isFinished, setIsFinished] = useState(false);
   const [score, setScore] = useState(0);
@@ -27,67 +29,12 @@ const Quiz = (props) => {
 
   const countdownTimer = useRef();
 
-  questions = [
-    {
-      question: "What is the capital of France?",
-      answers: [
-        { id: 1, text: "London" },
-        { id: 2, text: "Paris" },
-        { id: 3, text: "New York" },
-        { id: 4, text: "Sydney" },
-      ],
-      correctAnswerId: 2,
-    },
-    {
-      question: "What is the capital of Germany?",
-      answers: [
-        { id: 5, text: "Berlin" },
-        { id: 6, text: "Paris" },
-        { id: 7, text: "New York" },
-        { id: 8, text: "Sydney" },
-      ],
-      correctAnswerId: 5,
-    },
-    {
-      question: "What is the capital of Spain?",
-      answers: [
-        { id: 9, text: "London" },
-        { id: 10, text: "Paris" },
-        { id: 11, text: "Madrid" },
-        { id: 12, text: "Sydney" },
-      ],
-      correctAnswerId: 11,
-    },
-    {
-      question: "What is the capital of Italy?",
-      answers: [
-        { id: 13, text: "London" },
-        { id: 14, text: "Rome" },
-        { id: 15, text: "New York" },
-        { id: 16, text: "Sydney" },
-      ],
-      correctAnswerId: 14,
-    },
-    {
-      question: "What is the capital of the United States?",
-      answers: [
-        { id: 17, text: "Washington D.C." },
-        { id: 18, text: "Paris" },
-        { id: 19, text: "New York" },
-        { id: 20, text: "Sydney" },
-      ],
-      correctAnswerId: 17,
-    },
-  ];
-
-
-
   useEffect(() => {
     ; (async () => {
       try {
-        const questions = await getQuestions()
-        setQuestions(questions)
-        console.log(questions)
+
+        setQuestions(await getQuestions())
+        setHaveQuestions(true)
       } catch (error) {
         setError(error.message) // Set error state if fetch fails
       }
@@ -97,7 +44,7 @@ const Quiz = (props) => {
 
   const getQuestions = async (numQuestions) => {
     if (!numQuestions) {
-      numQuestions = 5
+      numQuestions = 10
     }
     const response = await fetch(apiEndpoint + `/questions?size=${numQuestions}`)
     if (!response.ok) { // Throw error if response is not successful
@@ -231,14 +178,15 @@ const Quiz = (props) => {
           />
         </p>
       )}
-      {isFinished ? (
-        <FinalResult
-          result={score}
-          quizLength={questions.length}
-          onTryAgain={tryAgainHandler}
-        />
-      ) : (
-        <Question
+
+      { !haveQuestions && <CircularProgress />}
+
+
+      { haveQuestions && isFinished && 
+      <FinalResult result={score} quizLength={questions.length} onTryAgain={tryAgainHandler} />}
+      
+      { haveQuestions && !isFinished && 
+      <Question
           quiz={questions[currentQuestionIndex]}
           activeQuizIndex={currentQuestionIndex + 1}
           quizLength={questions.length}
@@ -246,7 +194,7 @@ const Quiz = (props) => {
           btnDisabled={btnDisabled}
           onSelectAnswer={selectAnswerHandler}
         />
-      )}
+      }
     </React.Fragment>
   );
 };

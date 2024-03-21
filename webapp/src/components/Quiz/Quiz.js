@@ -9,12 +9,12 @@ import { ReactComponent as StopwatchIcon } from "../../assets/stopwatch-solid.sv
 
 const Quiz = (props) => {
 
-  //const apiEndpoint = "http://20.117.173.161:8000"
   const apiEndpoint = "http://localhost:8000"
 
   var [questions, setQuestions] = useState([])
 
   var [error, setError] = useState(null)
+
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizData, setQuizData] = useState({});
 
@@ -26,13 +26,11 @@ const Quiz = (props) => {
 
   const [timer, setTimer] = useState(Date.now() + props.timerValue * 1000);
   const [timerIndex, setTimerIndex] = useState(0);
-
   const countdownTimer = useRef();
 
   useEffect(() => {
     ; (async () => {
       try {
-
         setQuestions(await getQuestions())
         setHaveQuestions(true)
       } catch (error) {
@@ -43,22 +41,19 @@ const Quiz = (props) => {
 
 
   const getQuestions = async (numQuestions) => {
-    if (!numQuestions) {
-      numQuestions = 10
-    }
+
+    if (!numQuestions) numQuestions = 3
+
     const response = await fetch(apiEndpoint + `/questions?size=${numQuestions}`)
-    if (!response.ok) { // Throw error if response is not successful
-      throw new Error("Failed to fetch questions")
-    }
+
+    if (!response.ok) throw new Error("Failed to fetch questions")
+
     const data = await response.json()
-    console.log(data)
-    data.forEach(question => {
-      question.answers = shuffle(question.answers)
-    })
+
+    data.forEach(question => { question.answers = shuffle(question.answers) })
 
     return data
   }
-
 
   function shuffle(array) {
     let currentIndex = array.length,
@@ -78,7 +73,6 @@ const Quiz = (props) => {
     }
     return array
   }
-
 
   // This function is used to render the countdown timer
   const renderer = ({ minutes, seconds }) => {
@@ -162,31 +156,27 @@ const Quiz = (props) => {
     }
   };
 
+
+
   const pauseTimer = () => countdownTimer.current.pause();
 
   return (
     <React.Fragment>
-      {!isFinished && (
+      {haveQuestions && !isFinished &&
         <p className="quiz-timer">
           <StopwatchIcon />
-          <Countdown
-            date={timer}
-            key={timerIndex}
-            renderer={renderer}
-            onComplete={countdownCompleteHandler}
-            ref={countdownTimer}
-          />
+          <Countdown date={timer} key={timerIndex} renderer={renderer} onComplete={countdownCompleteHandler} ref={countdownTimer} />
         </p>
-      )}
+      }
 
-      { !haveQuestions && <CircularProgress />}
+      {!haveQuestions && <CircularProgress />}
 
 
-      { haveQuestions && isFinished && 
-      <FinalResult result={score} quizLength={questions.length} onTryAgain={tryAgainHandler} />}
-      
-      { haveQuestions && !isFinished && 
-      <Question
+      {haveQuestions && isFinished &&
+        <FinalResult result={score} quizLength={questions.length} onTryAgain={tryAgainHandler} />}
+
+      {haveQuestions && !isFinished &&
+        <Question
           quiz={questions[currentQuestionIndex]}
           activeQuizIndex={currentQuestionIndex + 1}
           quizLength={questions.length}

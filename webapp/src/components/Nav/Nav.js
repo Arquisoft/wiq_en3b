@@ -18,7 +18,8 @@ const Nav = props => {
       </div>
 
       <div className="nav-body">
-        <Link to="" className="nav-link">
+        <Link to="/" className="nav-link">
+
           <div className="nav-link-icon">
             <UserIcon />
           </div>

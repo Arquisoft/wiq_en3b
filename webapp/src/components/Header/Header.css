@@ -1,7 +1,7 @@
 .header {
   background-color: #717bee;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
   padding: 20px;
   transition: all 0.4s ease;
@@ -27,4 +27,13 @@
   border-radius: 50%;
   cursor: pointer;
   color: #717bee;
+}
+
+.options {
+  display: flex;
+}
+
+img {
+  width: 4rem;
+  height: auto;
 }

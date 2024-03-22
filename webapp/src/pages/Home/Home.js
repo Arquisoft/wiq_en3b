@@ -1,3 +1,4 @@
+import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
 
 function Home() {
@@ -9,7 +10,7 @@ function Home() {
       {user ? (
         <>
           <div>{user.username}</div>
-          <a href="/logout">Logout</a>
+          <Link to={'/logout'}>Logout</Link>
         </>
       ) : (
         <div>You need to login</div>

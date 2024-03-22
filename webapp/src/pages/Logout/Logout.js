@@ -1,9 +1,12 @@
+import { useEffect } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 
 function Logout() {
   const { logout } = useAuth()
 
-  logout()
+  useEffect(() => {
+    logout()
+  }, [logout])
 
   return <div>Logout...</div>
 }

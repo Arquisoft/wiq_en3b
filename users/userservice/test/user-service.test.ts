@@ -7,7 +7,7 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import app from '../src/app';
 import {validateHistoryBody} from "../src/utils/history-body-validation";
 import { Request } from 'express';
-import {validateNotEmpty, validateRequiredLength} from "../src/utils/field-validations";
+import {validateNotEmpty, validateRequiredLength} from "../../utils/src/field-validations";
 import {verifyJWT} from "../src/utils/async-verification";
 
 let mongoServer: MongoMemoryServer;

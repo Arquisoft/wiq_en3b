@@ -5,7 +5,8 @@ import {
   validateRequiredFields,
   validateNotEmpty,
   validateRequiredLength,
-} from '../utils/field-validations';
+} from 'kaw-users-utils';
+
 import User from '../models/user-model';
 
 const addUser = async (req: Request, res: Response) => {

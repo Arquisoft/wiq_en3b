@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import User from '../models/user-model';
-import { validateRequiredFields } from '../utils/field-validations';
+import { validateRequiredFields } from 'kaw-users-utils';
 import { validateHistoryBody } from '../utils/history-body-validation';
 
 const getHistory = async (req: Request, res: Response) => {

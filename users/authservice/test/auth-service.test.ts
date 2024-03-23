@@ -5,7 +5,7 @@ import User from '../src/models/auth-model';
 import mongoose from 'mongoose';
 import app from '../src/app';
 import { Request } from 'express';
-import {validateNotEmpty, validateRequiredLength} from "../src/utils/field-validations";
+import {validateNotEmpty, validateRequiredLength} from "../../utils/src/field-validations";
 
 let mongoServer: MongoMemoryServer;
 

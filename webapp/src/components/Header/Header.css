@@ -37,3 +37,25 @@ img {
   width: 4rem;
   height: auto;
 }
+
+.login-logout-link {
+  background-color: #fff;
+  color: #717bee;
+  border: none;
+  padding: 0.5em 1em; 
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.8em; 
+  margin: 0.5em 1.25em 0.5em 0.2em; 
+  cursor: pointer;
+  border-radius: 0.5em; 
+  transition: background-color 0.3s ease;
+  white-space: nowrap; 
+  line-height: 1.2em;
+}
+
+.login-logout-link:hover {
+  background-color: #636ad5;
+  color: #fff;
+}

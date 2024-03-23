@@ -7,8 +7,10 @@ import { ReactComponent as SquareQuestionIcon } from '../../assets/square-questi
 import { ReactComponent as UserIcon } from '../../assets/user-solid.svg'
 import { ReactComponent as AwardIcon } from '../../assets/award-solid.svg'
 import { ReactComponent as SettingsIcon } from '../../assets/gear-solid.svg'
+import { useAuth } from '../../hooks/useAuth'
 
 const Nav = props => {
+  const { user } = useAuth()
   return (
     <div className={`nav ${props.openNav ? 'show' : ''}`}>
       <div className="nav-header">
@@ -19,26 +21,29 @@ const Nav = props => {
 
       <div className="nav-body">
         <Link to="/" className="nav-link">
-
           <div className="nav-link-icon">
             <UserIcon />
           </div>
           Home
         </Link>
 
-        <Link to="game" className="nav-link">
-          <div className="nav-link-icon">
-            <SquareQuestionIcon />
-          </div>
-          Play
-        </Link>
+        {user && (
+          <Link to="game" className="nav-link">
+            <div className="nav-link-icon">
+              <SquareQuestionIcon />
+            </div>
+            Play
+          </Link>
+        )}
 
-        <Link to="profile" className="nav-link">
-          <div className="nav-link-icon">
-            <UserIcon />
-          </div>
-          Profile
-        </Link>
+        {user && (
+          <Link to="profile" className="nav-link">
+            <div className="nav-link-icon">
+              <UserIcon />
+            </div>
+            Profile
+          </Link>
+        )}
 
         <Link to="leaderboard" className="nav-link">
           <div className="nav-link-icon">
@@ -47,12 +52,14 @@ const Nav = props => {
           Leaderboard
         </Link>
 
-        <Link to="settings" className="nav-link">
-          <div className="nav-link-icon">
-            <SettingsIcon />
-          </div>
-          Settings
-        </Link>
+        {user && (
+          <Link to="settings" className="nav-link">
+            <div className="nav-link-icon">
+              <SettingsIcon />
+            </div>
+            Settings
+          </Link>
+        )}
       </div>
     </div>
   )

@@ -11,9 +11,13 @@ function Register() {
         component="h1"
         variant="h5"
         align="center"
-        sx={{ marginTop: 2, marginBottom: 8 }}
+        sx={{ marginTop: 2, 
+          marginBottom: 8,
+          fontSize: '2rem',
+          fontFamily: 'Courier New, Courier, monospace'
+         }}
       >
-        Welcome to the 2024 edition of the Software Architecture course
+        Welcome to Know and Win App, fill the form to register your account
       </Typography>
       <AddUser />
     </Container>

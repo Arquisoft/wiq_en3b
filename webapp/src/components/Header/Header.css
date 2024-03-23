@@ -3,7 +3,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
   transition: all 0.4s ease;
 }
 
@@ -34,8 +34,10 @@
 }
 
 img {
-  width: 4rem;
+  width: 5rem;
   height: auto;
+  margin: 0rem;
+  margin-left: 0.5rem;
 }
 
 .login-logout-link {

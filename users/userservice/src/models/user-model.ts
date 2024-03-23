@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 import { IUser } from '../types';
-import { userJson } from 'kaw-users-utils';
+const { userJson }  = require('kaw-users-utils');
 
 const userSchema = new mongoose.Schema<IUser>(userJson);
 

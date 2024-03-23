@@ -1,4 +1,4 @@
-import { validateRequiredFields, validateNotEmpty, validateRequiredLength } from '../src/field-validations'
-import userJson from '../src/models'
+const { validateRequiredFields, validateNotEmpty, validateRequiredLength } = require('./field-validations');
+const userJson = require('./models').userSchemaJson;
 
-export { validateRequiredFields, validateNotEmpty, validateRequiredLength, userJson };
+module.exports = { validateRequiredFields, validateNotEmpty, validateRequiredLength, userJson };

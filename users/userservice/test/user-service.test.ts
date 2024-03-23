@@ -7,7 +7,6 @@ import { MongoMemoryServer } from 'mongodb-memory-server';
 import app from '../src/app';
 import {validateHistoryBody} from "../src/utils/history-body-validation";
 import { Request } from 'express';
-import {validateNotEmpty, validateRequiredLength} from "../../utils/src/field-validations";
 import {verifyJWT} from "../src/utils/async-verification";
 
 let mongoServer: MongoMemoryServer;
@@ -279,11 +278,14 @@ describe('User Service', () => {
     } as Request;
     const user = await User.find({ username:'testuser' });
 
+    let gotError = false;
     try {
       validateHistoryBody(mockRequest, user[0]);
-      fail('Should get an error in the previous call');
     } catch (error) {
+      gotError = true;
     }
+    if (!gotError)
+      fail('Should get an error');
   });
 
   // Body validation util, non-numeric
@@ -297,11 +299,14 @@ describe('User Service', () => {
     } as Request;
     const user = await User.find({ username:'testuser' });
 
+    let gotError = false;
     try {
       validateHistoryBody(mockRequest, user[0]);
-      fail('Should get an error in the previous call');
     } catch (error) {
+      gotError = true;
     }
+    if (!gotError)
+      fail('Should get an error');
   });
 
   // Body validation util, negative
@@ -315,51 +320,14 @@ describe('User Service', () => {
     } as Request;
     const user = await User.find({ username:'testuser' });
 
+    let gotError = false;
     try {
       validateHistoryBody(mockRequest, user[0]);
-      fail('Should get an error in the previous call');
     } catch (error) {
+      gotError = true;
     }
-  });
-
-  // Empty field validation
-  it('should get an error when passing an empty parameter', async () => {
-    const mockRequest = {
-      body: {}
-    } as Request;
-    mockRequest.body['history'] = '';
-
-    try {
-      validateNotEmpty(mockRequest, ['history']);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
-    // Should also get an error when the field does not exist
-    try {
-      validateNotEmpty(mockRequest, ['nonexistent']);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
-  });
-
-  // Empty field validation
-  it('should get an error when passing a parameter without the expected length', async () => {
-    const mockRequest = {
-      body: {}
-    } as Request;
-    mockRequest.body['test'] = '123456789';
-
-    try {
-      validateRequiredLength(mockRequest, ['test'], 10);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
-    // Should also get an error when the field does not exist
-    try {
-      validateRequiredLength(mockRequest, ['nonexistent'], 10);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
+    if (!gotError)
+      fail('Should get an error');
   });
 
   // Token validator

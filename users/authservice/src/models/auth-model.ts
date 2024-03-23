@@ -1,5 +1,5 @@
 import mongoose from 'mongoose';
-import { userJson } from 'kaw-users-utils';
+const { userJson } = require('kaw-users-utils');
 
 const userSchema = new mongoose.Schema(userJson);
 

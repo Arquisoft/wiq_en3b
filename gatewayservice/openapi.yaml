@@ -174,20 +174,24 @@ paths:
               example:
                 status: success
                 data:
-                  - username: pepe
-                    history:
-                      passedQuestions: 20
-                      failedQuestions: 20
-                      gamesPlayed: 4
-                      timePlayed: 20
-                      points: 200
-                  - username: maria
-                    history:
-                      passedQuestions: 30
-                      failedQuestions: 30
-                      gamesPlayed: 6
-                      timePlayed: 40
-                      points: 500
+                  leaderboard:
+                    - history:
+                        passedQuestions: 0
+                        failedQuestions: 0
+                        gamesPlayed: 0
+                        timePlayed: 0
+                        points: 500
+                      _id: 6601e58067be2b774c5d1237
+                      username: TestUser2
+                    - history:
+                        passedQuestions: 0
+                        failedQuestions: 0
+                        gamesPlayed: 0
+                        timePlayed: 0
+                        points: 300
+                      _id: 6601e57567be2b774c5d1234
+                      username: TestUser1
+                    
         400:
           description: Client has made a bad request
           content:
@@ -281,11 +285,21 @@ components:
         data:
           type: object
           properties:
-            username:
-              type: string
-              description: A user in leaderboard
-            history:
-              $ref: '#/components/schemas/history'
+            leaderboard:
+              type: array
+              description: An array with all users in leaderboard sorted by points
+              items:
+                type: object
+                properties:
+                  history:
+                    $ref: '#/components/schemas/history'
+                  _id:
+                    type: string
+                    description: Id of the user.
+                  username:
+                    type: string
+                    description: A user in leaderboard
+              
                
     history:
       type: object

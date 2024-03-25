@@ -1,5 +1,6 @@
 import { QuestionModel } from '../models/question-model';
 import { getWikidataSparql } from '@entitree/helper';
+import { getTranslatedQuestions } from './translation-service';
 
 // Gets a random Item from an array
 function getRandomItem<T>(array: T[]): T {
@@ -104,8 +105,33 @@ const generateQuestionsArray = async (
   return Promise.all(promises);
 };
 
+const translateQuestionsArray = async (
+  questionsArray: any,
+  language: any
+): Promise<object[]> => {
+  try {
+    const translation: any[] = await getTranslatedQuestions(
+      questionsArray,
+      language
+    );
+
+    translation.forEach((translation: any, i: number) => {
+      questionsArray[i].question = translation.question;
+      questionsArray[i].answers = translation.answers;
+    });
+  } catch (err) {
+    console.error(err);
+    throw new Error('Error during translation');
+  }
+
+  return questionsArray;
+};
+
 // Principal function in charge of generating the questions
-async function generateQuestions(n: number): Promise<object[] | void> {
+async function generateQuestions(
+  n: number,
+  lang: any
+): Promise<object[] | void> {
   try {
     // Generating sample test. TODO: To be removed for next iteration
 
@@ -120,6 +146,13 @@ async function generateQuestions(n: number): Promise<object[] | void> {
     const questionsArray = await generateQuestionsArray(
       randomQuestionsTemplates
     );
+
+    console.log(questionsArray);
+
+    if (lang) {
+      return await translateQuestionsArray(questionsArray, lang);
+    }
+
     return questionsArray;
   } catch (error) {
     throw error;

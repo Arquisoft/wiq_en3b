@@ -1,5 +1,3 @@
-import { Request } from 'express';
-import User from './models/user-model';
 import { Document, Model, Query } from 'mongoose';
 
 interface IUser {

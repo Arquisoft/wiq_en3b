@@ -18,9 +18,22 @@ const addUser = async (req: Request, res: Response) => {
     const username = req.body.username.toString();
     const password = req.body.password.toString();
 
-    if (await User.findOne({ username })) {
+    let user;
+    try {
+      user = await User.findOne({ username });
+    } catch (error) {
+      res.status(500).json({
+        status: 'fail',
+        data: {
+          error: "Can't access users! Internal server error",
+        },
+      });
+      return;
+    }
+
+    if (user) {
       throw new Error(
-        `There is already a user called "${username}" registered in the system`
+          `There is already a user called "${username}" registered in the system`
       );
     }
 
@@ -31,7 +44,17 @@ const addUser = async (req: Request, res: Response) => {
       password: hashedPassword,
     });
 
-    await newUser.save();
+    try {
+      await newUser.save();
+    } catch (error) {
+      res.status(500).json({
+        status: 'fail',
+        data: {
+          error: "Can't add user! Internal server error",
+        },
+      });
+      return;
+    }
 
     const response: any = newUser;
 

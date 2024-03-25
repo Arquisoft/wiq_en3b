@@ -1,57 +1,28 @@
 import { Request, Response } from 'express';
 import { generateQuestions } from '../services/question-generator';
+import { validateNumber, validateSizePresent } from '../utils/validations';
 
 const generateQuestionsController = async (req: Request, res: Response) => {
-  
+
   try {
     const requestedParam = req.query.size;
 
     // A number of question ?size=x has been provided. Checking if present
-    if (requestedParam) {
-      const size = parseInt(requestedParam as string, 10);
-
-      // Checking parameter is a number
-      if (isNaN(size)) {
-        
-        res.status(400).json({
-          status: 'fail',
-          data: {
-            size: 'The size parameter must be a number',
-          },
-        });
-      
-      } else {
-        
-        // Obtaining questions...
-        try{
-          const questions = await generateQuestions(size)
-          res.json(questions)
-        
-        } catch(err){ // Rethrowing error if anything occurs...
-          throw err
-        }
-
-      }
-    
-    
-    } else {
-      
-      res.status(400).json({
-        status: 'fail',
-        data: {
-          size: 'You need to provide a size for questions to be generated!',
-        },
+    validateSizePresent(req);
+    // The sieze is a number
+    let size = validateNumber(requestedParam as string);
+    // Obtaining questions...
+    try {
+      const questions = await generateQuestions(size)
+      res.json(questions)
+    } catch (err) { // Rethrowing error if anything occurs...
+      res.status(500).json({
+        status: 'error',
+        message: "Can't generate questions! Internal server error",
       });
-    
     }
-  
-  } catch (error) {
-    
-    res.status(500).json({
-      status: 'error',
-      message: "Can't generate questions! Internal server error",
-    });
-  
+  } catch (error: any) {
+    res.status(400).json({ status: 'fail', data: { error: error.message } });
   }
 };
 

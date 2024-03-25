@@ -5,7 +5,7 @@
 
 // configure EN settings for asciidoc
 include::src/config.adoc[]
-
+[.text-justify]
 = image:arc42-logo.png[arc42] Template
 :revnumber: 8.2 EN
 :revdate: January 2023

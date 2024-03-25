@@ -7,11 +7,11 @@ import { Request } from 'express';
  * @throws Error when there is a missing field
  */
 function validateRequiredFields(req: Request, requiredFields: string[]) {
-  for (const field of requiredFields) {
-    if (!(field in req.body)) {
-      throw new Error(`Missing required field: ${field}`);
+    for (const field of requiredFields) {
+        if (!(field in req.body)) {
+            throw new Error(`Missing required field: ${field}`);
+        }
     }
-  }
 }
 
 /**
@@ -21,11 +21,11 @@ function validateRequiredFields(req: Request, requiredFields: string[]) {
  * @throws Error when there is an empty field
  */
 function validateNotEmpty(req: Request, fieldsThatCannotBeEmpty: string[]) {
-  for (const field of fieldsThatCannotBeEmpty) {
-    if (req.body[field]?.trim().length === 0) {
-      throw new Error(`The field "${field}" cannot be empty`);
+    for (const field of fieldsThatCannotBeEmpty) {
+        if (req.body[field]?.trim().length === 0) {
+            throw new Error(`The field "${field}" cannot be empty`);
+        }
     }
-  }
 }
 
 /**
@@ -36,17 +36,16 @@ function validateNotEmpty(req: Request, fieldsThatCannotBeEmpty: string[]) {
  * @throws Error when there is a field that does not have the required length
  */
 function validateRequiredLength(
-  req: Request,
-  fields: string[],
-  requiredLength: number
+    req: Request,
+    fields: string[],
+    requiredLength: number
 ) {
-  for (const field of fields) {
-    if (req.body[field]?.length < requiredLength) {
-      throw new Error(
-        `The field "${field}" must have at least ${requiredLength} characters`
-      );
+    for (const field of fields) {
+        if (req.body[field]?.length < requiredLength) {
+            throw new Error(
+                `The field "${field}" must have at least ${requiredLength} characters`
+            );
+        }
     }
-  }
 }
-
-export { validateRequiredFields, validateNotEmpty, validateRequiredLength };
+module.exports =  { validateRequiredFields, validateNotEmpty, validateRequiredLength };

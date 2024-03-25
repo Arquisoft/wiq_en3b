@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 
-import { validateRequiredFields } from '../utils/field-validations';
+const { validateRequiredFields } = require('kaw-users-utils');
 
 import User from '../models/auth-model';
 

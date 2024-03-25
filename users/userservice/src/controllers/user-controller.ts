@@ -23,7 +23,7 @@ const addUser = async (req: Request, res: Response) => {
       user = await User.findOne({ username });
     } catch (error) {
       res.status(500).json({
-        status: 'fail',
+        status: 'error',
         data: {
           error: "Can't access users! Internal server error",
         },
@@ -48,7 +48,7 @@ const addUser = async (req: Request, res: Response) => {
       await newUser.save();
     } catch (error) {
       res.status(500).json({
-        status: 'fail',
+        status: 'error',
         data: {
           error: "Can't add user! Internal server error",
         },

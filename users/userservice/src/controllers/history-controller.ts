@@ -19,7 +19,7 @@ const getHistory = async (req: Request, res: Response) => {
       user = await User.findOne({ username });
     } catch (error) {
       res.status(500).json({
-        status: 'fail',
+        status: 'error',
         data: {
           error: SERVER_ERROR_MESSAGE,
         },
@@ -70,7 +70,7 @@ const getLeaderboard = async (req: Request, res: Response) => {
           .select('username history'); // Select only username and history (no password, date, etc.)
     } catch (error) {
       res.status(500).json({
-        status: 'fail',
+        status: 'error',
         data: {
           error: SERVER_ERROR_MESSAGE,
         },
@@ -107,7 +107,7 @@ const updateHistory = async (req: Request, res: Response) => {
       await user!.save();
     } catch (error) {
       res.status(500).json({
-        status: 'fail',
+        status: 'error',
         data: {
           error: "Can't update user! Internal server error",
         },
@@ -141,7 +141,7 @@ const incrementHistory = async (req: Request, res: Response) => {
       await user!.save();
     } catch (error) {
       res.status(500).json({
-        status: 'fail',
+        status: 'error',
         data: {
           error: "Can't update user! Internal server error",
         },

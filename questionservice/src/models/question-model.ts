@@ -229,7 +229,7 @@ const generateSampleTest = () => {
       query: `SELECT ?templateLabel ?answerLabel
       WHERE {
         ?answer wdt:P31 wd:Q5;  # Instance of human
-                wdt:P106 wd:Q937857;  # Occupation: "footbal player"
+                wdt:P106 wd:Q937857;  # Occupation: "inventor"
                 wdt:P18 ?template;
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
       }

@@ -13,8 +13,6 @@ const Quiz = (props) => {
 
   var [questions, setQuestions] = useState([])
 
-  var [error, setError] = useState(null)
-
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [quizData, setQuizData] = useState({});
 
@@ -30,19 +28,29 @@ const Quiz = (props) => {
 
   useEffect(() => {
     ; (async () => {
-      try {
-        setQuestions(await getQuestions())
-        setHaveQuestions(true)
-      } catch (error) {
-        setError(error.message) // Set error state if fetch fails
-      }
+      setQuestions(await getQuestions())
+      setHaveQuestions(true)
     })()
-  }, [])
+  }, [haveQuestions === false])
+
+  useEffect(() => {
+    if (questions) {
+      setTimer(Date.now() + props.timerValue * 1000)
+    }
+  }, [questions])
 
 
-  const getQuestions = async (numQuestions) => {
+  const getQuestions = async () => {
 
-    if (!numQuestions) numQuestions = 3
+    let numQuestions = 0
+
+    console.log(props.level)
+
+    if (props.level === "easy") numQuestions = 1
+    else if (props.level === "medium") numQuestions = 3
+    else if (props.level === "hard") numQuestions = 5
+
+    console.log("Fetching " + numQuestions + " questions")
 
     const response = await fetch(apiEndpoint + `/questions?size=${numQuestions}`)
 
@@ -51,6 +59,8 @@ const Quiz = (props) => {
     const data = await response.json()
 
     data.forEach(question => { question.answers = shuffle(question.answers) })
+
+    console.log(data)
 
     return data
   }
@@ -132,6 +142,7 @@ const Quiz = (props) => {
   };
 
   const tryAgainHandler = () => {
+    setHaveQuestions(false)
     setCurrentQuestionIndex(0);
     setQuizData({});
     setIsFinished(false);
@@ -156,26 +167,22 @@ const Quiz = (props) => {
     }
   };
 
-
-
   const pauseTimer = () => countdownTimer.current.pause();
 
   return (
     <React.Fragment>
-      {haveQuestions && !isFinished &&
-        <p className="quiz-timer">
-          <StopwatchIcon />
-          <Countdown date={timer} key={timerIndex} renderer={renderer} onComplete={countdownCompleteHandler} ref={countdownTimer} />
-        </p>
-      }
 
-      {!haveQuestions && <CircularProgress />}
 
+      {!haveQuestions && <CircularProgress size={25} color='inherit' />}
 
       {haveQuestions && isFinished &&
         <FinalResult result={score} quizLength={questions.length} onTryAgain={tryAgainHandler} />}
 
-      {haveQuestions && !isFinished &&
+      {haveQuestions && !isFinished && <>
+        <p className="quiz-timer">
+          <StopwatchIcon />
+          <Countdown date={timer} key={timerIndex} renderer={renderer} onComplete={countdownCompleteHandler} ref={countdownTimer} />
+        </p>
         <Question
           quiz={questions[currentQuestionIndex]}
           activeQuizIndex={currentQuestionIndex + 1}
@@ -183,7 +190,7 @@ const Quiz = (props) => {
           selected={quizData}
           btnDisabled={btnDisabled}
           onSelectAnswer={selectAnswerHandler}
-        />
+        /></>
       }
     </React.Fragment>
   );

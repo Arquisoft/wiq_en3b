@@ -1,2 +1,0 @@
-//{row.ranking === 2 && <SilverMedalIcon style={{ width: '40px' }} />}
-                    //{row.ranking === 3 && <BronzeMedalIcon style={{ width: '40px' }} />}

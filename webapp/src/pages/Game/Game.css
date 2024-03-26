@@ -1,0 +1,16 @@
+.button-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 30vh;
+    /* Ajusta según tu diseño */
+    justify-content: center;
+}
+
+/* Asegura que los botones tengan el mismo ancho */
+.button-container>* {
+    width: 200px;
+    /* Ajusta según tu diseño */
+    margin-bottom: 10px;
+    /* Espacio entre botones */
+}

@@ -11,8 +11,7 @@ const FinalResult = (props) => {
       <p>
         You answered {props.result} question correct out of {props.quizLength}.
       </p>
-
-      <Button onClick={props.onTryAgain}>Try again</Button>
+      <Button onClick={props.onTryAgain}>Play again</Button>
     </div>
   );
 };

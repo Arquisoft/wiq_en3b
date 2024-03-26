@@ -14,7 +14,16 @@ const loginUser = async (req: Request, res: Response) => {
     const password = req.body.password.toString();
 
     // Find the user by username in the database
-    const user = await User.findOne({ username });
+    let user;
+    try {
+      user = await User.findOne({ username });
+    } catch (err) { // Rethrowing error if anything occurs...
+      res.status(500).json({
+        status: 'error',
+        message: "Can't access users! Internal server error",
+      });
+      return;
+    }
 
     // Check if the user exists and verify the password
     if (user && (await bcrypt.compare(password, user.password))) {

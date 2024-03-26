@@ -4,6 +4,14 @@ import { getWikidataSparql } from '@entitree/helper';
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
 
+interface Question {
+  id: number,
+  question: string,
+  answers: object[],
+  correctAnswerId: number,
+  image?: string
+}
+
 /**
  * Generates n random questions  using Wikidata
  * @param n number of questions to be generated
@@ -77,32 +85,36 @@ function getRandomItem<T>(array: T[]): T {
 const questionJsonBuilder = (
   templateNumber: number,
   questionGen: string,
-  answersArray: object[]
+  answersArray: object[],
+  image: string = ""
 ): object => {
-  const myJson = {
+  const myJson: Question = {
     id: templateNumber,
     question: questionGen,
     answers: answersArray,
     correctAnswerId: 1,
   };
+  if (image != "") {
+    myJson.image = image;
+  }
 
   return myJson;
 };
 
 /**
  * In charge of asking wikidata the sparql query and building JSON question response
- * @param document the template of the question
+ * @param questionTemplate the template of the question
  * @param templateNumber number of the template
  * @returns JSON with the question and possible answers
  */
 const generateQuestionJson = async (
-  document: any,
+  questionTemplate: any,
   templateNumber: number
 ): Promise<object | void> => {
   try {
 
     // Options may be present...
-    let sparqlQuery: string = getSparqlQueryFromDocument(document);
+    let sparqlQuery: string = getSparqlQueryFromDocument(questionTemplate);
 
     // Make wikidata request and obtain response
     const wikidataResponse = await getWikidataSparql(sparqlQuery);
@@ -111,16 +123,22 @@ const generateQuestionJson = async (
     var randomIndexes: number[] = generateRandomIndexes(wikidataResponse.length);
 
     // Generate question
-    var questionGen = document.questionTemplate.replace(
+    var questionGen = questionTemplate.questionTemplate.replace(
       /\$\$\$/g,
       wikidataResponse[randomIndexes[0]].templateLabel
     );
+
+    let image = "";
+    if (questionTemplate.question_type.name.includes('Image')) {
+      image = wikidataResponse[randomIndexes[0]].templateLabel;
+    }
 
     // Generate answers
     var answersArray: object[] = getRandomResponses(wikidataResponse, randomIndexes);
 
     // Build it
-    return questionJsonBuilder(templateNumber, questionGen, answersArray);
+
+    return questionJsonBuilder(templateNumber, questionGen, answersArray, image);
   } catch (error) {
     console.error(error);
     console.error('Error while fetching Wikidata');

@@ -1,0 +1,42 @@
+/* General styles for the profile page */
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-picture {
+  /* Add styles for the profile picture */
+}
+
+.user-name {
+  /* Add styles for the user's name */
+}
+
+/* Styles for the profile table */
+.profile-table {
+  width: calc(100% - 400px); /* Adjust the width to leave space on both sides */
+  border-collapse: collapse;
+  margin-top: 20px;
+  margin-left: 200px; /* Add margin on the left side */
+  margin-right: 200px; /* Add margin on the right side */
+}
+
+.profile-table th,
+.profile-table td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.profile-table th {
+  background-color: #f2f2f2;
+}
+
+.profile-table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.profile-table tr:hover {
+  background-color: #ddd;
+}

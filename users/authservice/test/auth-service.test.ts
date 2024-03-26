@@ -58,4 +58,17 @@ describe('Auth Service', () => {
     const response = await request(app).post('/login').send(invalidBody);
     expect(response.status).toBe(400);
   });
+  it('Should fail if the database is not accessible', async () => {
+    const response = await testWithoutDatabase(() => {
+      return request(app).post('/login').send(user)
+    });
+    expect(response.status).toBe(500);
+  });
 });
+
+async function testWithoutDatabase(paramFunc : Function) {
+  await mongoose.connection.close();
+  const response : Response = await paramFunc();
+  await mongoose.connect(mongoServer.getUri());
+  return response;
+}

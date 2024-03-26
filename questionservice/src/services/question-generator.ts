@@ -3,7 +3,7 @@ import { getWikidataSparql } from '@entitree/helper';
 
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
-const SPARQL_TIMEOUT = 2000; // 2000 ms = 2s
+const SPARQL_TIMEOUT = 3000; // 3000 ms = 3s
 // Tested manually usign our beloved "Who wrote..." If
 // timer runs out, only returns the data that met that requirement (ex: requested 2 questions --> returned 1 question if
 // a question lasted too much) --> This can be changed to simply rethrow the error
@@ -15,10 +15,9 @@ const SPARQL_TIMEOUT = 2000; // 2000 ms = 2s
  */
 async function generateQuestions(n: number): Promise<object[] | void> {
   try {
-    // Obtain n random documents
-    const randomQuestionsTemplates = await QuestionModel.aggregate([
-      { $sample: { size: n } },
-    ]);
+    
+    // Trying to obtain n random documents
+    let randomQuestionsTemplates = await getRandomQuestions(n)
 
     // Generate and return questions generated from those documents
     let questionsArray = await generateQuestionsArray(
@@ -31,6 +30,53 @@ async function generateQuestions(n: number): Promise<object[] | void> {
   } catch (error) {
     throw error;
   }
+}
+
+/*
+  My initial approach was:
+  while(templates.length < n){
+    ...
+    // Causes unexpected behaviour due to loops and awaits (concurrency) 
+    // If query was size = 9, it was adding 5 + 4 + 3 + 2 + 1 instead of 5 + 4)
+    additionalQuestions = await ... 
+
+    // Appart from that, this part was adding directly the arrays: 
+    // randomQuestions = [t1, t2, t3, t4, t5, [t6, t7, t8, t9], [t10, t11, t12], ...]
+    randomQuestions.push(additional Questions)
+    ...
+  }
+
+  In conclusion, careful with loops and concurrency issues. Also, have in mind
+  this curious feature of "..." for pushing arrays
+*/
+async function getRandomQuestions(n: number): Promise<any[]> {
+
+  // We try to obtain the whole random templates
+  let randomQuestionsTemplates = await QuestionModel.aggregate([{ $sample: { size: n } }]);
+  
+
+  async function addMoreRandomQuestionsIfNeeded() {
+
+    // If required questions are fulfilled, simply returning the questions
+    if (randomQuestionsTemplates.length >= n)
+      return randomQuestionsTemplates;
+
+    // Up to here, we need more documents. We calculate the remaining ones
+    const remaining = n - randomQuestionsTemplates.length;
+    
+    // Fetch again from DB more templates
+    const additionalQuestions = await QuestionModel.aggregate([{ $sample: { size: remaining } }]);
+    // ... additionalQuestions -> this is called "sparse" syntax
+    // is used to concatenate the elements of array individually and not the whole array
+    // otherwise, the result would be: 
+    randomQuestionsTemplates.push(...additionalQuestions); 
+
+    // This recursive calls are helpful for performing awaits inside while loops
+    return addMoreRandomQuestionsIfNeeded(); 
+  }
+
+  // call function that add more if needed
+  return addMoreRandomQuestionsIfNeeded();
 }
 
 /**

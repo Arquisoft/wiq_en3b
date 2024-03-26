@@ -155,6 +155,20 @@ paths:
                     status: Fail
                     data:
                       error: The provided user <query_parameter> is not registered in the application      
+        500:
+          description: An internal server error has occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+              examples:
+                cantFindUser:
+                  summary: DB had a problem finding the user
+                  value:
+                    status: error
+                    data:
+                      error: Can't access users! Internal server error
+
 
   /history/leaderboard:
     get:
@@ -205,6 +219,20 @@ paths:
                     status: Fail
                     data:
                       error: The size must be a positive value.
+        
+        500:
+          description: An internal server error has occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+              examples:
+                cantFindUser:
+                  summary: DB had a problem getting the leaderboard
+                  value:
+                    status: error
+                    data:
+                      error: Can't access users! Internal server error
              
 components:
 
@@ -253,7 +281,20 @@ components:
             error:
               description: The error message due to client error
               type: string
-    
+
+    ServerErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error status response
+        data:
+          type: object
+          properties:
+            error:
+              type: string
+              description: A message that explains the error
+
     ServerErrorQSResponse:
       type: object
       properties:
@@ -299,8 +340,7 @@ components:
                   username:
                     type: string
                     description: A user in leaderboard
-              
-               
+                         
     history:
       type: object
       properties:

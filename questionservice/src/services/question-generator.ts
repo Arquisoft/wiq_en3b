@@ -3,6 +3,10 @@ import { getWikidataSparql } from '@entitree/helper';
 
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
+const SPARQL_TIMEOUT = 2000; // 2000 ms = 2s
+// Tested manually usign our beloved "Who wrote..." If
+// timer runs out, only returns the data that met that requirement (ex: requested 2 questions --> returned 1 question if
+// a question lasted too much) --> This can be changed to simply rethrow the error
 
 /**
  * Generates n random questions  using Wikidata
@@ -17,9 +21,12 @@ async function generateQuestions(n: number): Promise<object[] | void> {
     ]);
 
     // Generate and return questions generated from those documents
-    const questionsArray = await generateQuestionsArray(
+    let questionsArray = await generateQuestionsArray(
       randomQuestionsTemplates
     );
+
+    questionsArray = questionsArray.filter( q => typeof(q) === 'object' );
+
     return questionsArray;
   } catch (error) {
     throw error;
@@ -105,7 +112,12 @@ const generateQuestionJson = async (
     let sparqlQuery: string = getSparqlQueryFromDocument(document);
 
     // Make wikidata request and obtain response
-    const wikidataResponse = await getWikidataSparql(sparqlQuery);
+    let wikidataResponse;
+    try {
+      wikidataResponse = await getWikidataSparqlWithTimeout(sparqlQuery, SPARQL_TIMEOUT);
+    } catch(error){
+      return ; // simply skipping the production of question since it lasted too long
+    }
 
     // Pick random responses
     var randomIndexes: number[] = generateRandomIndexes(wikidataResponse.length);
@@ -127,6 +139,35 @@ const generateQuestionJson = async (
     throw error;
   }
 };
+
+/**
+ * Enhanced Sparql method that adds a timeout to the API call using Promise.race()
+ * With this approach, we either obtain the wikidataResponse or an Error stating
+ * that the timeout has exceeded. This way, the Question Service will never be
+ * kept on hold by waiting the response in case some queries last too long.
+ * 
+ * @param sparqlQuery the query to prompt into Wikidata Sparql service.
+ * @param requestTimeout the timeout in MS for the Service to respond
+ * @returns A promise with the aforementioned functionality. 
+ */
+async function getWikidataSparqlWithTimeout(sparqlQuery: string, requestTimeout: number): Promise<any>{
+
+  // Promise 1: Prompt to Sparql service
+  const wikidataPromise = getWikidataSparql(sparqlQuery);
+  
+  // Promise 2: Timer
+  const timeoutPromise = new Promise( (_, reject) => {
+
+    // If timer is exceeded, an error is thrown
+    setTimeout(() => reject(new Error("Timeout exceeded for query: " + sparqlQuery )), 
+          requestTimeout)
+
+  })
+
+  // Promise.race() => Group an array of Promises into a single one. The result of
+  // this new promise is the result of ANY of the promises given.
+  return Promise.race( [wikidataPromise, timeoutPromise] )
+}
 
 /**
  * Generates random indexes for the answers

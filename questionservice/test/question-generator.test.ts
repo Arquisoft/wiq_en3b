@@ -24,38 +24,37 @@ describe("Question Service - Question Generator", () => {
 
         // Mock response for fetching MongoDB documents
         const mockResponseAggregate: object[] = [{
-            questionTemplate: 'What is the Capital of $$$ ?',
+            questionTemplate: 'What is the the atomic number of $$$?',
             question_type: {
-                name: 'Capitals',
+                name: 'Chemistry',
                 query: `SELECT ?templateLabel ?answerLabel
-                        WHERE {
-                        ?template wdt:P31 wd:$$$; # Entity
-                        wdt:P36 ?answer.  # Capital
-                        SERVICE wikibase:label { bd:serviceParam wikibase:language "en,es"}
-                        }
-                        ORDER BY UUID() # Add randomness to the results
-                        LIMIT 10`,
-                entities: [
-                    'Q6256',
-                    'Q10742',
-                ],
-            }
+              WHERE
+              {
+                ?template wdt:P31 wd:Q11344;
+                         wdt:P1086 ?answer;
+                SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+              }
+              ORDER BY UUID()
+              LIMIT 10
+              `,
+                entities: [],
+            },
         }];
         (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate)
 
         // Mock response for Wikidata call
         const mockResponseWikidata = [{
-            templateLabel: "Peru",
-            answerLabel: "Lima"
+            templateLabel: "Hydrogen",
+            answerLabel: "1"
         }, {
-            templateLabel: "Spain",
-            answerLabel: "Madrid"
+            templateLabel: "Cooper",
+            answerLabel: "29"
         }, {
-            templateLabel: "Russia",
-            answerLabel: "Moscow"
+            templateLabel: "Magnesium",
+            answerLabel: "12"
         }, {
-            templateLabel: "Ucrania",
-            answerLabel: "Kiev"
+            templateLabel: "Heliun",
+            answerLabel: "2"
         }];
         (getWikidataSparql as jest.Mock).mockReturnValue(mockResponseWikidata)
 

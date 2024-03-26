@@ -192,16 +192,16 @@ describe("Question Service - Question Generator", () => {
 
         // Mock response for Wikidata call
         const mockResponseWikidata = [{
-            templateLabel: "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Lesotho.svg",
+            templateLabel: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Lesotho.svg",
             answerLabel: "Lesotho"
         }, {
-            templateLabel: "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Senegal.svg",
+            templateLabel: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Senegal.svg",
             answerLabel: "Senegal"
         }, {
-            templateLabel: "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Zambia.svg",
+            templateLabel: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Zambia.svg",
             answerLabel: "Zambia"
         }, {
-            templateLabel: "http://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Slovakia%20%281939%E2%80%931945%29.svg",
+            templateLabel: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Slovakia%20%281939%E2%80%931945%29.svg",
             answerLabel: "Slovak Republic"
         }];
         (getWikidataSparql as jest.Mock).mockReturnValue(mockResponseWikidata)

@@ -98,6 +98,7 @@ const questionJsonBuilder = (
     answers: answersArray,
     correctAnswerId: 1,
   };
+
   if (image != "") {
     myJson.image = image;
   }
@@ -133,8 +134,8 @@ const generateQuestionJson = async (
     );
 
     // Check if the question is an image question
-    let image = "";
-    if (questionTemplate.question_type.name.includes('Image')) {
+    let image = null;
+    if (questionTemplate.question_type.name.includes('Images')) {
       image = wikidataResponse[randomIndexes[0]].templateLabel;
     }
 
@@ -142,7 +143,10 @@ const generateQuestionJson = async (
     var answersArray: object[] = getRandomResponses(wikidataResponse, randomIndexes);
 
     // Build it
-    return questionJsonBuilder(templateNumber, questionGen, answersArray, image);
+    if (image != null)
+      return questionJsonBuilder(templateNumber, questionGen, answersArray, image);
+    else
+      return questionJsonBuilder(templateNumber, questionGen, answersArray);
   } catch (error) {
     console.error(error);
     console.error('Error while fetching Wikidata');

@@ -7,10 +7,10 @@ import { ReactComponent as MoonIcon } from "../../assets/moon-solid.svg";
 const Header = (props) => {
   return (
     <header className="header">
-      <div className="theme" onClick={props.onChangeTheme}>
-        {props.theme === "light" ? <MoonIcon /> : <SunIcon />}
+      <div className="theme" onClick={props.onChangeTheme} data-testid="theme-button">
+        {props.theme === "light" ? <MoonIcon data-testid="theme-icon" /> : <SunIcon data-testid="theme-icon" />}
       </div>
-      <div className="header-button" onClick={props.onToggleNav}>
+      <div className="header-button" onClick={props.onToggleNav} data-testid="nav-button">
         <BarIcon />
       </div>
     </header>

@@ -13,48 +13,6 @@ jest.mock("../src/models/question-model")
 jest.mock("@entitree/helper")
 
 const numberQuestions = 1
-
-async function mockQuestionGeneration() {
-    // Mock response for fetching MongoDB documents
-    const mockResponseAggregate: object[] = [{
-        questionTemplate: 'What is the Capital of $$$ ?',
-        question_type: {
-            name: 'Capitals',
-            query: `SELECT ?templateLabel ?answerLabel
-                    WHERE {
-                    ?template wdt:P31 wd:$$$; # Entity
-                    wdt:P36 ?answer.  # Capital
-                    SERVICE wikibase:label { bd:serviceParam wikibase:language "en,es"}
-                    }
-                    ORDER BY UUID() # Add randomness to the results
-                    LIMIT 10`,
-            entities: [
-                'Q6256',
-                'Q10742',
-            ],
-        }
-    }];
-    (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate)
-
-    // Mock response for Wikidata call
-    const mockResponseWikidata = [{
-        templateLabel: "Peru",
-        answerLabel: "Lima"
-    }, {
-        templateLabel: "Spain",
-        answerLabel: "Madrid"
-    }, {
-        templateLabel: "Russia",
-        answerLabel: "Moscow"
-    }, {
-        templateLabel: "Ucrania",
-        answerLabel: "Kiev"
-    }];
-    (getWikidataSparql as jest.Mock).mockReturnValue(mockResponseWikidata)
-
-    const response = await generateQuestions(numberQuestions) as any
-    return response;
-}
 describe("Question Service - Question Generator", () => {
 
     beforeEach(() => {
@@ -146,6 +104,52 @@ function checkCalltoQuestionModelAggregate() {
     ]);
 }
 
+async function mockWikidataResponse(mockResponseWikidata: any) {
+    (getWikidataSparql as jest.Mock).mockReturnValue(mockResponseWikidata)
+
+    const response = await generateQuestions(numberQuestions) as any
+    return response;
+}
+
+async function mockQuestionGeneration() {
+    // Mock response for fetching MongoDB documents
+    const mockResponseAggregate: object[] = [{
+        questionTemplate: 'What is the Capital of $$$ ?',
+        question_type: {
+            name: 'Capitals',
+            query: `SELECT ?templateLabel ?answerLabel
+                    WHERE {
+                    ?template wdt:P31 wd:$$$; # Entity
+                    wdt:P36 ?answer.  # Capital
+                    SERVICE wikibase:label { bd:serviceParam wikibase:language "en,es"}
+                    }
+                    ORDER BY UUID() # Add randomness to the results
+                    LIMIT 10`,
+            entities: [
+                'Q6256',
+                'Q10742',
+            ],
+        }
+    }];
+    (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate)
+
+    // Mock response for Wikidata call
+    const mockResponseWikidata = [{
+        templateLabel: "Peru",
+        answerLabel: "Lima"
+    }, {
+        templateLabel: "Spain",
+        answerLabel: "Madrid"
+    }, {
+        templateLabel: "Russia",
+        answerLabel: "Moscow"
+    }, {
+        templateLabel: "Ucrania",
+        answerLabel: "Kiev"
+    }];
+    return await mockWikidataResponse(mockResponseWikidata);
+}
+
 async function mockQuestionGenerationWithImage() {
     // Mock response for fetching MongoDB documents
     const mockResponseAggregate: object[] = [{
@@ -184,11 +188,7 @@ async function mockQuestionGenerationWithImage() {
         templateLabel: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Slovakia%20%281939%E2%80%931945%29.svg",
         answerLabel: "Slovak Republic"
     }];
-    (getWikidataSparql as jest.Mock).mockReturnValue(mockResponseWikidata)
-
-    const response = await generateQuestions(numberQuestions) as any
-    return response;
-
+    return await mockWikidataResponse(mockResponseWikidata);
 }
 
 function checkAllFields(response: any) {

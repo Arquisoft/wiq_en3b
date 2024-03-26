@@ -13,9 +13,6 @@ const Header = (props) => {
         <img src="KaW.png" alt="Logo of Know and Win APP" />
       </Link>
       <div className="options">
-        <Link to={user ? '/logout' : '/login'} className="login-logout-link">
-          {user ? 'Logout' : 'Login'}
-        </Link>
         <div className="theme" onClick={props.onChangeTheme}>
           {props.theme === "light" ? <MoonIcon /> : <SunIcon />}
         </div>

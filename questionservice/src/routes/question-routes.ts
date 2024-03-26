@@ -6,11 +6,17 @@ const router = express.Router();
 router.get('/questions', generateQuestionsController);
 
 // Default endpoint
-router.get('/', (_req,res) =>{
-    res.json({
-        serviceName: "Question Service",
-        greet: "Hello! I think you are trying to connect to the Question Service. Pls," +
-        "access through other endpoint like /questions?size=10"
+router.get('/*', (_req,res) =>{
+    
+    res.status(200).json({
+        status:"success",
+        data:{
+            serviceName: "Question Service",
+            health: "Operative",
+            greet: "Hello! I think you are trying to connect to the Question Service. Pls," +
+            "access through other endpoint like /questions?size=10"
+        }
+        
     });
 });
 

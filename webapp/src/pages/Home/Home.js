@@ -1,21 +1,32 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
 import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
+import './Home.css'
 
 function Home() {
+  const navigate = useNavigate()
   const { user } = useAuth()
 
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+    }
+  }, [user, navigate])
+
   return (
-    <>
-      <div>Home</div>
+    <div className='homeDiv'>
       {user ? (
         <>
-          <div>{user.username}</div>
-          <Link to={'/logout'}>Logout</Link>
+          <img className="App-logo" src="KaW.png" alt="Logo of Know and Win APP" />
+          <div className="welcome-message">
+            Welcome back, <span className="username">{user.username}</span>!
+          </div>
         </>
       ) : (
-        <div>You need to login</div>
+        <div>Please, login to play the game</div>
       )}
-    </>
+    </div>
   )
 }
 

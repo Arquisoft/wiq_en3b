@@ -63,7 +63,7 @@ const Login = () => {
   }
 
   return (
-    <div className="login">
+    <div className='login'>
       <form>
         <h1>Login</h1>
         {error && <div className="response-error">{error}</div>}

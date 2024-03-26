@@ -1,11 +1,12 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 
-import {
+const {
   validateRequiredFields,
   validateNotEmpty,
   validateRequiredLength,
-} from '../utils/field-validations';
+} = require('kaw-users-utils');
+
 import User from '../models/user-model';
 
 const addUser = async (req: Request, res: Response) => {

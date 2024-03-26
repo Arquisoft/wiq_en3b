@@ -44,4 +44,18 @@ describe('Auth Service', () => {
     expect(response.status).toBe(200);
     expect(response.body.data.user).toHaveProperty('username', 'testuser');
   });
+  it('Should fail the login operation /login when invalid credentials are used', async () => {
+    const invalidUser = {
+      username: 'testuser',
+      password: 'invalidpassword',
+    };
+    const response = await request(app).post('/login').send(invalidUser);
+    expect(response.status).toBe(401);
+  });
+  it('Should fail if no user and password is send in the body', async () => {
+    const invalidBody = {
+    };
+    const response = await request(app).post('/login').send(invalidBody);
+    expect(response.status).toBe(400);
+  });
 });

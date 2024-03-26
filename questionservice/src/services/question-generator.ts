@@ -4,6 +4,9 @@ import { getWikidataSparql } from '@entitree/helper';
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
 
+/**
+ * Interface for a question which may or not contain an image
+ */
 interface Question {
   id: number,
   question: string,
@@ -80,6 +83,7 @@ function getRandomItem<T>(array: T[]): T {
  * @param templateNumber number of the template
  * @param questionGen  Question generated
  * @param answersArray  Array of answers
+ * @param image  Image URL which is optional
  * @returns the JSON question
  */
 const questionJsonBuilder = (
@@ -128,6 +132,7 @@ const generateQuestionJson = async (
       wikidataResponse[randomIndexes[0]].templateLabel
     );
 
+    // Check if the question is an image question
     let image = "";
     if (questionTemplate.question_type.name.includes('Image')) {
       image = wikidataResponse[randomIndexes[0]].templateLabel;
@@ -137,7 +142,6 @@ const generateQuestionJson = async (
     var answersArray: object[] = getRandomResponses(wikidataResponse, randomIndexes);
 
     // Build it
-
     return questionJsonBuilder(templateNumber, questionGen, answersArray, image);
   } catch (error) {
     console.error(error);

@@ -275,23 +275,25 @@ async function mockWikidataSparqlWithImage() {
  */
 function checkAllFields(response: any) {
 
-    for(let i = 0; i < response.length; i++){
-        expect(response[i]).toHaveProperty("id") // a given id
-        expect(response[i]).toHaveProperty("question") // the generated question
-        expect(response[i]).toHaveProperty("answers") // a list of answers
-        expect(response[i].answers.length).toBe(4) // 4 answers
-        expect(response[i]).toHaveProperty("correctAnswerId", 1) // a correct answer Id set to 1
+    for(let r of response){
+        expect(r).toHaveProperty("id") // a given id
+        expect(r).toHaveProperty("question") // the generated question
+        expect(r).toHaveProperty("answers") // a list of answers
+        expect(r.answers.length).toBe(4) // 4 answers
+        expect(r).toHaveProperty("correctAnswerId", 1) // a correct answer Id set to 1
     }
   
 }
 
 function checkAllFieldsWithImage(response: any) {
     checkAllFields(response)
-    expect(response[0]).toHaveProperty("image") // an image field
+    for(let r of response)
+        expect(r).toHaveProperty("image") // an image field
 }
 
 function checkAllFieldsWithoutImage(response: any) {
     checkAllFields(response)
-    expect(response[0]).not.toHaveProperty("image") // no image field
+    for(let r of response)
+        expect(r).not.toHaveProperty("image") // no image field
 }
 

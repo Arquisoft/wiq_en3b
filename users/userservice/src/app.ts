@@ -4,6 +4,7 @@ import userRouter from './routes/user-routes';
 import historyRouter from './routes/history-routes';
 
 const app = express();
+app.disable("x-powered-by");
 
 app.use(bodyParser.json());
 

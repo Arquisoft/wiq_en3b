@@ -37,8 +37,6 @@ describe('Gateway Service', () => {
   (axios.post as jest.Mock).mockImplementation(postMocks);
   (axios.get as jest.Mock).mockImplementation(getMocks);
 
-  //(fs.existsSync as jest.Mock).mockReturnValue(false);
-
   // Test /login endpoint
   it('should forward login request to auth service', async () => {
     const response = await request(app)

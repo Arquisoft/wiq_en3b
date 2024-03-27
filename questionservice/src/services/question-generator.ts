@@ -1,19 +1,13 @@
 import { QuestionModel } from '../models/question-model';
-import { getWikidataSparql } from '@entitree/helper';
+import { getRandomItem, getWikidataSparqlWithTimeout, Question } 
+from '../utils/question-generator-utils';
 
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
-
-/**
- * Interface for a question which may or not contain an image
- */
-interface Question {
-  id: number,
-  question: string,
-  answers: object[],
-  correctAnswerId: number,
-  image?: string
-}
+const SPARQL_TIMEOUT = 5000; // 5000 ms = 5s
+// Tested manually usign our beloved "Who wrote..." If
+// timer runs out, only returns the data that met that requirement (ex: requested 2 questions --> returned 1 question if
+// a question lasted too much) --> This can be changed to simply rethrow the error
 
 /**
  * Generates n random questions  using Wikidata
@@ -22,19 +16,69 @@ interface Question {
  */
 async function generateQuestions(n: number): Promise<object[] | void> {
   try {
-    // Obtain n random documents
-    const randomQuestionsTemplates = await QuestionModel.aggregate([
-      { $sample: { size: n } },
-    ]);
+    
+    // Trying to obtain n random documents
+    let randomQuestionsTemplates = await getRandomQuestions(n)
 
     // Generate and return questions generated from those documents
-    const questionsArray = await generateQuestionsArray(
+    let questionsArray = await generateQuestionsArray(
       randomQuestionsTemplates
     );
+
+    // Skipping questions not generated a.k.a. void
+    questionsArray = questionsArray.filter( q => typeof(q) === 'object' );
+
     return questionsArray;
   } catch (error) {
     throw error;
   }
+}
+
+/*
+  My initial approach was:
+  while(templates.length < n){
+    ...
+    // Causes unexpected behaviour due to loops and awaits (concurrency) 
+    // If query was size = 9, it was adding 5 + 4 + 3 + 2 + 1 instead of 5 + 4)
+    additionalQuestions = await ... 
+
+    // Appart from that, this part was adding directly the arrays: 
+    // randomQuestions = [t1, t2, t3, t4, t5, [t6, t7, t8, t9], [t10, t11, t12], ...]
+    randomQuestions.push(additional Questions)
+    ...
+  }
+
+  In conclusion, careful with loops and concurrency issues. Also, have in mind
+  this curious feature of "..." for pushing arrays
+*/
+async function getRandomQuestions(n: number): Promise<any[]> {
+
+  // We try to obtain the whole random templates
+  let randomQuestionsTemplates = await QuestionModel.aggregate([{ $sample: { size: n } }]);
+  
+
+  async function addMoreRandomQuestionsIfNeeded() {
+
+    // If required questions are fulfilled, simply returning the questions
+    if (randomQuestionsTemplates.length >= n)
+      return randomQuestionsTemplates;
+
+    // Up to here, we need more documents. We calculate the remaining ones
+    const remaining = n - randomQuestionsTemplates.length;
+    
+    // Fetch again from DB more templates
+    const additionalQuestions = await QuestionModel.aggregate([{ $sample: { size: remaining } }]);
+    // ... additionalQuestions -> this is called "sparse" syntax
+    // is used to concatenate the elements of array individually and not the whole array
+    // otherwise, the result would be: 
+    randomQuestionsTemplates.push(...additionalQuestions); 
+
+    // This recursive calls are helpful for performing awaits inside while loops
+    return addMoreRandomQuestionsIfNeeded(); 
+  }
+
+  // call function that add more if needed
+  return addMoreRandomQuestionsIfNeeded();
 }
 
 /**
@@ -50,15 +94,15 @@ const generateQuestionsArray = async (
   const promises = randomQuestionsTemplates.map(
     async (template: any, i: number) => {
       try {
-        console.log('Generating question of type ' + template.question_type.name);
-        const questionJson = await generateQuestionJson(template, i);
-        console.log('Question generated!');
-
-        return questionJson;
+        
+        return await generateQuestionJson(template, i);
+      
       } catch (error) {
+        
         console.error(
           'Error while generating question for template: ' + template
         );
+        
         throw error;
       }
     }
@@ -67,16 +111,67 @@ const generateQuestionsArray = async (
   return Promise.all(promises);
 };
 
-
 /**
- * Gets a random item from an array
- * @param array 
- * @returns A random item from the array
+ * In charge of asking wikidata the sparql query and building JSON question response
+ * @param questionTemplate the template of the question
+ * @param templateNumber number of the template
+ * @returns JSON with the question and possible answers
  */
-function getRandomItem<T>(array: T[]): T {
-  const randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
-}
+const generateQuestionJson = async (
+  questionTemplate: any,
+  templateNumber: number
+): Promise<object | void> => {
+  try {
+
+    // Options may be present...
+    let sparqlQuery: string = getSparqlQueryFromDocument(questionTemplate);
+
+    // Try a wikidata request
+    let wikidataResponse;
+    try {
+      wikidataResponse = await getWikidataSparqlWithTimeout(sparqlQuery, SPARQL_TIMEOUT);
+    } catch(error){ // If an error has occured (timeout), retry again with a fast query
+
+      try{
+
+        questionTemplate = await QuestionModel.findOne({'question_type.name': 'Chemistry'})
+        sparqlQuery = getSparqlQueryFromDocument(questionTemplate);
+        wikidataResponse = await getWikidataSparqlWithTimeout(sparqlQuery, SPARQL_TIMEOUT)
+        
+      }catch(error){ // an error occurred again (timeout), this time skipping
+        return ;
+      }
+
+    }
+
+    // Pick random responses
+    var randomIndexes: number[] = generateRandomIndexes(wikidataResponse.length);
+
+    // Generate question
+    var questionGen = questionTemplate.questionTemplate.replace(
+      /\$\$\$/g,
+      wikidataResponse[randomIndexes[0]].templateLabel
+    );
+
+    // Check if the question is an image question
+    let image = null;
+    if (questionTemplate.question_type.name.includes('Images')) {
+      image = wikidataResponse[randomIndexes[0]].templateLabel;
+    }
+
+    // Generate answers
+    var answersArray: object[] = getRandomResponses(wikidataResponse, randomIndexes);
+
+    // Build it
+    if (image != null)
+      return questionJsonBuilder(templateNumber, questionGen, answersArray, image);
+    else
+      return questionJsonBuilder(templateNumber, questionGen, answersArray);
+  } catch (error) {
+    console.error('Error while fetching Wikidata');
+    throw error;
+  }
+};
 
 /**
  * Builds a question JSON out of parameters
@@ -106,53 +201,23 @@ const questionJsonBuilder = (
   return myJson;
 };
 
+
+
 /**
- * In charge of asking wikidata the sparql query and building JSON question response
- * @param questionTemplate the template of the question
- * @param templateNumber number of the template
- * @returns JSON with the question and possible answers
+ * Includes the eligible entities on the SPARQL query and returns it
+ * @param sparqlQuery the query
+ * @param document document
+ * @returns the query with the entities included, if possible
  */
-const generateQuestionJson = async (
-  questionTemplate: any,
-  templateNumber: number
-): Promise<object | void> => {
-  try {
-
-    // Options may be present...
-    let sparqlQuery: string = getSparqlQueryFromDocument(questionTemplate);
-
-    // Make wikidata request and obtain response
-    const wikidataResponse = await getWikidataSparql(sparqlQuery);
-
-    // Pick random responses
-    var randomIndexes: number[] = generateRandomIndexes(wikidataResponse.length);
-
-    // Generate question
-    var questionGen = questionTemplate.questionTemplate.replace(
-      /\$\$\$/g,
-      wikidataResponse[randomIndexes[0]].templateLabel
-    );
-
-    // Check if the question is an image question
-    let image = null;
-    if (questionTemplate.question_type.name.includes('Images')) {
-      image = wikidataResponse[randomIndexes[0]].templateLabel;
-    }
-
-    // Generate answers
-    var answersArray: object[] = getRandomResponses(wikidataResponse, randomIndexes);
-
-    // Build it
-    if (image != null)
-      return questionJsonBuilder(templateNumber, questionGen, answersArray, image);
-    else
-      return questionJsonBuilder(templateNumber, questionGen, answersArray);
-  } catch (error) {
-    console.error(error);
-    console.error('Error while fetching Wikidata');
-    throw error;
+function getSparqlQueryFromDocument(document: any): string {
+  let sparqlQuery: string = document.question_type.query;
+  let optionEntities = document.question_type.entities as string[];
+  if (optionEntities.length > 0) {
+    var randomEntity = getRandomItem(optionEntities);
+    sparqlQuery = sparqlQuery.replace(/\$\$\$/g, randomEntity);
   }
-};
+  return sparqlQuery;
+}
 
 /**
  * Generates random indexes for the answers
@@ -170,22 +235,6 @@ function generateRandomIndexes(length: number, numberOfIndexes: number = options
     randomIndexes[i] = possibleRandom;
   }
   return randomIndexes;
-}
-
-/**
- * Includes the eligible entities on the SPARQL query and returns it
- * @param sparqlQuery the query
- * @param document document
- * @returns the query with the entities included, if possible
- */
-function getSparqlQueryFromDocument(document: any): string {
-  let sparqlQuery: string = document.question_type.query;
-  let optionEntities = document.question_type.entities as string[];
-  if (optionEntities.length > 0) {
-    var randomEntity = getRandomItem(optionEntities);
-    sparqlQuery = sparqlQuery.replace(/\$\$\$/g, randomEntity);
-  }
-  return sparqlQuery;
 }
 
 

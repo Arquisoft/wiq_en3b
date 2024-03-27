@@ -92,7 +92,7 @@ describe("Question Service - Question Generation", () => {
       
     })
 
-    it("should return an error when controller fails", async () => {
+    it("should return an error 500 when controller fails", async () => {
 
         // Mocking the response of generateQuestions(size) => Error!
         const mockError = new Error("Mock!! A fail");

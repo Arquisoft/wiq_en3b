@@ -1,42 +1,43 @@
-/* General styles for the profile page */
 .profile-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 50px;
 }
 
-.profile-picture {
-  /* Add styles for the profile picture */
-}
-
-.user-name {
-  /* Add styles for the user's name */
-}
-
-/* Styles for the profile table */
 .profile-table {
-  width: calc(100% - 400px); /* Adjust the width to leave space on both sides */
-  border-collapse: collapse;
-  margin-top: 20px;
-  margin-left: 200px; /* Add margin on the left side */
-  margin-right: 200px; /* Add margin on the right side */
+    width: 70%;
+    border-collapse: collapse;
+    margin-top: 50px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .profile-table th,
 .profile-table td {
-  border: 1px solid #ddd;
-  padding: 8px;
-  text-align: left;
+    border: 1px solid transparent; 
+    padding: 12px;
+    text-align: left;
 }
 
 .profile-table th {
-  background-color: #f2f2f2;
-}
-
-.profile-table tr:nth-child(even) {
-  background-color: #f2f2f2;
+    background-color: #f8f1ffee;
+    font-weight: bold;
+    text-align: center;
+    font-size: 20px;
 }
 
 .profile-table tr:hover {
-  background-color: #ddd;
+    background-color: #f8f1ff62;
+}
+
+.profile-table tr:hover td {
+    font-size: 19px;
+}
+
+.profile-table td {
+    font-size: 16px;
+}
+
+.profile-table .value {
+    text-align: center;
 }

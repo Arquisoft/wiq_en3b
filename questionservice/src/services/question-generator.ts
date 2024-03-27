@@ -3,7 +3,7 @@ import { getWikidataSparql } from '@entitree/helper';
 
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
-const SPARQL_TIMEOUT = 3000; // 3000 ms = 3s
+const SPARQL_TIMEOUT = 5000; // 5000 ms = 5s
 // Tested manually usign our beloved "Who wrote..." If
 // timer runs out, only returns the data that met that requirement (ex: requested 2 questions --> returned 1 question if
 // a question lasted too much) --> This can be changed to simply rethrow the error
@@ -35,6 +35,7 @@ async function generateQuestions(n: number): Promise<object[] | void> {
       randomQuestionsTemplates
     );
 
+    // Skipping questions not generated a.k.a. void
     questionsArray = questionsArray.filter( q => typeof(q) === 'object' );
 
     return questionsArray;
@@ -103,60 +104,21 @@ const generateQuestionsArray = async (
   const promises = randomQuestionsTemplates.map(
     async (template: any, i: number) => {
       try {
-        console.log('Generating question of type ' + template.question_type.name);
-        const questionJson = await generateQuestionJson(template, i);
-        console.log('Question generated!');
-
-        return questionJson;
+        
+        return await generateQuestionJson(template, i);
+      
       } catch (error) {
+        
         console.error(
           'Error while generating question for template: ' + template
         );
+        
         throw error;
       }
     }
   );
 
   return Promise.all(promises);
-};
-
-
-/**
- * Gets a random item from an array
- * @param array 
- * @returns A random item from the array
- */
-function getRandomItem<T>(array: T[]): T {
-  const randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
-}
-
-/**
- * Builds a question JSON out of parameters
- * @param templateNumber number of the template
- * @param questionGen  Question generated
- * @param answersArray  Array of answers
- * @param image  Image URL which is optional
- * @returns the JSON question
- */
-const questionJsonBuilder = (
-  templateNumber: number,
-  questionGen: string,
-  answersArray: object[],
-  image: string = ""
-): object => {
-  const myJson: Question = {
-    id: templateNumber,
-    question: questionGen,
-    answers: answersArray,
-    correctAnswerId: 1,
-  };
-
-  if (image != "") {
-    myJson.image = image;
-  }
-
-  return myJson;
 };
 
 /**
@@ -206,7 +168,6 @@ const generateQuestionJson = async (
     else
       return questionJsonBuilder(templateNumber, questionGen, answersArray);
   } catch (error) {
-    console.error(error);
     console.error('Error while fetching Wikidata');
     throw error;
   }
@@ -240,6 +201,44 @@ async function getWikidataSparqlWithTimeout(sparqlQuery: string, requestTimeout:
   // this new promise is the result of ANY of the promises given.
   return Promise.race( [wikidataPromise, timeoutPromise] )
 }
+
+/**
+ * Gets a random item from an array
+ * @param array 
+ * @returns A random item from the array
+ */
+function getRandomItem<T>(array: T[]): T {
+  const randomIndex = Math.floor(Math.random() * array.length);
+  return array[randomIndex];
+}
+
+/**
+ * Builds a question JSON out of parameters
+ * @param templateNumber number of the template
+ * @param questionGen  Question generated
+ * @param answersArray  Array of answers
+ * @param image  Image URL which is optional
+ * @returns the JSON question
+ */
+const questionJsonBuilder = (
+  templateNumber: number,
+  questionGen: string,
+  answersArray: object[],
+  image: string = ""
+): object => {
+  const myJson: Question = {
+    id: templateNumber,
+    question: questionGen,
+    answers: answersArray,
+    correctAnswerId: 1,
+  };
+
+  if (image != "") {
+    myJson.image = image;
+  }
+
+  return myJson;
+};
 
 /**
  * Generates random indexes for the answers

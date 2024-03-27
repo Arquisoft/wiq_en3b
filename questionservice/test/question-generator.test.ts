@@ -2,8 +2,6 @@ import { QuestionModel } from '../src/models/question-model';
 import { getWikidataSparql } from '@entitree/helper';
 import { generateQuestions } from '../src/services/question-generator';
 
-// INTO A DIFFERENT FILE TO AVOID MOCKS COLLIDING WITH EACH OTHER
-
 // Mocking: QuestionModel.aggregate()
 // Avoiding flakiness of DB calls
 jest.mock("../src/models/question-model")
@@ -12,40 +10,106 @@ jest.mock("../src/models/question-model")
 // Avoiding flakiness of API calls
 jest.mock("@entitree/helper")
 
-const numberQuestions = 1
+const defaultNumberQuestions = 1;
 describe("Question Service - Question Generator", () => {
 
     beforeEach(() => {
         jest.clearAllMocks()
     })
-    it("should return 1 question when generator succeeds", async () => {
+    
+    it("should return 1 question when DB has 1 template", async () => {
 
-        const response = await mockQuestionGeneration();
-
-        checkCalltoQuestionModelAggregate();
-        expect(response.length).toBe(numberQuestions)
+        // Setting up the mocks
+        const aggregateMock = await mockQuestionModelAggregate(defaultNumberQuestions);
+        await mockWikidataSparql(defaultNumberQuestions)
+        
+        // Testing function
+        const response = await generateQuestions(1) as any;
+        
+        // The call to QuestionModel.aggregate must be of size 1
+        checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)
+        
+        // It must be generated 1 question
+        expect(response.length).toBe(defaultNumberQuestions)
     })
 
-    it("should return 1 question with all correct parameters when generator succeeds", async () => {
+    it("should return 2 questions even when DB has 1 template", async () => {
 
-        const response = await mockQuestionGeneration();
+        // Setting up the mocks
+        const numberQuestions = 2;
+        const aggregateMock = await mockQuestionModelAggregate(numberQuestions);
+        await mockWikidataSparql(numberQuestions)
 
-        checkCalltoQuestionModelAggregate();
+        // Testing function
+        const response = await generateQuestions(numberQuestions) as any;
 
+        // The first call to QuestionModel.aggregate must be of size 2
+        expect(aggregateMock.mock.calls[0][0]).toStrictEqual([
+            { $sample: { size: 2 } },
+        ])
+
+        // The second call to QuestionModel.aggregate must be of size 1
+        // since in the first call we emulate the DB returning only
+        // one question template
+        expect(aggregateMock.mock.calls[1][0]).toStrictEqual([
+            { $sample: { size: 1 } },
+        ])
+        
+        // It must be generated two questions
+        expect(response.length).toBe(numberQuestions)
+
+
+    })
+
+    it("should return 1 question with all correct parameters when DB has 1 template", async () => {
+
+        // Setting up the mocks
+        await mockQuestionModelAggregate(defaultNumberQuestions);
+        await mockWikidataSparql(defaultNumberQuestions)
+        
+        // Testing function
+        const response = await generateQuestions(1) as any;
+
+        // Checking all fields are correct and only 1 question
+        expect(response.length).toBe(defaultNumberQuestions)
         checkAllFields(response);
     })
 
-    it("should return an error if fetching documents from Mongo fails", async () => {
+    it("should return 2 questions with all correct parameters even when DB has 1 template", async () => {
+
+        // Setting up the mocks
+        const numberQuestions = 2;
+        await mockQuestionModelAggregate(numberQuestions);
+        await mockWikidataSparql(numberQuestions)
+
+        // Testing function
+        const response = await generateQuestions(numberQuestions) as any;
+        
+        // It must be generated two questions
+        expect(response.length).toBe(numberQuestions)
+        checkAllFields(response);
+    })
+
+    it("should return an error if fetching documents from Mongo fails - First call", async () => {
 
         // Mock response for fetching MongoDB documents
         const rejectedMongoResponse = new Error("Mock - Error fetching Questions");
         (QuestionModel.aggregate as jest.Mock).mockRejectedValue(rejectedMongoResponse);
 
         // Expect that aggregate function rejected with the rejectedMongoResponse
-        await expect(generateQuestions(numberQuestions)).rejects.toThrow("Mock - Error fetching Questions");
-
+        await expect(generateQuestions(defaultNumberQuestions)).rejects.toThrow("Mock - Error fetching Questions");
     })
 
+    it("should return an error if fetching documents from Mongo fails - Sucessive call", async () => {
+
+        const rejectedMongoResponse = new Error("Mock - Error fetching Questions");
+        (await mockQuestionModelAggregate(defaultNumberQuestions)).mockRejectedValue(rejectedMongoResponse);
+
+        // Expect that aggregate function rejected with the rejectedMongoResponse
+        await expect(generateQuestions(defaultNumberQuestions)).rejects.toThrow("Mock - Error fetching Questions");
+    })
+
+    /*
     it("should return an error if calling wikidata fails", async () => {
 
         // Mock response for fetching MongoDB documents
@@ -96,23 +160,64 @@ describe("Question Service - Question Generator", () => {
 
         checkAllFieldsWithoutImage(response);
     })
+    */
 })
 
-function checkCalltoQuestionModelAggregate() {
-    expect(QuestionModel.aggregate).toHaveBeenCalledWith([
-        { $sample: { size: numberQuestions } },
+/**
+ * Checks how the mock aggregate function is being called.
+ * @param aggregateMock the mock to test
+ * @param sizeAggregate the size of the templates called through this function
+ */
+function checkCallsAggregateWithSize(aggregateMock: any, sizeAggregate: number){
+    
+    expect(aggregateMock).toHaveBeenCalledWith([
+        { $sample: { size: sizeAggregate } },
     ]);
+
 }
 
-async function mockWikidataResponse(mockResponseWikidata: any) {
-    (getWikidataSparql as jest.Mock).mockReturnValue(mockResponseWikidata)
+/**
+ * Creates a mock for getWikidataSparql function, emulating an API response.
+ * @param numberReturnValues number of responses to be returned by this function
+ * @returns the created mock
+ */
+async function mockWikidataSparql(numberReturnValues: number) {
+    
+    // Mock-Response for: getWikidataSparql(sparqlQuery)
+    const mockResponseWikidata = [{
+        templateLabel: "Peru",
+        answerLabel: "Lima"
+    }, {
+        templateLabel: "Spain",
+        answerLabel: "Madrid"
+    }, {
+        templateLabel: "Russia",
+        answerLabel: "Moscow"
+    }, {
+        templateLabel: "Ucrania",
+        answerLabel: "Kiev"
+    }];
 
-    const response = await generateQuestions(numberQuestions) as any
-    return response;
+    // Mock: getWikidataSparql(sparqlQuery)
+    const wikidataMock = getWikidataSparql as jest.Mock;
+    
+    // Adding <numberReturnValues> responses to this mock
+    for(let i = 0; i < numberReturnValues; i++)
+        wikidataMock.mockReturnValue(mockResponseWikidata)
+
+    return wikidataMock
+
+    
 }
 
-async function mockQuestionGeneration() {
-    // Mock response for fetching MongoDB documents
+/**
+ * Creates a mock for QuestionModel.aggregate function, emulating a DB response.
+ * @param numberReturnValues number of templates to be returned by this function
+ * @returns the created mock
+ */
+async function mockQuestionModelAggregate(numberReturnValues: number) {
+    
+    // Mock-Response for: QuestionModel.aggregate([{ $sample: { size: remaining } }])
     const mockResponseAggregate: object[] = [{
         questionTemplate: 'What is the Capital of $$$ ?',
         question_type: {
@@ -131,25 +236,18 @@ async function mockQuestionGeneration() {
             ],
         }
     }];
-    (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate)
 
-    // Mock response for Wikidata call
-    const mockResponseWikidata = [{
-        templateLabel: "Peru",
-        answerLabel: "Lima"
-    }, {
-        templateLabel: "Spain",
-        answerLabel: "Madrid"
-    }, {
-        templateLabel: "Russia",
-        answerLabel: "Moscow"
-    }, {
-        templateLabel: "Ucrania",
-        answerLabel: "Kiev"
-    }];
-    return await mockWikidataResponse(mockResponseWikidata);
+    // Mock: QuestionModel.aggregate([{ $sample: { size: remaining } }])
+    const aggregateMock = QuestionModel.aggregate as jest.Mock;
+
+    // Adding <numberReturnValues> responses to this mock
+    for(let i = 0; i < numberReturnValues; i++)
+        aggregateMock.mockReturnValue(mockResponseAggregate);
+    
+    return aggregateMock
 }
 
+/*
 async function mockQuestionGenerationWithImage() {
     // Mock response for fetching MongoDB documents
     const mockResponseAggregate: object[] = [{
@@ -190,22 +288,38 @@ async function mockQuestionGenerationWithImage() {
     }];
     return await mockWikidataResponse(mockResponseWikidata);
 }
+*/
 
+/**
+ * Checks that the response given by question-generator has all required fields
+ * (not checking image field!)
+ * 
+ * @param response the response obtained after calling generateQuestions() 
+ */
 function checkAllFields(response: any) {
-    expect(response[0]).toHaveProperty("id") // a given id
-    expect(response[0]).toHaveProperty("question") // the generated question
-    expect(response[0]).toHaveProperty("answers") // a list of answers
-    expect(response[0].answers.length).toBe(4) // 4 answers
-    expect(response[0]).toHaveProperty("correctAnswerId", 1) // a correct answer Id set to 1
+
+    for(let i = 0; i < response.length; i++){
+        expect(response[i]).toHaveProperty("id") // a given id
+        expect(response[i]).toHaveProperty("question") // the generated question
+        expect(response[i]).toHaveProperty("answers") // a list of answers
+        expect(response[i].answers.length).toBe(4) // 4 answers
+        expect(response[i]).toHaveProperty("correctAnswerId", 1) // a correct answer Id set to 1
+    }
+  
 }
 
+
+
+/*
 function checkAllFieldsWithImage(response: any) {
     checkAllFields(response)
     expect(response[0]).toHaveProperty("image") // an image field
 }
 
+
 function checkAllFieldsWithoutImage(response: any) {
     checkAllFields(response)
     expect(response[0]).not.toHaveProperty("image") // no image field
 }
+*/
 

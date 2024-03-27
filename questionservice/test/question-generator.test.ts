@@ -108,59 +108,33 @@ describe("Question Service - Question Generator", () => {
         // Expect that aggregate function rejected with the rejectedMongoResponse
         await expect(generateQuestions(defaultNumberQuestions)).rejects.toThrow("Mock - Error fetching Questions");
     })
-
-    /*
-    it("should return an error if calling wikidata fails", async () => {
-
-        // Mock response for fetching MongoDB documents
-        const mockResponseAggregate: object[] = [{
-            questionTemplate: 'What is the Capital of $$$ ?',
-            question_type: {
-                name: 'Capitals',
-                query: `SELECT ?templateLabel ?answerLabel
-                        WHERE {
-                        ?template wdt:P31 wd:$$$; # Entity
-                        wdt:P36 ?answer.  # Capital
-                        SERVICE wikibase:label { bd:serviceParam wikibase:language "en,es"}
-                        }
-                        ORDER BY UUID() # Add randomness to the results
-                        LIMIT 10`,
-                entities: [
-                    'Q6256',
-                    'Q10742',
-                ],
-            }
-        }];
-        (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate)
-
-        // Mock response for Wikidata call
-        const rejectedWikidataResponse = new Error("Mock - Error from Wikidata");
-        (getWikidataSparql as jest.Mock).mockRejectedValue(rejectedWikidataResponse)
-
-        // Expect that Wikidata call function rejected with the rejectedWikidataResponse
-        await expect(generateQuestions(numberQuestions)).rejects.toThrow("Mock - Error from Wikidata");
-
-
-    })
-
+ 
     it("should return 1 image question with all correct parameters when generator succeeds", async () => {
 
-        const response = await mockQuestionGenerationWithImage();
+        const aggregateMock = await mockQuestionModelAggregateWithImage();
+        await mockWikidataSparqlWithImage()
 
-        checkCalltoQuestionModelAggregate();
+        const response = await generateQuestions(defaultNumberQuestions);
+
+        checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions);
 
         checkAllFieldsWithImage(response);
     })
 
     it("should return 1 question with all correct parameters and no image field when not needed", async () => {
 
-        const response = await mockQuestionGeneration();
-
-        checkCalltoQuestionModelAggregate();
+        const aggregateMock = await mockQuestionModelAggregate(defaultNumberQuestions);
+        await mockWikidataSparql(defaultNumberQuestions)
+        
+        // Testing function
+        const response = await generateQuestions(1) as any;
+        
+        // The call to QuestionModel.aggregate must be of size 1
+        checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)
 
         checkAllFieldsWithoutImage(response);
     })
-    */
+    
 })
 
 /**
@@ -247,8 +221,7 @@ async function mockQuestionModelAggregate(numberReturnValues: number) {
     return aggregateMock
 }
 
-/*
-async function mockQuestionGenerationWithImage() {
+async function mockQuestionModelAggregateWithImage(){
     // Mock response for fetching MongoDB documents
     const mockResponseAggregate: object[] = [{
         questionTemplate: 'This flag is from...?',
@@ -270,8 +243,12 @@ async function mockQuestionGenerationWithImage() {
             ]
         },
     }];
-    (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate)
 
+    return (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate)
+}
+
+async function mockWikidataSparqlWithImage() {
+    
     // Mock response for Wikidata call
     const mockResponseWikidata = [{
         templateLabel: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Lesotho.svg",
@@ -286,9 +263,9 @@ async function mockQuestionGenerationWithImage() {
         templateLabel: "https://commons.wikimedia.org/wiki/Special:FilePath/Flag%20of%20Slovakia%20%281939%E2%80%931945%29.svg",
         answerLabel: "Slovak Republic"
     }];
-    return await mockWikidataResponse(mockResponseWikidata);
+    return (getWikidataSparql as jest.Mock).mockReturnValue(mockResponseWikidata);
 }
-*/
+
 
 /**
  * Checks that the response given by question-generator has all required fields
@@ -308,18 +285,13 @@ function checkAllFields(response: any) {
   
 }
 
-
-
-/*
 function checkAllFieldsWithImage(response: any) {
     checkAllFields(response)
     expect(response[0]).toHaveProperty("image") // an image field
 }
 
-
 function checkAllFieldsWithoutImage(response: any) {
     checkAllFields(response)
     expect(response[0]).not.toHaveProperty("image") // no image field
 }
-*/
 

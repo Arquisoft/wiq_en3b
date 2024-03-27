@@ -1,5 +1,6 @@
 import { QuestionModel } from '../models/question-model';
-import { getWikidataSparql } from '@entitree/helper';
+import { getRandomItem, getWikidataSparqlWithTimeout, Question } 
+from '../utils/question-generator-utils';
 
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
@@ -7,17 +8,6 @@ const SPARQL_TIMEOUT = 5000; // 5000 ms = 5s
 // Tested manually usign our beloved "Who wrote..." If
 // timer runs out, only returns the data that met that requirement (ex: requested 2 questions --> returned 1 question if
 // a question lasted too much) --> This can be changed to simply rethrow the error
-
-/**
- * Interface for a question which may or not contain an image
- */
-interface Question {
-  id: number,
-  question: string,
-  answers: object[],
-  correctAnswerId: number,
-  image?: string
-}
 
 /**
  * Generates n random questions  using Wikidata
@@ -136,12 +126,22 @@ const generateQuestionJson = async (
     // Options may be present...
     let sparqlQuery: string = getSparqlQueryFromDocument(questionTemplate);
 
-    // Make wikidata request and obtain response
+    // Try a wikidata request
     let wikidataResponse;
     try {
       wikidataResponse = await getWikidataSparqlWithTimeout(sparqlQuery, SPARQL_TIMEOUT);
-    } catch(error){
-      return ; // simply skipping the production of question since it lasted too long
+    } catch(error){ // If an error has occured (timeout), retry again with a fast query
+
+      try{
+
+        questionTemplate = await QuestionModel.findOne({'question_type.name': 'Chemistry'})
+        sparqlQuery = getSparqlQueryFromDocument(questionTemplate);
+        wikidataResponse = await getWikidataSparqlWithTimeout(sparqlQuery, SPARQL_TIMEOUT)
+        
+      }catch(error){ // an error occurred again (timeout), this time skipping
+        return ;
+      }
+
     }
 
     // Pick random responses
@@ -174,45 +174,6 @@ const generateQuestionJson = async (
 };
 
 /**
- * Enhanced Sparql method that adds a timeout to the API call using Promise.race()
- * With this approach, we either obtain the wikidataResponse or an Error stating
- * that the timeout has exceeded. This way, the Question Service will never be
- * kept on hold by waiting the response in case some queries last too long.
- * 
- * @param sparqlQuery the query to prompt into Wikidata Sparql service.
- * @param requestTimeout the timeout in MS for the Service to respond
- * @returns A promise with the aforementioned functionality. 
- */
-async function getWikidataSparqlWithTimeout(sparqlQuery: string, requestTimeout: number): Promise<any>{
-
-  // Promise 1: Prompt to Sparql service
-  const wikidataPromise = getWikidataSparql(sparqlQuery);
-  
-  // Promise 2: Timer
-  const timeoutPromise = new Promise( (_, reject) => {
-
-    // If timer is exceeded, an error is thrown
-    setTimeout(() => reject(new Error("Timeout exceeded for query: " + sparqlQuery )), 
-          requestTimeout)
-
-  })
-
-  // Promise.race() => Group an array of Promises into a single one. The result of
-  // this new promise is the result of ANY of the promises given.
-  return Promise.race( [wikidataPromise, timeoutPromise] )
-}
-
-/**
- * Gets a random item from an array
- * @param array 
- * @returns A random item from the array
- */
-function getRandomItem<T>(array: T[]): T {
-  const randomIndex = Math.floor(Math.random() * array.length);
-  return array[randomIndex];
-}
-
-/**
  * Builds a question JSON out of parameters
  * @param templateNumber number of the template
  * @param questionGen  Question generated
@@ -240,6 +201,24 @@ const questionJsonBuilder = (
   return myJson;
 };
 
+
+
+/**
+ * Includes the eligible entities on the SPARQL query and returns it
+ * @param sparqlQuery the query
+ * @param document document
+ * @returns the query with the entities included, if possible
+ */
+function getSparqlQueryFromDocument(document: any): string {
+  let sparqlQuery: string = document.question_type.query;
+  let optionEntities = document.question_type.entities as string[];
+  if (optionEntities.length > 0) {
+    var randomEntity = getRandomItem(optionEntities);
+    sparqlQuery = sparqlQuery.replace(/\$\$\$/g, randomEntity);
+  }
+  return sparqlQuery;
+}
+
 /**
  * Generates random indexes for the answers
  * @param length length of the array
@@ -256,22 +235,6 @@ function generateRandomIndexes(length: number, numberOfIndexes: number = options
     randomIndexes[i] = possibleRandom;
   }
   return randomIndexes;
-}
-
-/**
- * Includes the eligible entities on the SPARQL query and returns it
- * @param sparqlQuery the query
- * @param document document
- * @returns the query with the entities included, if possible
- */
-function getSparqlQueryFromDocument(document: any): string {
-  let sparqlQuery: string = document.question_type.query;
-  let optionEntities = document.question_type.entities as string[];
-  if (optionEntities.length > 0) {
-    var randomEntity = getRandomItem(optionEntities);
-    sparqlQuery = sparqlQuery.replace(/\$\$\$/g, randomEntity);
-  }
-  return sparqlQuery;
 }
 
 

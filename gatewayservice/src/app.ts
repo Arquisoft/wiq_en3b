@@ -17,7 +17,11 @@ const YAML = require('yaml')
 const app = express();
 app.disable("x-powered-by");
 
-app.use(cors());
+const frontURI = process.env.API_URI?.replace('8000', '3000') || 'http://localhost:3000'
+const gatewayURI = process.env.API_URI || 'http://localhost:8000'
+
+const corsWhitelist = [frontURI, gatewayURI]
+app.use(cors({origin: corsWhitelist}));
 app.use(express.json());
 
 //Prometheus configuration

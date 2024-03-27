@@ -4,6 +4,7 @@ import questionRouter from './routes/question-routes';
 import { generateSampleTest } from './models/question-model';
 
 const app = express();
+app.disable("x-powered-by");
 
 app.use(bodyParser.json());
 

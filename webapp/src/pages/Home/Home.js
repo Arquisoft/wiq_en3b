@@ -1,38 +1,33 @@
-import React, { useState } from 'react';
-import AddUser from '../../components/AddUser/AddUser';
-import Login from '../../components/Login/Login';
-import CssBaseline from '@mui/material/CssBaseline';
-import Container from '@mui/material/Container';
-import Typography from '@mui/material/Typography';
-import Link from '@mui/material/Link';
+import { useEffect } from 'react'
+import { Link } from 'react-router-dom'
+import { useAuth } from '../../hooks/useAuth'
+import { useNavigate } from 'react-router-dom'
+import './Home.css'
 
 function Home() {
-    const [showLogin, setShowLogin] = useState(true);
+  const navigate = useNavigate()
+  const { user } = useAuth()
 
-    const handleToggleView = () => {
-        setShowLogin(!showLogin);
-    };
+  useEffect(() => {
+    if (!user) {
+      navigate('/login')
+    }
+  }, [user, navigate])
 
-    return (
-        <Container component="main" maxWidth="xs">
-            <CssBaseline />
-            <Typography component="h1" variant="h5" align="center" sx={{ marginTop: 2 }}>
-                Welcome to the 2024 edition of the Software Architecture course
-            </Typography>
-            {showLogin ? <Login /> : <AddUser />}
-            <Typography component="div" align="center" sx={{ marginTop: 2 }}>
-                {showLogin ? (
-                    <Link name="gotoregister" component="button" variant="body2" onClick={handleToggleView}>
-                        Don't have an account? Register here.
-                    </Link>
-                ) : (
-                    <Link component="button" variant="body2" onClick={handleToggleView}>
-                        Already have an account? Login here.
-                    </Link>
-                )}
-            </Typography>
-        </Container>
-    );
+  return (
+    <div className='homeDiv'>
+      {user ? (
+        <>
+          <img className="App-logo" src="KaW.png" alt="Logo of Know and Win APP" />
+          <div className="welcome-message">
+            Welcome back, <span className="username">{user.username}</span>!
+          </div>
+        </>
+      ) : (
+        <div>Please, login to play the game</div>
+      )}
+    </div>
+  )
 }
 
-export default Home;
+export default Home

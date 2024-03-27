@@ -1,60 +1,128 @@
-// src/components/AddUser.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import '../Base.css'
+import './AddUser.css'
 
-const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+import axios from 'axios'
+import { useState } from 'react'
+import { API_ENDPOINT } from '../../utils/constants'
+import { useAuth } from '../../hooks/useAuth'
+import { Link } from 'react-router-dom'
 
 const AddUser = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const [repeatPassword, setRepeatPassword] = useState('')
+  const [formErrors, setFormErrors] = useState({})
+  const [error, setError] = useState('')
+  const { login } = useAuth()
 
-  const addUser = async () => {
-    try {
-      await axios.post(`${apiEndpoint}/adduser`, { username, password });
-      setOpenSnackbar(true);
-    } catch (error) {
-      setError(error.response.data.error);
+  const validateForm = values => {
+    const error = {}
+
+    if (!values.username) {
+      error.username = 'Username is required'
     }
-  };
 
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
+    if (!values.password) {
+      error.password = 'Password is required'
+    } else if (values.password.length < 8) {
+      error.password = 'Password must be at least 8 characters'
+    }
+
+    if (!values.repeatPassword) {
+      error.repeatPassword = 'Confirm Password is required'
+    } else if (values.repeatPassword !== values.password) {
+      error.repeatPassword = 'Confirm password and password should be same'
+    }
+
+    return error
+  }
+
+  const addUser = async e => {
+    e.preventDefault()
+
+    const errors = validateForm({
+      username,
+      password,
+      repeatPassword,
+    })
+
+    const isThereErrors = Boolean(Object.keys(errors).length)
+
+    setFormErrors(errors)
+
+    if (isThereErrors) {
+      return
+    }
+
+    try {
+      await axios.post(`${API_ENDPOINT}/adduser`, {
+        username,
+        password,
+      })
+
+      const response = await axios.post(`${API_ENDPOINT}/login`, {
+        username,
+        password,
+      })
+
+      const { username: user, token } = response.data.data.user
+
+      const obj = {
+        username: user,
+        token,
+      }
+
+      login(obj)
+    } catch (error) {
+      const status = error.response.data.status
+
+      if (status === 'error') {
+        setError(error.response.data.error)
+      } else {
+        setError(error.response.data.data.error)
+      }
+    }
+  }
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
-      <Typography component="h1" variant="h5">
-        Add User
-      </Typography>
-      <TextField
-        name="username"
-        margin="normal"
-        fullWidth
-        label="Username"
-        value={username}
-        onChange={(e) => setUsername(e.target.value)}
-      />
-      <TextField
-        name="password"
-        margin="normal"
-        fullWidth
-        label="Password"
-        type="password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <Button variant="contained" color="primary" onClick={addUser}>
-        Add User
-      </Button>
-      <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="User added successfully" />
-      {error && (
-        <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
-      )}
-    </Container>
-  );
-};
+    <>
+      <div className="register">
+        <form onSubmit={addUser}>
+          <h1>Create your account</h1>
+          {error && <div className="response-error">{error}</div>}
+          <input
+            type="username"
+            name="username"
+            id="username"
+            placeholder="Username"
+            onChange={e => setUsername(e.target.value)}
+            value={username}
+          />
+          <p className="form-error">{formErrors.username}</p>
+          <input
+            type="password"
+            name="password"
+            id="password"
+            placeholder="Password"
+            onChange={e => setPassword(e.target.value)}
+            value={password}
+          />
+          <p className="form-error">{formErrors.password}</p>
+          <input
+            type="password"
+            name="repeatPassword"
+            id="repeatPassword"
+            placeholder="Repeat Password"
+            onChange={e => setRepeatPassword(e.target.value)}
+            value={repeatPassword}
+          />
+          <p className="form-error">{formErrors.repeatPassword}</p>
+          <button className="button-common">Register</button>
+        </form>
+        <Link to="/login">Already registered? Login</Link>
+      </div>
+    </>
+  )
+}
 
-export default AddUser;
+export default AddUser

@@ -15,6 +15,11 @@
   color: #717aef;
 }
 
+.button:disabled {
+  background-color: #c9ccfd;
+  color: #1e1e20;
+}
+
 .button--sm {
   padding: 10px;
 }

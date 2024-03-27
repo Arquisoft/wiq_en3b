@@ -1,15 +1,22 @@
-import "./Button.css";
+import './Button.css'
 
-const Button = (props) => {
+const Button = ({
+  onClick,
+  type,
+  className = '',
+  disabled = false,
+  children,
+}) => {
   return (
     <button
-      onClick={props.onClick}
-      type={props.type || "button"}
-      className={`button ${props.className}`}
+      onClick={onClick}
+      disabled={disabled}
+      type={type || 'button'}
+      className={`button ${className}`}
     >
-      {props.children}
+      {children}
     </button>
-  );
-};
+  )
+}
 
-export default Button;
+export default Button

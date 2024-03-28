@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { ReactComponent as SoundIcon } from "../../assets/sound.svg";
 import { ReactComponent as MuteIcon } from "../../assets/mute.svg";
 import "./AudioButton.css";
+import "../Header/Header.css";
 import song from "../../assets/music.mp3";
 
 const AudioButton = ({ onChangeSound }) => {

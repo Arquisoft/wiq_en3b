@@ -11,7 +11,11 @@
         "title":"Perfil"
     },
     "play":{
-        "title": "Jugar"
+        "title": "Jugar",
+        "choose_difficulty": "Elija la dificultad",
+        "easy": "Fácil",
+        "medium": "Intermedio",
+        "hard": "Difícil"
     },
     "home":{
         "title":"Inicio"

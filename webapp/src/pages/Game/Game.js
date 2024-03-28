@@ -2,10 +2,12 @@ import React, { useState } from "react"
 import Quiz from "../../components/Quiz/Quiz"
 import Button from "../../components/Button/Button"
 import "./Game.css"
+import { useTranslation } from "react-i18next"
 
 const Game = props => {
 
   var [currentLevel, setCurrentLevel] = useState()
+  const { t } = useTranslation();
 
   function goEasyLevel() {
     setCurrentLevel("easy")
@@ -23,11 +25,11 @@ const Game = props => {
     <div className="quiz-wrapper">
       {!currentLevel && (
         <div className="header-and-buttons-container">
-          <h2>Choose your difficulty</h2>
+          <h2>{t("play.choose_difficulty")}</h2>
           <div className="button-container">
-            <Button onClick={goEasyLevel}>Easy</Button>
-            <Button onClick={goMediumLevel}>Medium</Button>
-            <Button onClick={goHardLevel}>Hard</Button>
+            <Button onClick={goEasyLevel}>{t("play.easy")}</Button>
+            <Button onClick={goMediumLevel}>{t("play.medium")}</Button>
+            <Button onClick={goHardLevel}>{t("play.hard")}</Button>
           </div>
         </div>
       )}

@@ -12,6 +12,8 @@ import { ReactComponent as BronzeMedalIcon } from "../../assets/medal-bronze.svg
 import { ReactComponent as SilverMedalIcon } from "../../assets/medal-silver.svg";
 import { ReactComponent as GoldMedalIcon } from "../../assets/medal-gold.svg";
 
+import { useTranslation } from "react-i18next";
+
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -53,6 +55,9 @@ var rows = [
 
 const Leaderboard = () => {
 
+  //Translation
+  const { t } = useTranslation();
+
   var [leaderboard, setLeaderboard] = useState([])
   var [error, setError] = useState(null)
 
@@ -89,7 +94,7 @@ const Leaderboard = () => {
 
   return (
     <div>
-      <h1>Leaderboard</h1>
+      <h1>{t("leaderboard.title")}</h1>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <TableContainer component={Paper} style={{ width: '75%' }}>
           <Table sx={{ minWidth: 600 }} aria-label="customized table">

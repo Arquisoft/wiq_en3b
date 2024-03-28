@@ -8,8 +8,14 @@ import { ReactComponent as UserIcon } from "../../assets/user-solid.svg";
 import { ReactComponent as AwardIcon } from "../../assets/award-solid.svg";
 import { ReactComponent as SettingsIcon } from "../../assets/gear-solid.svg";
 
+import { useTranslation } from "react-i18next";
+
 
 const Nav = (props) => {
+
+  //Translation
+  const { t } = useTranslation();
+
   return (
     <div className={`nav ${props.openNav ? "show" : ""}`}>
       <div className="nav-header">
@@ -24,35 +30,35 @@ const Nav = (props) => {
           <div className="nav-link-icon">
             <UserIcon />
           </div>
-          Home
+          {t("home.title")}
         </Link>
 
         <Link to="game" className="nav-link">
           <div className="nav-link-icon">
             <SquareQuestionIcon />
           </div>
-          Play
+          {t("play.title")}
         </Link>
 
         <Link to="profile" className="nav-link">
           <div className="nav-link-icon">
             <UserIcon />
           </div>
-          Profile
+          {t("profile.title")}
         </Link>
 
         <Link to="leaderboard" className="nav-link">
           <div className="nav-link-icon">
             <AwardIcon />
           </div>
-          Leaderboard
+          {t("leaderboard.title")}
         </Link>
 
         <Link to="settings" className="nav-link">
           <div className="nav-link-icon">
             <SettingsIcon />
           </div>
-          Settings
+          {t("settings.title")}
         </Link>
       </div>
     </div>

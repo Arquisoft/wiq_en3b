@@ -1,0 +1,20 @@
+{
+    "settings":{
+        "title":"Configuración",
+        "choose_lang":"Elija el idioma: ",
+        "choose_seconds":"Elija la duración de las pregutnas: "
+    },
+    "leaderboard":{
+        "title":"Tabla de clasificación"
+    },
+    "profile":{
+        "title":"Perfil"
+    },
+    "play":{
+        "title": "Jugar"
+    },
+    "home":{
+        "title":"Inicio"
+    }
+}
+  

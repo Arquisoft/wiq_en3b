@@ -6,6 +6,7 @@ import Question from "./Question";
 import FinalResult from "../FinalResult/FinalResult";
 import CircularProgress from '@mui/material/CircularProgress';
 import { ReactComponent as StopwatchIcon } from "../../assets/stopwatch-solid.svg";
+import Button from "../Button/Button";
 
 const Quiz = (props) => {
 
@@ -31,7 +32,7 @@ const Quiz = (props) => {
       setQuestions(await getQuestions())
       setHaveQuestions(true)
     })()
-  }, [haveQuestions === false])
+  }, [])
 
   useEffect(() => {
     if (questions) {
@@ -124,18 +125,16 @@ const Quiz = (props) => {
 
     // Move to the next question or finish the quiz
     setTimeout(() => {
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
-      } else {
-        setIsFinished(true);
-      }
+
+      if (currentQuestionIndex < questions.length - 1) setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      else setIsFinished(true);
 
       // Reset state for the next question
       setQuizData({});
       setBtnDisabled(false);
       setTimer(Date.now() + props.timerValue * 1000);
       setTimerIndex((prevTimerIndex) => prevTimerIndex + 1);
-    }, 2000);
+    }, 5000);
 
     // Pause the timer
     pauseTimer();
@@ -169,6 +168,8 @@ const Quiz = (props) => {
 
   const pauseTimer = () => countdownTimer.current.pause();
 
+  const resumeTimer = () => countdownTimer.current.start();
+
   return (
     <React.Fragment>
 
@@ -190,7 +191,8 @@ const Quiz = (props) => {
           selected={quizData}
           btnDisabled={btnDisabled}
           onSelectAnswer={selectAnswerHandler}
-        /></>
+        />
+      </>
       }
     </React.Fragment>
   );

@@ -139,8 +139,6 @@ async function generateQuestions(
     const randomQuestionsTemplates = await QuestionModel.aggregate([
       { $sample: { size: n } },
     ]);
-    // console.log('124');
-    // console.log(randomQuestionsTemplates[0].question_type.name);
 
     // Generate and return questions generated from those documents
     const questionsArray = await generateQuestionsArray(
@@ -149,7 +147,7 @@ async function generateQuestions(
 
     console.log(questionsArray);
 
-    if (lang) {
+    if (lang && lang.toLowerCase() !== 'en') {
       return await translateQuestionsArray(questionsArray, lang);
     }
 

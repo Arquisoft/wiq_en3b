@@ -111,8 +111,7 @@ const Leaderboard = () => {
             </TableHead>
             <TableBody>
               {leaderboard.map((row, index) => (
-                <StyledTableRow key={index}>
-
+                <StyledTableRow key={row.username}>
                   <StyledTableCell align="center">
                     {console.log('Ranking: ' + row.ranking)}
                     {console.log('Index: ' + index)}

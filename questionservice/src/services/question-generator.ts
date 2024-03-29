@@ -1,6 +1,10 @@
 import { QuestionModel } from '../models/question-model';
-import { getRandomItem, getWikidataSparqlWithTimeout, Question } 
-from '../utils/question-generator-utils';
+import {
+  getRandomItem,
+  getWikidataSparqlWithTimeout,
+  Question,
+} from '../utils/question-generator-utils';
+import { getTranslatedQuestions } from './translation-service';
 
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
@@ -14,25 +18,51 @@ const SPARQL_TIMEOUT = 5000; // 5000 ms = 5s
  * @param n number of questions to be generated
  * @returns array containing questions and possible answers
  */
-async function generateQuestions(n: number): Promise<object[] | void> {
+async function generateQuestions(
+  n: number,
+  lang: any
+): Promise<object[] | void> {
   try {
-    
     // Trying to obtain n random documents
-    let randomQuestionsTemplates = await getRandomQuestions(n)
+    let randomQuestionsTemplates = await getRandomQuestions(n);
 
     // Generate and return questions generated from those documents
-    let questionsArray = await generateQuestionsArray(
-      randomQuestionsTemplates
-    );
+    let questionsArray = await generateQuestionsArray(randomQuestionsTemplates);
 
     // Skipping questions not generated a.k.a. void
-    questionsArray = questionsArray.filter( q => typeof(q) === 'object' );
+    questionsArray = questionsArray.filter(q => typeof q === 'object');
+
+    if (lang && lang.toLowerCase() !== 'en') {
+      return await translateQuestionsArray(questionsArray, lang);
+    }
 
     return questionsArray;
   } catch (error) {
     throw error;
   }
 }
+
+const translateQuestionsArray = async (
+  questionsArray: any,
+  language: any
+): Promise<object[]> => {
+  try {
+    const translation: any[] = await getTranslatedQuestions(
+      questionsArray,
+      language
+    );
+
+    translation.forEach((translation: any, i: number) => {
+      questionsArray[i].question = translation.question;
+      questionsArray[i].answers = translation.answers;
+    });
+  } catch (err) {
+    console.error(err);
+    throw new Error('Error during translation');
+  }
+
+  return questionsArray;
+};
 
 /*
   My initial approach was:
@@ -52,29 +82,29 @@ async function generateQuestions(n: number): Promise<object[] | void> {
   this curious feature of "..." for pushing arrays
 */
 async function getRandomQuestions(n: number): Promise<any[]> {
-
   // We try to obtain the whole random templates
-  let randomQuestionsTemplates = await QuestionModel.aggregate([{ $sample: { size: n } }]);
-  
+  let randomQuestionsTemplates = await QuestionModel.aggregate([
+    { $sample: { size: n } },
+  ]);
 
   async function addMoreRandomQuestionsIfNeeded() {
-
     // If required questions are fulfilled, simply returning the questions
-    if (randomQuestionsTemplates.length >= n)
-      return randomQuestionsTemplates;
+    if (randomQuestionsTemplates.length >= n) return randomQuestionsTemplates;
 
     // Up to here, we need more documents. We calculate the remaining ones
     const remaining = n - randomQuestionsTemplates.length;
-    
+
     // Fetch again from DB more templates
-    const additionalQuestions = await QuestionModel.aggregate([{ $sample: { size: remaining } }]);
+    const additionalQuestions = await QuestionModel.aggregate([
+      { $sample: { size: remaining } },
+    ]);
     // ... additionalQuestions -> this is called "sparse" syntax
     // is used to concatenate the elements of array individually and not the whole array
-    // otherwise, the result would be: 
-    randomQuestionsTemplates.push(...additionalQuestions); 
+    // otherwise, the result would be:
+    randomQuestionsTemplates.push(...additionalQuestions);
 
     // This recursive calls are helpful for performing awaits inside while loops
-    return addMoreRandomQuestionsIfNeeded(); 
+    return addMoreRandomQuestionsIfNeeded();
   }
 
   // call function that add more if needed
@@ -94,15 +124,12 @@ const generateQuestionsArray = async (
   const promises = randomQuestionsTemplates.map(
     async (template: any, i: number) => {
       try {
-        
         return await generateQuestionJson(template, i);
-      
       } catch (error) {
-        
         console.error(
           'Error while generating question for template: ' + template
         );
-        
+
         throw error;
       }
     }
@@ -122,30 +149,38 @@ const generateQuestionJson = async (
   templateNumber: number
 ): Promise<object | void> => {
   try {
-
     // Options may be present...
     let sparqlQuery: string = getSparqlQueryFromDocument(questionTemplate);
 
     // Try a wikidata request
     let wikidataResponse;
     try {
-      wikidataResponse = await getWikidataSparqlWithTimeout(sparqlQuery, SPARQL_TIMEOUT);
-    } catch(error){ // If an error has occured (timeout), retry again with a fast query
+      wikidataResponse = await getWikidataSparqlWithTimeout(
+        sparqlQuery,
+        SPARQL_TIMEOUT
+      );
+    } catch (error) {
+      // If an error has occured (timeout), retry again with a fast query
 
-      try{
-
-        questionTemplate = await QuestionModel.findOne({'question_type.name': 'Chemistry'})
+      try {
+        questionTemplate = await QuestionModel.findOne({
+          'question_type.name': 'Chemistry',
+        });
         sparqlQuery = getSparqlQueryFromDocument(questionTemplate);
-        wikidataResponse = await getWikidataSparqlWithTimeout(sparqlQuery, SPARQL_TIMEOUT)
-        
-      }catch(error){ // an error occurred again (timeout), this time skipping
-        return ;
+        wikidataResponse = await getWikidataSparqlWithTimeout(
+          sparqlQuery,
+          SPARQL_TIMEOUT
+        );
+      } catch (error) {
+        // an error occurred again (timeout), this time skipping
+        return;
       }
-
     }
 
     // Pick random responses
-    var randomIndexes: number[] = generateRandomIndexes(wikidataResponse.length);
+    var randomIndexes: number[] = generateRandomIndexes(
+      wikidataResponse.length
+    );
 
     // Generate question
     var questionGen = questionTemplate.questionTemplate.replace(
@@ -160,13 +195,20 @@ const generateQuestionJson = async (
     }
 
     // Generate answers
-    var answersArray: object[] = getRandomResponses(wikidataResponse, randomIndexes);
+    var answersArray: object[] = getRandomResponses(
+      wikidataResponse,
+      randomIndexes
+    );
 
     // Build it
     if (image != null)
-      return questionJsonBuilder(templateNumber, questionGen, answersArray, image);
-    else
-      return questionJsonBuilder(templateNumber, questionGen, answersArray);
+      return questionJsonBuilder(
+        templateNumber,
+        questionGen,
+        answersArray,
+        image
+      );
+    else return questionJsonBuilder(templateNumber, questionGen, answersArray);
   } catch (error) {
     console.error('Error while fetching Wikidata');
     throw error;
@@ -185,7 +227,7 @@ const questionJsonBuilder = (
   templateNumber: number,
   questionGen: string,
   answersArray: object[],
-  image: string = ""
+  image: string = ''
 ): object => {
   const myJson: Question = {
     id: templateNumber,
@@ -194,14 +236,12 @@ const questionJsonBuilder = (
     correctAnswerId: 1,
   };
 
-  if (image != "") {
+  if (image != '') {
     myJson.image = image;
   }
 
   return myJson;
 };
-
-
 
 /**
  * Includes the eligible entities on the SPARQL query and returns it
@@ -225,7 +265,10 @@ function getSparqlQueryFromDocument(document: any): string {
  * @param numberOfIndexes number of indexes to generate
  * @returns an array with the indexes
  */
-function generateRandomIndexes(length: number, numberOfIndexes: number = optionsNumber) {
+function generateRandomIndexes(
+  length: number,
+  numberOfIndexes: number = optionsNumber
+) {
   var randomIndexes: number[] = [];
   for (var i = 0; i < numberOfIndexes; i++) {
     var possibleRandom = Math.floor(Math.random() * length);
@@ -237,14 +280,16 @@ function generateRandomIndexes(length: number, numberOfIndexes: number = options
   return randomIndexes;
 }
 
-
 /**
  * Generates random responses from the values returned by Wikidata
  * @param wikidataResponse response from Wikidata
  * @param randomIndexes array of random indexes
  * @returns array of answers
  */
-function getRandomResponses(wikidataResponse: any, randomIndexes: number[]): any {
+function getRandomResponses(
+  wikidataResponse: any,
+  randomIndexes: number[]
+): any {
   let answersArray: object[] = [];
   for (var i = 0; i < optionsNumber; i++) {
     var answer = wikidataResponse[randomIndexes[i]].answerLabel;

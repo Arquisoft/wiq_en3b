@@ -1,21 +1,25 @@
 import { Request, Response } from 'express';
 import { generateQuestions } from '../services/question-generator';
-import { validateNumber, validateSizePresent } from '../utils/validations';
+import { validateLanguage, validateNumber, validateSizePresent } from '../utils/validations';
 
 const generateQuestionsController = async (req: Request, res: Response) => {
-
   try {
     const requestedParam = req.query.size;
+    const language = req.query.lang;
 
-    // A number of question ?size=x has been provided. Checking if present
     validateSizePresent(req);
-    // The sieze is a number
+    
+    // If language is not present, there is no need to validate since undefined values are accepted
+    if (language) {
+        validateLanguage(language as string)
+    }
+
     let size = validateNumber(requestedParam as string);
-    // Obtaining questions...
+
     try {
-      const questions = await generateQuestions(size)
-      res.json(questions)
-    } catch (err) { // Rethrowing error if anything occurs...
+      const questions = await generateQuestions(size, language);
+      res.json(questions);
+    } catch (err) {
       res.status(500).json({
         status: 'error',
         message: "Can't generate questions! Internal server error",

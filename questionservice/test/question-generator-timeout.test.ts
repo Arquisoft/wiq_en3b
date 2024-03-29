@@ -18,7 +18,7 @@ describe("Question Service - Question Generator", () => {
         const findMock = await mockQuestionModelFindOne();
         await mockWikidataTimeout(0)
         
-        const result = await generateQuestions(defaultNumberQuestions) as any;
+        const result = await generateQuestions(defaultNumberQuestions, "en") as any;
 
         expect(aggregateMock).toHaveBeenCalledTimes(1)
         expect(findMock).toHaveBeenCalledTimes(0)
@@ -33,7 +33,7 @@ describe("Question Service - Question Generator", () => {
         const findMock = await mockQuestionModelFindOne();
         await mockWikidataTimeout(1)
         
-        const result = await generateQuestions(defaultNumberQuestions) as any;
+        const result = await generateQuestions(defaultNumberQuestions, "en") as any;
     
         expect(aggregateMock).toHaveBeenCalledTimes(1)
         expect(findMock).toHaveBeenCalledTimes(1)
@@ -47,7 +47,7 @@ describe("Question Service - Question Generator", () => {
         const findMock = await mockQuestionModelFindOne();
         await mockWikidataTimeout(2)
         
-        const result = await generateQuestions(defaultNumberQuestions) as any;
+        const result = await generateQuestions(defaultNumberQuestions, "en") as any;
 
         expect(aggregateMock).toHaveBeenCalledTimes(1)
         expect(findMock).toHaveBeenCalledTimes(1)

@@ -134,7 +134,6 @@ describe("Question Service - Question Generator", () => {
 
         checkAllFieldsWithoutImage(response);
     })
-    
 })
 
 /**

@@ -58,6 +58,22 @@ describe("Question Service - Erroneous parameters for /questions", () => {
 
     })
 
+    it("should return 400 if accessed with only lang parameter", async () => {
+
+        const response = await request(app).get('/questions?lang=en')
+        expect(response.status).toBe(400)
+        expect(response.body.data).toHaveProperty("error")
+
+    })
+
+    it("should return 400 if accessed with size parameter and not supported language", async () => {
+
+        const response = await request(app).get('/questions?size=5&lang=nonsupported')
+        expect(response.status).toBe(400)
+        expect(response.body.data).toHaveProperty("error")
+
+    })
+
 })
 
 // Mocking the question-generator.ts to test question-controller

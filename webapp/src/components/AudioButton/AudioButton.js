@@ -5,16 +5,22 @@ import "./AudioButton.css";
 import "../Header/Header.css";
 import song from "../../assets/music.mp3";
 
-const AudioButton = ({ onChangeSound }) => {
+const AudioButton = ({ volume }) => {
     const [playing, setPlaying] = useState(false);
     const [audio, setAudio] = useState(null);
 
     useEffect(() => {
         const audioElement = new Audio(song);
         audioElement.loop = true;
-        audioElement.volume = 0.3;
+        audioElement.volume = volume / 100;
         setAudio(audioElement);
     }, []);
+
+    useEffect(() => {
+        if (audio) {
+            audio.volume = volume / 100;
+        }
+    }, [volume]);
 
     const play = () => {
         audio.play();
@@ -31,7 +37,7 @@ const AudioButton = ({ onChangeSound }) => {
             play();
         }
         setPlaying(!playing);
-        onChangeSound(!playing);
+        //onChangeSound(!playing);
     };
 
     return (

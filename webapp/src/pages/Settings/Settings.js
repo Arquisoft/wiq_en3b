@@ -1,5 +1,6 @@
 import "./Settings.css";
 import LanguageSelector from "../../components/LanguageSelector/LanguageSelector";
+import Slider from "../../components/Slider/ContinuousSlider";
 import React from 'react';
 import { useTranslation } from "react-i18next";
 
@@ -36,6 +37,10 @@ const Settings = (props) => {
           id="selectLanguage"
           languages={languages}
         />
+      </div>
+
+      <div className="settings-option">
+        <Slider id="selectVolume" volume={props.volume} handleVolumeChange={props.handleVolumeChange} />
       </div>
 
       <div className="settings-option">

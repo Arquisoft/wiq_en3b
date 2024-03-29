@@ -6,7 +6,6 @@ import Question from "./Question";
 import FinalResult from "../FinalResult/FinalResult";
 import CircularProgress from '@mui/material/CircularProgress';
 import { ReactComponent as StopwatchIcon } from "../../assets/stopwatch-solid.svg";
-import Button from "../Button/Button";
 
 const Quiz = (props) => {
 
@@ -29,10 +28,12 @@ const Quiz = (props) => {
 
   useEffect(() => {
     ; (async () => {
-      setQuestions(await getQuestions())
-      setHaveQuestions(true)
+      if (!haveQuestions) {
+        setQuestions(await getQuestions())
+        setHaveQuestions(true)
+      }
     })()
-  }, [])
+  }, [haveQuestions])
 
   useEffect(() => {
     if (questions) {
@@ -134,7 +135,7 @@ const Quiz = (props) => {
       setBtnDisabled(false);
       setTimer(Date.now() + props.timerValue * 1000);
       setTimerIndex((prevTimerIndex) => prevTimerIndex + 1);
-    }, 5000);
+    }, 2000);
 
     // Pause the timer
     pauseTimer();

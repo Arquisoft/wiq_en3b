@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -111,9 +111,11 @@ const Leaderboard = () => {
             </TableHead>
             <TableBody>
               {leaderboard.map((row, index) => (
-                <StyledTableRow key={row.ranking}>
+                <StyledTableRow key={index}>
 
                   <StyledTableCell align="center">
+                    {console.log('Ranking: ' + row.ranking)}
+                    {console.log('Index: ' + index)}
                     {index === 0 && <GoldMedalIcon style={{ width: '40px', height: '25px', padding: '0px' }} />}
                     {index === 1 && <SilverMedalIcon style={{ width: '40px', height: '25px', padding: '0px' }} />}
                     {index === 2 && <BronzeMedalIcon style={{ width: '40px', height: '25px', padding: '0px' }} />}

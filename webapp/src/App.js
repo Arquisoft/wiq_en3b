@@ -22,10 +22,15 @@ function App() {
   const [openNav, setOpenNav] = useState(false)
   //State for the theme
   const [theme, setTheme] = useState("light")
-  //State for the sound
-  const [sound, setSound] = useState("on")
   //State for the timer value
-  const [timerValue, setTimerValue] = useState(15)
+  const [timerValue, setTimerValue] = useState(100)
+  //State for the volume
+  const [volume, setVolume] = useState(10);
+
+  const handleVolumeChange = (event, newVolume) => {
+    console.log(newVolume)
+    setVolume(newVolume);
+  };
   //Translation
   const { t } = useTranslation();
 
@@ -36,11 +41,6 @@ function App() {
     }
   }, [theme])
 
-  useEffect(() => {
-    if (localStorage.getItem("sound")) {
-      setSound(localStorage.getItem("sound"))
-    }
-  }, [sound])
 
   //Function to open and close the navigation
   const toggleNavHandler = () => {
@@ -57,24 +57,14 @@ function App() {
     localStorage.setItem("theme", theme === "light" ? "dark" : "light")
   }
 
-  const changeSoundHandler = () => {
-    setSound(prevState => {
-      return prevState === "on" ? "off" : "on"
-    })
-
-    localStorage.setItem("sound", theme === "on" ? "off" : "on")
-  }
-
   const changeTimerValueHandler = e => {
     setTimerValue(e.target.value)
   }
 
-
-
   return (
     <div className={theme}>
 
-      <Header onToggleNav={toggleNavHandler} onChangeTheme={changeThemeHandler} onChangeSound={changeSoundHandler} theme={theme} sound={sound} />
+      <Header onToggleNav={toggleNavHandler} onChangeTheme={changeThemeHandler} theme={theme} volume={volume} />
 
       <Nav openNav={openNav} onToggleNav={toggleNavHandler} />
 
@@ -84,7 +74,7 @@ function App() {
           <Route path="game" element={<Game timerValue={timerValue} />}></Route>
           <Route path="profile" element={<Profile />}></Route>
           <Route path="leaderboard" element={<Leaderboard />}></Route>
-          <Route path="settings" element={<Settings onChangeTimerValue={changeTimerValueHandler} timerValue={timerValue} />}></Route>
+          <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} onChangeTimerValue={changeTimerValueHandler} timerValue={timerValue} />}></Route>
         </Routes>
       </main>
     </div>

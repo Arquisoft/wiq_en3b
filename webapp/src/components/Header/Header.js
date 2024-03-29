@@ -13,7 +13,7 @@ const Header = (props) => {
         {props.theme === "light" ? <MoonIcon /> : <SunIcon />}
       </div>
 
-      <AudioButton url="../../assets/music.wav" sound={props.sound} onChangeSound={props.onChangeSound} />
+      <AudioButton url="../../assets/music.wav" volume={props.volume} />
 
       <div className="header-button" onClick={props.onToggleNav}>
         <BarIcon />

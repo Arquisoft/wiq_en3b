@@ -77,7 +77,7 @@ describe("Question Service - Question Generation", () => {
         (generateQuestions as jest.Mock).mockResolvedValue(mockResponse)
 
         // Mock req and res for controller
-        const req = { query: { size: mockResponse.length } } as any
+        const req = { query: { size: mockResponse.length, lang: "en" } } as any
         const res = {
             json: jest.fn(),
             status: jest.fn().mockReturnThis()
@@ -86,7 +86,7 @@ describe("Question Service - Question Generation", () => {
         await generateQuestionsController(req, res)
         
         // Ensuring mock fn was called like => await generateQuestions(3)
-        expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length);
+        expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length, "en");
         // Ensuring mock fn was called like => res.json(['Question1', 'Question2', 'Question3'])
         expect(res.json).toHaveBeenCalledWith(mockResponse)
       
@@ -99,7 +99,7 @@ describe("Question Service - Question Generation", () => {
         (generateQuestions as jest.Mock).mockRejectedValue(mockError)
 
         // Mock req and res for controller
-        const req = { query: { size: 3 } } as any
+        const req = { query: { size: 3, lang: "en" } } as any
         const res = {
             json: jest.fn(),
             status: jest.fn().mockReturnThis()
@@ -108,7 +108,7 @@ describe("Question Service - Question Generation", () => {
         await generateQuestionsController(req, res)
 
         // Ensuring mock fn was called like => await generateQuestions(3)
-        expect(generateQuestions).toHaveBeenCalledWith(3);
+        expect(generateQuestions).toHaveBeenCalledWith(3, "en");
         // Ensuring mock fn was called like => res.status(500)
         expect(res.status).toHaveBeenCalledWith(500)
         // Ensuring mock fn was called like => res.json({status: 'fail'})

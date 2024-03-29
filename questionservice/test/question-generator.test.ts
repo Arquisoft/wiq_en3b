@@ -24,7 +24,7 @@ describe("Question Service - Question Generator", () => {
         await mockWikidataSparql(defaultNumberQuestions)
         
         // Testing function
-        const response = await generateQuestions(1) as any;
+        const response = await generateQuestions(1, "en") as any;
         
         // The call to QuestionModel.aggregate must be of size 1
         checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)
@@ -41,7 +41,7 @@ describe("Question Service - Question Generator", () => {
         await mockWikidataSparql(numberQuestions)
 
         // Testing function
-        const response = await generateQuestions(numberQuestions) as any;
+        const response = await generateQuestions(numberQuestions, "en") as any;
 
         // The first call to QuestionModel.aggregate must be of size 2
         expect(aggregateMock.mock.calls[0][0]).toStrictEqual([
@@ -68,7 +68,7 @@ describe("Question Service - Question Generator", () => {
         await mockWikidataSparql(defaultNumberQuestions)
         
         // Testing function
-        const response = await generateQuestions(1) as any;
+        const response = await generateQuestions(1, "en") as any;
 
         // Checking all fields are correct and only 1 question
         expect(response.length).toBe(defaultNumberQuestions)
@@ -83,7 +83,7 @@ describe("Question Service - Question Generator", () => {
         await mockWikidataSparql(numberQuestions)
 
         // Testing function
-        const response = await generateQuestions(numberQuestions) as any;
+        const response = await generateQuestions(numberQuestions, "en") as any;
         
         // It must be generated two questions
         expect(response.length).toBe(numberQuestions)
@@ -97,7 +97,7 @@ describe("Question Service - Question Generator", () => {
         (QuestionModel.aggregate as jest.Mock).mockRejectedValue(rejectedMongoResponse);
 
         // Expect that aggregate function rejected with the rejectedMongoResponse
-        await expect(generateQuestions(defaultNumberQuestions)).rejects.toThrow("Mock - Error fetching Questions");
+        await expect(generateQuestions(defaultNumberQuestions, "en")).rejects.toThrow("Mock - Error fetching Questions");
     })
 
     it("should return an error if fetching documents from Mongo fails - Sucessive call", async () => {
@@ -106,7 +106,7 @@ describe("Question Service - Question Generator", () => {
         (await mockQuestionModelAggregate(defaultNumberQuestions)).mockRejectedValue(rejectedMongoResponse);
 
         // Expect that aggregate function rejected with the rejectedMongoResponse
-        await expect(generateQuestions(defaultNumberQuestions)).rejects.toThrow("Mock - Error fetching Questions");
+        await expect(generateQuestions(defaultNumberQuestions, "en")).rejects.toThrow("Mock - Error fetching Questions");
     })
  
     it("should return 1 image question with all correct parameters when generator succeeds", async () => {
@@ -114,7 +114,7 @@ describe("Question Service - Question Generator", () => {
         const aggregateMock = await mockQuestionModelAggregateWithImage();
         await mockWikidataSparqlWithImage()
 
-        const response = await generateQuestions(defaultNumberQuestions);
+        const response = await generateQuestions(defaultNumberQuestions, "en");
 
         checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions);
 
@@ -127,7 +127,7 @@ describe("Question Service - Question Generator", () => {
         await mockWikidataSparql(defaultNumberQuestions)
         
         // Testing function
-        const response = await generateQuestions(1) as any;
+        const response = await generateQuestions(1, "en") as any;
         
         // The call to QuestionModel.aggregate must be of size 1
         checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)

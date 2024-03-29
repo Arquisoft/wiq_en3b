@@ -32,7 +32,7 @@ export const getTranslatedQuestions = async (
     },
     headers: {
       'content-type': 'application/json',
-      'X-RapidAPI-Key': '***',
+      'X-RapidAPI-Key': 'c30d4bcd50msh89a1aa813730fe6p167ffbjsn236010b9270f',
       'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com',
     },
     data: [

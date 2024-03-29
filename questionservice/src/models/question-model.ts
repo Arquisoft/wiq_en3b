@@ -129,28 +129,6 @@ const generateSampleTest = () => {
 
   aQuestion.save();
 
-  // Who wrote...?
-  //   aQuestion = new QuestionModel({
-  //     questionTemplate: 'Who wrote $$$?',
-  //     question_type: {
-  //       name: 'Books',
-  //       query: `SELECT ?templateLabel ?answerLabel
-  //         WHERE {
-  //           ?answer wdt:P31 wd:Q5;  # Ensure the entity is a human
-  //                   wdt:P27 wd:Q174193;
-  //                   wdt:P106 wd:Q36180;  # Ensure the occupation is writer
-  //                   wdt:P800 ?template.  # Retrieve the books written by the writer
-  //           SERVICE wikibase:label { bd:serviceParam wikibase:language "en,es". }
-  //         }
-  //         ORDER BY UUID()
-  //         LIMIT 5
-  //         `,
-  //       entities: [],
-  //     },
-  //   });
-
-  //   aQuestion.save();
-
   // Chemical symbol of an element
   // We make a first query searching for any element in the periodic table
   // Then we search for elements with similar associated symbols instead of selecting at random
@@ -196,60 +174,72 @@ const generateSampleTest = () => {
   });
   aQuestion.save();
 
-  // Raúl
-  // With this query I can consistently get several tourists attractions/famous places from a country.
-  // There are a few things to consider:
-  // Some entities may not have an associated label, making it so what is returned is not a name but an
-  // entity in format QXXXXXX. If this happens we will probably need to cancel the creation of the question.
-  // We could try to obtain more attractions, but the time to perform the query becomes unfeasible.
-  // I could also make it so that several countries are considered. However, it becomes much less consistent.
-  // Also, there are countries which do not return any attractions.
-  // If we want to generate the question, in this case one query will not be enough.
-  // We need to decide what to do:
-  // We can do more simple things for now, since this is just the first prototype.
-  // We can try to modify the Question Model or find a new way to approach the problem to try manage this type of cases.
-  // We could also forget this specific question and go on, but we will probably encounter similar problems
-  // in the future.
-  // IMPORTANT: Probably there is a better approach for the query below, but with mi current knowledge of
-  // the Wikidata Query Service, I don't know which it's.
+  // Image Question templates
 
-  // aQuestion = new QuestionModel({
-  //   questionTemplate: "What is a famous place from Peru?",
-  //   question_type: {
-  //     name: "Landmarks",
-  //     query: `SELECT ?templateLabel ?answerLabel
-  //             WHERE {
+  // Flag of a country, autonomous community of Spain or USA state
+  aQuestion = new QuestionModel({
+    questionTemplate: 'This flag is from...?',
+    question_type: {
+      name: 'Images_Flags',
+      query: `SELECT ?templateLabel ?answerLabel
+      WHERE {
+        ?answer wdt:P31 wd:$$$; # Entity
+                wdt:P41 ?template.  # Capital
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en"}
+      }
+      ORDER BY UUID() # Add randomness to the results
+      LIMIT 5
+      `,
+      entities: [
+        'Q6256', // Country (any)
+        'Q10742', // Autonomous Community of Spain
+        'Q35657' // State of the United States],
+      ]
+    },
+  });
+  aQuestion.save();
 
-  //               ?template wdt:P31/wdt:P279* wd:Q4989906;
-  //               wdt:P17  ?answer.
 
-  //               SERVICE wikibase:label { bd:serviceParam wikibase:language "en,es"}.
+  // Guess the person by an image
+  // In this case physiscists
+  aQuestion = new QuestionModel({
+    questionTemplate: 'Who is this physiscist?',
+    question_type: {
+      name: 'Images_Physics',
+      query: `SELECT ?templateLabel ?answerLabel
+      WHERE {
+        ?answer wdt:P31 wd:Q5;  # Instance of human
+                wdt:P106 wd:Q169470;  # Occupation: "physicist"
+                wdt:P18 ?template;
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      LIMIT 5    
+      `,
+      entities: []
+    },
+  });
+  aQuestion.save();
 
-  //               {
-  //                 SELECT ?answer
-  //                 WHERE {
-  //                   ?answer wdt:P31 wd:Q6256; # Entity
-  //                 }
-  //                 ORDER BY UUID()
-  //                 LIMIT 1
-  //               }
-  //             }
-  //             ORDER BY UUID() # Add randomness to the results
-  //             LIMIT 2`
-  //   }
-  // });
+  // Guess the person by an image
+  // In this case inventors
+  aQuestion = new QuestionModel({
+    questionTemplate: 'Who is this inventor?',
+    question_type: {
+      name: 'Images_Inventor',
+      query: `SELECT ?templateLabel ?answerLabel
+      WHERE {
+        ?answer wdt:P31 wd:Q5;  # Instance of human
+                wdt:P106 wd:Q937857;  # Occupation: "inventor"
+                wdt:P18 ?template;
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      LIMIT 5  
+      `,
+      entities: []
+    },
+  });
+  aQuestion.save();
 
-  // aQuestion.save()
-
-  // aQuestion = new QuestionModel({
-  //   questionTemplate: "What is the typical dish of Peru?",
-  //   question_type: {
-  //     name: "Gastronomy",
-  //     query: "DELETE ALL"
-  //   }
-  // });
-
-  // aQuestion.save()
 };
 
 export { QuestionModel, generateSampleTest };

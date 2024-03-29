@@ -1,7 +1,10 @@
 import { Request, Response } from 'express';
 import User from '../models/user-model';
-import { validateRequiredFields } from '../utils/field-validations';
 import { validateHistoryBody } from '../utils/history-body-validation';
+
+const { validateRequiredFields } = require('kaw-users-utils');
+
+const SERVER_ERROR_MESSAGE = "Can't access users! Internal server error";
 
 const getHistory = async (req: Request, res: Response) => {
   try {
@@ -10,7 +13,19 @@ const getHistory = async (req: Request, res: Response) => {
     }
 
     const username = req.query.user.toString();
-    const user = await User.findOne({ username });
+
+    let user;
+    try {
+      user = await User.findOne({ username });
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        data: {
+          error: SERVER_ERROR_MESSAGE,
+        },
+      });
+      return;
+    }
 
     if (!user) {
       throw new Error(
@@ -47,10 +62,21 @@ const getLeaderboard = async (req: Request, res: Response) => {
       }
     }
 
-    const leaderboard = await User.find({})
-        .sort({ 'history.points': -1 }) // Sort in descending order of points
-        .limit(size) // Only take the first (size) users
-        .select('username history'); // Select only username and history (no password, date, etc.)
+    let leaderboard
+    try {
+      leaderboard = await User.find({})
+          .sort({ 'history.points': -1 }) // Sort in descending order of points
+          .limit(size) // Only take the first (size) users
+          .select('username history'); // Select only username and history (no password, date, etc.)
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        data: {
+          error: SERVER_ERROR_MESSAGE,
+        },
+      });
+      return;
+    }
 
     res.json({
       status: 'success',
@@ -76,7 +102,18 @@ const updateHistory = async (req: Request, res: Response) => {
     validateHistoryBody(req, user!);
 
     user!.history = { ...user!.history, ...req.body.history };
-    await user!.save();
+
+    try {
+      await user!.save();
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        data: {
+          error: "Can't update user! Internal server error",
+        },
+      });
+      return;
+    }
 
     res.json({ status: 'success', data: user!.history });
   } catch (error) {
@@ -100,7 +137,17 @@ const incrementHistory = async (req: Request, res: Response) => {
       (user!.history as any)[key] += req.body.history[key];
     });
 
-    await user!.save();
+    try {
+      await user!.save();
+    } catch (error) {
+      res.status(500).json({
+        status: 'error',
+        data: {
+          error: "Can't update user! Internal server error",
+        },
+      });
+      return;
+    }
 
     res.json({ status: 'success', data: user!.history });
   } catch (error) {

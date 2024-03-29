@@ -73,3 +73,36 @@
 .close-button svg {
   fill: #fff;
 }
+
+.nav-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 99;
+  pointer-events: none; /* El overlay no recibe eventos de clic */
+}
+
+.nav-overlay::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 0.3s ease, visibility 0s 0.3s;
+}
+
+.nav-open .nav-overlay {
+  pointer-events: auto; /* El overlay recibe eventos de clic cuando el menú está abierto */
+}
+
+.nav-open .nav-overlay::before {
+  visibility: visible;
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}

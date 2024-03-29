@@ -1,4 +1,34 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins&display=swap");
+.button-common {
+  background-color: rgb(116, 122, 231);
+  color: white;
+  padding: 15px 30px;
+  border: none;
+  font-size: 22px;
+  border-radius: 15px;
+  width: 100%;
+  cursor: pointer;
+}
+
+.form-error {
+  color: red;
+  text-align: left;
+  margin: auto;
+  font-size: 16px;
+  margin-bottom: 0.5rem;
+}
+
+.response-error {
+  padding: 15px;
+  margin-bottom: 20px;
+  border: 1px solid transparent;
+  border-radius: 4px;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  color: #a94442;
+  border-radius: 8px;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins&display=swap');
 
 * {
   margin: 0;
@@ -9,11 +39,10 @@
 :root {
   --dark-gray: #121212;
   --black: #000;
-  --gray: #252525;
 }
 
 body {
-  font-family: "Poppins", sans-serif;
+  font-family: 'Poppins', sans-serif;
   overflow-x: hidden;
 }
 
@@ -22,7 +51,7 @@ ul {
 }
 
 main {
-  padding: 20px;
+  padding: 8px;
   min-height: 100vh;
 }
 
@@ -73,24 +102,4 @@ main {
 
 .dark .form-create input {
   background-color: var(--dark-gray);
-}
-
-.dark .login {
-  background-color: var(--dark-gray);
-  color: #fff;
-}
-
-.dark .register {
-  background-color: var(--dark-gray);
-  color: #fff;
-}
-
-.dark .login-logout-link {
-  background-color: var(--dark-gray);
-  color: #747ae7;
-}
-
-.dark .theme {
-  background-color: var(--dark-gray);
-  color: #747ae7;
 }

@@ -11,6 +11,8 @@ import User from '../models/user-model';
 
 const addUser = async (req: Request, res: Response) => {
   try {
+    console.log(req.body.username.toString());
+    console.log(req.body.password.toString());
     validateRequiredFields(req, ['username', 'password']);
     validateNotEmpty(req, ['username']);
     validateRequiredLength(req, ['password'], 8);

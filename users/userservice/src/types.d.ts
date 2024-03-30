@@ -11,6 +11,10 @@ interface IUser {
     timePlayed: number;
     points: number;
   };
+  profile: {
+    bio: string;
+    pic: number;
+  };
 }
 
 export type UserDocument = Document<unknown, {}, IUser> &

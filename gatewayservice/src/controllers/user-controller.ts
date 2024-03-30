@@ -14,4 +14,27 @@ const addUser = async (req: Request, res: Response, next: NextFunction) => {
   }
 };
 
-export { addUser };
+const getProfile = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userResponse = await axios.get(USER_SERVICE_URL + '/profile', {
+      params: req.query,
+    });
+    res.json(userResponse.data);
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+const updateProfile = async (req: Request, res: Response, next: NextFunction) => {
+  try {
+    const userResponse = await axios.post(
+      USER_SERVICE_URL + '/profile',
+      req.body
+    );
+    res.json(userResponse.data);
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+export { addUser, getProfile, updateProfile };

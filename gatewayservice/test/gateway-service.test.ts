@@ -14,6 +14,8 @@ const getMocks = (url: string) => {
     return Promise.resolve({ data: { leaderboard:  {} } });
   } else if (url.endsWith('/health')) {
     return Promise.resolve();
+  } else if (url.endsWith('/profile')) {
+    return Promise.resolve({data: { bio: 'Test' }});
   }
 
   return;
@@ -28,6 +30,8 @@ const postMocks = (url: string) => {
     return Promise.resolve({ data: { gamesPlayed: 10 } });
   } else if (url.endsWith('/history/increment')) {
     return Promise.resolve({ data: { gamesPlayed: 20 } });
+  } else if (url.endsWith('/profile')) {
+    return Promise.resolve({data: { bio: 'Test' }});
   }
 
   return;
@@ -310,6 +314,50 @@ describe('Gateway Service', () => {
 
     expect(response.statusCode).toBe(200);
     expect(response.body.gamesPlayed).toBe(20);
+  });
+
+  // Test POST /profile endpoint
+  it('should forward profile request to user service', async () => {
+    const response = await request(app)
+      .post('/profile')
+      .send({ username: 'testuser', bio: 'Test' });
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.bio).toBe('Test');
+  });
+
+  // Test POST /profile endpoint down
+  it('should get an error when user service is down', async () => {
+    const response = await testWithoutServices(() => {
+      return request(app)
+          .post('/profile')
+          .send({ username: 'testuser', bio: 'Test' })
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  // Test GET /profile endpoint
+  it('should forward history request to user service', async () => {
+    const response = await request(app)
+      .get('/profile')
+      .query({ user: 'newuser' })
+      .send();
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.bio).toBe('Test');
+  });
+
+  // Test GET /profile endpoint down
+  it('should get an error when user service is down', async () => {
+    const response = await testWithoutServices(() => {
+      return request(app)
+          .get('/profile')
+          .query({ user: 'newuser' })
+          .send();
+    });
+
+    expect(response.statusCode).toBe(500);
   });
 });
 

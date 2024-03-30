@@ -5,7 +5,8 @@ const request = require('supertest');
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import app from '../src/app';
-import {validateHistoryBody} from "../src/utils/history-body-validation";
+import { validateHistoryBody } from "../src/utils/history-body-validation";
+import { validateProfileBody } from "../src/utils/profile-body-validation";
 import { Request, Response } from 'express';
 import { verifyJWT } from "../src/utils/async-verification";
 
@@ -407,6 +408,120 @@ describe('User Service', () => {
 
     expect(response.statusCode).toBe(500);
   });
+
+  it('should get an error in GET /profile when not passing a user', async () => {
+    const response = await request(app)
+        .get('/profile');
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.profile).toBeUndefined();
+  });
+
+  it('should get an error in GET /profile when user does not exist', async () => {
+    const response = await request(app)
+        .get('/profile?user=nonexistentuser');
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.profile).toBeUndefined();
+  });
+
+  it('should obtain the profile data for the user with GET /profile', async () => {
+    const response = await request(app)
+        .get('/profile?user=testuser');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data.profile).not.toBeUndefined();
+    const expectedProperties = ['bio', 'pic']
+    expectedProperties.forEach(property => expect(response.body.data.profile).toHaveProperty(property));
+  });
+
+  it('trying to access the profile of a user with the database down should not work', async () => {
+      const response = await testWithoutDatabase(() => {
+        return request(app)
+            .get('/profile?user=testuser')
+      });
+
+      expect(response.statusCode).toBe(500);
+    });
+
+  const validProfileTest = {
+    profile: {
+      bio: "Test bio",
+      pic: "elephant.png"
+    },
+  };
+
+  it('should get an error in POST /profile when not logged in', async () => {
+    const response = await request(app)
+        .post('/profile')
+        .send(validProfileTest);
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.profile).toBeUndefined();
+  });
+
+  it('should update the profile data for the user with POST /profile', async () => {
+    const response = await request(app)
+        .post('/profile')
+        .send(validProfileTest)
+        .set('Authorization', `Bearer ${testToken}`);
+
+    expect(response.statusCode).toBe(200);
+
+    const getResponse = await request(app)
+        .get('/profile?user=testuser');
+
+    expect(getResponse.statusCode).toBe(200);
+    expect(JSON.stringify(getResponse.body.data.profile)).toMatch(JSON.stringify(validProfileTest.profile));
+  });
+
+  it('should get an error in POST /profile when not sending a new profile', async () => {
+    const response = await request(app)
+        .post('/profile')
+        .set('Authorization', `Bearer ${testToken}`);
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.profile).toBeUndefined();
+  });
+
+  it('trying to update the profile when the database cannot be written should not work', async () => {
+    const response = await testReadOnlyDatabase(() => {
+      return request(app)
+          .post('/profile')
+          .send(validProfileTest)
+          .set('Authorization', `Bearer ${testToken}`);
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  // Body validation util, not part of the user profile
+    it('should get an error when including a parameter that is not in the model', async () => {
+      const mockRequest = {
+        body: {
+          profile: {
+            nonexistent: 1
+          }
+        }
+      } as Request;
+      const user = await User.find({ username:'testuser' });
+
+      expect(() => validateProfileBody(mockRequest, user[0])).toThrowError();
+    });
+
+    // Body validation util, not a string
+    it('should get an error when using values that are not strings', async () => {
+      const mockRequest = {
+        body: {
+          profile: {
+            bio: 1
+          }
+        }
+      } as Request;
+      const user = await User.find({ username:'testuser' });
+
+      expect(() => validateProfileBody(mockRequest, user[0])).toThrowError();
+    });
 });
 
 async function testWithoutDatabase(paramFunc : Function) {

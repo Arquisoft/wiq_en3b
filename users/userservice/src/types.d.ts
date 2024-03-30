@@ -13,7 +13,7 @@ interface IUser {
   };
   profile: {
     bio: string;
-    pic: number;
+    pic: string;
   };
 }
 

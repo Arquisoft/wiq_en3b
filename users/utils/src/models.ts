@@ -20,7 +20,7 @@ const userSchemaJson = {
     },
     profile: {
         bio: { type: String, default: '' },
-        pic: { type: Number, default: 0 },
+        pic: { type: String, default: '' },
     },
 };
 

@@ -10,6 +10,8 @@ const {
 
 import User from '../models/user-model';
 
+const DEFAULT_AVATAR_IMAGE = 'default-avatar.png';
+
 const addUser = async (req: Request, res: Response) => {
   try {
     console.log(req.body.username.toString());
@@ -43,7 +45,7 @@ const addUser = async (req: Request, res: Response) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     const bio = '';
-    const pic = 0;
+    const pic = DEFAULT_AVATAR_IMAGE;
     
     const profile = { bio, pic };
 

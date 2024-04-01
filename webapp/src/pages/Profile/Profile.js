@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback, useMemo } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { useProfile } from '../../hooks/useProfile'
 import './Profile.css'
 import { useAuth } from '../../hooks/useAuth'

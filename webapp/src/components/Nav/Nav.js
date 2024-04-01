@@ -9,6 +9,7 @@ import { ReactComponent as AwardIcon } from '../../assets/award-solid.svg'
 import { ReactComponent as SettingsIcon } from '../../assets/gear-solid.svg'
 import { ReactComponent as LoginIcon } from '../../assets/login-solid.svg'
 import { ReactComponent as LogoutIcon } from '../../assets/logout-solid.svg'
+import { ReactComponent as SingUpIcon } from '../../assets/signup-solid.svg'
 import { useAuth } from '../../hooks/useAuth'
 
 const Nav = props => {
@@ -79,9 +80,19 @@ const Nav = props => {
         )}
 
         <Link to={user ? '/logout' : '/login'} className="nav-link">
-          {user ? <LogoutIcon /> : <LoginIcon />}
+          <div className="nav-link-icon">
+            {user ? <LogoutIcon /> : <LoginIcon />}
+          </div>
           {user ? 'Logout' : 'Login'}
         </Link>
+
+        {!user && (
+          <Link to="register" className="nav-link">
+            <div className="nav-link-icon">
+              <SingUpIcon />
+            </div>
+            Register
+          </Link>)}
       </div>
     </div>
     </div>

@@ -44,44 +44,53 @@ paths:
   /questions:
     
     get:
-      summary: Generates random questions together with its 4 possible answers using Wikidata API.
+      summary: Generates N random questions together with its 4 possible answers using Wikidata API.
       tags:
         - Question Service
       operationId: generateQuestions
       parameters:
+        - $ref: '#/components/parameters/questionLanguage'
         - $ref: '#/components/parameters/questionSize'
       responses:
         200:
-          description: Service has generated the requested number of questions.
+          description: Service has generated the requested number of questions. It is possible that not ALL questions requested are generated due to timeouts for Wikidata API.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/AllQuestions'
-              example:
-                - id: 0
-                  question: On which year was UAE founded?
-                  answers:
-                    - id: 1
-                      text: 1971
-                    - id: 2
-                      text: 1768
-                    - id: 3
-                      text: 862
-                    - id: 4
-                      text: 1945
-                  correctAnswerId: 1
-                - id: 1
-                  question: What is the Capital of Uganda?
-                  answers:
-                    - id: 1
-                      text: Kampala
-                    - id: 2
-                      text: Dodoma
-                    - id: 3
-                      text: Santiago
-                    - id: 4
-                      text: Port-au-Prince
-                  correctAnswerId: 1               
+              examples:
+                - questionNoImage:
+                  summary: A question and 4 possible answers have been generated.
+                  value:
+                    - id: 0
+                      question: On which year was UAE founded?
+                      answers:
+                        - id: 1
+                          text: 1971
+                        - id: 2
+                          text: 1768
+                        - id: 3
+                          text: 862
+                        - id: 4
+                          text: 1945
+                      correctAnswerId: 1
+                - questionImage:
+                  summary: A question, an Image URL and 4 possible answers have been generated.
+                  value:
+                    - id: 0
+                      question: Where is this flag from?
+                      answers:
+                        - id: 1
+                          text: Peru
+                        - id: 2
+                          text: Spain
+                        - id: 3
+                          text: Ukraine
+                        - id: 4
+                          text: France
+                      correctAnswerId: 1
+                      image: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/img_name.ext'  
+
         400:
           description: Client has made a bad request
           content:
@@ -100,16 +109,35 @@ paths:
                   value:
                     status: Fail
                     data:
-                      error: The size parameter must be a number                 
+                      error: The size parameter must be a number
+                languageNotSupported:
+                  summary: Client has provided a language not supported for translation.
+                  value:
+                    status: Fail
+                    data:
+                      error: The provided language is not supported            
         500:
           description: An internal server error has occured. Either DB related, Wikidata API or others.
           content:
             application/json:
               schema:
                 $ref: '#/components/schemas/ServerErrorQSResponse'
-              example:
-                status: fail
-                message: Can't generate questions! Internal server error
+              examples:
+                - translationError:
+                  summary: A translation error occured. 
+                  value:
+                    status: fail
+                    message: Can't generate questions! Error during translation
+                - templateError:
+                  summary: A question couldn't be computed.
+                  value:
+                    status: fail
+                    message: Can't generate questions! Error while generating question for template - What is ...? 
+                - wikidataError:
+                  summary: Error when trying to query wikidata sparql service.
+                  value:
+                    status: fail
+                    message: Can't generate questions! Error while fetching Wikidata
 
   /history:
 
@@ -268,6 +296,9 @@ components:
         correctAnswerId:
           type: string
           description: The identifier of the correct answer.
+        image:
+          type: string
+          description: A URL of an image that describes the question.
 
     ClientErrorResponse:
       type: object
@@ -375,6 +406,158 @@ components:
           summary: Retrieving 5 random questions.
           value: 5
     
+    questionLanguage:
+      name: lang
+      in: query
+      description: Language in which questions are going to be generated.
+      required: false
+      schema:
+        type: string
+        default: en
+        enum:
+          - af
+          - am
+          - ar
+          - as
+          - az
+          - ba
+          - bg
+          - bho
+          - bn
+          - bo
+          - brx
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - doi
+          - dsb
+          - dv
+          - el
+          - en
+          - es
+          - et
+          - eu
+          - fa
+          - fi
+          - fil
+          - fj
+          - fo
+          - fr
+          - fr-CA
+          - ga
+          - gl
+          - gom
+          - gu
+          - ha
+          - he
+          - hi
+          - hne
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - id
+          - ig
+          - ikt
+          - is
+          - it
+          - iu
+          - iu-Latn
+          - ja
+          - ka
+          - kk
+          - km
+          - kmr
+          - kn
+          - ko
+          - ks
+          - ku
+          - ky
+          - ln
+          - lo
+          - lt
+          - lug
+          - lv
+          - lzh
+          - mai
+          - mg
+          - mi
+          - mk
+          - ml
+          - mn-Cyrl
+          - mn-Mong
+          - mni
+          - mr
+          - ms
+          - mt
+          - mww
+          - my
+          - nb
+          - ne
+          - nl
+          - nso
+          - nya
+          - or
+          - otq
+          - pa
+          - pl
+          - prs
+          - ps
+          - pt
+          - pt-PT
+          - ro
+          - ru
+          - run
+          - rw
+          - sd
+          - si
+          - sk
+          - sl
+          - sm
+          - sn
+          - so
+          - sq
+          - sr-Cyrl
+          - sr-Latn
+          - st
+          - sv
+          - sw
+          - ta
+          - te
+          - th
+          - ti
+          - tk
+          - tlh-Latn
+          - tlh-Piqd
+          - tn
+          - to
+          - tr
+          - tt
+          - ty
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - xh
+          - yo
+          - yua
+          - yue
+          - zh-Hans
+          - zh-Hant
+          - zu
+      examples:
+        es-example:
+          summary: Retrieving questions and responses in Spanish.
+          value: es
+        uk-example:
+          summary: Retrieving questions and responses in Ukranian.
+          value: uk
+        
     leaderboardSize:
       name: size
       in: query

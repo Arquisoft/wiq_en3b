@@ -23,18 +23,27 @@ const getProfile = async (req: Request, res: Response, next: NextFunction) => {
   } catch (error: any) {
     next(error);
   }
-}
+};
 
-const updateProfile = async (req: Request, res: Response, next: NextFunction) => {
+const updateProfile = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   try {
     const userResponse = await axios.post(
       USER_SERVICE_URL + '/profile',
-      req.body
+      req.body,
+      {
+        headers: {
+          authorization: req.headers?.['authorization'] ?? '',
+        },
+      }
     );
     res.json(userResponse.data);
   } catch (error: any) {
     next(error);
   }
-}
+};
 
 export { addUser, getProfile, updateProfile };

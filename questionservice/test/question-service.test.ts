@@ -129,8 +129,8 @@ describe("Question Service - Question Generation", () => {
         expect(res.status).toHaveBeenCalledWith(500)
         // Ensuring mock fn was called like => res.json({status: 'fail'})
         expect(res.json).toHaveBeenLastCalledWith({
-            status: 'error',
-            message: "Can't generate questions! Internal server error"
+            status: 'fail',
+            message: "Can't generate questions! Mock!! A fail"
         })
 
 

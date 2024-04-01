@@ -126,11 +126,7 @@ const generateQuestionsArray = async (
       try {
         return await generateQuestionJson(template, i);
       } catch (error) {
-        console.error(
-          'Error while generating question for template: ' + template
-        );
-
-        throw error;
+        throw new Error('Error while generating question for template: ' + template);
       }
     }
   );
@@ -210,8 +206,7 @@ const generateQuestionJson = async (
       );
     else return questionJsonBuilder(templateNumber, questionGen, answersArray);
   } catch (error) {
-    console.error('Error while fetching Wikidata');
-    throw error;
+    throw new Error('Error while fetching Wikidata');
   }
 };
 

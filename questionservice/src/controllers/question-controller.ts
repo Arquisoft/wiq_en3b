@@ -19,10 +19,10 @@ const generateQuestionsController = async (req: Request, res: Response) => {
     try {
       const questions = await generateQuestions(size, language);
       res.json(questions);
-    } catch (err) {
+    } catch (err: any) {
       res.status(500).json({
-        status: 'error',
-        message: "Can't generate questions! Internal server error",
+        status: 'fail',
+        message: "Can't generate questions! " + err.message,
       });
     }
   } catch (error: any) {

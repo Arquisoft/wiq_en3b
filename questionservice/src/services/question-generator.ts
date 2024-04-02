@@ -25,6 +25,8 @@ async function generateQuestions(
   lang: any
 ): Promise<object[] | void> {
   try {
+    console.log('------------------');
+    console.log('Questions requested: ' + n);
     let questionsDB = n * 0.8;
     let questionsArrayDB = await getQuestionsFromDB(questionsDB);
     let questionsGenerated = n - questionsArrayDB.length;
@@ -43,8 +45,7 @@ async function generateQuestions(
     if (lang && lang.toLowerCase() !== 'en') {
       return await translateQuestionsArray(questionsArray, lang);
     }
-    console.log('------------------');
-    console.log('Retrieved ' + questionsArrayDB.length + ' Questions from DBand Wikidata');
+    console.log('Retrieved ' + questionsArray.length + ' Questions from DB and Wikidata');
     console.log('------------------');
     return questionsArray;
   } catch (error) {

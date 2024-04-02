@@ -1,6 +1,7 @@
 import { generateQuestions } from '../src/services/question-generator'
 import { getWikidataSparqlWithTimeout } from '../src/utils/question-generator-utils'
 import { TemplateModel } from '../src/models/template-model';
+import { QuestionModel } from '../src/models/question-model';
 
 jest.mock('../src/models/template-model')
 jest.mock('../src/utils/question-generator-utils')
@@ -17,12 +18,14 @@ describe("Question Service - Question Generator", () => {
 
         const aggregateMock = await mockTemplateModelAggregate();
         const findMock = await mockTemplateModelFindOne();
+        const aggregateQuestionMock = await mockQuestionAggregate();
         await mockWikidataTimeout(0)
 
         const result = await generateQuestions(defaultNumberQuestions, "en") as any;
 
         expect(aggregateMock).toHaveBeenCalledTimes(1)
         expect(findMock).toHaveBeenCalledTimes(0)
+        expect(aggregateQuestionMock).toHaveBeenCalledTimes(1)
         expect(result.length).toBe(1);
         expect(result[0].question).toContain("What is the Capital of")
 
@@ -32,12 +35,14 @@ describe("Question Service - Question Generator", () => {
 
         const aggregateMock = await mockTemplateModelAggregate();
         const findMock = await mockTemplateModelFindOne();
+        const findQuestionMock = await mockQuestionAggregate();
         await mockWikidataTimeout(1)
 
         const result = await generateQuestions(defaultNumberQuestions, "en") as any;
 
         expect(aggregateMock).toHaveBeenCalledTimes(1)
         expect(findMock).toHaveBeenCalledTimes(1)
+        expect(findQuestionMock).toHaveBeenCalledTimes(1)
         expect(result.length).toBe(1);
         expect(result[0].question).toContain("What is the chemical symbol of")
     })
@@ -46,12 +51,14 @@ describe("Question Service - Question Generator", () => {
 
         const aggregateMock = await mockTemplateModelAggregate();
         const findMock = await mockTemplateModelFindOne();
+        const findQuestionMock = await mockQuestionAggregate();
         await mockWikidataTimeout(2)
 
         const result = await generateQuestions(defaultNumberQuestions, "en") as any;
 
         expect(aggregateMock).toHaveBeenCalledTimes(1)
         expect(findMock).toHaveBeenCalledTimes(1)
+        expect(findQuestionMock).toHaveBeenCalledTimes(1)
         expect(result.length).toBe(0);
     })
 
@@ -158,4 +165,13 @@ async function mockTemplateModelFindOne() {
     };
 
     return (TemplateModel.findOne as jest.Mock).mockReturnValue(mockResponseFindOne);
+}
+
+
+async function mockQuestionAggregate() {
+
+    // Mock response for QuestionModel.aggregate making it  return an empty array
+    const mockResponseAggregate: object[] = [];
+
+    return (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate);
 }

@@ -1,6 +1,8 @@
 import { TemplateModel } from '../src/models/template-model';
 import { getWikidataSparql } from '@entitree/helper';
 import { generateQuestions } from '../src/services/question-generator';
+import { QuestionModel } from '../src/models/question-model';
+
 
 // Mocking: QuestionModel.aggregate()
 // Avoiding flakiness of DB calls
@@ -21,8 +23,10 @@ describe("Question Service - Question Generator", () => {
     it("should return 1 question when DB has 1 template", async () => {
 
         // Setting up the mocks
-        const aggregateMock = await mockQuestionModelAggregate(defaultNumberQuestions);
+        const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
         await mockWikidataSparql(defaultNumberQuestions)
+        await mockQuestionAggregate();
+
 
         // Testing function
         const response = await generateQuestions(1, "en") as any;
@@ -38,7 +42,7 @@ describe("Question Service - Question Generator", () => {
 
         // Setting up the mocks
         const numberQuestions = 2;
-        const aggregateMock = await mockQuestionModelAggregate(numberQuestions);
+        const aggregateMock = await mocktemplateModelAggregate(numberQuestions);
         await mockWikidataSparql(numberQuestions)
 
         // Testing function
@@ -65,7 +69,7 @@ describe("Question Service - Question Generator", () => {
     it("should return 1 question with all correct parameters when DB has 1 template", async () => {
 
         // Setting up the mocks
-        await mockQuestionModelAggregate(defaultNumberQuestions);
+        await mocktemplateModelAggregate(defaultNumberQuestions);
         await mockWikidataSparql(defaultNumberQuestions)
 
         // Testing function
@@ -80,8 +84,9 @@ describe("Question Service - Question Generator", () => {
 
         // Setting up the mocks
         const numberQuestions = 2;
-        await mockQuestionModelAggregate(numberQuestions);
+        await mocktemplateModelAggregate(numberQuestions);
         await mockWikidataSparql(numberQuestions)
+        await mockQuestionAggregate();
 
         // Testing function
         const response = await generateQuestions(numberQuestions, "en") as any;
@@ -104,7 +109,7 @@ describe("Question Service - Question Generator", () => {
     it("should return an error if fetching documents from Mongo fails - Sucessive call", async () => {
 
         const rejectedMongoResponse = new Error("Mock - Error fetching Questions");
-        (await mockQuestionModelAggregate(defaultNumberQuestions)).mockRejectedValue(rejectedMongoResponse);
+        (await mocktemplateModelAggregate(defaultNumberQuestions)).mockRejectedValue(rejectedMongoResponse);
 
         // Expect that aggregate function rejected with the rejectedMongoResponse
         await expect(generateQuestions(defaultNumberQuestions, "en")).rejects.toThrow("Mock - Error fetching Questions");
@@ -112,7 +117,7 @@ describe("Question Service - Question Generator", () => {
 
     it("should return 1 image question with all correct parameters when generator succeeds", async () => {
 
-        const aggregateMock = await mockQuestionModelAggregateWithImage();
+        const aggregateMock = await mockTemplateModelAggregateWithImage();
         await mockWikidataSparqlWithImage()
 
         const response = await generateQuestions(defaultNumberQuestions, "en");
@@ -124,7 +129,7 @@ describe("Question Service - Question Generator", () => {
 
     it("should return 1 question with all correct parameters and no image field when not needed", async () => {
 
-        const aggregateMock = await mockQuestionModelAggregate(defaultNumberQuestions);
+        const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
         await mockWikidataSparql(defaultNumberQuestions)
 
         // Testing function
@@ -189,7 +194,7 @@ async function mockWikidataSparql(numberReturnValues: number) {
  * @param numberReturnValues number of templates to be returned by this function
  * @returns the created mock
  */
-async function mockQuestionModelAggregate(numberReturnValues: number) {
+async function mocktemplateModelAggregate(numberReturnValues: number) {
 
     // Mock-Response for: QuestionModel.aggregate([{ $sample: { size: remaining } }])
     const mockResponseAggregate: object[] = [{
@@ -221,7 +226,7 @@ async function mockQuestionModelAggregate(numberReturnValues: number) {
     return aggregateMock
 }
 
-async function mockQuestionModelAggregateWithImage() {
+async function mockTemplateModelAggregateWithImage() {
     // Mock response for fetching MongoDB documents
     const mockResponseAggregate: object[] = [{
         questionTemplate: 'This flag is from...?',
@@ -297,3 +302,9 @@ function checkAllFieldsWithoutImage(response: any) {
         expect(r).not.toHaveProperty("image") // no image field
 }
 
+async function mockQuestionAggregate() {
+    // Mock response for QuestionModel.aggregate making it  return an empty array
+    const mockResponseAggregate: object[] = [];
+
+    return (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate);
+}

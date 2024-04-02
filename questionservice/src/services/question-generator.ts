@@ -25,26 +25,46 @@ async function generateQuestions(
   lang: any
 ): Promise<object[] | void> {
   try {
+    let questionsDB = n * 0.8;
+    let questionsArrayDB = await getQuestionsFromDB(questionsDB);
+    let questionsGenerated = n - questionsArrayDB.length;
     // Trying to obtain n random documents
-    let randomQuestionsTemplates = await getRandomQuestions(n);
+    let randomQuestionsTemplates = await getRandomQuestions(questionsGenerated);
 
     // Generate and return questions generated from those documents
     let questionsArray = await generateQuestionsArray(randomQuestionsTemplates);
 
     // Skipping questions not generated a.k.a. void
     questionsArray = questionsArray.filter(q => typeof q === 'object');
-
     // Save questions to DB
     saveQuestions(questionsArray);
+    questionsArray = questionsArray.concat(questionsArrayDB);
 
     if (lang && lang.toLowerCase() !== 'en') {
       return await translateQuestionsArray(questionsArray, lang);
     }
-
+    console.log('Questions from DB and Wikidata ' + questionsArray.length);
     return questionsArray;
   } catch (error) {
     throw error;
   }
+}
+
+const getQuestionsFromDB = async (questionsDB: number) => {
+  let questionsArrayDB = await QuestionModel.aggregate([
+    { $sample: { size: questionsDB } },
+  ]);
+
+  questionsArrayDB = questionsArrayDB.map((q: any) => {
+    if (q.image === undefined) return questionJsonBuilder(q.id, q.question, q.answers);
+    return questionJsonBuilder(q.id, q.question, q.answers, q.image);
+  });
+  console.log('Questions from DB');
+  console.log(questionsArrayDB);
+  console.log('------------------');
+  console.log('Retrieved ' + questionsArrayDB.length + ' Questions from DB');
+  console.log('------------------');
+  return questionsArrayDB;
 }
 
 const saveQuestions = async (questionsArray: any) => {

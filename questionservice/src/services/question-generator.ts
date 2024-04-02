@@ -45,8 +45,7 @@ async function generateQuestions(
     if (lang && lang.toLowerCase() !== 'en') {
       return await translateQuestionsArray(questionsArray, lang);
     }
-    console.log('Retrieved ' + questionsArrayDB.length + ' Questions from DBand Wikidata');
-    console.log('------------------');
+    console.log('Retrieved ' + questionsArray.length + ' Questions from DB and Wikidata');
     return questionsArray;
   } catch (error) {
     throw error;

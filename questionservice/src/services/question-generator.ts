@@ -44,7 +44,7 @@ async function generateQuestions(
       return await translateQuestionsArray(questionsArray, lang);
     }
     console.log('------------------');
-    console.log('Retrieved ' + questionsArrayDB.length + ' Questions from DBand Wikidata');
+    console.log('Retrieved ' + questionsArray.length + ' Questions from DB and Wikidata');
     console.log('------------------');
     return questionsArray;
   } catch (error) {

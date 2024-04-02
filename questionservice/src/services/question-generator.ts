@@ -58,7 +58,7 @@ const getQuestionsFromDB = async (questionsDB: number) => {
   ]);
 
   questionsArrayDB = questionsArrayDB.map((q: any) => {
-    if (q.image === undefined) return questionJsonBuilder(q.id, q.question, q.answers);
+    if (q.image === undefined) return questionJsonBuilder(q.question, q.answers);
     return questionJsonBuilder(q.question, q.answers, q.image);
   });
   console.log('------------------');

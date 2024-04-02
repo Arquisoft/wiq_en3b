@@ -281,7 +281,6 @@ async function mockWikidataSparqlWithImage() {
 function checkAllFields(response: any) {
 
     for (let r of response) {
-        expect(r).toHaveProperty("id") // a given id
         expect(r).toHaveProperty("question") // the generated question
         expect(r).toHaveProperty("answers") // a list of answers
         expect(r.answers.length).toBe(4) // 4 answers

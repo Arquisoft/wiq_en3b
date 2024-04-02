@@ -43,7 +43,9 @@ async function generateQuestions(
     if (lang && lang.toLowerCase() !== 'en') {
       return await translateQuestionsArray(questionsArray, lang);
     }
-    console.log('Questions from DB and Wikidata ' + questionsArray.length);
+    console.log('------------------');
+    console.log('Retrieved ' + questionsArrayDB.length + ' Questions from DBand Wikidata');
+    console.log('------------------');
     return questionsArray;
   } catch (error) {
     throw error;
@@ -57,10 +59,8 @@ const getQuestionsFromDB = async (questionsDB: number) => {
 
   questionsArrayDB = questionsArrayDB.map((q: any) => {
     if (q.image === undefined) return questionJsonBuilder(q.id, q.question, q.answers);
-    return questionJsonBuilder(q.id, q.question, q.answers, q.image);
+    return questionJsonBuilder(q.question, q.answers, q.image);
   });
-  console.log('Questions from DB');
-  console.log(questionsArrayDB);
   console.log('------------------');
   console.log('Retrieved ' + questionsArrayDB.length + ' Questions from DB');
   console.log('------------------');
@@ -158,9 +158,9 @@ const generateQuestionsArray = async (
   // For each questionTemplate, we generate an async func to generate the questions
   // and its answers
   const promises = randomQuestionsTemplates.map(
-    async (template: any, i: number) => {
+    async (template: any) => {
       try {
-        return await generateQuestionJson(template, i);
+        return await generateQuestionJson(template);
       } catch (error) {
         throw new Error('Error while generating question for template: ' + template);
       }
@@ -173,12 +173,10 @@ const generateQuestionsArray = async (
 /**
  * In charge of asking wikidata the sparql query and building JSON question response
  * @param questionTemplate the template of the question
- * @param templateNumber number of the template
  * @returns JSON with the question and possible answers
  */
 const generateQuestionJson = async (
   questionTemplate: any,
-  templateNumber: number
 ): Promise<object | void> => {
   try {
     // Options may be present...
@@ -238,12 +236,11 @@ const generateQuestionJson = async (
     // Build it
     if (image != null)
       return questionJsonBuilder(
-        templateNumber,
         questionGen,
         answersArray,
         image
       );
-    else return questionJsonBuilder(templateNumber, questionGen, answersArray);
+    else return questionJsonBuilder(questionGen, answersArray);
   } catch (error) {
     throw new Error('Error while fetching Wikidata');
   }
@@ -266,13 +263,11 @@ function shuffleArray(array: any[]) {
  * @returns the JSON question
  */
 const questionJsonBuilder = (
-  templateNumber: number,
   questionGen: string,
   answersArray: object[],
   image: string = '',
 ): object => {
   const myJson: Question = {
-    id: templateNumber,
     question: questionGen,
     answers: answersArray,
     correctAnswerId: 1,

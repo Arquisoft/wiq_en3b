@@ -6,7 +6,6 @@ import { getWikidataSparql } from '@entitree/helper';
  * Interface for a question which may or not contain an image
  */
 interface Question {
-    id: number,
     question: string,
     answers: object[],
     correctAnswerId: number,

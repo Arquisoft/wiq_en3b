@@ -3,7 +3,6 @@ import { Schema, model } from 'mongoose';
 
 
 const questionSchema = new Schema<Question>({
-    id: { type: Number, required: true },
     question: { type: String, required: true },
     answers: { type: [Object], required: true },
     correctAnswerId: { type: Number, required: true },

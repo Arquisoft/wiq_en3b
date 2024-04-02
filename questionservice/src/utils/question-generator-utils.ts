@@ -34,23 +34,23 @@ function getRandomItem<T>(array: T[]): T {
  * @param requestTimeout the timeout in MS for the Service to respond
  * @returns A promise with the aforementioned functionality. 
  */
-async function getWikidataSparqlWithTimeout(sparqlQuery: string, requestTimeout: number): Promise<any>{
+async function getWikidataSparqlWithTimeout(sparqlQuery: string, requestTimeout: number): Promise<any> {
 
     // Promise 1: Prompt to Sparql service
     const wikidataPromise = getWikidataSparql(sparqlQuery);
-    
+
     // Promise 2: Timer
-    const timeoutPromise = new Promise( (_, reject) => {
-  
-      // If timer is exceeded, an error is thrown
-      setTimeout(() => reject(new Error("Timeout exceeded for query: " + sparqlQuery )), 
+    const timeoutPromise = new Promise((_, reject) => {
+
+        // If timer is exceeded, an error is thrown
+        setTimeout(() => reject(new Error("Timeout exceeded for query: " + sparqlQuery)),
             requestTimeout)
-  
+
     })
-  
+
     // Promise.race() => Group an array of Promises into a single one. The result of
     // this new promise is the result of ANY of the promises given.
-    return Promise.race( [wikidataPromise, timeoutPromise] )
+    return Promise.race([wikidataPromise, timeoutPromise])
 }
 
 export { getRandomItem, getWikidataSparqlWithTimeout, Question }

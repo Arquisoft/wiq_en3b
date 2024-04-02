@@ -1,10 +1,12 @@
-import { QuestionModel } from '../models/question-model';
+import { TemplateModel } from '../models/template-model';
 import {
   getRandomItem,
   getWikidataSparqlWithTimeout,
   Question,
 } from '../utils/question-generator-utils';
 import { getTranslatedQuestions } from './translation-service';
+import { QuestionModel } from '../models/question-model';
+
 
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
@@ -32,6 +34,9 @@ async function generateQuestions(
     // Skipping questions not generated a.k.a. void
     questionsArray = questionsArray.filter(q => typeof q === 'object');
 
+    // Save questions to DB
+    saveQuestions(questionsArray);
+
     if (lang && lang.toLowerCase() !== 'en') {
       return await translateQuestionsArray(questionsArray, lang);
     }
@@ -39,6 +44,17 @@ async function generateQuestions(
     return questionsArray;
   } catch (error) {
     throw error;
+  }
+}
+
+const saveQuestions = async (questionsArray: any) => {
+  try {
+    questionsArray.forEach(async (question: any) => {
+      QuestionModel.create(question);
+    });
+  } catch (err) {
+    console.error(err);
+    throw new Error('Error during question generation');
   }
 }
 
@@ -83,7 +99,7 @@ const translateQuestionsArray = async (
 */
 async function getRandomQuestions(n: number): Promise<any[]> {
   // We try to obtain the whole random templates
-  let randomQuestionsTemplates = await QuestionModel.aggregate([
+  let randomQuestionsTemplates = await TemplateModel.aggregate([
     { $sample: { size: n } },
   ]);
 
@@ -95,7 +111,7 @@ async function getRandomQuestions(n: number): Promise<any[]> {
     const remaining = n - randomQuestionsTemplates.length;
 
     // Fetch again from DB more templates
-    const additionalQuestions = await QuestionModel.aggregate([
+    const additionalQuestions = await TemplateModel.aggregate([
       { $sample: { size: remaining } },
     ]);
     // ... additionalQuestions -> this is called "sparse" syntax
@@ -159,7 +175,7 @@ const generateQuestionJson = async (
       // If an error has occured (timeout), retry again with a fast query
 
       try {
-        questionTemplate = await QuestionModel.findOne({
+        questionTemplate = await TemplateModel.findOne({
           'question_type.name': 'Chemistry',
         });
         sparqlQuery = getSparqlQueryFromDocument(questionTemplate);
@@ -196,6 +212,9 @@ const generateQuestionJson = async (
       randomIndexes
     );
 
+    // Randomizing answers order
+    answersArray = shuffleArray(answersArray);
+
     // Build it
     if (image != null)
       return questionJsonBuilder(
@@ -210,6 +229,14 @@ const generateQuestionJson = async (
   }
 };
 
+function shuffleArray(array: any[]) {
+  for (let i = array.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [array[i], array[j]] = [array[j], array[i]];
+  }
+  return array;
+}
+
 /**
  * Builds a question JSON out of parameters
  * @param templateNumber number of the template
@@ -222,7 +249,7 @@ const questionJsonBuilder = (
   templateNumber: number,
   questionGen: string,
   answersArray: object[],
-  image: string = ''
+  image: string = '',
 ): object => {
   const myJson: Question = {
     id: templateNumber,

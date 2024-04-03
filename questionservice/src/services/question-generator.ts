@@ -198,12 +198,12 @@ const generateQuestionJson = async (
     }
 
     // Pick random responses
-    var randomIndexes: number[] = generateRandomIndexes(
+    let randomIndexes: number[] = generateRandomIndexes(
       wikidataResponse.length
     );
 
     // Generate question
-    var questionGen = questionTemplate.questionTemplate.replace(
+    let questionGen = questionTemplate.questionTemplate.replace(
       /\$\$\$/g,
       wikidataResponse[randomIndexes[0]].templateLabel
     );
@@ -215,7 +215,7 @@ const generateQuestionJson = async (
     }
 
     // Generate answers
-    var answersArray: object[] = getRandomResponses(
+    let answersArray: object[] = getRandomResponses(
       wikidataResponse,
       randomIndexes
     );

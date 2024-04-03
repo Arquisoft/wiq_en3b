@@ -237,4 +237,4 @@ const generateSampleTest = () => {
   });
 };
 
-export { TemplateModel as TemplateModel, generateSampleTest };
+export { TemplateModel, generateSampleTest };

@@ -7,7 +7,7 @@ import FinalResult from "../FinalResult/FinalResult";
 import CircularProgress from '@mui/material/CircularProgress';
 import { ReactComponent as StopwatchIcon } from "../../assets/stopwatch-solid.svg";
 
-const Quiz = (props) => {
+const Quiz = ({ timerValue, level }) => {
 
   const apiEndpoint = "http://localhost:8000"
 
@@ -22,7 +22,7 @@ const Quiz = (props) => {
   const [score, setScore] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState(false);
 
-  const [timer, setTimer] = useState(Date.now() + props.timerValue * 1000);
+  const [timer, setTimer] = useState(Date.now() + timerValue * 1000);
   const [timerIndex, setTimerIndex] = useState(0);
   const countdownTimer = useRef();
 
@@ -37,7 +37,7 @@ const Quiz = (props) => {
 
   useEffect(() => {
     if (questions) {
-      setTimer(Date.now() + props.timerValue * 1000)
+      setTimer(Date.now() + timerValue * 1000)
     }
   }, [questions])
 
@@ -46,11 +46,12 @@ const Quiz = (props) => {
 
     let numQuestions = 0
 
-    console.log(props.level)
+    console.log(
+      level)
 
-    if (props.level === "easy") numQuestions = 1
-    else if (props.level === "medium") numQuestions = 3
-    else if (props.level === "hard") numQuestions = 5
+    if (level === "easy") numQuestions = 1
+    else if (level === "medium") numQuestions = 3
+    else if (level === "hard") numQuestions = 5
 
     console.log("Fetching " + numQuestions + " questions")
 
@@ -132,7 +133,7 @@ const Quiz = (props) => {
       // Reset state for the next question
       setQuizData({})
       setBtnDisabled(false)
-      setTimer(Date.now() + time * 1000)
+      setTimer(Date.now() + timerValue * 1000)
       setTimerIndex(prevTimerIndex => prevTimerIndex + 1)
     }, 2000)
 
@@ -147,7 +148,7 @@ const Quiz = (props) => {
     setIsFinished(false);
     setScore(0);
     setBtnDisabled(false);
-    setTimer(Date.now() + props.timerValue * 1000);
+    setTimer(Date.now() + timerValue * 1000);
     setTimerIndex((prevState) => { return prevState + 1; });
   };
 
@@ -157,7 +158,7 @@ const Quiz = (props) => {
         return prevState + 1;
       });
 
-      setTimer(Date.now() + time * 1000)
+      setTimer(Date.now() + timerValue * 1000)
       setTimerIndex(prevState => {
         return prevState + 1
       })
@@ -187,7 +188,6 @@ const Quiz = (props) => {
         <Question
           quiz={questions[currentQuestionIndex]}
           activeQuizIndex={currentQuestionIndex + 1}
-          quizLength={questions.length}
           quizLength={questions.length}
           selected={quizData}
           btnDisabled={btnDisabled}

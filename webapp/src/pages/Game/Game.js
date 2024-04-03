@@ -11,7 +11,7 @@ import "./Game.css"
 
 import { useTranslation } from "react-i18next"
 
-const Game = () => {
+const Game = (props) => {
   const { questions } = useQuestions()
   const { time } = useSettings()
   const [isGameStarted, toggleGameStarted] = useToggle(false)
@@ -31,37 +31,25 @@ const Game = () => {
 
   function goHardLevel() {
     setCurrentLevel("hard")
-
-    if (!isGameStarted) {
-      return (
-        <div className="quiz-wrapper">
-          <div style={{ marginTop: 20, marginBottom: 10 }}>
-            Do you want to start the game? Click on the following button
-          </div>
-          <Button onClick={toggleGameStarted} disabled={!areQuestionsAvailable}>
-            Start game
-          </Button>
-        </div>
-      )
-    }
-
-    return (
-      <div className="quiz-wrapper">
-        {!currentLevel && (
-          <div className="header-and-buttons-container">
-            <h2>{t("play.choose_difficulty")}</h2>
-            <div className="button-container">
-              <Button onClick={goEasyLevel}>{t("play.easy")}</Button>
-              <Button onClick={goMediumLevel}>{t("play.medium")}</Button>
-              <Button onClick={goHardLevel}>{t("play.hard")}</Button>
-            </div>
-          </div>
-        )}
-        {currentLevel && (
-          <Quiz timerValue={props.timerValue} level={currentLevel} />
-        )}
-      </div>
-    )
   }
 
-  export default Game
+  return (
+    <div className="quiz-wrapper">
+      {!currentLevel && (
+        <div className="header-and-buttons-container">
+          <h2>{t("play.choose_difficulty")}</h2>
+          <div className="button-container">
+            <Button onClick={goEasyLevel}>{t("play.easy")}</Button>
+            <Button onClick={goMediumLevel}>{t("play.medium")}</Button>
+            <Button onClick={goHardLevel}>{t("play.hard")}</Button>
+          </div>
+        </div>
+      )}
+      {currentLevel && (
+        <Quiz timerValue={props.timerValue} level={currentLevel} />
+      )}
+    </div>
+  )
+}
+
+export default Game

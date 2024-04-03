@@ -4,16 +4,20 @@ import Nav from '../components/Nav/Nav'
 import { useTheme } from '../hooks/useTheme'
 import { useToggle } from '../hooks/useToggle'
 
-function AppLayout() {
+const AppLayout = ({ volume }) => {
+  //State for opening and closing the navigation
   const [nav, toggleNav] = useToggle(false)
+  //State for the theme
   const { theme, changeThemeHandler } = useTheme()
 
   return (
     <div className={theme}>
+
       <Header
         onToggleNav={toggleNav}
         onChangeTheme={changeThemeHandler}
         theme={theme}
+        volume={volume}
       />
 
       <Nav openNav={nav} onToggleNav={toggleNav} />

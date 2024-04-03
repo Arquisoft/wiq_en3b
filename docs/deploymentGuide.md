@@ -1,4 +1,4 @@
-=== Quick Deployment Guide
+# Quick Deployment Guide
 
 In our case we are going to use Azure as our cloud provider. The following steps are a quick guide to deploy our application to a virtual machine in Azure:
 
@@ -17,20 +17,44 @@ In our case we are going to use Azure as our cloud provider. The following steps
    - Use the public IP address and the file .pem for making the connection.
    - Execute the following commands for preparing the virtual machine:
 
-    [source,bash]
-    ----
+    ``
     sudo apt update
+   ``
+   
+   ``
     sudo apt install apt-transport-https ca-certificates curl software-properties-common
-    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
-    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
-    sudo apt update
-    sudo apt install docker-ce
-    sudo usermod -aG docker ${USER}
-    sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    sudo chmod +x /usr/local/bin/docker-compose
-    ----
+   ``
 
-8. Make a release in GitHub:
+   ``
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+   ``
+
+   ``
+    sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu focal stable"
+   ``
+
+   ``
+    sudo apt update
+   ``
+
+   ``
+    sudo apt install docker-ce
+   ``
+
+   ``
+    sudo usermod -aG docker ${USER}
+   ``
+
+   ``
+    sudo curl -L "https://github.com/docker/compose/releases/download/1.28.5/docker-compose-$(uname -s)-$(uname -m)"
+   -o /usr/local/bin/docker-compose
+   ``
+
+   ``
+    sudo chmod +x /usr/local/bin/docker-compose
+    ``
+
+9. Make a release in GitHub:
    - On the right-hand side of the main Code section of our repository, there is a section called Releases. It will be needed to add a new version following the version naming convention.
    - Once the release is made, some GitHub actions will be triggered, and the containers will be tested and running once everything finishes.
    - If some test fails during the process, deployment will be automatically aborted.

@@ -157,7 +157,7 @@ async function mockQuestionAggregate() {
             }
         ],
         "correctAnswerId": 1,
-        "image": "http://commons.wikimedia.org/wiki/Special:FilePath/Christian%20Ludwig%20Gerling.jpg"
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Christian%20Ludwig%20Gerling.jpg"
     }];
 
     return (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate);

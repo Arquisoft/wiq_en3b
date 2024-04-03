@@ -5,9 +5,9 @@ import { Schema, model } from 'mongoose';
 // Perhaps adding that to NPM
 
 interface QuestionType {
-  name: String;
-  query: String;
-  entities: String[];
+  name: string;
+  query: string;
+  entities: string[];
 }
 
 const questionTypeSchema = new Schema<QuestionType>({
@@ -17,7 +17,7 @@ const questionTypeSchema = new Schema<QuestionType>({
 });
 
 interface Question {
-  questionTemplate: String;
+  questionTemplate: string;
   question_type: QuestionType;
 }
 
@@ -29,12 +29,18 @@ const templateSchema = new Schema<Question>({
 
 const TemplateModel = model<Question>('Template', templateSchema);
 
+const addQuestionTemplate = (questionTemplate: any) => {
+  let aQuestion = new TemplateModel(questionTemplate);
+
+  aQuestion.save();
+}
+
 const generateSampleTest = () => {
   // -------- TEST!! REMOVE THIS DATA SAMPLE....WE NEED ANOTHER WAY TO STORE
   // TEMPLATES ----- UPON CONSTRUCTION
 
   // Capital of a place
-  let aQuestion = new TemplateModel({
+  addQuestionTemplate({
     questionTemplate: 'What is the Capital of $$$ ?', // $$$ is a placeholder, we will substitute it with the country name
     question_type: {
       name: 'Capitals',
@@ -53,10 +59,9 @@ const generateSampleTest = () => {
     },
   });
 
-  aQuestion.save();
 
   // Population of a place
-  aQuestion = new TemplateModel({
+  addQuestionTemplate({
     questionTemplate: 'What is the Population of $$$?',
     question_type: {
       name: 'Demography',
@@ -76,10 +81,9 @@ const generateSampleTest = () => {
     },
   });
 
-  aQuestion.save();
 
   //   // Year on which a city,country,etc was founded
-  aQuestion = new TemplateModel({
+  addQuestionTemplate({
     questionTemplate: 'On which year was $$$ founded?',
     question_type: {
       name: 'Foundation',
@@ -102,10 +106,9 @@ const generateSampleTest = () => {
     },
   });
 
-  aQuestion.save();
 
   //   // Year in which an event occurred
-  aQuestion = new TemplateModel({
+  addQuestionTemplate({
     questionTemplate: 'On which year did the $$$ took place?',
     question_type: {
       name: 'Events',
@@ -127,13 +130,11 @@ const generateSampleTest = () => {
     },
   });
 
-  aQuestion.save();
-
   // Chemical symbol of an element
   // We make a first query searching for any element in the periodic table
   // Then we search for elements with similar associated symbols instead of selecting at random
   // on the results to make the question not so easy
-  aQuestion = new TemplateModel({
+  addQuestionTemplate({
     questionTemplate: 'What is the chemical symbol of $$$?',
     question_type: {
       name: 'Chemistry',
@@ -151,11 +152,10 @@ const generateSampleTest = () => {
     },
   });
 
-  aQuestion.save();
 
   // Atomic number of an element
   // Here it's not necessary to increase difficulty, it's hard enough.
-  aQuestion = new TemplateModel({
+  addQuestionTemplate({
     questionTemplate: 'What is the the atomic number of $$$?',
     question_type: {
       name: 'Chemistry',
@@ -172,12 +172,11 @@ const generateSampleTest = () => {
       entities: [],
     },
   });
-  aQuestion.save();
 
   // Image Question templates
 
   // Flag of a country, autonomous community of Spain or USA state
-  aQuestion = new TemplateModel({
+  addQuestionTemplate({
     questionTemplate: 'This flag is from...?',
     question_type: {
       name: 'Images_Flags',
@@ -197,12 +196,11 @@ const generateSampleTest = () => {
       ]
     },
   });
-  aQuestion.save();
 
 
   // Guess the person by an image
   // In this case physiscists
-  aQuestion = new TemplateModel({
+  addQuestionTemplate({
     questionTemplate: 'Who is this physiscist?',
     question_type: {
       name: 'Images_Physics',
@@ -218,11 +216,10 @@ const generateSampleTest = () => {
       entities: []
     },
   });
-  aQuestion.save();
 
   // Guess the person by an image
   // In this case inventors
-  aQuestion = new TemplateModel({
+  addQuestionTemplate({
     questionTemplate: 'Who is this inventor?',
     question_type: {
       name: 'Images_Inventor',
@@ -238,8 +235,6 @@ const generateSampleTest = () => {
       entities: []
     },
   });
-  aQuestion.save();
-
 };
 
 export { TemplateModel as TemplateModel, generateSampleTest };

@@ -67,6 +67,11 @@ async function generateQuestions(
   }
 }
 
+/**
+ *  Get questions from DB
+ * @param questionsDB number of questions to get from DB
+ * @returns array containing questions in JSON format
+ */
 const getQuestionsFromDB = async (questionsDB: number) => {
   let questionsArrayDB = await QuestionModel.aggregate([
     { $sample: { size: questionsDB } },
@@ -82,6 +87,12 @@ const getQuestionsFromDB = async (questionsDB: number) => {
   return questionsArrayDB;
 }
 
+/**
+ * Translates the questions array to the desired language
+ * @param questionsArray questions to translate
+ * @param language language to translate to
+ * @returns translated questions
+ */
 const translateQuestionsArray = async (
   questionsArray: any,
   language: any

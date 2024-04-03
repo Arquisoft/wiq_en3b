@@ -1,7 +1,5 @@
 import { getWikidataSparql } from '@entitree/helper';
 
-
-
 /**
  * Interface for a question which may or not contain an image
  */
@@ -11,7 +9,6 @@ interface Question {
     correctAnswerId: number,
     image?: string
 }
-
 
 /**
  * Gets a random item from an array

@@ -49,4 +49,17 @@ async function getWikidataSparqlWithTimeout(sparqlQuery: string, requestTimeout:
     return Promise.race([wikidataPromise, timeoutPromise])
 }
 
-export { getRandomItem, getWikidataSparqlWithTimeout, Question }
+/**
+ *  Takes the elements of an array and changes them to a random order
+ * @param array 
+ * @returns 
+ */
+function shuffleArray(array: any[]) {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+}
+
+export { getRandomItem, getWikidataSparqlWithTimeout, shuffleArray, Question }

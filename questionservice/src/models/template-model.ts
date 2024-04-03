@@ -36,8 +36,6 @@ const addQuestionTemplate = (questionTemplate: any) => {
 }
 
 const generateSampleTest = () => {
-  // -------- TEST!! REMOVE THIS DATA SAMPLE....WE NEED ANOTHER WAY TO STORE
-  // TEMPLATES ----- UPON CONSTRUCTION
 
   // Capital of a place
   addQuestionTemplate({

@@ -7,6 +7,7 @@ import {
 import { getTranslatedQuestions } from './translation-service';
 import { QuestionModel } from '../models/question-model';
 import { saveQuestions } from './question-storage';
+import { shuffleArray } from '../utils/question-generator-utils';
 
 
 const distractorsNumber: number = 3;
@@ -246,14 +247,6 @@ const generateQuestionJson = async (
     throw new Error('Error while fetching Wikidata');
   }
 };
-
-function shuffleArray(array: any[]) {
-  for (let i = array.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [array[i], array[j]] = [array[j], array[i]];
-  }
-  return array;
-}
 
 /**
  * Builds a question JSON out of parameters

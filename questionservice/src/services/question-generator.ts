@@ -3,11 +3,11 @@ import {
   getRandomItem,
   getWikidataSparqlWithTimeout,
   Question,
+  shuffleArray
 } from '../utils/question-generator-utils';
 import { getTranslatedQuestions } from './translation-service';
 import { QuestionModel } from '../models/question-model';
 import { saveQuestions } from './question-storage';
-import { shuffleArray } from '../utils/question-generator-utils';
 
 
 const distractorsNumber: number = 3;

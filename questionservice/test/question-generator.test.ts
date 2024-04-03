@@ -26,6 +26,7 @@ describe("Question Service - Question Generator", () => {
         const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
         await mockWikidataSparql(defaultNumberQuestions)
         await mockQuestionAggregate();
+        await mockQuestionCount();
 
 
         // Testing function
@@ -44,6 +45,7 @@ describe("Question Service - Question Generator", () => {
         const numberQuestions = 2;
         const aggregateMock = await mocktemplateModelAggregate(numberQuestions);
         await mockWikidataSparql(numberQuestions)
+        await mockQuestionCount();
 
         // Testing function
         const response = await generateQuestions(numberQuestions, "en") as any;
@@ -71,6 +73,7 @@ describe("Question Service - Question Generator", () => {
         // Setting up the mocks
         await mocktemplateModelAggregate(defaultNumberQuestions);
         await mockWikidataSparql(defaultNumberQuestions)
+        await mockQuestionCount();
 
         // Testing function
         const response = await generateQuestions(1, "en") as any;
@@ -87,6 +90,7 @@ describe("Question Service - Question Generator", () => {
         await mocktemplateModelAggregate(numberQuestions);
         await mockWikidataSparql(numberQuestions)
         await mockQuestionAggregate();
+        await mockQuestionCount();
 
         // Testing function
         const response = await generateQuestions(numberQuestions, "en") as any;
@@ -97,6 +101,7 @@ describe("Question Service - Question Generator", () => {
     })
 
     it("should return an error if fetching documents from Mongo fails - First call", async () => {
+        await mockQuestionCount();
 
         // Mock response for fetching MongoDB documents
         const rejectedMongoResponse = new Error("Mock - Error fetching Questions");
@@ -107,6 +112,7 @@ describe("Question Service - Question Generator", () => {
     })
 
     it("should return an error if fetching documents from Mongo fails - Sucessive call", async () => {
+        await mockQuestionCount();
 
         const rejectedMongoResponse = new Error("Mock - Error fetching Questions");
         (await mocktemplateModelAggregate(defaultNumberQuestions)).mockRejectedValue(rejectedMongoResponse);
@@ -119,6 +125,7 @@ describe("Question Service - Question Generator", () => {
 
         const aggregateMock = await mockTemplateModelAggregateWithImage();
         await mockWikidataSparqlWithImage()
+        await mockQuestionCount();
 
         const response = await generateQuestions(defaultNumberQuestions, "en");
 
@@ -131,6 +138,7 @@ describe("Question Service - Question Generator", () => {
 
         const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
         await mockWikidataSparql(defaultNumberQuestions)
+        await mockQuestionCount();
 
         // Testing function
         const response = await generateQuestions(1, "en") as any;
@@ -306,4 +314,11 @@ async function mockQuestionAggregate() {
     const mockResponseAggregate: object[] = [];
 
     return (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate);
+}
+
+async function mockQuestionCount() {
+    // Mock response for QuestionModel.aggregate making it  return an empty array
+    const mockResponseCount: number = 0;
+
+    return (QuestionModel.countDocuments as jest.Mock).mockReturnValue(mockResponseCount);
 }

@@ -17,30 +17,41 @@ const SPARQL_TIMEOUT = 5000; // 5000 ms = 5s
 
 /**
  * Generates n random questions  using Wikidata
- * @param n number of questions to be generated
+ * @param size number of questions to be generated
  * @returns array containing questions and possible answers
  */
 async function generateQuestions(
-  n: number,
+  size: number,
   lang: any
 ): Promise<object[] | void> {
   try {
+
+    let numberQuestionsDB = Math.min(Math.floor(size / 2), await QuestionModel.countDocuments());
+    let questionsToGenerate = size - numberQuestionsDB;
     console.log('------------------');
-    console.log('Questions requested: ' + n);
-    let questionsDB = n * 0.8;
-    let questionsArrayDB = await getQuestionsFromDB(questionsDB);
-    let questionsGenerated = n - questionsArrayDB.length;
+    console.log('Questions requested: ' + size);
+    console.log('------------------');
+    console.log('Questions from DB: ' + numberQuestionsDB);
+    console.log('Expected Questions to Generate: ' + questionsToGenerate);
+
     // Trying to obtain n random documents
-    let randomQuestionsTemplates = await getRandomQuestions(questionsGenerated);
+    let randomQuestionsTemplates = await getRandomQuestions(questionsToGenerate);
 
     // Generate and return questions generated from those documents
     let questionsArray = await generateQuestionsArray(randomQuestionsTemplates);
 
     // Skipping questions not generated a.k.a. void
     questionsArray = questionsArray.filter(q => typeof q === 'object');
+
+    // We take the remaining questions from DB
+    numberQuestionsDB = size - questionsArray.length;
+    let questionsArrayDB = await getQuestionsFromDB(numberQuestionsDB);
     // Save questions to DB
     saveQuestions(questionsArray);
+    console.log('Retrieved ' + questionsArray.length + ' Questions from Wikidata');
+    console.log('------------------');
     questionsArray = questionsArray.concat(questionsArrayDB);
+
 
     if (lang && lang.toLowerCase() !== 'en') {
       return await translateQuestionsArray(questionsArray, lang);
@@ -73,7 +84,6 @@ const saveQuestions = async (questionsArray: any) => {
       QuestionModel.create(question);
     });
   } catch (err) {
-    console.error(err);
     throw new Error('Error during question generation');
   }
 }
@@ -122,7 +132,6 @@ async function getRandomQuestions(n: number): Promise<any[]> {
   let randomQuestionsTemplates = await TemplateModel.aggregate([
     { $sample: { size: n } },
   ]);
-
   async function addMoreRandomQuestionsIfNeeded() {
     // If required questions are fulfilled, simply returning the questions
     if (randomQuestionsTemplates.length >= n) return randomQuestionsTemplates;
@@ -190,21 +199,8 @@ const generateQuestionJson = async (
         SPARQL_TIMEOUT
       );
     } catch (error) {
-      // If an error has occured (timeout), retry again with a fast query
-
-      try {
-        questionTemplate = await TemplateModel.findOne({
-          'question_type.name': 'Chemistry',
-        });
-        sparqlQuery = getSparqlQueryFromDocument(questionTemplate);
-        wikidataResponse = await getWikidataSparqlWithTimeout(
-          sparqlQuery,
-          SPARQL_TIMEOUT
-        );
-      } catch (error) {
-        // an error occurred again (timeout), this time skipping
-        return;
-      }
+      // If an error has occured no question is generated
+      return undefined;
     }
 
     // Pick random responses

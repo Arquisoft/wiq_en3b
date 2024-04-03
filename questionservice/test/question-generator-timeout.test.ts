@@ -1,60 +1,66 @@
 import { generateQuestions } from '../src/services/question-generator'
 import { getWikidataSparqlWithTimeout } from '../src/utils/question-generator-utils'
+import { TemplateModel } from '../src/models/template-model';
 import { QuestionModel } from '../src/models/question-model';
 
-jest.mock('../src/models/question-model')
+jest.mock('../src/models/template-model')
 jest.mock('../src/utils/question-generator-utils')
+jest.mock('../src/models/question-model');
 
 const defaultNumberQuestions = 1;
 describe("Question Service - Question Generator", () => {
 
     beforeEach(() => {
-        jest.clearAllMocks()
+        jest.clearAllMocks();
     })
 
     it("should return 1 question If Wikidata does NOT get timed out", async () => {
 
-        const aggregateMock = await mockQuestionModelAggregate();
-        const findMock = await mockQuestionModelFindOne();
+        const aggregateMock = await mockTemplateModelAggregate();
+        const aggregateQuestionMock = await mockQuestionAggregateEmpty();
         await mockWikidataTimeout(0)
-        
+        await mockQuestionCount()
+
         const result = await generateQuestions(defaultNumberQuestions, "en") as any;
 
         expect(aggregateMock).toHaveBeenCalledTimes(1)
-        expect(findMock).toHaveBeenCalledTimes(0)
+        expect(aggregateQuestionMock).toHaveBeenCalledTimes(1)
         expect(result.length).toBe(1);
         expect(result[0].question).toContain("What is the Capital of")
 
     })
 
-    it("should return 1 question If Wikidata gets timed out ONCE", async () => {
+    it("should return no question If Wikidata gets timed out and there are no questions on DB", async () => {
 
-        const aggregateMock = await mockQuestionModelAggregate();
-        const findMock = await mockQuestionModelFindOne();
+        const aggregateMock = await mockTemplateModelAggregate();
+        const findQuestionMock = await mockQuestionAggregateEmpty();
+        await mockQuestionCount(0)
         await mockWikidataTimeout(1)
-        
-        const result = await generateQuestions(defaultNumberQuestions, "en") as any;
-    
-        expect(aggregateMock).toHaveBeenCalledTimes(1)
-        expect(findMock).toHaveBeenCalledTimes(1)
-        expect(result.length).toBe(1);
-        expect(result[0].question).toContain("What is the chemical symbol of")
-    })
 
-    it("should return no questions If Wikidata gets timed out MORE THAN ONCE", async () => {
 
-        const aggregateMock = await mockQuestionModelAggregate();
-        const findMock = await mockQuestionModelFindOne();
-        await mockWikidataTimeout(2)
-        
         const result = await generateQuestions(defaultNumberQuestions, "en") as any;
 
         expect(aggregateMock).toHaveBeenCalledTimes(1)
-        expect(findMock).toHaveBeenCalledTimes(1)
+        expect(findQuestionMock).toHaveBeenCalledTimes(1)
         expect(result.length).toBe(0);
     })
 
-    
+    it("should return 1 question If Wikidata gets timed out and there are questions on DB", async () => {
+
+        const aggregateMock = await mockTemplateModelAggregate();
+        const findQuestionMock = await mockQuestionAggregate();
+        await mockQuestionCount(1)
+        const mockTimeout = await mockWikidataTimeout(1)
+
+
+        const result = await generateQuestions(defaultNumberQuestions, "en") as any;
+
+        expect(aggregateMock).toHaveBeenCalledTimes(1)
+        expect(findQuestionMock).toHaveBeenCalledTimes(1)
+        console.log(result)
+        expect(mockTimeout).toHaveBeenCalledTimes(1);
+        expect(result.length).toBe(1);
+    })
 
 })
 
@@ -62,14 +68,13 @@ describe("Question Service - Question Generator", () => {
  * Mocks the wikidataTimeout() function given a preset that configures its returns.
  * -- PRESETS --
  * 0/default: returns the first response obtained from the original template (Capitals)
- * 1: throws a Timeout error and then responds with new values different from the original template (Chemical Symbols)
- * 2: throws a Timeout error twice
+ * 1: throws a Timeout error
  * 
  * @param preset the configuration for the mock function
  * @returns the mock built upon preset
  */
-async function mockWikidataTimeout(preset: number){
-    
+async function mockWikidataTimeout(preset: number) {
+
     const mockResponseWikidata = [{
         templateLabel: "Peru",
         answerLabel: "Lima"
@@ -84,34 +89,19 @@ async function mockWikidataTimeout(preset: number){
         answerLabel: "Kiev"
     }];
 
-    const mockResponseWikidataAfterFail = [{
-        templateLabel: "Gold",
-        answerLabel: "Au"
-    }, {
-        templateLabel: "Alluminum",
-        answerLabel: "Al"
-    }, {
-        templateLabel: "Helium",
-        answerLabel: "He"
-    }, {
-        templateLabel: "Oxygen",
-        answerLabel: "O"
-    }]
-
     const timeoutMock = getWikidataSparqlWithTimeout as jest.Mock;
 
     const timeoutError = new Error("Timeout exceeded for query");
 
-    switch(preset){
+    switch (preset) {
         case 0: return timeoutMock.mockResolvedValue(mockResponseWikidata);
-        case 1: return timeoutMock.mockRejectedValueOnce(timeoutError).mockResolvedValueOnce(mockResponseWikidataAfterFail)
-        case 2: return timeoutMock.mockRejectedValueOnce(timeoutError).mockRejectedValueOnce(timeoutError)
+        case 1: return timeoutMock.mockRejectedValue(timeoutError)
         default: return timeoutMock.mockResolvedValue(mockResponseWikidata);
     }
 }
 
-async function mockQuestionModelAggregate() {
-    
+async function mockTemplateModelAggregate() {
+
     // Mock-Response for: QuestionModel.aggregate([{ $sample: { size: remaining } }])
     const mockResponseAggregate: object[] = [{
         questionTemplate: 'What is the Capital of $$$ ?',
@@ -131,30 +121,50 @@ async function mockQuestionModelAggregate() {
             ],
         }
     }];
-    
-    return (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate);
+
+    return (TemplateModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate);
 }
 
-async function mockQuestionModelFindOne() {
-    
-    // Mock-Response for: QuestionModel.findOne({'question_type.name': 'Chemistry'})
-    const mockResponseFindOne: object = {
-        questionTemplate: 'What is the chemical symbol of $$$?',
-        question_type: {
-          name: 'Chemistry',
-          query: `SELECT ?templateLabel ?answerLabel
-            WHERE
+
+async function mockQuestionAggregateEmpty() {
+
+    // Mock response for QuestionModel.aggregate making it  return an empty array
+    const mockResponseAggregate: object[] = [];
+
+    return (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate);
+}
+async function mockQuestionAggregate() {
+
+    // Mock response for QuestionModel.aggregate making it  return an empty array
+    const mockResponseAggregate: object[] = [{
+        "question": "Who is this physiscist?",
+        "answers": [
             {
-              ?template wdt:P31 wd:Q11344;
-                       wdt:P246 ?answer;
-              SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+                "id": 1,
+                "text": "Christian Ludwig Gerling"
+            },
+            {
+                "id": 4,
+                "text": "Eugen von Lommel"
+            },
+            {
+                "id": 3,
+                "text": "Johann Gottlieb Nörremberg"
+            },
+            {
+                "id": 2,
+                "text": "Willard Boyle"
             }
-            ORDER BY UUID()
-            LIMIT 10
-            `,
-          entities: [],
-        },
-    };
-    
-    return (QuestionModel.findOne as jest.Mock).mockReturnValue(mockResponseFindOne);
+        ],
+        "correctAnswerId": 1,
+        "image": "https://commons.wikimedia.org/wiki/Special:FilePath/Christian%20Ludwig%20Gerling.jpg"
+    }];
+
+    return (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate);
+}
+async function mockQuestionCount(count: number = 0) {
+    // Mock response for QuestionModel.countDocuments making it  return an empty array
+    const mockResponseCount: number = count;
+
+    return (QuestionModel.countDocuments as jest.Mock).mockReturnValue(mockResponseCount);
 }

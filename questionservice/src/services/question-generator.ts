@@ -6,6 +6,7 @@ import {
 } from '../utils/question-generator-utils';
 import { getTranslatedQuestions } from './translation-service';
 import { QuestionModel } from '../models/question-model';
+import { saveQuestions } from './question-storage';
 
 
 const distractorsNumber: number = 3;
@@ -48,15 +49,18 @@ async function generateQuestions(
     let questionsArrayDB = await getQuestionsFromDB(numberQuestionsDB);
     // Save questions to DB
     saveQuestions(questionsArray);
+
     console.log('Retrieved ' + questionsArray.length + ' Questions from Wikidata');
     console.log('------------------');
+    // Concatenating both arrays
     questionsArray = questionsArray.concat(questionsArrayDB);
 
+    console.log('Retrieved ' + questionsArray.length + ' Questions from DB and Wikidata');
 
+    // Translation
     if (lang && lang.toLowerCase() !== 'en') {
       return await translateQuestionsArray(questionsArray, lang);
     }
-    console.log('Retrieved ' + questionsArray.length + ' Questions from DB and Wikidata');
     return questionsArray;
   } catch (error) {
     throw error;
@@ -76,16 +80,6 @@ const getQuestionsFromDB = async (questionsDB: number) => {
   console.log('Retrieved ' + questionsArrayDB.length + ' Questions from DB');
   console.log('------------------');
   return questionsArrayDB;
-}
-
-const saveQuestions = async (questionsArray: any) => {
-  try {
-    questionsArray.forEach(async (question: any) => {
-      QuestionModel.create(question);
-    });
-  } catch (err) {
-    throw new Error('Error during question generation');
-  }
 }
 
 const translateQuestionsArray = async (

@@ -1,5 +1,3 @@
-import { Request } from 'express';
-import User from './models/user-model';
 import { Document, Model, Query } from 'mongoose';
 
 interface IUser {
@@ -12,6 +10,10 @@ interface IUser {
     gamesPlayed: number;
     timePlayed: number;
     points: number;
+  };
+  profile: {
+    bio: string;
+    pic: string;
   };
 }
 

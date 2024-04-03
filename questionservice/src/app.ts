@@ -1,9 +1,10 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import questionRouter from './routes/question-routes';
-import { generateSampleTest } from './models/question-model';
+import { generateSampleTest } from './models/template-model';
 
 const app = express();
+app.disable("x-powered-by");
 
 app.use(bodyParser.json());
 

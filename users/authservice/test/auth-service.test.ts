@@ -44,4 +44,31 @@ describe('Auth Service', () => {
     expect(response.status).toBe(200);
     expect(response.body.data.user).toHaveProperty('username', 'testuser');
   });
+  it('Should fail the login operation /login when invalid credentials are used', async () => {
+    const invalidUser = {
+      username: 'testuser',
+      password: 'invalidpassword',
+    };
+    const response = await request(app).post('/login').send(invalidUser);
+    expect(response.status).toBe(401);
+  });
+  it('Should fail if no user and password is send in the body', async () => {
+    const invalidBody = {
+    };
+    const response = await request(app).post('/login').send(invalidBody);
+    expect(response.status).toBe(400);
+  });
+  it('Should fail if the database is not accessible', async () => {
+    const response = await testWithoutDatabase(() => {
+      return request(app).post('/login').send(user)
+    });
+    expect(response.status).toBe(500);
+  });
 });
+
+async function testWithoutDatabase(paramFunc : Function) {
+  await mongoose.connection.close();
+  const response : Response = await paramFunc();
+  await mongoose.connect(mongoServer.getUri());
+  return response;
+}

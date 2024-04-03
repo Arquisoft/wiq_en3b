@@ -92,8 +92,8 @@ const Quiz = (props) => {
       <span>
         {zeroPad(minutes)}:{zeroPad(seconds)}
       </span>
-    );
-  };
+    )
+  }
 
   const setData = (selectedAnswerId, correctIAnswerId) => {
     setQuizData({
@@ -103,14 +103,13 @@ const Quiz = (props) => {
   };
 
   //This function is used to handle the selection of an answer
-  const selectAnswerHandler = (selectedAnswerId) => {
-
+  const selectAnswerHandler = selectedAnswerId => {
     // Set the selected state to the selected answer
     setData(selectedAnswerId, questions[currentQuestionIndex].correctAnswerId);
 
     // If the button is disabled, ignore the click
     if (btnDisabled) {
-      return;
+      return
     }
 
     // Check if the selected answer is correct
@@ -118,11 +117,11 @@ const Quiz = (props) => {
 
     // If the selected answer is correct, increment the score
     if (isCorrect) {
-      setScore(score + 1);
+      setScore(score + 1)
     }
 
     // Disable the button
-    setBtnDisabled(true);
+    setBtnDisabled(true)
 
     // Move to the next question or finish the quiz
     setTimeout(() => {
@@ -131,15 +130,15 @@ const Quiz = (props) => {
       else setIsFinished(true);
 
       // Reset state for the next question
-      setQuizData({});
-      setBtnDisabled(false);
-      setTimer(Date.now() + props.timerValue * 1000);
-      setTimerIndex((prevTimerIndex) => prevTimerIndex + 1);
-    }, 2000);
+      setQuizData({})
+      setBtnDisabled(false)
+      setTimer(Date.now() + time * 1000)
+      setTimerIndex(prevTimerIndex => prevTimerIndex + 1)
+    }, 2000)
 
     // Pause the timer
-    pauseTimer();
-  };
+    pauseTimer()
+  }
 
   const tryAgainHandler = () => {
     setHaveQuestions(false)
@@ -158,14 +157,14 @@ const Quiz = (props) => {
         return prevState + 1;
       });
 
-      setTimer(Date.now() + props.timerValue * 1000);
-      setTimerIndex((prevState) => {
-        return prevState + 1;
-      });
+      setTimer(Date.now() + time * 1000)
+      setTimerIndex(prevState => {
+        return prevState + 1
+      })
     } else {
-      setIsFinished(true);
+      setIsFinished(true)
     }
-  };
+  }
 
   const pauseTimer = () => countdownTimer.current.pause();
 
@@ -189,6 +188,7 @@ const Quiz = (props) => {
           quiz={questions[currentQuestionIndex]}
           activeQuizIndex={currentQuestionIndex + 1}
           quizLength={questions.length}
+          quizLength={questions.length}
           selected={quizData}
           btnDisabled={btnDisabled}
           onSelectAnswer={selectAnswerHandler}
@@ -196,7 +196,7 @@ const Quiz = (props) => {
       </>
       }
     </React.Fragment>
-  );
-};
+  )
+}
 
-export default Quiz;
+export default Quiz

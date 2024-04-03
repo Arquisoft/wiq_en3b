@@ -1,0 +1,593 @@
+openapi: 3.0.0
+info:
+  title: Know and Win API
+  description: KaW specification for Question and User APIs.
+  termsOfService: https://www.termsfeed.com/live/22f50af4-4278-43ba-856e-3b568b4361d7
+  contact:
+    name: KaW Support
+    url: https://github.com/Arquisoft/wiq_en3b
+    email: uo287866@uniovi.es
+  version: 0.2.0
+servers:
+  - url: http://localhost:8000
+    description: Development server
+  - url: http://SOMEIP:8000
+    description: Production server
+paths:
+
+  /health:
+    get:
+      summary: Check the health status of the service.
+      operationId: checkHealth
+      tags:
+        - Default
+      responses:
+        200:
+          description: Service is healthy.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+                    description: Response status.
+                    example: success
+                  data:
+                    type: object
+                    properties:
+                      message:
+                        type: string
+                        description: Health status description
+                        example: Service is running smoothly
+
+  /questions:
+    
+    get:
+      summary: Generates N random questions together with its 4 possible answers using Wikidata API.
+      tags:
+        - Question Service
+      operationId: generateQuestions
+      parameters:
+        - $ref: '#/components/parameters/questionLanguage'
+        - $ref: '#/components/parameters/questionSize'
+      responses:
+        200:
+          description: Service has generated the requested number of questions. It is possible that not ALL questions requested are generated due to timeouts for Wikidata API.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AllQuestions'
+              examples:
+                - questionNoImage:
+                  summary: A question and 4 possible answers have been generated.
+                  value:
+                    - id: 0
+                      question: On which year was UAE founded?
+                      answers:
+                        - id: 1
+                          text: 1971
+                        - id: 2
+                          text: 1768
+                        - id: 3
+                          text: 862
+                        - id: 4
+                          text: 1945
+                      correctAnswerId: 1
+                - questionImage:
+                  summary: A question, an Image URL and 4 possible answers have been generated.
+                  value:
+                    - id: 0
+                      question: Where is this flag from?
+                      answers:
+                        - id: 1
+                          text: Peru
+                        - id: 2
+                          text: Spain
+                        - id: 3
+                          text: Ukraine
+                        - id: 4
+                          text: France
+                      correctAnswerId: 1
+                      image: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/img_name.ext'  
+
+        400:
+          description: Client has made a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+              examples:
+                sizeMissing:
+                  summary: Client has not provided any size
+                  value:
+                    status: Fail
+                    data:
+                      error: You need to provide a size for questions to be generated!
+                typeMissing:
+                  summary: Client has provided a size but is not a number
+                  value:
+                    status: Fail
+                    data:
+                      error: The size parameter must be a number
+                languageNotSupported:
+                  summary: Client has provided a language not supported for translation.
+                  value:
+                    status: Fail
+                    data:
+                      error: The provided language is not supported            
+        500:
+          description: An internal server error has occured. Either DB related, Wikidata API or others.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorQSResponse'
+              examples:
+                - translationError:
+                  summary: A translation error occured. 
+                  value:
+                    status: fail
+                    message: Can't generate questions! Error during translation
+                - templateError:
+                  summary: A question couldn't be computed.
+                  value:
+                    status: fail
+                    message: Can't generate questions! Error while generating question for template - What is ...? 
+                - wikidataError:
+                  summary: Error when trying to query wikidata sparql service.
+                  value:
+                    status: fail
+                    message: Can't generate questions! Error while fetching Wikidata
+
+  /history:
+
+    get:
+      summary: Gets the game historical related to a user.
+      tags:
+        - User Service
+      operationId: userHistory
+      parameters:
+        - $ref: '#/components/parameters/userParam'
+      responses:
+        200:
+          description: Service has retrieved the history for given user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserHistoryResponse'
+              example:
+                status: success
+                data:
+                  history:
+                    passedQuestions: 20
+                    failedQuestions: 20
+                    gamesPlayed: 4
+                    timePlayed: 20
+                    points: 200
+        400:
+          description: Client has made a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+              examples:
+                userMissing:
+                  summary: Client has not provided any user
+                  value:
+                    status: Fail
+                    data:
+                      error: The user parameter is missing
+                userNotFound:
+                  summary: Client has provided a user but has not been registered
+                  value:
+                    status: Fail
+                    data:
+                      error: The provided user <query_parameter> is not registered in the application      
+        500:
+          description: An internal server error has occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+              examples:
+                cantFindUser:
+                  summary: DB had a problem finding the user
+                  value:
+                    status: error
+                    data:
+                      error: Can't access users! Internal server error
+
+
+  /history/leaderboard:
+    get:
+      summary: Gets the leaderboard for the KaW game.
+      tags:
+        - User Service
+      operationId: userLeaderboard
+      parameters:
+        - $ref: '#/components/parameters/leaderboardSize'
+      responses:
+        200:
+          description: Service has retrieved the leaderboard with the number of users requested in Descending order of points
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LeaderboardResponse'
+              example:
+                status: success
+                data:
+                  leaderboard:
+                    - history:
+                        passedQuestions: 0
+                        failedQuestions: 0
+                        gamesPlayed: 0
+                        timePlayed: 0
+                        points: 500
+                      _id: 6601e58067be2b774c5d1237
+                      username: TestUser2
+                    - history:
+                        passedQuestions: 0
+                        failedQuestions: 0
+                        gamesPlayed: 0
+                        timePlayed: 0
+                        points: 300
+                      _id: 6601e57567be2b774c5d1234
+                      username: TestUser1
+                    
+        400:
+          description: Client has made a bad request
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClientErrorResponse'
+              examples:
+                badSize:
+                  summary: Client has provided a 0 or negative size for leaderboard 
+                  value:
+                    status: Fail
+                    data:
+                      error: The size must be a positive value.
+        
+        500:
+          description: An internal server error has occurred
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServerErrorResponse'
+              examples:
+                cantFindUser:
+                  summary: DB had a problem getting the leaderboard
+                  value:
+                    status: error
+                    data:
+                      error: Can't access users! Internal server error
+             
+components:
+
+  schemas:
+
+    AllQuestions:
+      type: array
+      description: An array with n generated questions
+      items:
+        $ref: '#/components/schemas/QuestionJson'
+      
+    QuestionJson:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: An identifier number for the question generated.
+        question:
+          type: string
+          description: The question generated using Wikidata API.
+        answers:
+          type: array
+          description: The 4 possible answers to the previously generated question.
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+                description: An identifier number for the answer generated
+              text:
+                type: string
+                description: A possible answer to the question generated
+        correctAnswerId:
+          type: string
+          description: The identifier of the correct answer.
+        image:
+          type: string
+          description: A URL of an image that describes the question.
+
+    ClientErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Status response
+        data:
+          type: object
+          properties:
+            error:
+              description: The error message due to client error
+              type: string
+
+    ServerErrorResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Error status response
+        data:
+          type: object
+          properties:
+            error:
+              type: string
+              description: A message that explains the error
+
+    ServerErrorQSResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: QuestionService status response
+        message:
+          type: string
+          description: Error description
+
+    UserHistoryResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: UserHistory status response
+        data:
+          type: object
+          properties:
+            history:
+              $ref: '#/components/schemas/history'
+
+    LeaderboardResponse:
+      type: object
+      properties:
+        status:
+          type: string
+          description: Leaderboard status response
+        data:
+          type: object
+          properties:
+            leaderboard:
+              type: array
+              description: An array with all users in leaderboard sorted by points
+              items:
+                type: object
+                properties:
+                  history:
+                    $ref: '#/components/schemas/history'
+                  _id:
+                    type: string
+                    description: Id of the user.
+                  username:
+                    type: string
+                    description: A user in leaderboard
+                         
+    history:
+      type: object
+      properties:
+        passedQuestions:
+          type: integer
+          description: The number of passed questions from all the played games
+        failedQuestions:
+          type: integer
+          description: The number of failed questions from all the played games
+        gamesPlayed:
+          type: integer
+          description: The total number of played games
+        timePlayed:
+          type: integer
+          description: The total time spent on playing the game
+        points:
+          type: integer
+          description: The total number of poinst obtained through all games
+
+
+  parameters:
+    
+    questionSize:
+      name: size
+      in: query
+      description: Number of questions to be generated.
+      required: true
+      schema:
+        type: integer
+      examples:
+        size-example:
+          summary: Retrieving 5 random questions.
+          value: 5
+    
+    questionLanguage:
+      name: lang
+      in: query
+      description: Language in which questions are going to be generated.
+      required: false
+      schema:
+        type: string
+        default: en
+        enum:
+          - af
+          - am
+          - ar
+          - as
+          - az
+          - ba
+          - bg
+          - bho
+          - bn
+          - bo
+          - brx
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - doi
+          - dsb
+          - dv
+          - el
+          - en
+          - es
+          - et
+          - eu
+          - fa
+          - fi
+          - fil
+          - fj
+          - fo
+          - fr
+          - fr-CA
+          - ga
+          - gl
+          - gom
+          - gu
+          - ha
+          - he
+          - hi
+          - hne
+          - hr
+          - hsb
+          - ht
+          - hu
+          - hy
+          - id
+          - ig
+          - ikt
+          - is
+          - it
+          - iu
+          - iu-Latn
+          - ja
+          - ka
+          - kk
+          - km
+          - kmr
+          - kn
+          - ko
+          - ks
+          - ku
+          - ky
+          - ln
+          - lo
+          - lt
+          - lug
+          - lv
+          - lzh
+          - mai
+          - mg
+          - mi
+          - mk
+          - ml
+          - mn-Cyrl
+          - mn-Mong
+          - mni
+          - mr
+          - ms
+          - mt
+          - mww
+          - my
+          - nb
+          - ne
+          - nl
+          - nso
+          - nya
+          - or
+          - otq
+          - pa
+          - pl
+          - prs
+          - ps
+          - pt
+          - pt-PT
+          - ro
+          - ru
+          - run
+          - rw
+          - sd
+          - si
+          - sk
+          - sl
+          - sm
+          - sn
+          - so
+          - sq
+          - sr-Cyrl
+          - sr-Latn
+          - st
+          - sv
+          - sw
+          - ta
+          - te
+          - th
+          - ti
+          - tk
+          - tlh-Latn
+          - tlh-Piqd
+          - tn
+          - to
+          - tr
+          - tt
+          - ty
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - xh
+          - yo
+          - yua
+          - yue
+          - zh-Hans
+          - zh-Hant
+          - zu
+      examples:
+        es-example:
+          summary: Retrieving questions and responses in Spanish.
+          value: es
+        uk-example:
+          summary: Retrieving questions and responses in Ukranian.
+          value: uk
+        
+    leaderboardSize:
+      name: size
+      in: query
+      description: Number users to retrieve in leaderboard.
+      required: false
+      schema:
+        type: integer
+      default: 10
+      minimum: 1
+      examples:
+        size-example:
+          summary: Retrieving the top 3 players.
+          value: 3
+  
+    userParam:
+      name: user
+      in: query
+      description: The user to get history from.
+      required: true
+      schema:
+        type: string
+      examples:
+        user-example:
+          summary: Retrieving history from pepe user.
+          value: pepe
+
+tags:
+  - name: Default
+    description: Other helpful endpoints
+  - name: Question Service
+    description: Endpoints related to the generation of questions.
+  - name: User Service
+    description: Endpoints that retrieve user information from the game.

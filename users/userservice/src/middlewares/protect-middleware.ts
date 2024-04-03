@@ -7,7 +7,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     const { authorization } = req.headers;
 
     if (!authorization || !authorization.startsWith('Bearer')) {
-      throw new Error('You must be logged in to update your history');
+      throw new Error('You must be logged in to update your data');
     }
 
     const token = authorization.split(' ')[1];

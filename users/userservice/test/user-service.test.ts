@@ -5,10 +5,10 @@ const request = require('supertest');
 import mongoose from 'mongoose';
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import app from '../src/app';
-import {validateHistoryBody} from "../src/utils/history-body-validation";
-import { Request } from 'express';
-import {validateNotEmpty, validateRequiredLength} from "../src/utils/field-validations";
-import {verifyJWT} from "../src/utils/async-verification";
+import { validateHistoryBody } from "../src/utils/history-body-validation";
+import { validateProfileBody } from "../src/utils/profile-body-validation";
+import { Request, Response } from 'express';
+import { verifyJWT } from "../src/utils/async-verification";
 
 let mongoServer: MongoMemoryServer;
 
@@ -16,6 +16,7 @@ beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
   const mongoUri = mongoServer.getUri();
   process.env.MONGODB_URI = mongoUri;
+
   await mongoose.connect(mongoUri);
 });
 
@@ -279,11 +280,7 @@ describe('User Service', () => {
     } as Request;
     const user = await User.find({ username:'testuser' });
 
-    try {
-      validateHistoryBody(mockRequest, user[0]);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
+    expect(() => validateHistoryBody(mockRequest, user[0])).toThrowError();
   });
 
   // Body validation util, non-numeric
@@ -297,11 +294,7 @@ describe('User Service', () => {
     } as Request;
     const user = await User.find({ username:'testuser' });
 
-    try {
-      validateHistoryBody(mockRequest, user[0]);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
+    expect(() => validateHistoryBody(mockRequest, user[0])).toThrowError();
   });
 
   // Body validation util, negative
@@ -315,59 +308,237 @@ describe('User Service', () => {
     } as Request;
     const user = await User.find({ username:'testuser' });
 
-    try {
-      validateHistoryBody(mockRequest, user[0]);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
-  });
-
-  // Empty field validation
-  it('should get an error when passing an empty parameter', async () => {
-    const mockRequest = {
-      body: {}
-    } as Request;
-    mockRequest.body['history'] = '';
-
-    try {
-      validateNotEmpty(mockRequest, ['history']);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
-    // Should also get an error when the field does not exist
-    try {
-      validateNotEmpty(mockRequest, ['nonexistent']);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
-  });
-
-  // Empty field validation
-  it('should get an error when passing a parameter without the expected length', async () => {
-    const mockRequest = {
-      body: {}
-    } as Request;
-    mockRequest.body['test'] = '123456789';
-
-    try {
-      validateRequiredLength(mockRequest, ['test'], 10);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
-    // Should also get an error when the field does not exist
-    try {
-      validateRequiredLength(mockRequest, ['nonexistent'], 10);
-      fail('Should get an error in the previous call');
-    } catch (error) {
-    }
+    expect(() => validateHistoryBody(mockRequest, user[0])).toThrowError();
   });
 
   // Token validator
   it('should get an error when invoking the function with an invalid token', async () => {
+    let gotError = false;
     try {
       await verifyJWT('invalidtoken');
-      fail('Should get an error in the previous call');
-    } catch (error) {
+    } catch (err) {
+      gotError = true;
     }
+    if (!gotError)
+      fail('Should get an error')
   });
+
+  it('trying to retrieve a user with the database down should not work', async () => {
+    const newUserData = {
+      username: 'newUser',
+      password: 'testpassword',
+    };
+
+    const response = await testWithoutDatabase(() => {
+        return request(app)
+        .post('/adduser')
+        .send(newUserData)
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  it('trying to add a user when cannot write to the database should not work', async () => {
+    const newUserData = {
+      username: 'newUser',
+      password: 'testpassword',
+    };
+
+    const response = await testReadOnlyDatabase(() => {
+        return request(app)
+          .post('/adduser')
+          .send(newUserData)
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  it('trying to access the history of a user with the database down should not work', async () => {
+    const response = await testWithoutDatabase(() => {
+      return request(app)
+          .get('/history?user=testuser')
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  it('trying to get the leaderboard with the database down should not work', async () => {
+    const response = await testWithoutDatabase(() => {
+      return request(app)
+          .get('/history/leaderboard')
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  it('trying to update the history when the database cannot be written should not work', async () => {
+    const newHistory = {
+      history: {
+        passedQuestions: 2,
+        gamesPlayed: 6,
+        points: 1,
+      },
+    };
+
+    const response = await testReadOnlyDatabase(() => {
+      return request(app)
+          .post('/history')
+          .send(newHistory)
+          .set('Authorization', `Bearer ${testToken}`);
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  it('trying to increment the history when the database cannot be written should not work', async () => {
+    const increment = {
+      history: {
+        passedQuestions: 2,
+        gamesPlayed: 6,
+        points: 1,
+      },
+    };
+
+    const response = await testReadOnlyDatabase(() => {
+      return request(app)
+          .post('/history/increment')
+          .send(increment)
+          .set('Authorization', `Bearer ${testToken}`);
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  it('should get an error in GET /profile when not passing a user', async () => {
+    const response = await request(app)
+        .get('/profile');
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.profile).toBeUndefined();
+  });
+
+  it('should get an error in GET /profile when user does not exist', async () => {
+    const response = await request(app)
+        .get('/profile?user=nonexistentuser');
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.profile).toBeUndefined();
+  });
+
+  it('should obtain the profile data for the user with GET /profile', async () => {
+    const response = await request(app)
+        .get('/profile?user=testuser');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data.profile).not.toBeUndefined();
+    const expectedProperties = ['bio', 'pic']
+    expectedProperties.forEach(property => expect(response.body.data.profile).toHaveProperty(property));
+  });
+
+  it('trying to access the profile of a user with the database down should not work', async () => {
+      const response = await testWithoutDatabase(() => {
+        return request(app)
+            .get('/profile?user=testuser')
+      });
+
+      expect(response.statusCode).toBe(500);
+    });
+
+  const validProfileTest = {
+    profile: {
+      bio: "Test bio",
+      pic: "elephant.png"
+    },
+  };
+
+  it('should get an error in POST /profile when not logged in', async () => {
+    const response = await request(app)
+        .post('/profile')
+        .send(validProfileTest);
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.profile).toBeUndefined();
+  });
+
+  it('should update the profile data for the user with POST /profile', async () => {
+    const response = await request(app)
+        .post('/profile')
+        .send(validProfileTest)
+        .set('Authorization', `Bearer ${testToken}`);
+
+    expect(response.statusCode).toBe(200);
+
+    const getResponse = await request(app)
+        .get('/profile?user=testuser');
+
+    expect(getResponse.statusCode).toBe(200);
+    expect(JSON.stringify(getResponse.body.data.profile)).toMatch(JSON.stringify(validProfileTest.profile));
+  });
+
+  it('should get an error in POST /profile when not sending a new profile', async () => {
+    const response = await request(app)
+        .post('/profile')
+        .set('Authorization', `Bearer ${testToken}`);
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.profile).toBeUndefined();
+  });
+
+  it('trying to update the profile when the database cannot be written should not work', async () => {
+    const response = await testReadOnlyDatabase(() => {
+      return request(app)
+          .post('/profile')
+          .send(validProfileTest)
+          .set('Authorization', `Bearer ${testToken}`);
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  // Body validation util, not part of the user profile
+    it('should get an error when including a parameter that is not in the model', async () => {
+      const mockRequest = {
+        body: {
+          profile: {
+            nonexistent: 1
+          }
+        }
+      } as Request;
+      const user = await User.find({ username:'testuser' });
+
+      expect(() => validateProfileBody(mockRequest, user[0])).toThrowError();
+    });
+
+    // Body validation util, not a string
+    it('should get an error when using values that are not strings', async () => {
+      const mockRequest = {
+        body: {
+          profile: {
+            bio: 1
+          }
+        }
+      } as Request;
+      const user = await User.find({ username:'testuser' });
+
+      expect(() => validateProfileBody(mockRequest, user[0])).toThrowError();
+    });
 });
+
+async function testWithoutDatabase(paramFunc : Function) {
+  await mongoose.connection.close();
+  const response : Response = await paramFunc();
+  await mongoose.connect(mongoServer.getUri());
+  return response;
+}
+
+async function testReadOnlyDatabase(paramFunc : Function) {
+  // Replace save function to avoid writing and trigger a server error
+  const previousSaveFunction = mongoose.models.User.prototype.save;
+  mongoose.models.User.prototype.save = function () {
+    throw new Error('Write operation not allowed');
+  };
+  const response : Response = await paramFunc();
+  // Restore the previous functionality
+  mongoose.models.User.prototype.save = previousSaveFunction;
+  return response;
+}

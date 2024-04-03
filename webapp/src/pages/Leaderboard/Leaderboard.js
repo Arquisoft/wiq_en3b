@@ -39,20 +39,6 @@ function createData(ranking, username, passedQuestions, failedQuestions, gamesPl
   return { ranking, username, passedQuestions, failedQuestions, gamesPlayed, timePlayed, points };
 }
 
-var rows = [
-  createData(1, 'Murias10', 0, 0, 0, 0, 0),
-  createData(2, 'User01', 0, 0, 0, 0, 0),
-  createData(3, 'User02', 0, 0, 0, 0, 0),
-  createData(4, 'User03', 0, 0, 0, 0, 0),
-  //createData(5, 'User04', 0, 0, 0, 0, 0),
-  //createData(6, 'User05', 0, 0, 0, 0, 0),
-  //createData(7, 'User06', 0, 0, 0, 0, 0),
-  //createData(8, 'User07', 0, 0, 0, 0, 0),
-  //createData(9, 'User08', 0, 0, 0, 0, 0),
-  //createData(10, 'User0', 0, 0, 0, 0, 0)
-];
-
-
 const Leaderboard = () => {
 
   //Translation
@@ -64,8 +50,7 @@ const Leaderboard = () => {
   useEffect(() => {
     ; (async () => {
       try {
-        //setLeaderboard(await fetchLeaderboard())
-        setLeaderboard(rows)
+        setLeaderboard(await fetchLeaderboard()) // Fetch leaderboard data and set state
       } catch (error) {
         setError(error.message) // Set error state if fetch fails
       }
@@ -100,7 +85,7 @@ const Leaderboard = () => {
           <Table sx={{ minWidth: 600 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="center">Rank</StyledTableCell>
+                <StyledTableCell align="center">Ranking</StyledTableCell>
                 <StyledTableCell align="center">Username</StyledTableCell>
                 <StyledTableCell align="center">Passed questions</StyledTableCell>
                 <StyledTableCell align="center">Failed questions</StyledTableCell>

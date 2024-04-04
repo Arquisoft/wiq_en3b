@@ -78,7 +78,7 @@ Contained Building Blocks::
 | WikiData | API that offers the Application an easy-to-use interface to perform queries for the question and answer generation.
 |===
 
-=== Level 1: 
+=== Level 1
 
 [mermaid]
 ....
@@ -126,7 +126,7 @@ Contained Building Blocks::
 | Microservices | Collection of smaller services responsible for handling various functionalities of the application.
 |===
 
-=== Level 2:
+=== Level 2
 
 [mermaid]
 ....

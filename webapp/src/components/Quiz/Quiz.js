@@ -6,6 +6,7 @@ import FinalResult from "../FinalResult/FinalResult";
 import CircularProgress from '@mui/material/CircularProgress';
 import { ReactComponent as StopwatchIcon } from "../../assets/stopwatch-solid.svg";
 import { useAuth } from '../../hooks/useAuth'
+import { API_ENDPOINT } from "../../utils/constants";
 
 const getTimerValue = (level) => {
 
@@ -29,7 +30,6 @@ const getPoints = (level) => {
 }
 
 const Quiz = ({ level }) => {
-  const apiEndpoint = "http://localhost:8000";
 
   const [questions, setQuestions] = useState([]);
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
@@ -80,7 +80,7 @@ const Quiz = ({ level }) => {
     else if (level === "medium") numQuestions = 10;
     else if (level === "hard") numQuestions = 15;
 
-    const response = await fetch(apiEndpoint + `/questions?size=${numQuestions}`);
+    const response = await fetch(API_ENDPOINT + `/questions?size=${numQuestions}`);
 
     if (!response.ok) throw new Error("Failed to fetch questions");
 
@@ -209,7 +209,7 @@ const Quiz = ({ level }) => {
     });
 
     try {
-      const response = fetch(apiEndpoint + `/history/increment`, {
+      const response = fetch(API_ENDPOINT + `/history/increment`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

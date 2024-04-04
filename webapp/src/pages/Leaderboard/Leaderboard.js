@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import { API_ENDPOINT } from "../../utils/constants";
 import { formatTime } from "../../utils/formatTime";
 
 import { ReactComponent as BronzeMedalIcon } from "../../assets/medal-bronze.svg";
@@ -62,7 +63,7 @@ const Leaderboard = () => {
 
   const fetchLeaderboard = async () => {
     try {
-      const response = await fetch('http://localhost:8000/history/leaderboard');
+      const response = await fetch(API_ENDPOINT + '/history/leaderboard');
       const data = await response.json();
 
       const leaderboard = data.data.leaderboard.map((element, index) => {

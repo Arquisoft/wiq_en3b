@@ -57,6 +57,8 @@ const Leaderboard = () => {
     })()
   }, [])
 
+
+
   const fetchLeaderboard = async () => {
     try {
       const response = await fetch('http://localhost:8000/history/leaderboard');
@@ -98,8 +100,6 @@ const Leaderboard = () => {
               {leaderboard.map((row, index) => (
                 <StyledTableRow key={row.username}>
                   <StyledTableCell align="center">
-                    {console.log('Ranking: ' + row.ranking)}
-                    {console.log('Index: ' + index)}
                     {index === 0 && <GoldMedalIcon style={{ width: '40px', height: '25px', padding: '0px' }} />}
                     {index === 1 && <SilverMedalIcon style={{ width: '40px', height: '25px', padding: '0px' }} />}
                     {index === 2 && <BronzeMedalIcon style={{ width: '40px', height: '25px', padding: '0px' }} />}

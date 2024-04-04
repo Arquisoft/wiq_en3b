@@ -17,11 +17,11 @@ http://20.117.173.161:3000
 
 ## Test our API at 📃📃
 
-http://20.117.173.161:5000/
+http://20.117.173.161:8000/
 
 And if you want to check the documentation for it...
 
-http://20.117.173.161:5000/api-doc
+http://20.117.173.161:8000/api-doc
 
 ## Quick start guide
 
@@ -52,6 +52,13 @@ Now, launch the auth, user, question and gateway services. Just go to each direc
 Lastly, go to the webapp directory and launch this component with `npm install` followed by `npm start`.
 
 After all the components are launched, the app should be available in localhost in port 3000.
+
+## Deployment guide
+
+If you want to deploy a server and display our work, you can follow this nice
+markdown file <TBD_LINK>
+
+But please, remember to tag us :)
 
 ## Contributors
 

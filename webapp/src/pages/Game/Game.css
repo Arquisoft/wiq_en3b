@@ -1,16 +1,17 @@
+/* Button container */
 .button-container {
     display: flex;
     flex-direction: column;
     align-items: center;
     height: 30vh;
-    /* Ajusta según tu diseño */
+    /* Adjust according to your design */
     justify-content: center;
 }
 
-/* Asegura que los botones tengan el mismo ancho */
+/* Ensure buttons have the same width */
 .button-container>* {
     width: 200px;
-    /* Ajusta según tu diseño */
+    /* Adjust according to your design */
     margin-bottom: 10px;
-    /* Espacio entre botones */
+    /* Space between buttons */
 }

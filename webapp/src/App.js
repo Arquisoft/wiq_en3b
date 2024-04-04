@@ -21,21 +21,14 @@ import { useTranslation } from 'react-i18next'
 
 function App() {
 
-  //State for the timer value
-  const [timerValue, setTimerValue] = useState(100000)
   //State for the volume
   const [volume, setVolume] = useState(10);
   //Translation
   const { t } = useTranslation();
 
   const handleVolumeChange = (event, newVolume) => {
-    console.log(newVolume)
     setVolume(newVolume);
   };
-
-  const changeTimerValueHandler = e => {
-    setTimerValue(e.target.value)
-  }
 
   return (
     <SettingsProvider>
@@ -50,7 +43,7 @@ function App() {
               path="game"
               element={
                 <ProtectedRoute>
-                  <Game timerValue={timerValue} />
+                  <Game />
                 </ProtectedRoute>
               }
             ></Route>
@@ -63,7 +56,7 @@ function App() {
               }
             ></Route>
             <Route path="leaderboard" element={<Leaderboard />}></Route>
-            <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} onChangeTimerValue={changeTimerValueHandler} timerValue={timerValue} />}></Route>
+            <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} />}></Route>
           </Route>
         </Routes>
       </AuthProvider>

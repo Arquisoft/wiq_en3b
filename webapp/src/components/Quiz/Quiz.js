@@ -7,7 +7,18 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { ReactComponent as StopwatchIcon } from "../../assets/stopwatch-solid.svg";
 import { useAuth } from '../../hooks/useAuth'
 
-const Quiz = ({ timerValue, level }) => {
+const getTimerValue = (level) => {
+
+  var timerValue = 0;
+
+  if (level === "easy") timerValue = 30;
+  if (level === "medium") timerValue = 15;
+  if (level === "hard") timerValue = 5;
+
+  return timerValue;
+};
+
+const Quiz = ({ level }) => {
   const apiEndpoint = "http://localhost:8000";
 
   const [questions, setQuestions] = useState([]);
@@ -17,7 +28,8 @@ const Quiz = ({ timerValue, level }) => {
   const [isFinished, setIsFinished] = useState(false);
   const [score, setScore] = useState(0);
   const [btnDisabled, setBtnDisabled] = useState(false);
-  const [timer, setTimer] = useState(Date.now() + timerValue * 1000);
+  const [timerValue] = useState(getTimerValue(level));
+  const [timer, setTimer] = useState(null);
   const [timerIndex, setTimerIndex] = useState(0);
   const { user } = useAuth()
   const countdownTimer = useRef();
@@ -46,9 +58,9 @@ const Quiz = ({ timerValue, level }) => {
   const getQuestions = async () => {
     let numQuestions = 0;
 
-    if (level === "easy") numQuestions = 1;
-    else if (level === "medium") numQuestions = 3;
-    else if (level === "hard") numQuestions = 5;
+    if (level === "easy") numQuestions = 5;
+    else if (level === "medium") numQuestions = 10;
+    else if (level === "hard") numQuestions = 15;
 
     const response = await fetch(apiEndpoint + `/questions?size=${numQuestions}`);
 

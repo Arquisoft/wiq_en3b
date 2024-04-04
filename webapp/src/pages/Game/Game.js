@@ -1,9 +1,5 @@
 import React, { useState } from "react"
 
-import { useQuestions } from '../../hooks/useQuestions'
-import { useSettings } from '../../hooks/useSettings'
-import { useToggle } from '../../hooks/useToggle'
-
 import Quiz from '../../components/Quiz/Quiz'
 import Button from '../../components/Button/Button'
 
@@ -12,30 +8,25 @@ import "./Game.css"
 import { useTranslation } from "react-i18next"
 
 const Game = (props) => {
-  const { questions } = useQuestions()
-  const { time } = useSettings()
-  const [isGameStarted, toggleGameStarted] = useToggle(false)
 
-  const areQuestionsAvailable = Boolean(questions.length)
-
-  var [currentLevel, setCurrentLevel] = useState()
+  var [level, setLevel] = useState()
   const { t } = useTranslation();
 
   function goEasyLevel() {
-    setCurrentLevel("easy")
+    setLevel("easy")
   }
 
   function goMediumLevel() {
-    setCurrentLevel("medium")
+    setLevel("medium")
   }
 
   function goHardLevel() {
-    setCurrentLevel("hard")
+    setLevel("hard")
   }
 
   return (
     <div className="quiz-wrapper">
-      {!currentLevel && (
+      {!level && (
         <div className="header-and-buttons-container">
           <h2>{t("play.choose_difficulty")}</h2>
           <div className="button-container">
@@ -45,8 +36,8 @@ const Game = (props) => {
           </div>
         </div>
       )}
-      {currentLevel && (
-        <Quiz timerValue={props.timerValue} level={currentLevel} />
+      {level && (
+        <Quiz level={level} />
       )}
     </div>
   )

@@ -18,6 +18,16 @@ const getTimerValue = (level) => {
   return timerValue;
 };
 
+const getPoints = (level) => {
+  var points = 0;
+
+  if (level === "easy") points = 5;
+  if (level === "medium") points = 15;
+  if (level === "hard") points = 30;
+
+  return points;
+}
+
 const Quiz = ({ level }) => {
   const apiEndpoint = "http://localhost:8000";
 
@@ -26,7 +36,12 @@ const Quiz = ({ level }) => {
   const [quizData, setQuizData] = useState({});
   const [haveQuestions, setHaveQuestions] = useState(false);
   const [isFinished, setIsFinished] = useState(false);
-  const [score, setScore] = useState(0);
+
+  const [points, setPoints] = useState(0);
+  const [passedQuestions, setPassedQuestions] = useState(0);
+  const [startTime, setStartTime] = useState(Date.now()); // Tiempo de inicio
+  const [finishTime, setFinishTime] = useState(null); // Tiempo de finalización
+
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [timerValue] = useState(getTimerValue(level));
   const [timer, setTimer] = useState(null);
@@ -35,23 +50,26 @@ const Quiz = ({ level }) => {
   const countdownTimer = useRef();
 
   useEffect(() => {
+
     (async () => {
       if (!haveQuestions) {
         setQuestions(await getQuestions());
         setHaveQuestions(true);
       }
     })();
+
   }, [haveQuestions]);
 
   useEffect(() => {
     if (questions) {
+      setStartTime(Date.now());
       setTimer(Date.now() + timerValue * 1000);
     }
   }, [questions]);
 
   useEffect(() => {
     if (isFinished) {
-      //updateStatistics();
+      updateStatistics();
     }
   }, [isFinished]);
 
@@ -117,7 +135,8 @@ const Quiz = ({ level }) => {
       questions[currentQuestionIndex].correctAnswerId === selectedAnswerId;
 
     if (isCorrect) {
-      setScore(score + 1);
+      setPoints(points + getPoints(level));
+      setPassedQuestions(passedQuestions + 1);
     }
 
     setBtnDisabled(true);
@@ -131,6 +150,7 @@ const Quiz = ({ level }) => {
       setBtnDisabled(false);
       setTimer(Date.now() + timerValue * 1000);
       setTimerIndex((prevTimerIndex) => prevTimerIndex + 1);
+
     }, 2000);
 
     pauseTimer();
@@ -140,11 +160,12 @@ const Quiz = ({ level }) => {
     setHaveQuestions(false);
     setCurrentQuestionIndex(0);
     setQuizData({});
-    setIsFinished(false);
-    setScore(0);
     setBtnDisabled(false);
     setTimer(Date.now() + timerValue * 1000);
     setTimerIndex((prevState) => prevState + 1);
+    setPoints(0);
+    setPassedQuestions(0);
+    setIsFinished(false);
   };
 
   const countdownCompleteHandler = () => {
@@ -166,59 +187,41 @@ const Quiz = ({ level }) => {
 
   const resumeTimer = () => countdownTimer.current.start();
 
-  const updateStatistics = async () => {
-    // Verifica si user está definido y tiene la propiedad history
-    if (!user) {
-      console.error("User is undefined");
-      return;
-    }
+  const updateStatistics = () => {
 
-    console.log("User:", user);
-    if (!user.history) {
-      console.error("User history is undefined");
-      return;
-    }
+    var finishTime = Date.now();
 
-    // const passedQuestions = user.history.passedQuestions || 0;
-    // const failedQuestions = user.history.failedQuestions || 0;
-    // const gamesPlayed = user.history.gamesPlayed || 0;
-    // const timePlayed = user.history.timePlayed || 0;
-    // const points = user.history.points || 0;
+    console.log("Milliseconds played:", finishTime - startTime);
 
-    const passedQuestions = 10;
-    const failedQuestions = 10;
-    const gamesPlayed = 10;
-    const timePlayed = 10;
-    const points = 10;
+    console.log("finish time:", finishTime);
+    console.log("start time:", startTime);
+    console.log("seconds played:", (finishTime - startTime) / 1000);
 
-    const updatedHistory = {
-      passedQuestions: passedQuestions + score,
-      failedQuestions: failedQuestions + (questions.length - score),
-      gamesPlayed: gamesPlayed + 1,
-      timePlayed: timePlayed + ((Date.now() - timer) / 1000), // Calculating time played in seconds
-      points: points + score,
-    };
-
-    const updatedUser = {
-      ...user,
-      history: updatedHistory
-    };
+    const body = JSON.stringify({
+      user: user.token,
+      history: {
+        passedQuestions: passedQuestions,
+        failedQuestions: questions.length - passedQuestions,
+        gamesPlayed: 1,
+        timePlayed: finishTime - startTime,
+        points: points
+      }
+    });
 
     try {
-      const response = await fetch(apiEndpoint + `/history/increment?user=${user.username}`, {
-        method: "PUT",
+      const response = fetch(apiEndpoint + `/history/increment`, {
+        method: "POST",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
         },
-        body: JSON.stringify(updatedUser),
+        body,
       });
 
       if (!response.ok) {
         throw new Error("Failed to update user statistics");
       }
 
-      const responseData = await response.json();
-      console.log("User statistics updated successfully:", responseData);
     } catch (error) {
       console.error("Error updating user statistics:", error);
     }
@@ -231,9 +234,10 @@ const Quiz = ({ level }) => {
 
       {haveQuestions && isFinished && (
         <FinalResult
-          result={score}
+          result={passedQuestions}
           quizLength={questions.length}
           onPlayAgain={playAgainHandler}
+          points={points}
         />
       )}
 

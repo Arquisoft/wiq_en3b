@@ -8,12 +8,13 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 
+import { formatTime } from "../../utils/formatTime";
+
 import { ReactComponent as BronzeMedalIcon } from "../../assets/medal-bronze.svg";
 import { ReactComponent as SilverMedalIcon } from "../../assets/medal-silver.svg";
 import { ReactComponent as GoldMedalIcon } from "../../assets/medal-gold.svg";
 
 import { useTranslation } from "react-i18next";
-
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -110,7 +111,7 @@ const Leaderboard = () => {
                   <StyledTableCell align="center">{row.passedQuestions}</StyledTableCell>
                   <StyledTableCell align="center">{row.failedQuestions}</StyledTableCell>
                   <StyledTableCell align="center">{row.gamesPlayed}</StyledTableCell>
-                  <StyledTableCell align="center">{row.timePlayed}</StyledTableCell>
+                  <StyledTableCell align="center">{formatTime(row.timePlayed)}</StyledTableCell>
                   <StyledTableCell align="center">{row.points}</StyledTableCell>
                 </StyledTableRow>
               ))}

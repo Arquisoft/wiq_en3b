@@ -6,6 +6,8 @@ import { Modal, Fade } from '@mui/material'
 import { updateBiography } from '../../services/apiBiography'
 import { debounce } from '../../utils/debounce'
 
+import { formatTime } from '../../utils/formatTime'
+
 const Profile = () => {
   const { profile, errorProfile, biography, errorBiography } = useProfile()
   const { user } = useAuth()
@@ -145,7 +147,13 @@ const Profile = () => {
                         .replace(/([A-Z])/g, ' $1')
                         .trim()}
                   </td>
-                  <td className="value">{value}</td>
+                  {
+                    key === 'timePlayed' ? (
+                      <td className="value">{formatTime(value)}</td>
+                    ) : (
+                      <td className="value">{value}</td>
+                    )
+                  }
                 </tr>
               ))
             ) : (

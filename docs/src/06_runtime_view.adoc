@@ -98,22 +98,43 @@ reformatting the translated string into questions array.
 Finally, QS sends them back to the Gateway, so again the response can then be redirected 
 towards the WebApp. Finally, the WebApp displays the questions of the game.
 
-This case scenario is also represented on the following diagram:
+This case scenario is also represented with the following diagrams (splitted for better understanding).
 
+Overview of Question Generation workflow:
 [mermaid]
 ....
- sequenceDiagram
+sequenceDiagram
     actor U as User
     participant FE as WebApp 
     participant BE as Gateway 
     participant QGS as Question Service
-    participant WQS as Wikidata Query Service 
-    participant DB as Database 
-    participant TS as Translation Service
 
     U->>FE: Starts a Game
     FE->>BE: Requests n Questions (optionally, language)
     BE->>QGS: Generate Questions
+
+    QGS-->QGS: Question generation phase
+
+    QGS-->QGS: Caching retrieval phase    
+
+    QGS-->QGS: Combine both phases (N questions) 
+
+    alt Translation phase
+        QGS-->QGS: Translate question into given language
+    end
+    
+    QGS-->>BE: Return Questions
+    BE-->>FE: Return Questions
+    FE->>U: Display Questions
+....
+
+The Question Generation phase consists of:
+[mermaid]
+....
+ sequenceDiagram
+    participant QGS as Question Service
+    participant WQS as Wikidata Query Service 
+    participant DB as Database 
 
     loop for each question in N/2 questions
         QGS->>DB: Request Question Template
@@ -124,13 +145,30 @@ This case scenario is also represented on the following diagram:
         QGS-->QGS: Generate Answer + Distractors
         QGS-->QGS: Create Question
     end
-    
+....
+
+The caching retrieval phase:
+[mermaid]
+....
+ sequenceDiagram
+
+    participant QGS as Question Service
+    participant DB as Database 
+
     loop for each question in N/2 questions
         QGS->>DB: Request Question
         DB-->>QGS: Return Question
     end
+....
 
-    QGS-->QGS: Combine arrays (N questions) 
+
+
+If a language has been selected, the translation phase will be as follows:
+[mermaid]
+....
+sequenceDiagram
+    participant QGS as Question Service
+    participant TS as Translation Service
 
     alt Questions generated in a language
         QGS-->QGS: Transform questions array into string
@@ -139,9 +177,6 @@ This case scenario is also represented on the following diagram:
         QGS-->QGS: Transform string into array questions
     end
     
-    QGS-->>BE: Return Questions
-    BE-->>FE: Return Questions
-    FE->>U: Display Questions
 ....
 
 === User statistics recording scenario

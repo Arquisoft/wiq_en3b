@@ -22,7 +22,7 @@ import { useTranslation } from 'react-i18next'
 function App() {
 
   //State for the timer value
-  const [timerValue, setTimerValue] = useState(100)
+  const [timerValue, setTimerValue] = useState(100000)
   //State for the volume
   const [volume, setVolume] = useState(10);
   //Translation

@@ -92,7 +92,7 @@ describe('User Service', () => {
         .post('/history')
         .send(newHistory);
 
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(401);
     expect(response.body.data.history).toBeUndefined();
   });
 
@@ -152,7 +152,7 @@ describe('User Service', () => {
         .post('/history/increment')
         .send(increment);
 
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(401);
     expect(response.body.data.history).toBeUndefined();
   });
 
@@ -456,7 +456,7 @@ describe('User Service', () => {
         .post('/profile')
         .send(validProfileTest);
 
-    expect(response.statusCode).toBe(400);
+    expect(response.statusCode).toBe(401);
     expect(response.body.data.profile).toBeUndefined();
   });
 

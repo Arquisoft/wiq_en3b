@@ -1,7 +1,9 @@
 import { TemplateModel } from '../src/models/template-model';
 import { getWikidataSparql } from '@entitree/helper';
+import { performTranslationRequestWithOptions } from '../src/utils/translation-utils'
 import { generateQuestions } from '../src/services/question-generator';
 import { QuestionModel } from '../src/models/question-model';
+// import axios from 'axios'
 
 
 // Mocking: QuestionModel.aggregate()
@@ -12,6 +14,8 @@ jest.mock('../src/models/question-model');
 // Mocking: getWikidataSparql()
 // Avoiding flakiness of API calls
 jest.mock("@entitree/helper")
+
+jest.mock("../src/utils/translation-utils.ts")
 
 const defaultNumberQuestions = 1;
 describe("Question Service - Question Generator", () => {
@@ -148,6 +152,20 @@ describe("Question Service - Question Generator", () => {
 
         checkAllFieldsWithoutImage(response);
     })
+
+    it("should return 2 questions translated to spanish", async () => {
+
+        const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
+        await mockWikidataSparql(defaultNumberQuestions)
+        await mockQuestionCount();
+        await mockResponseTranslationRequest()
+
+        const response = await generateQuestions(2, "es") as any;
+        console.log(response)
+        
+        checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)
+        checkAllFieldsWithoutImage(response);
+    })
 })
 
 /**
@@ -195,6 +213,24 @@ async function mockWikidataSparql(numberReturnValues: number) {
     return wikidataMock
 
 
+}
+
+function mockResponseTranslationRequest() {
+
+    const mockResponseTranslation = {
+        status: 200,
+        data: [ 
+            {
+                translations: [
+                    {
+                        text: "¿Cuál es el número atómico del unbiseptio? [;; 13];; 35];; 160];; 127|||¿Cuál es la capital de Sudán? [;; Pekín];; Andorra la Vella];; Jartum];; Libreville"
+                    }
+                ] 
+            }
+        ]
+    };
+
+    (performTranslationRequestWithOptions as jest.Mock).mockReturnValue(mockResponseTranslation);
 }
 
 /**

@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { performTranslationRequestWithOptions } from '../utils/translation-utils';
 
 export const getTranslatedQuestions = async (
   questionsArray: any,
@@ -6,7 +6,7 @@ export const getTranslatedQuestions = async (
 ) => {
   /*
   The idea of this is to transform the questions array to this
-  "QUESTION[ANSWER]ANSWER]ANSWER]ANSWER]|QUESTION[ANSWER]ANSWER]ANSWER]ANSWER]"
+  "QUESTION[;;ANSWER];;ANSWER]!!ANSWER]!!ANSWER]!!|||QUESTION[;;ANSWER]!!ANSWER]!!ANSWER]!!ANSWER]!!"
   So the number of requests to the API is the minimum and with the minimum number of
   chars spent
   */
@@ -15,11 +15,11 @@ export const getTranslatedQuestions = async (
       const { question, answers } = questionElement;
       const answersRepresentation = answers
         .map(({ text }: any) => text)
-        .join(']');
+        .join('];;');
 
-      return `${question}[${answersRepresentation}`;
+      return `${question}[;;${answersRepresentation}`;
     })
-    .join('|');
+    .join('|||');
 
   const options = {
     method: 'POST',
@@ -42,7 +42,7 @@ export const getTranslatedQuestions = async (
     ],
   };
 
-  const response = await axios.request(options);
+  const response = await performTranslationRequestWithOptions(options);
 
   if (response.status !== 200) {
     throw new Error('Error while translating');
@@ -50,17 +50,19 @@ export const getTranslatedQuestions = async (
 
   const arr: any[] = [];
 
-  response.data[0].translations[0].text.split('|').forEach((question: any) => {
-    const [questionPart, answersPart] = question.split('[');
+  response.data[0].translations[0].text
+    .split('|||')
+    .forEach((question: any) => {
+      const [questionPart, answersPart] = question.split('[;;');
 
-    arr.push({
-      question: questionPart,
-      answers: answersPart.split(']').map((answer: any, i: number) => ({
-        id: i + 1,
-        text: answer,
-      })),
+      arr.push({
+        question: questionPart.trim(),
+        answers: answersPart.split('];;').map((answer: any, i: number) => ({
+          id: i + 1,
+          text: answer.trim(),
+        })),
+      });
     });
-  });
 
   console.log(arr);
 

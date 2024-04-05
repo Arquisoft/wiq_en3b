@@ -18,7 +18,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
     req.user = user!;
     next();
   } catch (error: any) {
-    res.status(400).json({
+    res.status(401).json({
       status: 'fail',
       data: {
         error: (error as Error).message,

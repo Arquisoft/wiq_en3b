@@ -94,3 +94,8 @@ main {
   background-color: var(--dark-gray);
   color: #747ae7;
 }
+
+.dark .sound {
+  background-color: var(--dark-gray);
+  color: #747ae7;
+}

@@ -1,144 +1,270 @@
-import React, { useState, useRef } from 'react'
-import Countdown, { zeroPad } from 'react-countdown'
+import "./Quiz.css";
+import React, { useState, useRef, useEffect } from "react";
+import Countdown, { zeroPad } from "react-countdown";
+import Question from "./Question";
+import FinalResult from "../FinalResult/FinalResult";
+import CircularProgress from '@mui/material/CircularProgress';
+import { ReactComponent as StopwatchIcon } from "../../assets/stopwatch-solid.svg";
+import { useAuth } from '../../hooks/useAuth'
+import { API_ENDPOINT } from "../../utils/constants";
 
-import './Quiz.css'
+const getTimerValue = (level) => {
 
-import ActiveQuiz from './ActiveQuiz'
-import FinalResult from '../FinalResult/FinalResult'
+  var timerValue = 0;
 
-import { ReactComponent as StopwatchIcon } from '../../assets/stopwatch-solid.svg'
+  if (level === "easy") timerValue = 30;
+  if (level === "medium") timerValue = 15;
+  if (level === "hard") timerValue = 5;
 
-const Quiz = ({ questions, time }) => {
-  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
-  const [quizData, setQuizData] = useState({})
-  const [isFinished, setIsFinished] = useState(false)
-  const [score, setScore] = useState(0)
-  const [btnDisabled, setBtnDisabled] = useState(false)
+  return timerValue;
+};
 
-  const [timer, setTimer] = useState(Date.now() + time * 1000)
-  const [timerIndex, setTimerIndex] = useState(0)
+const getPoints = (level) => {
+  var points = 0;
 
-  const countdownTimer = useRef()
+  if (level === "easy") points = 5;
+  if (level === "medium") points = 15;
+  if (level === "hard") points = 30;
 
-  // This function is used to render the countdown timer
+  return points;
+}
+
+const Quiz = ({ level }) => {
+
+  const [questions, setQuestions] = useState([]);
+  const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
+  const [quizData, setQuizData] = useState({});
+  const [haveQuestions, setHaveQuestions] = useState(false);
+  const [isFinished, setIsFinished] = useState(false);
+
+  const [points, setPoints] = useState(0);
+  const [passedQuestions, setPassedQuestions] = useState(0);
+  const [startTime, setStartTime] = useState(Date.now()); // Tiempo de inicio
+  const [finishTime, setFinishTime] = useState(null); // Tiempo de finalización
+
+  const [btnDisabled, setBtnDisabled] = useState(false);
+  const [timerValue] = useState(getTimerValue(level));
+  const [timer, setTimer] = useState(null);
+  const [timerIndex, setTimerIndex] = useState(0);
+  const { user } = useAuth()
+  const countdownTimer = useRef();
+
+  useEffect(() => {
+
+    (async () => {
+      if (!haveQuestions) {
+        setQuestions(await getQuestions());
+        setHaveQuestions(true);
+      }
+    })();
+
+  }, [haveQuestions]);
+
+  useEffect(() => {
+    if (questions) {
+      setStartTime(Date.now());
+      setTimer(Date.now() + timerValue * 1000);
+    }
+  }, [questions]);
+
+  useEffect(() => {
+    if (isFinished) {
+      updateStatistics();
+    }
+  }, [isFinished]);
+
+  const getQuestions = async () => {
+    let numQuestions = 0;
+
+    if (level === "easy") numQuestions = 5;
+    else if (level === "medium") numQuestions = 10;
+    else if (level === "hard") numQuestions = 15;
+
+    const response = await fetch(API_ENDPOINT + `/questions?size=${numQuestions}`);
+
+    if (!response.ok) throw new Error("Failed to fetch questions");
+
+    const data = await response.json();
+
+    data.forEach((question) => {
+      question.answers = shuffle(question.answers);
+    });
+
+    return data;
+  };
+
+  function shuffle(array) {
+    let currentIndex = array.length,
+      randomIndex;
+
+    while (currentIndex > 0) {
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex],
+        array[currentIndex],
+      ];
+    }
+    return array;
+  }
+
   const renderer = ({ minutes, seconds }) => {
     return (
       <span>
         {zeroPad(minutes)}:{zeroPad(seconds)}
       </span>
-    )
-  }
+    );
+  };
 
-  const setData = (selectedAnswerId, correctIAnswerId) => {
+  const setData = (selectedAnswerId, correctAnswerId) => {
     setQuizData({
       selectedId: selectedAnswerId,
-      correctId: correctIAnswerId,
-    })
-  }
+      correctId: correctAnswerId,
+    });
+  };
 
-  //This function is used to handle the selection of an answer
-  const selectAnswerHandler = selectedAnswerId => {
-    // Set the selected state to the selected answer
-    setData(selectedAnswerId, questions[currentQuestionIndex].correctAnswerId)
+  const selectAnswerHandler = (selectedAnswerId) => {
+    setData(selectedAnswerId, questions[currentQuestionIndex].correctAnswerId);
 
-    // If the button is disabled, ignore the click
     if (btnDisabled) {
-      return
+      return;
     }
 
-    // Check if the selected answer is correct
     const isCorrect =
-      questions[currentQuestionIndex].correctAnswerId === selectedAnswerId
+      questions[currentQuestionIndex].correctAnswerId === selectedAnswerId;
 
-    // If the selected answer is correct, increment the score
     if (isCorrect) {
-      setScore(score + 1)
+      setPoints(points + getPoints(level));
+      setPassedQuestions(passedQuestions + 1);
     }
 
-    // Disable the button
-    setBtnDisabled(true)
+    setBtnDisabled(true);
 
-    // Move to the next question or finish the quiz
     setTimeout(() => {
-      if (currentQuestionIndex < questions.length - 1) {
-        setCurrentQuestionIndex(prevIndex => prevIndex + 1)
-      } else {
-        setIsFinished(true)
-      }
+      if (currentQuestionIndex < questions.length - 1)
+        setCurrentQuestionIndex((prevIndex) => prevIndex + 1);
+      else setIsFinished(true);
 
-      // Reset state for the next question
-      setQuizData({})
-      setBtnDisabled(false)
-      setTimer(Date.now() + time * 1000)
-      setTimerIndex(prevTimerIndex => prevTimerIndex + 1)
-    }, 2000)
+      setQuizData({});
+      setBtnDisabled(false);
+      setTimer(Date.now() + timerValue * 1000);
+      setTimerIndex((prevTimerIndex) => prevTimerIndex + 1);
 
-    // Pause the timer
-    pauseTimer()
-  }
+    }, 2000);
 
-  const tryAgainHandler = () => {
-    setCurrentQuestionIndex(0)
-    setQuizData({})
-    setIsFinished(false)
-    setScore(0)
-    setBtnDisabled(false)
-    setTimer(Date.now() + time * 1000)
-    setTimerIndex(prevState => {
-      return prevState + 1
-    })
-  }
+    pauseTimer();
+  };
+
+  const playAgainHandler = () => {
+    setHaveQuestions(false);
+    setCurrentQuestionIndex(0);
+    setQuizData({});
+    setBtnDisabled(false);
+    setTimer(Date.now() + timerValue * 1000);
+    setTimerIndex((prevState) => prevState + 1);
+    setPoints(0);
+    setPassedQuestions(0);
+    setIsFinished(false);
+  };
 
   const countdownCompleteHandler = () => {
     if (currentQuestionIndex < questions.length - 1) {
-      setCurrentQuestionIndex(prevState => {
-        return prevState + 1
-      })
+      setCurrentQuestionIndex((prevState) => {
+        return prevState + 1;
+      });
 
-      setTimer(Date.now() + time * 1000)
-      setTimerIndex(prevState => {
-        return prevState + 1
-      })
+      setTimer(Date.now() + timerValue * 1000);
+      setTimerIndex((prevState) => {
+        return prevState + 1;
+      });
     } else {
-      setIsFinished(true)
+      setIsFinished(true);
     }
-  }
+  };
 
-  const pauseTimer = () => countdownTimer.current.pause()
-  console.log(questions)
+  const pauseTimer = () => countdownTimer.current.pause();
+
+  const resumeTimer = () => countdownTimer.current.start();
+
+  const updateStatistics = () => {
+
+    var finishTime = Date.now();
+
+    console.log("Milliseconds played:", finishTime - startTime);
+
+    console.log("finish time:", finishTime);
+    console.log("start time:", startTime);
+    console.log("seconds played:", (finishTime - startTime) / 1000);
+
+    const body = JSON.stringify({
+      user: user.token,
+      history: {
+        passedQuestions: passedQuestions,
+        failedQuestions: questions.length - passedQuestions,
+        gamesPlayed: 1,
+        timePlayed: finishTime - startTime,
+        points: points
+      }
+    });
+
+    try {
+      const response = fetch(API_ENDPOINT + `/history/increment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user statistics");
+      }
+
+    } catch (error) {
+      console.error("Error updating user statistics:", error);
+    }
+  };
+
 
   return (
     <React.Fragment>
-      {!isFinished && (
-        <p className="quiz-timer">
-          <StopwatchIcon />
-          <Countdown
-            date={timer}
-            key={timerIndex}
-            renderer={renderer}
-            onComplete={countdownCompleteHandler}
-            ref={countdownTimer}
-          />
-        </p>
-      )}
-      {isFinished ? (
+      {!haveQuestions && <CircularProgress size={25} color='inherit' />}
+
+      {haveQuestions && isFinished && (
         <FinalResult
-          result={score}
+          result={passedQuestions}
           quizLength={questions.length}
-          onTryAgain={tryAgainHandler}
+          onPlayAgain={playAgainHandler}
+          points={points}
         />
-      ) : (
-        <ActiveQuiz
-          quiz={questions[currentQuestionIndex]}
-          activeQuizIndex={currentQuestionIndex + 1}
-          quizLength={questions.length}
-          selected={quizData}
-          btnDisabled={btnDisabled}
-          onSelectAnswer={selectAnswerHandler}
-        />
+      )}
+
+      {haveQuestions && !isFinished && (
+        <>
+          <p className="quiz-timer">
+            <StopwatchIcon />
+            <Countdown
+              date={timer}
+              key={timerIndex}
+              renderer={renderer}
+              onComplete={countdownCompleteHandler}
+              ref={countdownTimer}
+            />
+          </p>
+          <Question
+            quiz={questions[currentQuestionIndex]}
+            activeQuizIndex={currentQuestionIndex + 1}
+            quizLength={questions.length}
+            selected={quizData}
+            btnDisabled={btnDisabled}
+            onSelectAnswer={selectAnswerHandler}
+          />
+        </>
       )}
     </React.Fragment>
-  )
-}
+  );
+};
 
-export default Quiz
+export default Quiz;

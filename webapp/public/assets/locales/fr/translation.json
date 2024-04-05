@@ -1,0 +1,23 @@
+{
+    "settings":{
+    "title":"Paramètres",
+    "choose_lang":"Choisissez la langue : ",
+    "choose_seconds":"Choisissez la durée des questions : "
+    },
+    "leaderboard":{
+    "title":"Classement"
+    },
+    "profile":{
+    "title":"Profil"
+    },
+    "play":{
+    "title": "Jouer",
+    "choose_difficulty": "Choisissez la difficulté",
+    "easy": "Facile",
+    "medium": "Moyen",
+    "hard": "Difficile"
+    },
+    "home":{
+    "title":"Accueil"
+    }
+    }

@@ -11,8 +11,15 @@ import { ReactComponent as LoginIcon } from '../../assets/login-solid.svg'
 import { ReactComponent as LogoutIcon } from '../../assets/logout-solid.svg'
 import { ReactComponent as SingUpIcon } from '../../assets/signup-solid.svg'
 import { useAuth } from '../../hooks/useAuth'
+import { useTranslation } from "react-i18next";
 
-const Nav = props => {
+
+const Nav = (props) => {
+
+  //Translation
+  const { t } = useTranslation();
+
+
   const { user } = useAuth()
   const handleCloseNav = event => {
     if (event.target.closest('.nav')) {
@@ -28,73 +35,75 @@ const Nav = props => {
       document.documentElement.classList.remove('nav-open');
     }
   }, [props.openNav]);
+
+
   return (
     <div className="nav-overlay" onClick={handleCloseNav}>
-    <div className={`nav ${props.openNav ? 'show' : ''}`}>
-      <div className="nav-header">
-        <div className="close-button" onClick={props.onToggleNav}>
-          <CloseIcon />
-        </div>
-      </div>
-
-      <div className="nav-body">
-        <Link to="/" className="nav-link">
-          <div className="nav-link-icon">
-            <UserIcon />
+      <div className={`nav ${props.openNav ? 'show' : ''}`}>
+        <div className="nav-header">
+          <div className="close-button" onClick={props.onToggleNav}>
+            <CloseIcon />
           </div>
-          Home
-        </Link>
+        </div>
 
-        {user && (
-          <Link to="game" className="nav-link">
-            <div className="nav-link-icon">
-              <SquareQuestionIcon />
-            </div>
-            Play
-          </Link>
-        )}
-
-        {user && (
-          <Link to="profile" className="nav-link">
+        <div className="nav-body">
+          <Link to="/" className="nav-link">
             <div className="nav-link-icon">
               <UserIcon />
             </div>
-            Profile
+            {t("home.title")}
           </Link>
-        )}
 
-        <Link to="leaderboard" className="nav-link">
-          <div className="nav-link-icon">
-            <AwardIcon />
-          </div>
-          Leaderboard
-        </Link>
+          {user && (
+            <Link to="game" className="nav-link">
+              <div className="nav-link-icon">
+                <SquareQuestionIcon />
+              </div>
+              {t("play.title")}
+            </Link>
+          )}
 
-        {user && (
-          <Link to="settings" className="nav-link">
+          {user && (
+            <Link to="profile" className="nav-link">
+              <div className="nav-link-icon">
+                <UserIcon />
+              </div>
+              Profile
+            </Link>
+          )}
+
+          <Link to="leaderboard" className="nav-link">
             <div className="nav-link-icon">
-              <SettingsIcon />
+              <AwardIcon />
             </div>
-            Settings
+            {t("leaderboard.title")}
           </Link>
-        )}
 
-        <Link to={user ? '/logout' : '/login'} className="nav-link">
-          <div className="nav-link-icon">
-            {user ? <LogoutIcon /> : <LoginIcon />}
-          </div>
-          {user ? 'Logout' : 'Login'}
-        </Link>
+          {user && (
+            <Link to="settings" className="nav-link">
+              <div className="nav-link-icon">
+                <SettingsIcon />
+              </div>
+              {t("settings.title")}
+            </Link>
+          )}
 
-        {!user && (
-          <Link to="register" className="nav-link">
+          <Link to={user ? '/logout' : '/login'} className="nav-link">
             <div className="nav-link-icon">
-              <SingUpIcon />
+              {user ? <LogoutIcon /> : <LoginIcon />}
             </div>
-            Register
-          </Link>)}
+            {user ? 'Logout' : 'Login'}
+          </Link>
+
+          {!user && (
+            <Link to="register" className="nav-link">
+              <div className="nav-link-icon">
+                <SingUpIcon />
+              </div>
+              Register
+            </Link>)}
+        </div>
       </div>
-    </div>
     </div>
   )
 }

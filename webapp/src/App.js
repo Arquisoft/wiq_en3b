@@ -7,18 +7,34 @@ import Home from './pages/Home/Home'
 import AppLayout from './pages/AppLayout'
 import Settings from './pages/Settings/Settings'
 import Login from './pages/Login/Login'
-import Register from './pages/Register/Register'
-import { ProtectedRoute } from './components/ProtectedRoute'
-import { AuthProvider } from './context/AuthContext'
 import Logout from './pages/Logout/Logout'
+import Register from './pages/Register/Register'
+
+import { ProtectedRoute } from './components/ProtectedRoute'
+
+import { AuthProvider } from './context/AuthContext'
 import { SettingsProvider } from './context/SettingsContext'
 
+import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
+
+
 function App() {
+
+  //State for the volume
+  const [volume, setVolume] = useState(10);
+  //Translation
+  const { t } = useTranslation();
+
+  const handleVolumeChange = (event, newVolume) => {
+    setVolume(newVolume);
+  };
+
   return (
     <SettingsProvider>
       <AuthProvider>
         <Routes>
-          <Route element={<AppLayout />}>
+          <Route element={<AppLayout volume={volume} />}>
             <Route path="/" index element={<Home />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
@@ -40,12 +56,13 @@ function App() {
               }
             ></Route>
             <Route path="leaderboard" element={<Leaderboard />}></Route>
-            <Route path="settings" element={<Settings />}></Route>
+            <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} />}></Route>
           </Route>
         </Routes>
       </AuthProvider>
     </SettingsProvider>
   )
+
 }
 
 export default App

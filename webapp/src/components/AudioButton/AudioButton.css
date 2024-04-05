@@ -1,0 +1,7 @@
+.pause-btn {
+    background-image: url("../../assets/sound.svg");
+}
+
+.play-btn {
+    background-image: url("../../assets/mute.svg")
+}

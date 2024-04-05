@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { performTranslationRequestWithOptions } from '../utils/translation-utils';
 
 export const getTranslatedQuestions = async (
   questionsArray: any,
@@ -42,7 +42,7 @@ export const getTranslatedQuestions = async (
     ],
   };
 
-  const response = await requestTranslation(options);
+  const response = await performTranslationRequestWithOptions(options);
 
   if (response.status !== 200) {
     throw new Error('Error while translating');
@@ -54,7 +54,6 @@ export const getTranslatedQuestions = async (
     .split('|||')
     .forEach((question: any) => {
       const [questionPart, answersPart] = question.split('[;;');
-      console.log(answersPart);
 
       arr.push({
         question: questionPart.trim(),
@@ -69,7 +68,3 @@ export const getTranslatedQuestions = async (
 
   return arr;
 };
-
-export async function requestTranslation(options: any) {
-  return await axios.request(options);
-}

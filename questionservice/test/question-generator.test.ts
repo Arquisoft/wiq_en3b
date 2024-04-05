@@ -1,6 +1,6 @@
 import { TemplateModel } from '../src/models/template-model';
 import { getWikidataSparql } from '@entitree/helper';
-import { requestTranslation } from '../src/services/translation-service';
+import { performTranslationRequestWithOptions } from '../src/utils/translation-utils'
 import { generateQuestions } from '../src/services/question-generator';
 import { QuestionModel } from '../src/models/question-model';
 // import axios from 'axios'
@@ -15,10 +15,7 @@ jest.mock('../src/models/question-model');
 // Avoiding flakiness of API calls
 jest.mock("@entitree/helper")
 
-jest.mock("../src/services/translation-service", () => ({
-    ...jest.requireActual("../src/services/translation-service"),
-    requestTranslation: jest.fn()
-}))
+jest.mock("../src/utils/translation-utils.ts")
 
 const defaultNumberQuestions = 1;
 describe("Question Service - Question Generator", () => {
@@ -161,9 +158,10 @@ describe("Question Service - Question Generator", () => {
         const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
         await mockWikidataSparql(defaultNumberQuestions)
         await mockQuestionCount();
-        mockResponseTranslationRequest()
+        await mockResponseTranslationRequest()
 
         const response = await generateQuestions(2, "es") as any;
+        console.log(response)
         
         checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)
         checkAllFieldsWithoutImage(response);
@@ -232,7 +230,7 @@ function mockResponseTranslationRequest() {
         ]
     };
 
-    (requestTranslation as jest.Mock).mockReturnValue(mockResponseTranslation);
+    (performTranslationRequestWithOptions as jest.Mock).mockReturnValue(mockResponseTranslation);
 }
 
 /**

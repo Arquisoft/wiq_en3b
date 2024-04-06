@@ -1,13 +1,9 @@
 const puppeteer = require('puppeteer');
 const { defineFeature, loadFeature }=require('jest-cucumber');
 const setDefaultOptions = require('expect-puppeteer').setDefaultOptions
-const feature = loadFeature('./features/register-form.feature');
-const { 
-    waitForWelcomeMessage, 
-    switchFromLoginPageToRegisterPageByUsingLink,
-    registerUser,
-    waitForUserAlreadyRegisteredError 
-} = require('./register-form.utils')
+const feature = loadFeature('./features/login-form.feature');
+const { waitForWelcomeMessage } = require('./register-form.utils')
+const { loginUser, waitForInvalidCredentialsError, registerAUser } = require('./login-form.utils')
 
 let page;
 let browser;
@@ -19,7 +15,7 @@ defineFeature(feature, test => {
       ? await puppeteer.launch()
       : await puppeteer.launch({ headless: false, slowMo: 10 });
     page = await browser.newPage();
-    //Way of setting up the timeout
+
     setDefaultOptions({ timeout: 10000 })
 
     await page
@@ -27,21 +23,22 @@ defineFeature(feature, test => {
         waitUntil: "networkidle0",
       })
       .catch(() => {});
+
+    await registerAUser("kawuser-login", "kawpass123@")
   });
 
-  test('The user is not registered in the site', ({given,when,then}) => {
+  test('Registered user logs in successfully', ({ given,when,then }) => {
     
     let username;
     let password;
 
-    given('An unregistered user', async () => {
-        username = "kawuser-register"
+    given('A registered user', async () => {
+        username = "kawuser-login"
         password = "kawpass123@"
-        await switchFromLoginPageToRegisterPageByUsingLink(page)
     });
 
     when('I fill the data in the form and press submit', async () => {
-        await registerUser(page, username, password);
+        await loginUser(page, username, password);
     });
 
     then('A confirmation message should be shown in the screen', async () => {
@@ -61,23 +58,22 @@ defineFeature(feature, test => {
       .catch(() => {});
   });
 
-  test('The user is already registered in the site', ({given,when,then}) => {
+  test('Registered user logs in with incorrect password', ({ given,when,then }) => {
     
     let username;
     let password;
 
-    given('An already registered user', async () => {
-        username = "kawuser-register"
-        password = "kawpass123@"
-        await switchFromLoginPageToRegisterPageByUsingLink(page)
+    given('A registered user', async () => {
+        username = "kawuser-login"
+        password = "kawpasswrong"
     });
 
-    when('I fill the data in the form and press submit', async () => {
-        await registerUser(page, username, password);
+    when('I fill the data in the form with wrong password and press submit', async () => {
+        await loginUser(page, username, password);
     });
 
-    then('An error message should be shown in the screen', async () => {
-        await waitForUserAlreadyRegisteredError(page, username)
+    then('An error message is displayed', async () => {
+        await waitForInvalidCredentialsError(page)
     });
   })
 

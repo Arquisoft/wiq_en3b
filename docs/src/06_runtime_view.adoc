@@ -60,8 +60,8 @@ sequenceDiagram
     User->>WebApp: Enters details (username, password)
     WebApp->>Gateway: Sends user details
     Gateway->>User Service: Sends user details
-    User Service->>Database: Asks for encrypted password by username
-    Database-->>User Service: Responds with the encrypted password of the user
+    User Service->>UserDatabase: Asks for encrypted password by username
+    UserDatabase-->>User Service: Responds with the encrypted password of the user
     User Service-->User Service: Tests if passwords are equal after encryption
     alt Credentials are incorrect
         User Service-->>Gateway: Sends error message "Invalid credentials"
@@ -136,7 +136,7 @@ The Question Generation phase consists of:
  sequenceDiagram
     participant QGS as Question Service
     participant WQS as Wikidata Query Service 
-    participant DB as Database 
+    participant DB as QuestionDatabase 
 
     loop for each question in N/2 questions
         QGS->>DB: Request Question Template
@@ -155,7 +155,7 @@ The caching retrieval phase:
  sequenceDiagram
 
     participant QGS as Question Service
-    participant DB as Database 
+    participant DB as QuestionDatabase 
 
     loop for each question in N/2 questions
         QGS->>DB: Request Question
@@ -200,7 +200,7 @@ This case scenario is also represented on the following diagram:
     participant FE as WebApp 
     participant BE as Gateway 
     participant HS as User Service
-    participant DB as Database 
+    participant DB as UserDatabase 
 
     U->>FE: Answers a Question
     FE-->FE: Determines if the answer is correct

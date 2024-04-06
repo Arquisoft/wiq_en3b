@@ -238,34 +238,13 @@ As stated in point 4.1, the chosen database for the project is MongoDB
 which offers us a document-oriented schema. This type of database fits
 perfectly with our services since the mainly work with JSON-formatted data. 
 
-===== ER model
+===== ER model - QuestionDatabase
 
 [mermaid]
 ....
 erDiagram
     
     QUESTION_TEMPLATE ||--|| QUESTION_TYPE:has
-    USER ||--|| USER_HISTORY:has
-    USER ||--|| USER_PROFILE:has
-
-    USER {
-        String username
-        String password
-        Date createdAt
-    }
-
-    USER_HISTORY {
-        int passedQuestions
-        int wrongQuestions
-        int gamesPlayed
-        int timesPlayed
-        int points
-    }
-
-    USER_PROFILE{
-        String bio
-        String pic
-    }
 
     QUESTION {
         String question
@@ -287,13 +266,6 @@ erDiagram
 
 |===
 | Document | Description 
-| USER 
-| Holds all the data relationed to a user registered into our game. It
-has a relation with *ONE USER_HISTORY* and *ONE USER_PROFILe* document
-| USER_HISTORY
-| Holds all the records/statistics of a single user through all played games.
-| USER_PROFILE
-| Holds specific customization of the profile of a user.
 | QUESTION_TEMPLATE
 | Holds the template needed to query the WikiData API for the Question generation. It
 has a reation with *ONE QUESTION_TYPE* document 
@@ -304,6 +276,46 @@ can be selected one entity to change the whole query (e.g. Capitals of Europe or
 | QUESTION
 | Holds document of already generated questions. This schema is used for performance enhancements
 (for a simple yet powerful cache)
+|===
+
+===== ER model - UserDatabase
+
+[mermaid]
+....
+erDiagram
+    
+    USER ||--|| USER_HISTORY:has
+    USER ||--|| USER_PROFILE:has
+
+    USER {
+        String username
+        String password
+        Date createdAt
+    }
+
+    USER_HISTORY {
+        int passedQuestions
+        int wrongQuestions
+        int gamesPlayed
+        int timesPlayed
+        int points
+    }
+
+    USER_PROFILE{
+        String bio
+        String pic
+    }
+....
+
+|===
+| Document | Description 
+| USER 
+| Holds all the data relationed to a user registered into our game. It
+has a relation with *ONE USER_HISTORY* and *ONE USER_PROFILe* document
+| USER_HISTORY
+| Holds all the records/statistics of a single user through all played games.
+| USER_PROFILE
+| Holds specific customization of the profile of a user.
 |===
 
 ===== Connection to MongoDB
@@ -327,8 +339,10 @@ flowchart LR
         m("fa:fa-book
         Mongoose Schema")
         subgraph mongo [MongoDB]
-            ud("fa:fa-database" UserDatabase)
-            td("fa:fa-database" TemplateDatabase)
+            ud("fa:fa-database" 
+            UserDatabase)
+            td("fa:fa-database" 
+            QuestionDatabase)
         end
     end
     as <--> m <--> ud
@@ -350,6 +364,6 @@ alive the session.
 ==== Monitoring with Graphana & Promotheus
 Explained in labs after 2nd delivery
 
-==== Peristing the Persistance 
+==== Persisting the Persistance 
 Explained in labs after 2nd delivery (about mantaining data of volumes and not lost them after new containers
 are deployed)

@@ -153,8 +153,8 @@ flowchart TD
             QuestionService)
             UserDatabase("fa:fa-database" 
             UserDatabase)
-            TemplateDatabase("fa:fa-database" 
-            TemplateDatabase)
+            QuestionDatabase("fa:fa-database" 
+            QuestionDatabase)
         end
     end
 
@@ -166,7 +166,7 @@ flowchart TD
     Gateway <--> UserService
     Gateway <--> QuestionService
     QuestionService <--> Wikidata
-    QuestionService <--> TemplateDatabase
+    QuestionService <--> QuestionDatabase
     style Wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
     classDef subgraphstyle margin-left:3cm
     class back subgraphstyle

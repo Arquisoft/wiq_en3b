@@ -1,6 +1,6 @@
 @startuml Technical Context
-
 actor User
+actor API_Consumer
 
 node Application {
     component  WebApp
@@ -10,9 +10,9 @@ node Application {
 
 cloud  Wikidata
 
-User ..> WebApp : http
+User .right.> WebApp : http
+API_Consumer .up.>Services : http
 WebApp <-> Services : http
 Services <-> Database : mongoose
-Services <--> Wikidata : SPARQL
-
+Services <--> Wikidata : http(SPARQL)
 @enduml

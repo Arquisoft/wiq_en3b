@@ -39,7 +39,16 @@ See https://docs.arc42.org/section-6/[Runtime View] in the arc42 documentation.
 
 === Login scenario
 
-When the user wants to login into the application (KaW), the user navigates to the login page. The WebApp will show a form that allows the user to enter their details (username and password), which are then sent to the User Service by means of the Gateway in order to be verified. Then, the User Service asks the Database for the password given the username. The Database will return an encrypted password. The User Service will encrypt the password provided by the user and then compare it with the one from the database. If the passwords do not match, an error message showing "Invalid credentials" will appear to the user, and if they are correct, a success message "Login successful" confirms the login and the user finally will be able to access the application.
+When the user wants to login into the application (KaW), the user navigates to the login page. 
+The WebApp will show a form that allows the user to enter their details (username and password), 
+which are then sent to the User Service by means of the Gateway in order to be verified. 
+
+Then, the User Service asks the Database for the password given the username. The Database 
+will return an encrypted password. The User Service will encrypt the password provided by 
+the user and then compare it with the one from the database. If the passwords do not match, 
+an error message showing "Invalid credentials" will appear to the user, and if they are 
+correct, a valid JSON response is created together with the creation of a session token that
+allows the user to stay authenticated for a period of time. Finally the user will be able to access the application.
 
 This case scenario is also represented on the following diagram:
 
@@ -51,42 +60,85 @@ sequenceDiagram
     User->>WebApp: Enters details (username, password)
     WebApp->>Gateway: Sends user details
     Gateway->>User Service: Sends user details
-    User Service->>Database: Asks for encrypted password by username
-    Database-->>User Service: Responds with the encrypted password of the user
+    User Service->>UserDatabase: Asks for encrypted password by username
+    UserDatabase-->>User Service: Responds with the encrypted password of the user
     User Service-->User Service: Tests if passwords are equal after encryption
     alt Credentials are incorrect
         User Service-->>Gateway: Sends error message "Invalid credentials"
         Gateway-->>WebApp: Sends error message "Invalid credentials"
         WebApp-->>User: Displays error message "Invalid  credentials"
     else Credentials are correct
-        User Service-->>Gateway: Sends success message "Login successful"
-        Gateway-->>WebApp: Sends success message "Login successful"
-        WebApp-->>User: Displays success message "Login successful"
+        User Service-->>Gateway: Creates JWT token and sends success response.
+        Gateway-->>WebApp: Sends success response.
+        WebApp-->>User: Displays the HomePage.
     end
 ....
 
 
 === Question Generation
 
-When a user starts a game through the WebApp, it triggers a request for generating questions to the Gateway. The Gateway works with the QS (Question Service) to generate questions. For each question, first QS requests a question template from the Database, which is then filled with relevant data from the WQS (Wikidata Query Service). After filling the template, QS uses the previous data, obtained from WQS, to also generate answers and distractors. Once all questions are generated, QS sends them back to the Gateway, so again the response can then be redirected towards the WebApp. Finally, the WebApp displays the questions of the game.
+When a user starts a game through the WebApp, it triggers a request for generating questions to 
+the Gateway. The Gateway works with the QS (Question Service) to generate questions. To improve 
+performance a simple cache system is implemented.
 
-This case scenario is also represented on the following diagram:
+First, half of questions to generate are actually generated using Wikidata Service: QS requests a 
+question template from the Database, which is then filled with relevant data from the 
+WQS (Wikidata Query Service). After filling the template, QS uses the previous data, obtained 
+from WQS, to also generate answers and distractors. If WQS gets timed out (e.g. waiting more 
+than 5 sec to retrieve the data to fill template), it is chosen an already generated question from
+cache to always try to return the exact number of questions requested.
 
+Second, the other half are simply retrieved from previosuly wikidata generated questions which are
+stored in DB. Then, both array of questions are combined to return the n questions requested.
+
+Optionally, if questions are required in a certain language. The QS queries a translation Service
+(TS) to perform the translation. For that, the whole array of questions is transformed into a 
+suitable string format to avoid constraints by TS (e.g. translating question by question and answer
+by answer). Then, TS is used and translates the string. Once this is done, QS is in charge of
+reformatting the translated string into questions array. 
+
+Finally, QS sends them back to the Gateway, so again the response can then be redirected 
+towards the WebApp. Finally, the WebApp displays the questions of the game.
+
+This case scenario is also represented with the following diagrams (splitted for better understanding).
+
+Overview of Question Generation workflow:
 [mermaid]
 ....
- sequenceDiagram
+sequenceDiagram
     actor U as User
     participant FE as WebApp 
     participant BE as Gateway 
     participant QGS as Question Service
-    participant WQS as Wikidata Query Service 
-    participant DB as Database 
 
     U->>FE: Starts a Game
-    FE->>BE: Requests Questions
+    FE->>BE: Requests n Questions (optionally, language)
     BE->>QGS: Generate Questions
 
-    loop for each question
+    QGS-->QGS: Question generation phase
+
+    QGS-->QGS: Caching retrieval phase    
+
+    QGS-->QGS: Combine both phases (N questions) 
+
+    alt Translation phase
+        QGS-->QGS: Translate question into given language
+    end
+    
+    QGS-->>BE: Return Questions
+    BE-->>FE: Return Questions
+    FE->>U: Display Questions
+....
+
+The Question Generation phase consists of:
+[mermaid]
+....
+ sequenceDiagram
+    participant QGS as Question Service
+    participant WQS as Wikidata Query Service 
+    participant DB as QuestionDatabase 
+
+    loop for each question in N/2 questions
         QGS->>DB: Request Question Template
         DB-->>QGS: Return Question Template
         QGS->>WQS: Request Data
@@ -94,15 +146,50 @@ This case scenario is also represented on the following diagram:
         QGS-->QGS: Fill Template
         QGS-->QGS: Generate Answer + Distractors
         QGS-->QGS: Create Question
-    end 
-    QGS-->>BE: Return Questions
-    BE-->>FE: Return Questions
-    FE->>U: Display Questions
+    end
+....
+
+The caching retrieval phase:
+[mermaid]
+....
+ sequenceDiagram
+
+    participant QGS as Question Service
+    participant DB as QuestionDatabase 
+
+    loop for each question in N/2 questions
+        QGS->>DB: Request Question
+        DB-->>QGS: Return Question
+    end
+....
+
+
+
+If a language has been selected, the translation phase will be as follows:
+[mermaid]
+....
+sequenceDiagram
+    participant QGS as Question Service
+    participant TS as Translation Service
+
+    alt Questions generated in a language
+        QGS-->QGS: Transform questions array into string
+        QGS->>TS: Make string translation to language
+        TS-->>QGS: Return string translation
+        QGS-->QGS: Transform string into array questions
+    end
+    
 ....
 
 === User statistics recording scenario
 
-When a user answers a question, the WebApp determines if the answer was correct or not. Then, that data is sent to the Gateway and then forwarded to the User Service, which is in charge of updating the Database with the updated user history. This process is repeated for each answer to a question.
+When a user answers a question, the WebApp determines if the answer was correct or not. Then, 
+that data is sent to the Gateway and then forwarded to the User Service, which is in charge of 
+updating the Database with the updated user history. This process is repeated for each answer to 
+a question.
+
+Once the user answer the final question of the game, appart from doing the beforementioned process,
+the user history is also updated with the game "highlights" such as time spent playing.
 
 This case scenario is also represented on the following diagram:
 
@@ -113,11 +200,17 @@ This case scenario is also represented on the following diagram:
     participant FE as WebApp 
     participant BE as Gateway 
     participant HS as User Service
-    participant DB as Database 
+    participant DB as UserDatabase 
 
     U->>FE: Answers a Question
     FE-->FE: Determines if the answer is correct
     FE->>BE: Indicates correctness of the answer
     BE->>HS: Save the user history
+    HS->>DB: Updates the user history
+
+    U->>FE: Answers final Question
+    FE-->FE: Determines if the answer is correct
+    FE->>BE: Indicates correctness of the answer and end of game.
+    BE->>HS: Save the user history with other endgame statistics.
     HS->>DB: Updates the user history
 ....

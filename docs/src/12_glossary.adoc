@@ -46,8 +46,16 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 |WikiData
 |A structured database that provides data to various applications, used here for generating questions and answers.
 
+| SPARQL
+| The standard query language and protocol for Linked Open Data on the web or for RDF triplestores. Used to query the Wikidata service for generation of questions.
 
-|OAuth and JWT
+|API Consumers
+|Refers to all users that make use of our API to either generate data or consult it.
+
+| http(s)
+| Main communication mechanism used to interconnect the different parts in our system.
+
+|JWT
 |Secure authentication mechanisms used to protect user accounts.
 
 |Kanban

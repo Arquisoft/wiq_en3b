@@ -38,6 +38,11 @@ for our stakeholders and users.
 | Relying on this external API can cause the QuestionService to stop working and produce our WebApp to not even be playable.
 | Introduce a sort of Cache for questions. When questions are generated from this API, try to store them for later usage or even to improve performance. 
 
+| Microsoft Translation Service
+| Same issue as Wikidata, the failure on this API or the suspension from this API to our Application can make our questions to never be translated, although in the frontend there is a way of changing the language display.
+| The team has read all restrictions of its Free tier and made "tricks" to minimize the impact of failure such as transforming question arrays into a single string
+to avoid the rate limit (1000 requests/hr) 
+
 | Inexperience
 | The little knowdlege about new tecnologies used in the project like React, Express or Docker; can cause a failure in the implementation of it.
 | Research and constant learning through development can lead to better understanding of the technologies.

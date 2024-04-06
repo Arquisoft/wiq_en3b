@@ -84,7 +84,9 @@ performance a simple cache system is implemented.
 First, half of questions to generate are actually generated using Wikidata Service: QS requests a 
 question template from the Database, which is then filled with relevant data from the 
 WQS (Wikidata Query Service). After filling the template, QS uses the previous data, obtained 
-from WQS, to also generate answers and distractors.
+from WQS, to also generate answers and distractors. If WQS gets timed out (e.g. waiting more 
+than 5 sec to retrieve the data to fill template), it is chosen an already generated question from
+cache to always try to return the exact number of questions requested.
 
 Second, the other half are simply retrieved from previosuly wikidata generated questions which are
 stored in DB. Then, both array of questions are combined to return the n questions requested.

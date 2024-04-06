@@ -336,7 +336,9 @@ flowchart LR
             qs("fa:fa-gamepad" 
             QuestionService)
         end
-        m("fa:fa-book
+        m1("fa:fa-book
+        Mongoose Schema")
+        m2("fa:fa-book
         Mongoose Schema")
         subgraph mongo [MongoDB]
             ud("fa:fa-database" 
@@ -345,9 +347,9 @@ flowchart LR
             QuestionDatabase)
         end
     end
-    as <--> m <--> ud
-    us <--> m
-    qs <--> m <-->td
+    as <--> m1 <--> ud
+    us <--> m1 
+    qs <--> m2 <--> td
 ....
 
 ==== Session handling

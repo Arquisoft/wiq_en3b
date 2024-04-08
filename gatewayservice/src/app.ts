@@ -20,7 +20,7 @@ app.disable("x-powered-by");
 const frontURI = process.env.API_URI?.replace('8000', '3000') || 'http://localhost:3000'
 const gatewayURI = process.env.API_URI || 'http://localhost:8000'
 
-const corsWhitelist = [frontURI, gatewayURI]
+const corsWhitelist = [frontURI, gatewayURI, 'http://kawgame.xyz:3000', 'http://kawgame.xyz:8000']
 app.use(cors({origin: corsWhitelist}));
 app.use(express.json());
 

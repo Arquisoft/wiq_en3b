@@ -72,3 +72,5 @@ requirements imposed by Google in order to apply and be able to use it.
 
 .Goals of this decision
 In the end we are using just a token system for it's simplicity and because we couldn't include OAuth 2.0.
+
+Some of these decisions are also documented in our https://github.com/Arquisoft/wiq_en3b/wiki[Wiki]

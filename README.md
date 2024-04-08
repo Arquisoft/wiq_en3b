@@ -1,4 +1,4 @@
-# 🚀 Welcome to Know and Win Application 🚀
+# 📎 Welcome to Know and Win Application 📎
 
 [![Deploy on release](https://github.com/Arquisoft/wiq_en3b/actions/workflows/release.yml/badge.svg)](https://github.com/Arquisoft/wiq_en3b/actions/workflows/release.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Arquisoft_wiq_en3b&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Arquisoft_wiq_en3b)
@@ -8,14 +8,14 @@ This repo is part of the [Software Architecture course](http://arquisoft.github.
 a web game trying to emulate the famous spanish TV show [Saber y Ganar](https://www.youtube.com/watch?v=w0Q0i0fnfwM), a trivia like game where users answers 
 questions to win juicy prizes 🥇 
 
-## Test our app at 🤑🤑
+## 🚀 Test our app at 🚀
 http://kawgame.xyz:3000/
 
 And if it doesn't work, try the following...
 
 http://20.117.173.161:3000
 
-## Test our API at 📃📃
+## 🛠 Test our API at 🛠
 
 http://20.117.173.161:8000/
 
@@ -23,7 +23,10 @@ And if you want to check the documentation for it...
 
 http://20.117.173.161:8000/api-doc
 
-## Quick start guide
+## 🦾 Quick start guide 🦾
+
+There are two ways of launching this application, select one of them that
+suites you the best.
 
 ### Using docker
 
@@ -53,14 +56,15 @@ Lastly, go to the webapp directory and launch this component with `npm install` 
 
 After all the components are launched, the app should be available in localhost in port 3000.
 
-## Deployment guide
+## 🤖 Deployment guide 🤖
 
 If you want to deploy a server and display our work, you can follow this nice
-markdown file <TBD_LINK>
+[markdown file](https://github.com/Arquisoft/wiq_en3b/blob/master/docs/deploymentGuide.md).
 
-But please, remember to tag us :)
+But please, remember to tag us: "Application created by 
+[Wiq_en3b Team](https://github.com/Arquisoft/wiq_en3b) :)"
 
-## Contributors
+## 👩‍💻 Contributors 🧑‍💻
 
 | Name                      | Email              |
 | ------------------------- | ------------------ |

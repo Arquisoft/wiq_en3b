@@ -8,6 +8,7 @@ async function startServer() {
   require('../../users/userservice/src/index.ts')
   require('../../users/authservice/src/index.ts')
   require('../../gatewayservice/src/index.ts')
+  require('../../questionservice/src/index.ts')
 }
 
 startServer()

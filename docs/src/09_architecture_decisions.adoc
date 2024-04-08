@@ -34,15 +34,16 @@ There you will find links and examples about ADR.
 
 ****
 
-=== Using microservices
+=== Using microservices and gateway
 .Alternatives considered
 One possible alternative to microservices could be monolithic architecture for simplicity but potential scalability
 and maintenance challenges. We didn't choose this approach because we think that the code would become unmaintainable
-quite fast.
+quite fast. Also, the alternative to the gateway would be to have direct connections between the client and the services.
 
 .Goals of this decision
 We have chosen the microservice architecture mainly for it's better maintainability since the different microservices
-are isolated. They also have more flexibility and scalability.
+are isolated. They also have more flexibility and scalability. The gateway allows us to handle errors more easily and
+it also allows clients to use the api as a whole.
 
 === Creating a RESTful API
 .Alternatives considered

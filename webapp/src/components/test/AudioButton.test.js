@@ -1,8 +1,7 @@
 import React from 'react';
-import { render, fireEvent } from '@testing-library/react';
+import { render, fireEvent, screen } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import AudioButton from '../AudioButton/AudioButton';
-
 
 describe('AudioButton component', () => {
     it('renders without crashing', () => {
@@ -10,22 +9,22 @@ describe('AudioButton component', () => {
     });
 
     it('renders the sound icon when audio is playing', () => {
-        const { getByTestId } = render(<AudioButton volume={50} />);
-        fireEvent.click(getByTestId('audio-button'));
-        expect(getByTestId('sound-icon')).toBeInTheDocument();
+        render(<AudioButton volume={50} />);
+        fireEvent.click(screen.getByTestId('audio-button'));
+        expect(screen.getByTestId('sound-icon')).toBeInTheDocument();
     });
 
     it('renders the mute icon when audio is paused', () => {
-        const { getByTestId } = render(<AudioButton volume={50} />);
-        expect(getByTestId('mute-icon')).toBeInTheDocument();
+        render(<AudioButton volume={50} />);
+        expect(screen.getByTestId('mute-icon')).toBeInTheDocument();
     });
 
     it('toggles audio when clicked', () => {
-        const { getByTestId } = render(<AudioButton volume={50} />);
-        const audioButton = getByTestId('audio-button');
+        render(<AudioButton volume={50} />);
+        const audioButton = screen.getByTestId('audio-button');
         fireEvent.click(audioButton);
-        expect(getByTestId('sound-icon')).toBeInTheDocument();
+        expect(screen.getByTestId('sound-icon')).toBeInTheDocument();
         fireEvent.click(audioButton);
-        expect(getByTestId('mute-icon')).toBeInTheDocument();
+        expect(screen.getByTestId('mute-icon')).toBeInTheDocument();
     });
 });

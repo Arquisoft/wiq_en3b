@@ -33,4 +33,44 @@ See https://docs.arc42.org/section-9/[Architecture Decisions] in the arc42 docum
 There you will find links and examples about ADR.
 
 ****
-**TBD**
+
+=== Using microservices and gateway
+.Alternatives considered
+One possible alternative to microservices could be monolithic architecture for simplicity but potential scalability
+and maintenance challenges. We didn't choose this approach because we think that the code would become unmaintainable
+quite fast. Also, the alternative to the gateway would be to have direct connections between the client and the services.
+
+.Goals of this decision
+We have chosen the microservice architecture mainly for it's better maintainability since the different microservices
+are isolated. They also have more flexibility and scalability. The gateway allows us to handle errors more easily and
+it also allows clients to use the api as a whole.
+
+=== Creating a RESTful API
+.Alternatives considered
+An alternative could be SOAP (Simple Object Access Protocol), which offers features like built-in security and reliability
+but tends to be more heavyweight and less scalable compared to REST.
+
+.Goals of this decision
+Our main reason for choosing REST is for simplicity, since they are easier to develop.
+Using RESTful principles promotes a uniform interface, making it easier to understand and consume the API.
+
+=== Using NoSQL
+.Alternatives considered
+An alternative could be traditional SQL databases like MySQL or PostgreSQL, which offer strong ACID compliance and are
+well-suited for structured data with complex relationships. We didn't choose SQL because we are not dealing with complex
+relationships between entities.
+
+.Goals of this decision
+We chose MongoDB mainly for it's great flexibility, since it allows handling unstructured data. That also makes it simpler
+to use.
+
+=== User authentication
+.Alternatives considered
+Authentication with Google was initially considered to leverage its OAuth 2.0 authentication mechanism for user
+authentication and authorization, this would improve security. However, it was ultimately not implemented due to several
+requirements imposed by Google in order to apply and be able to use it.
+
+.Goals of this decision
+In the end we are using just a token system for it's simplicity and because we couldn't include OAuth 2.0.
+
+Some of these decisions are also documented in our https://github.com/Arquisoft/wiq_en3b/wiki[Wiki]

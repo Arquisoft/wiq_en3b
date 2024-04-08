@@ -63,3 +63,12 @@ relationships between entities.
 .Goals of this decision
 We chose MongoDB mainly for it's great flexibility, since it allows handling unstructured data. That also makes it simpler
 to use.
+
+=== User authentication
+.Alternatives considered
+Authentication with Google was initially considered to leverage its OAuth 2.0 authentication mechanism for user
+authentication and authorization, this would improve security. However, it was ultimately not implemented due to several
+requirements imposed by Google in order to apply and be able to use it.
+
+.Goals of this decision
+In the end we are using just a token system for it's simplicity and because we couldn't include OAuth 2.0.

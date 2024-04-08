@@ -48,7 +48,7 @@ This setup enables our team to achieve continuous deployment and delivery (CD) t
 continuous integration (CI).
 
 Just for record, a guide followed by the team to deploy our appplication can be found
-here<Introduce GH link once uploaded!!>. 
+https://github.com/Arquisoft/wiq_en3b/blob/master/docs/deploymentGuide.md[here]. 
 
 
 === Infrastructure Level 1

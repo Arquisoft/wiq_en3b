@@ -3,34 +3,94 @@ ifndef::imagesdir[:imagesdir: ../images]
 [[section-concepts]]
 == Cross-cutting Concepts
 
-=== Domain model
+[role="arc42help"]
+****
+.Content
+This section describes overall, principal regulations and solution ideas that are relevant in multiple parts (= cross-cutting) of your system.
+Such concepts are often related to multiple building blocks.
+They can include many different topics, such as
 
-*TBD*
+* models, especially domain models
+* architecture or design patterns
+* rules for using specific technology
+* principal, often technical decisions of an overarching (= cross-cutting) nature
+* implementation rules
 
-=== UX
 
-==== User Interface
-*TBD*: Add here different wireframes.
+.Motivation
+Concepts form the basis for _conceptual integrity_ (consistency, homogeneity) of the architecture. 
+Thus, they are an important contribution to achieve inner qualities of your system.
+
+Some of these concepts cannot be assigned to individual building blocks, e.g. security or safety. 
+
+
+.Form
+The form can be varied:
+
+* concept papers with any kind of structure
+* cross-cutting model excerpts or scenarios using notations of the architecture views
+* sample implementations, especially for technical concepts
+* reference to typical usage of standard frameworks (e.g. using Hibernate for object/relational mapping)
+
+.Structure
+A potential (but not mandatory) structure for this section could be:
+
+* Domain concepts
+* User Experience concepts (UX)
+* Safety and security concepts
+* Architecture and design patterns
+* "Under-the-hood"
+* development concepts
+* operational concepts
+
+Note: it might be difficult to assign individual concepts to one specific topic
+on this list.
+
+image::08-Crosscutting-Concepts-Structure-EN.png["Possible topics for crosscutting concepts"]
+
+
+.Further Information
+
+See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
+****
+
+
+=== User Experience (UX)
 
 ==== Internationalization
 
 One of the things to increase accesibility is giving our application the
-capability of beign in various language so people around the world can play
+capability of beign in various languages so people around the world can play
 our game. Obviously, internationalization is more than just changing the 
-language of the Application but due to time constraints we will just apply 
-Spanish and English languages.
+language of the Application but due to time constraints we will just offer 
+Spanish, English and French languages ( although, our API can generate questions
+in other languages different from described, to see the whole list, refer to 
+our http://20.117.173.161:8000/[API documentation] ).
 
-The library used for it is called *react-i18next*. For simplicity (and due to
-just only having two languages), all of the messages properties are going
-to be located in the frontend Application. Eventually, if the Application
-grows and we wanted to  have more than 2 languages the best approach is to
+The library used for language translation in our KaW game is called 
+https://react.i18next.com/[*react-i18next*]. 
+For simplicity (and due to just only having three languages), all of the translations
+of messages are stored locally in properties files. Eventually, if the Application
+grows and we wanted to  have more than 3 languages the best approach is to
 store those properties in a server and let the application to request
 those on the fly. Again, for simplicity the option of having all bundle
 together in the Frontend just fits.
 
+The translation of questions is a bit different from the frontend part since it
+is done "on the fly" by using the 
+https://rapidapi.com/microsoft-azure-org-microsoft-cognitive-services/api/microsoft-translator-text[Microsoft translation API] 
+. This change has been done since the questions are not fully known until they are generated
+so storing the translation locally does not provide any benefit. Also, one advantage of it, is its 
+simplicity and ease to use. To meet the restrictions impose by the Free version of this API a series 
+of formatting rules are carried out into the question generation phase to minimize the usage of it
+and avoid getting suspended.
+
+
+
 === Security
 
 ==== Bcrypt
+
 Keeping a secure website for our users is one of our main quality
 goals. For that, all the passwords stored in MongoDB are simply
 hashes so attackers cannot decypher easily. The library used
@@ -44,6 +104,94 @@ want to really ensure the security of our users. Although
 sometimes it could be a bit cumbersome for some, the introduction 
 of this measure make security to grow exponentially.
 
+==== Authentication
+
+To keep our users' data secure an authentication mechanism has
+been developed with the use of JSON Web Tokens (JWT). If someone
+tries to access historical game records for certain users, our
+KaW application enforces to pass a valid token through the header
+of the message request.
+
+In this way, only authenticated users are able to consult the
+different data that our application enforces.
+
+==== Other security aspects
+
+As stated in the quality goals, the security plays a crucial role
+in our application to prevent any attacks from external users or
+any potential backdoors that we could have in our code. 
+
+For that, a Static Application Security Testing (known also as SAST) tool
+is included into our project. This tool scans the source code of our application 
+for security weaknesses, potential vulnerabilities, and coding patterns that 
+could lead to security breaches. One famous service that implements a SAST is
+SonarCloud, so the team has decided to use this tool in our CI and CD environment
+so each time a change is uploaded, the security scanner checks for any issue.
+
+=== Development concepts
+
+==== Test
+
+Testing is one important feature when development comes to the table. To keep
+a good CI and CD environment a series of tests are enforced before submitting
+any new change into our main pipeline project. GithubActions help us to achieve
+this goal where different workflows have been built to ensure a project with
+the highest quality standards.
+
+There are many different types of tests and the team has decided to enforce the
+following ones:
+
+- Unitary Testing: 
+
+Each new code is tested independently to ensure its correct
+functionality and not breaking the main project. The testing framework used both 
+for Backend and Frontend is https://jestjs.io/[Jest] due to its simplicity and its great bound with
+Javascript files. Also, the usage of SonarCloud gives us more than security checking,
+it also enforces each member of the team to have a good coverage on our code to meet
+the quality standards we are required.
+
+- End-to-End Testing:
+
+Appart from testing functionality, all our code must also meet the required
+domain functionality such as registration, login, etc. For that, Jest is used
+in combination with https://pptr.dev/[pupeeter] which provides a High-level API
+to control browsers and simulate our different User Stories (domain functionality)
+that the project requires.
+
+- Load Testing:
+
+Although our application may not have a huge load of users, one of the quality
+goals is the performance of the application. With load testing, the team will be
+able to identify certain aspects or cases in which code takes too long to execute
+things. For example, having a lot of users playing the game and making a lot
+of requests to generate questions.
+
+For that, https://gatling.io/[Gatling] was chosen as our main load testing framework. Although, it is
+not written in Javascript which could facilitate the configuration, Gatling offers
+a light and simple framework to build these kind of tests. Also,the files
+generated by it are Java files which eases the tasks due to the vast knowledge of
+the team on this programming language.
+
+- Usability testing
+
+Finally, another crucial part to be tested in our application are usability ones.
+With these test, the team tries to deliver high quality functionality to the
+users by simply testing with them and examine its behaviour.
+
+The team will select different people to try our application to get Information
+on how to improve it, at the end, this application is for them! Also, accesibility
+and contrast color checks will be carried out since they are part of any
+usability tesing process.
+
+==== Code generation
+
+===== JSend
+
+To have an standarized way of responses for the different Microservices that our
+application have, the JSend specification has been chosen. This specification allows
+the team to have uniform JSON responses so other parts of the system such as
+Frontend, always know what to expect from these services. 
+
 
 === Architecture and design patterns
 
@@ -54,28 +202,31 @@ with a single complex application. Instead, we make a "Divide and Conquer" appro
 identifying those modules that made up our system and making it independently deployable 
 services, each serving a specific business function.
 
-==== Gateway
+==== Gateway and REST
 
 This architectural pattern makes it easier for the Frontend subsystem to communicate 
 with the different MicroServices that composes our Application since it has to focus
-on a single entry point instead of knowing each service. It also help us to tackle 
-the requirement of APIs by using this pattern since it acts like a REST API where
-other users (not our Application) can make petitions to it to retrieve some data.
+on a single entry point instead of knowing which service to consult. It also help us 
+to tackle the requirement of APIs by using this pattern since it acts like a REST API where
+other users (not our Application) can make petitions to it to retrieve some data using 
+a uniform interface.
 
 [mermaid]
 ....
 flowchart LR
-    ex("External Agent")
+    ex("API Consumer")
     wa("WebApp")
     g("Gateway")
     m("MicroServices")
-    ex<--API questions-->g
-    wa<--"/game/questions?size"-->g
-    wa<--"/game/user/history/save"-->g
-    wa<--"/game/user/history/newgame"-->g
+    ex<--Generate questions-->g
+    wa<--"/questions?size"-->g
+    wa<--"/history"-->g
+    wa<--"/history/leaderboard"-->g
+    wa<--"..."-->g
     g<--"getQuestions"-->m
     g<--"saveHistory"-->m
     g<--"newGame"-->m
+    g<--"..."-->m
 ....
 
 
@@ -87,37 +238,72 @@ As stated in point 4.1, the chosen database for the project is MongoDB
 which offers us a document-oriented schema. This type of database fits
 perfectly with our services since the mainly work with JSON-formatted data. 
 
-===== ER model
+===== ER model - QuestionDatabase
 
 [mermaid]
 ....
 erDiagram
     
     QUESTION_TEMPLATE ||--|| QUESTION_TYPE:has
-    USER ||--|| USER_HISTORY:has
 
-    USER{
-        Long id
-        String username
-        String password
-    }
-
-    USER_HISTORY{
-        int passedQuestions
-        int wrongQuestions
-        int gamesPlayed
-        String timesPlayed
-        int points
+    QUESTION {
+        String question
+        Object[] answers
+        int correctAnswerId
+        String image_opt
     }
     
     QUESTION_TEMPLATE{
-        Long id
-        String template
+        String questionTemplate
     }
     
     QUESTION_TYPE{
         String name
         String query
+        String[] entities
+    }
+....
+
+|===
+| Document | Description 
+| QUESTION_TEMPLATE
+| Holds the template needed to query the WikiData API for the Question generation. It
+has a reation with *ONE QUESTION_TYPE* document 
+| QUESTION_TYPE
+| Represents a category for a question (e.g. Capitals) together with its SPARQL query.
+Also, several entities are provided so prior to send SPARQL query into Wikidata Service, it
+can be selected one entity to change the whole query (e.g. Capitals of Europe or Capitals of Asia)
+| QUESTION
+| Holds document of already generated questions. This schema is used for performance enhancements
+(for a simple yet powerful cache)
+|===
+
+===== ER model - UserDatabase
+
+[mermaid]
+....
+erDiagram
+    
+    USER ||--|| USER_HISTORY:has
+    USER ||--|| USER_PROFILE:has
+
+    USER {
+        String username
+        String password
+        Date createdAt
+    }
+
+    USER_HISTORY {
+        int passedQuestions
+        int wrongQuestions
+        int gamesPlayed
+        int timesPlayed
+        int points
+    }
+
+    USER_PROFILE{
+        String bio
+        String pic
     }
 ....
 
@@ -125,12 +311,11 @@ erDiagram
 | Document | Description 
 | USER 
 | Holds all the data relationed to a user registered into our game. It
-has a relation with *ONE USER_HISTORY* document which represents the records/statistics 
-of them as it is a system requisite.  
-| QUESTION_TEMPLATE
-| Holds the template needed to query the WikiData API for the Question generation. It
-has a reation with *ONE QUESTION_TYPE* document which represents a category for that
-question (e.g. Capitals) together with its SPARQL query.
+has a relation with *ONE USER_HISTORY* and *ONE USER_PROFILe* document
+| USER_HISTORY
+| Holds all the records/statistics of a single user through all played games.
+| USER_PROFILE
+| Holds specific customization of the profile of a user.
 |===
 
 ===== Connection to MongoDB
@@ -151,28 +336,36 @@ flowchart LR
             qs("fa:fa-gamepad" 
             QuestionService)
         end
-        m("fa:fa-book
+        m1("fa:fa-book
+        Mongoose Schema")
+        m2("fa:fa-book
         Mongoose Schema")
         subgraph mongo [MongoDB]
-            ud("fa:fa-database" UserDatabase)
-            td("fa:fa-database" TemplateDatabase)
+            ud("fa:fa-database" 
+            UserDatabase)
+            td("fa:fa-database" 
+            QuestionDatabase)
         end
     end
-    as <--> m <--> ud
-    us <--> m
-    qs <--> m <-->td
+    as <--> m1 <--> ud
+    us <--> m1 
+    qs <--> m2 <--> td
 ....
 
 ==== Session handling
-*TBD*: talk about JWT token found in auth-service.js
 
-=== Development concepts
+To handle the different sessions of our different users, JWT are also used
+for this purpose. For each logged in user, a token will be generated for
+authenticating them as stated previosly, and also, for mantaining a session
+and hold the necessary information without having to reenter the users' credentials.
+In this way, the user will have to keep on its browser this token to maintain
+alive the session.
 
-==== Testing
-*TBD*
+=== Operation concepts - TBD
 
-- Talk about "super-test" dependency to test expresJS
-- JEST
-- Test automation by Github Actions
+==== Monitoring with Graphana & Promotheus
+Explained in labs after 2nd delivery
 
-Could add more in the future...Refer to https://docs.arc42.org/section-8/
+==== Persisting the Persistance 
+Explained in labs after 2nd delivery (about mantaining data of volumes and not lost them after new containers
+are deployed)

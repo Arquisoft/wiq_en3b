@@ -1,13 +1,13 @@
 @startuml BusinessContext
 
 actor User
-component  WIQ
+component  WebApp
 component QuestionService
 component Wikidata
 
-User ..> WIQ : interacts
-WIQ --> QuestionService :  Requests questions
-QuestionService --> WIQ : Generates questions
-QuestionService --> Wikidata : Requests data
+User .right.> WebApp : interacts
+WebApp -right-> QuestionService :  Requests questions
+QuestionService -left-> WebApp : Generates questions
+QuestionService -right-> Wikidata : Requests data
 
 @enduml

@@ -5,43 +5,46 @@ on:
     types: [published]
 
 jobs:
-  #
-  # We are not runnig the tests since this is the first prototype and otherwise it won't deploy
-  #
-  # unit-tests:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - uses: actions/setup-node@v4
-  #     with:
-  #       node-version: 20
-  #   - run: npm --prefix users/authservice ci
-  #   - run: npm --prefix users/userservice ci
-  #   - run: npm --prefix gatewayservice ci
-  #   - run: npm --prefix webapp ci
-  #   - run: npm --prefix users/authservice test -- --coverage
-  #   - run: npm --prefix users/userservice test -- --coverage
-  #   - run: npm --prefix gatewayservice test -- --coverage
-  #   - run: npm --prefix webapp test -- --coverage
-  #   - name: Analyze with SonarCloud
-  #     uses: sonarsource/sonarcloud-github-action@master
-  #     env:
-  #         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-  #         SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-  # e2e-tests:
-  #   needs: [unit-tests]
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #   - uses: actions/checkout@v4
-  #   - uses: actions/setup-node@v4
-  #     with:
-  #       node-version: 20
-  #   - run: npm --prefix users/authservice install
-  #   - run: npm --prefix users/userservice install
-  #   - run: npm --prefix gatewayservice install
-  #   - run: npm --prefix webapp install
-  #   - run: npm --prefix webapp run build
-  #   - run: npm --prefix webapp run test:e2e
+    
+  unit-tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - run: npm --prefix users/authservice ci
+    - run: npm --prefix users/userservice ci
+    - run: npm --prefix questionservice ci
+    - run: npm --prefix gatewayservice ci
+    - run: npm --prefix webapp ci
+    - run: npm --prefix users/authservice test -- --coverage
+    - run: npm --prefix users/userservice test -- --coverage
+    - run: npm --prefix questionservice test -- --coverage
+    - run: npm --prefix gatewayservice test -- --coverage
+    - run: npm --prefix webapp test -- --coverage
+    - name: Analyze with SonarCloud
+      uses: sonarsource/sonarcloud-github-action@master
+      env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+  e2e-tests:
+    needs: [unit-tests]
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 20
+    - run: npm --prefix users/utils ci
+    - run: npm --prefix users/authservice install
+    - run: npm --prefix users/userservice install
+    - run: npm --prefix gatewayservice install
+    - run: npm --prefix webapp install
+    - run: npm --prefix questionservice ci
+    - run: npm --prefix webapp run build
+    - run: npm --prefix webapp run test:e2e
+
   docker-push-webapp:
     name: Push webapp Docker Image to GitHub Packages
     runs-on: ubuntu-latest
@@ -105,6 +108,8 @@ jobs:
       - uses: actions/checkout@v4
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
+        env:
+          TRANSLATION_API_KEY: ${{ secrets.TRANSLATION_API_KEY }}
         with:
           name: arquisoft/wiq_en3b/questionservice
           username: ${{ github.actor }}
@@ -121,6 +126,10 @@ jobs:
       packages: write
     steps:
       - uses: actions/checkout@v4
+      - name: OpenAPI Configuration
+        run: |
+          DEPLOY_HOST=${{ secrets.DEPLOY_HOST }}
+          sed -i "s/SOMEIP/${DEPLOY_HOST}/g" gatewayservice/openapi.yaml
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
@@ -144,5 +153,5 @@ jobs:
           command: |
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/docker-compose.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/.env
-            docker compose down
-            docker compose --profile prod up -d
+            docker compose --profile prod down
+            docker compose --profile prod up -d --pull always

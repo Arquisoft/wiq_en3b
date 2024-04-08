@@ -1,4 +1,4 @@
-const API_ENDPOINT = 'http://localhost:8000'
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT ?? 'http://localhost:8000'
 
 const DEFAULT_TIME = 15
 

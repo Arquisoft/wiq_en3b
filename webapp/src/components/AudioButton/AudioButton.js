@@ -41,8 +41,8 @@ const AudioButton = ({ volume }) => {
     };
 
     return (
-        <div className="sound" onClick={toggleAudio}>
-            {playing ? <SoundIcon /> : <MuteIcon />}
+        <div className="sound" onClick={toggleAudio} data-testid="audio-button">
+            {playing ? <SoundIcon data-testid="sound-icon" /> : <MuteIcon data-testid="mute-icon" />}
         </div>
     );
 };

@@ -132,6 +132,9 @@ jobs:
         run: |
           DEPLOY_HOST=${{ secrets.DEPLOY_HOST }}
           sed -i "s/SOMEIP/${DEPLOY_HOST}/g" gatewayservice/openapi.yaml
+        env:
+          GATEWAY_URI: http://${{ secrets.DEPLOY_HOST }}:8000
+          WEBAPP_URI: http://${{ secrets.DEPLOY_HOST }}:3000
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         with:
@@ -140,6 +143,7 @@ jobs:
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: gatewayservice
+          buildargs: GATEWAY_URI,WEBAPP_URI
 
   deploy:
     name: Deploy over SSH

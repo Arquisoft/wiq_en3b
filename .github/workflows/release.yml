@@ -132,11 +132,11 @@ jobs:
         run: |
           DEPLOY_HOST=${{ secrets.DEPLOY_HOST }}
           sed -i "s/SOMEIP/${DEPLOY_HOST}/g" gatewayservice/openapi.yaml
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
         env:
           GATEWAY_URI: http://${{ secrets.DEPLOY_HOST }}:8000
           WEBAPP_URI: http://${{ secrets.DEPLOY_HOST }}:3000
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@v5
         with:
           name: arquisoft/wiq_en3b/gatewayservice
           username: ${{ github.actor }}

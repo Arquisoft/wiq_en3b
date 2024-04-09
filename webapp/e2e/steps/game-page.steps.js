@@ -4,34 +4,13 @@ const setDefaultOptions = require('expect-puppeteer').setDefaultOptions
 const feature = loadFeature('./features/start-game.feature');
 const { loginUser, registerAUser } = require('./login-form.utils')
 const { selectNavOptionByHref } = require('./utils')
+const { clickOnGameDifficulty, waitForQuizToAppear } = require('./game-page.utils')
 
 let browser;
 let page;
 
 const USER = "kawuser-game";
 const PASS = "kawpass123@"
-
-
-/* MORE TESTS TO ADD
-Scenario: The user wants to start an easy game
-  Given A logged user
-  When The user navigates to the game page
-  And The user press the Easy button
-  Then The first question to answer should appear
-
-Scenario: The user wants to start a medium game
-  Given A logged user
-  When The user navigates to the game page
-  And The user press the Medium button
-  Then The first question to answer should appear
-
-Scenario: The user wants to start a hard game
-  Given A logged user
-  When The user navigates to the game page
-  And The user press the Hard button
-  Then The first question to answer should appear
-  */
-
 
 defineFeature(feature, test => {
 
@@ -74,13 +53,68 @@ defineFeature(feature, test => {
         });
 
         then("The three possible difficulties should appear", async () => {
-            const buttonContainer = await page.$('.button-container');
-            const buttons = await buttonContainer.$$('button')
+            const buttonContainer = await page.$('.button-container'); // document.quesrySelector
+            const buttons = await buttonContainer.$$('button') // document.quesrySelectorAll
 
             expect(buttons.length).toBe(3)
         });
+    })
 
+    test("The user wants to start an easy game", ({ given,when,and,then }) => {
 
+      given("A logged user", async () => {
+          await loginUser(page,USER,PASS)
+      });
+
+      when("The user navigates to the game page", async () => {
+          await selectNavOptionByHref(page, "/game")
+      });
+
+      and("The user press the Easy button", async () => {
+        await clickOnGameDifficulty(page, 'Easy')
+      })
+
+      then("The quiz game should begin", async () => {
+        await waitForQuizToAppear(page)
+      });
+    })
+
+    test("The user wants to start a medium game", ({ given,when,and,then }) => {
+
+      given("A logged user", async () => {
+          await loginUser(page,USER,PASS)
+      });
+
+      when("The user navigates to the game page", async () => {
+          await selectNavOptionByHref(page, "/game")
+      });
+
+      and("The user press the Medium button", async () => {            
+        await clickOnGameDifficulty(page, 'Medium')
+      })
+
+      then("The quiz game should begin", async () => {
+        await waitForQuizToAppear(page)
+      });
+    })
+
+    test("The user wants to start a hard game", ({ given,when,and,then }) => {
+
+      given("A logged user", async () => {
+          await loginUser(page,USER,PASS)
+      });
+
+      when("The user navigates to the game page", async () => {
+          await selectNavOptionByHref(page, "/game")
+      });
+
+      and("The user press the Hard button", async () => {
+        await clickOnGameDifficulty(page, 'Hard')   
+      })
+
+      then("The quiz game should begin", async () => {
+        await waitForQuizToAppear(page)
+      });
     })
 
     afterAll(async ()=>{

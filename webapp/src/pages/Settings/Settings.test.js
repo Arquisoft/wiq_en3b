@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Settings from './Settings';
 import '@testing-library/jest-dom'
-import '@testing-library/jest-dom/extend-expect';
+// import '@testing-library/jest-dom/extend-expect';
 
 
 describe('Settings component', () => {
@@ -18,9 +18,9 @@ describe('Settings component', () => {
     const timerValue = 30;
 
     render(<Settings onChangeTimerValue={onChangeTimerValue} timerValue={timerValue} />);
-    expect(screen.getByText('English')).toBeInTheDocument();
-    expect(screen.getByText('Español')).toBeInTheDocument();
-    expect(screen.getByText('Français')).toBeInTheDocument();
+    expect(screen.getByText('English')).toBeTruthy();
+    expect(screen.getByText('Español')).toBeTruthy();
+    expect(screen.getByText('Français')).toBeTruthy();
   });
 
   it('renders the title correctly', () => {
@@ -28,7 +28,11 @@ describe('Settings component', () => {
     const timerValue = 30;
 
     render(<Settings onChangeTimerValue={onChangeTimerValue} timerValue={timerValue} />);
-    expect(screen.getByRole('heading')).toHaveTextContent('settings.title');
+
+    const titleElement = screen.getByRole('heading');
+    expect(titleElement).toBeInTheDocument();
+
+    expect(titleElement.textContent).toBe('settings.title');
   });
 
   it('renders the volume slider', () => {
@@ -36,7 +40,7 @@ describe('Settings component', () => {
     const timerValue = 30;
 
     render(<Settings onChangeTimerValue={onChangeTimerValue} timerValue={timerValue} />);
-    expect(screen.getByRole('slider')).toBeInTheDocument();
+    expect(screen.getByRole('slider')).toBeTruthy();
   });
 
   it('passes props to volume slider', () => {

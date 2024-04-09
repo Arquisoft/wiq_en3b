@@ -138,7 +138,7 @@ async function getRandomQuestions(n: number): Promise<any[]> {
   let randomQuestionsTemplates = await TemplateModel.aggregate([
     { $sample: { size: n } },
   ]);
-  async function addMoreRandomQuestionsIfNeeded() {
+  async function addMoreRandomQuestionsIfNeeded(): Promise<any[]> {
     // If required questions are fulfilled, simply returning the questions
     if (randomQuestionsTemplates.length >= n) return randomQuestionsTemplates;
 

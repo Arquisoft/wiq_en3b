@@ -21,12 +21,12 @@ const AnswerItem = (props) => {
     <li
       disabled={props.btnDisabled}
       onClick={selectAnswerHandler}
+      tabIndex={0}
       onKeyDown={(event) => {
         if (event.key === 'Enter' || event.key === ' ') {
           selectAnswerHandler();
         }
       }}
-
       className={handleAnswerItemClass(props.selected.correctId, props.selected.selectedId)}
     >
       {props.children}

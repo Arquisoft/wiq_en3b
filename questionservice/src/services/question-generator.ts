@@ -26,7 +26,6 @@ async function generateQuestions(
   size: number,
   lang: any
 ): Promise<object[] | void> {
-  
   let numberQuestionsDB = Math.min(Math.floor(size / 2), await QuestionModel.countDocuments());
   let questionsToGenerate = size - numberQuestionsDB;
   console.log('------------------');
@@ -61,7 +60,6 @@ async function generateQuestions(
   if (lang && lang.toLowerCase() !== 'en') {
     return await translateQuestionsArray(questionsArray, lang);
   }
-
   return questionsArray;
 }
 

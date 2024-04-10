@@ -16,3 +16,5 @@ RUN npm install serve
 #Execute npm run prod to run the server
 CMD [ "npm", "run", "prod" ]
 #CMD ["npm", "start"]
+
+USER node

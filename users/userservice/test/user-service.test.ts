@@ -280,7 +280,7 @@ describe('User Service', () => {
     } as Request;
     const user = await User.find({ username:'testuser' });
 
-    expect(() => validateHistoryBody(mockRequest, user[0])).toThrowError();
+    expect(() => validateHistoryBody(mockRequest, user[0])).toThrow();
   });
 
   // Body validation util, non-numeric
@@ -294,7 +294,7 @@ describe('User Service', () => {
     } as Request;
     const user = await User.find({ username:'testuser' });
 
-    expect(() => validateHistoryBody(mockRequest, user[0])).toThrowError();
+    expect(() => validateHistoryBody(mockRequest, user[0])).toThrow();
   });
 
   // Body validation util, negative
@@ -308,7 +308,7 @@ describe('User Service', () => {
     } as Request;
     const user = await User.find({ username:'testuser' });
 
-    expect(() => validateHistoryBody(mockRequest, user[0])).toThrowError();
+    expect(() => validateHistoryBody(mockRequest, user[0])).toThrow();
   });
 
   // Token validator
@@ -506,7 +506,7 @@ describe('User Service', () => {
       } as Request;
       const user = await User.find({ username:'testuser' });
 
-      expect(() => validateProfileBody(mockRequest, user[0])).toThrowError();
+      expect(() => validateProfileBody(mockRequest, user[0])).toThrow();
     });
 
     // Body validation util, not a string
@@ -520,7 +520,7 @@ describe('User Service', () => {
       } as Request;
       const user = await User.find({ username:'testuser' });
 
-      expect(() => validateProfileBody(mockRequest, user[0])).toThrowError();
+      expect(() => validateProfileBody(mockRequest, user[0])).toThrow();
     });
 });
 

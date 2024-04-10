@@ -17,8 +17,7 @@ const getMocks = (url: string) => {
   } else if (url.endsWith('/profile')) {
     return Promise.resolve({data: { bio: 'Test' }});
   }
-
-  return;
+  return Promise.resolve({});
 };
 
 const postMocks = (url: string) => {
@@ -33,8 +32,7 @@ const postMocks = (url: string) => {
   } else if (url.endsWith('/profile')) {
     return Promise.resolve({data: { bio: 'Test' }});
   }
-
-  return;
+  return Promise.resolve({});
 };
 
 describe('Gateway Service', () => {
@@ -363,15 +361,15 @@ describe('Gateway Service', () => {
 
 async function testWithoutServices(paramFunc : Function) {
   // Clear the mocks
-  await (axios.get as jest.Mock).mockImplementation((url: string) => { if (url) return; })
+  (axios.get as jest.Mock).mockImplementation((url: string) => { if (url) return; })
   await (axios.post as jest.Mock).mockImplementation((url: string) => { if (url) return; })
 
   // Execute the function
   const response: Response = await paramFunc();
 
   // Restore original mocks
-  await (axios.get as jest.Mock).mockImplementation(getMocks);
-  await (axios.post as jest.Mock).mockImplementation(postMocks);
+  (axios.get as jest.Mock).mockImplementation(getMocks);
+  (axios.post as jest.Mock).mockImplementation(postMocks);
 
   return response;
 }

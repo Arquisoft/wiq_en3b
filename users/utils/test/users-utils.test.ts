@@ -9,7 +9,7 @@ describe('Users Utils', () => {
         } as Request;
         mockRequest.body['history'] = '';
 
-        expect(() => validateNotEmpty(mockRequest, ['history'])).toThrowError();
+        expect(() => validateNotEmpty(mockRequest, ['history'])).toThrow();
 
         // Should ignore field if does not exist
         try {
@@ -26,7 +26,7 @@ describe('Users Utils', () => {
         } as Request;
         mockRequest.body['test'] = '123456789';
 
-        expect(() => validateRequiredLength(mockRequest, ['test'], 10)).toThrowError();
+        expect(() => validateRequiredLength(mockRequest, ['test'], 10)).toThrow();
 
         // Should ignore field if does not exist
         try {
@@ -58,6 +58,6 @@ describe('Users Utils', () => {
         mockRequest.body['test'] = 'test';
 
         // Should get an error when the field does not exist
-        expect(() => validateRequiredFields(mockRequest, ['nonexistent'])).toThrowError();
+        expect(() => validateRequiredFields(mockRequest, ['nonexistent'])).toThrow();
     });
 });

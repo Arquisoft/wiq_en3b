@@ -6,7 +6,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
   try {
     const { authorization } = req.headers;
 
-    if (!authorization || !authorization.startsWith('Bearer')) {
+    if (!authorization?.startsWith('Bearer')) {
       throw new Error('You must be logged in to update your data');
     }
 

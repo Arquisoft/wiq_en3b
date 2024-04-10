@@ -85,7 +85,6 @@ const AddUser = () => {
   }
 
   return (
-    <>
       <div className="register">
         <form onSubmit={addUser}>
           <h1>Create your account</h1>
@@ -121,7 +120,6 @@ const AddUser = () => {
         </form>
         <Link to="/login">Already registered? Login</Link>
       </div>
-    </>
   )
 }
 export default AddUser

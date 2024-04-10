@@ -15,7 +15,7 @@ let browser;
 defineFeature(feature, test => {
   
   beforeAll(async () => {
-    browser = await puppeteer.launch({ headless: false, slowMo: 10 })
+    browser = await puppeteer.launch({ slowMo: 10 })
     page = await browser.newPage();
     //Way of setting up the timeout
     setDefaultOptions({ timeout: 10000 })

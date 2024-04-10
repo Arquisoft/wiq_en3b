@@ -1,7 +1,8 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router-dom';
+import axios from 'axios';
 import Login from './Login';
 import { AuthContext } from '../../context/AuthContext';
 
@@ -10,6 +11,8 @@ const mockUser = {
   password: "1234567891011"
 };
 const mockLogin = jest.fn();
+
+jest.mock('axios');
 
 test('renders without crashing', () => {
     render(

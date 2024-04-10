@@ -158,7 +158,7 @@ describe("Question Service - Question Generator", () => {
         const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
         await mockWikidataSparql(defaultNumberQuestions)
         await mockQuestionCount();
-        await mockResponseTranslationRequest()
+        mockResponseTranslationRequest()
 
         const response = await generateQuestions(2, "es") as any;
         console.log(response)

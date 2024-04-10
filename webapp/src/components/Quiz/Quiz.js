@@ -1,5 +1,5 @@
 import "./Quiz.css";
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import Countdown, { zeroPad } from "react-countdown";
 import Question from "./Question";
 import FinalResult from "../FinalResult/FinalResult";
@@ -40,7 +40,6 @@ const Quiz = ({ level }) => {
   const [points, setPoints] = useState(0);
   const [passedQuestions, setPassedQuestions] = useState(0);
   const [startTime, setStartTime] = useState(Date.now()); // Tiempo de inicio
-  const [finishTime, setFinishTime] = useState(null); // Tiempo de finalización
 
   const [btnDisabled, setBtnDisabled] = useState(false);
   const [timerValue] = useState(getTimerValue(level));
@@ -49,31 +48,7 @@ const Quiz = ({ level }) => {
   const { user } = useAuth()
   const countdownTimer = useRef();
 
-  useEffect(() => {
-
-    (async () => {
-      if (!haveQuestions) {
-        setQuestions(await getQuestions());
-        setHaveQuestions(true);
-      }
-    })();
-
-  }, [haveQuestions]);
-
-  useEffect(() => {
-    if (questions) {
-      setStartTime(Date.now());
-      setTimer(Date.now() + timerValue * 1000);
-    }
-  }, [questions]);
-
-  useEffect(() => {
-    if (isFinished) {
-      updateStatistics();
-    }
-  }, [isFinished]);
-
-  const getQuestions = async () => {
+  const getQuestions = useCallback(async () => {
     let numQuestions = 0;
 
     if (level === "easy") numQuestions = 5;
@@ -91,7 +66,70 @@ const Quiz = ({ level }) => {
     });
 
     return data;
-  };
+  }, [level])
+
+  const updateStatistics = useCallback(() => {
+
+    const finishTime = Date.now();
+
+    console.log("Milliseconds played:", finishTime - startTime);
+
+    console.log("finish time:", finishTime);
+    console.log("start time:", startTime);
+    console.log("seconds played:", (finishTime - startTime) / 1000);
+
+    const body = JSON.stringify({
+      user: user.token,
+      history: {
+        passedQuestions: passedQuestions,
+        failedQuestions: questions.length - passedQuestions,
+        gamesPlayed: 1,
+        timePlayed: finishTime - startTime,
+        points: points
+      }
+    });
+
+    try {
+      const response = fetch(API_ENDPOINT + `/history/increment`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+        body,
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update user statistics");
+      }
+
+    } catch (error) {
+      console.error("Error updating user statistics:", error);
+    }
+  }, [passedQuestions, points, questions.length, startTime, user.token]);
+
+  useEffect(() => {
+    (async () => {
+      if (!haveQuestions) {
+        setQuestions(await getQuestions());
+        setHaveQuestions(true);
+      }
+    })();
+
+  }, [haveQuestions, getQuestions]);
+
+  useEffect(() => {
+    if (questions) {
+      setStartTime(Date.now());
+      setTimer(Date.now() + timerValue * 1000);
+    }
+  }, [questions, timerValue]);
+
+  useEffect(() => {
+    if (isFinished) {
+      updateStatistics();
+    }
+  }, [isFinished, updateStatistics]);
 
   function shuffle(array) {
     let currentIndex = array.length,
@@ -184,49 +222,6 @@ const Quiz = ({ level }) => {
   };
 
   const pauseTimer = () => countdownTimer.current.pause();
-
-  const resumeTimer = () => countdownTimer.current.start();
-
-  const updateStatistics = () => {
-
-    const finishTime = Date.now();
-
-    console.log("Milliseconds played:", finishTime - startTime);
-
-    console.log("finish time:", finishTime);
-    console.log("start time:", startTime);
-    console.log("seconds played:", (finishTime - startTime) / 1000);
-
-    const body = JSON.stringify({
-      user: user.token,
-      history: {
-        passedQuestions: passedQuestions,
-        failedQuestions: questions.length - passedQuestions,
-        gamesPlayed: 1,
-        timePlayed: finishTime - startTime,
-        points: points
-      }
-    });
-
-    try {
-      const response = fetch(API_ENDPOINT + `/history/increment`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${user.token}`,
-        },
-        body,
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to update user statistics");
-      }
-
-    } catch (error) {
-      console.error("Error updating user statistics:", error);
-    }
-  };
-
 
   return (
     <React.Fragment>

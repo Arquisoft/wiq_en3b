@@ -36,12 +36,30 @@ const Nav = (props) => {
     }
   }, [props.openNav]);
 
+  useEffect(() => {
+    const closeNav = (event) => {
+      if (event.key === 'Escape' && props.openNav) {
+        props.onToggleNav()
+      }
+    }
+    window.addEventListener('keydown', closeNav)
+
+    return () => {
+      window.removeEventListener('keydown', closeNav)
+    }
+  }, [props]);
+
+
 
   return (
     <div className="nav-overlay" onClick={handleCloseNav}>
       <div className={`nav ${props.openNav ? 'show' : ''}`}>
         <div className="nav-header">
-          <div className="close-button" onClick={props.onToggleNav}>
+          <div className="close-button" onClick={props.onToggleNav} tabIndex={props.openNav ? '0' : '-1'} onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              props.onToggleNav();
+            }
+          }}>
             <CloseIcon />
           </div>
         </div>

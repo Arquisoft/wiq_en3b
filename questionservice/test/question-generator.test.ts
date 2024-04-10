@@ -215,7 +215,7 @@ async function mockWikidataSparql(numberReturnValues: number) {
 
 }
 
-function mockResponseTranslationRequest() {
+async function mockResponseTranslationRequest() {
 
     const mockResponseTranslation = {
         status: 200,

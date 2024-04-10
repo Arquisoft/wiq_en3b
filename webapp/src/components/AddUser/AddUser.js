@@ -120,7 +120,6 @@ const AddUser = () => {
         </form>
         <Link to="/login">Already registered? Login</Link>
       </div>
-    </>
   )
 }
 export default AddUser

@@ -25,5 +25,3 @@ RUN npm run tsc
 
 # Define the command to run your app
 CMD ["npm", "start"]
-
-USER node

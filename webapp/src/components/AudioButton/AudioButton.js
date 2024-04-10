@@ -14,13 +14,13 @@ const AudioButton = ({ volume }) => {
         audioElement.loop = true;
         audioElement.volume = volume / 100;
         setAudio(audioElement);
-    }, []);
+    }, [volume]);
 
     useEffect(() => {
         if (audio) {
             audio.volume = volume / 100;
         }
-    }, [volume]);
+    }, [audio, volume]);
 
     const play = () => {
         audio.play();

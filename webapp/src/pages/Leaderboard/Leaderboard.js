@@ -47,7 +47,7 @@ const Leaderboard = () => {
   const { t } = useTranslation();
 
   var [leaderboard, setLeaderboard] = useState([])
-  var [error, setError] = useState(null)
+  var [, setError] = useState(null)
 
   useEffect(() => {
     ; (async () => {

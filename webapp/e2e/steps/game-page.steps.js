@@ -14,111 +14,111 @@ const PASS = "kawpass123@"
 
 defineFeature(feature, test => {
 
-    beforeAll(async () => {
-        
-        browser = process.env.GITHUB_ACTIONS
-            ? await puppeteer.launch()
-            : await puppeteer.launch({ headless: false, slowMo: 10 });
-        page = await browser.newPage();
+  beforeAll(async () => {
 
-        setDefaultOptions({ timeout: 10000 })
+    browser = process.env.GITHUB_ACTIONS
+      ? await puppeteer.launch()
+      : await puppeteer.launch({ headless: false, slowMo: 10 });
+    page = await browser.newPage();
 
-        await page.goto("http://localhost:3000",{
-            waitUntil: "networkidle0"
-        }).catch(() => {});
-        
-        await registerAUser(USER,PASS);
-    })
+    setDefaultOptions({ timeout: 10000 })
 
-    afterEach(async () => {
-        await page.evaluate(() => {
-          localStorage.clear();
-        });
-    
-        await page
-          .goto("http://localhost:3000", {
-            waitUntil: "networkidle0",
-          })
-          .catch(() => {});
+    await page.goto("http://localhost:80", {
+      waitUntil: "networkidle0"
+    }).catch(() => { });
+
+    await registerAUser(USER, PASS);
+  })
+
+  afterEach(async () => {
+    await page.evaluate(() => {
+      localStorage.clear();
     });
 
-    test("The user wants to go to the game menu", ({ given,when,then }) => {
-
-        given("A logged user", async () => {
-            await loginUser(page,USER,PASS)
-        });
-
-        when("The user navigates to the game page", async () => {
-            await selectNavOptionByHref(page, "/game")
-        });
-
-        then("The three possible difficulties should appear", async () => {
-            const buttonContainer = await page.$('.button-container'); // document.quesrySelector
-            const buttons = await buttonContainer.$$('button') // document.quesrySelectorAll
-
-            expect(buttons.length).toBe(3)
-        });
-    })
-
-    test("The user wants to start an easy game", ({ given,when,and,then }) => {
-
-      given("A logged user", async () => {
-          await loginUser(page,USER,PASS)
-      });
-
-      when("The user navigates to the game page", async () => {
-          await selectNavOptionByHref(page, "/game")
-      });
-
-      and("The user press the Easy button", async () => {
-        await clickOnGameDifficulty(page, 'Easy')
+    await page
+      .goto("http://localhost:80", {
+        waitUntil: "networkidle0",
       })
+      .catch(() => { });
+  });
 
-      then("The quiz game should begin", async () => {
-        await waitForQuizToAppear(page)
-      });
+  test("The user wants to go to the game menu", ({ given, when, then }) => {
+
+    given("A logged user", async () => {
+      await loginUser(page, USER, PASS)
+    });
+
+    when("The user navigates to the game page", async () => {
+      await selectNavOptionByHref(page, "/game")
+    });
+
+    then("The three possible difficulties should appear", async () => {
+      const buttonContainer = await page.$('.button-container'); // document.quesrySelector
+      const buttons = await buttonContainer.$$('button') // document.quesrySelectorAll
+
+      expect(buttons.length).toBe(3)
+    });
+  })
+
+  test("The user wants to start an easy game", ({ given, when, and, then }) => {
+
+    given("A logged user", async () => {
+      await loginUser(page, USER, PASS)
+    });
+
+    when("The user navigates to the game page", async () => {
+      await selectNavOptionByHref(page, "/game")
+    });
+
+    and("The user press the Easy button", async () => {
+      await clickOnGameDifficulty(page, 'Easy')
     })
 
-    test("The user wants to start a medium game", ({ given,when,and,then }) => {
+    then("The quiz game should begin", async () => {
+      await waitForQuizToAppear(page)
+    });
+  })
 
-      given("A logged user", async () => {
-          await loginUser(page,USER,PASS)
-      });
+  test("The user wants to start a medium game", ({ given, when, and, then }) => {
 
-      when("The user navigates to the game page", async () => {
-          await selectNavOptionByHref(page, "/game")
-      });
+    given("A logged user", async () => {
+      await loginUser(page, USER, PASS)
+    });
 
-      and("The user press the Medium button", async () => {            
-        await clickOnGameDifficulty(page, 'Medium')
-      })
+    when("The user navigates to the game page", async () => {
+      await selectNavOptionByHref(page, "/game")
+    });
 
-      then("The quiz game should begin", async () => {
-        await waitForQuizToAppear(page)
-      });
+    and("The user press the Medium button", async () => {
+      await clickOnGameDifficulty(page, 'Medium')
     })
 
-    test("The user wants to start a hard game", ({ given,when,and,then }) => {
+    then("The quiz game should begin", async () => {
+      await waitForQuizToAppear(page)
+    });
+  })
 
-      given("A logged user", async () => {
-          await loginUser(page,USER,PASS)
-      });
+  test("The user wants to start a hard game", ({ given, when, and, then }) => {
 
-      when("The user navigates to the game page", async () => {
-          await selectNavOptionByHref(page, "/game")
-      });
+    given("A logged user", async () => {
+      await loginUser(page, USER, PASS)
+    });
 
-      and("The user press the Hard button", async () => {
-        await clickOnGameDifficulty(page, 'Hard')   
-      })
+    when("The user navigates to the game page", async () => {
+      await selectNavOptionByHref(page, "/game")
+    });
 
-      then("The quiz game should begin", async () => {
-        await waitForQuizToAppear(page)
-      });
+    and("The user press the Hard button", async () => {
+      await clickOnGameDifficulty(page, 'Hard')
     })
 
-    afterAll(async ()=>{
-        browser.close()
-    })
+    then("The quiz game should begin", async () => {
+      await waitForQuizToAppear(page)
+    });
+  })
+
+  afterAll(async () => {
+    browser.close()
+  })
 
 });

@@ -13,7 +13,7 @@ RUN npm install
 # Copy the app source code to the working directory
 COPY . .
 
-ARG WEBAPP_URI="http://localhost:3000"
+ARG WEBAPP_URI="http://localhost:80"
 ARG GATEWAY_URI="http://localhost:8000"
 ENV GATEWAY_ENDPOINT=$GATEWAY_URI
 ENV WEBAPP_ENDPOINT=$WEBAPP_URI

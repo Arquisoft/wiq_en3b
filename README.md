@@ -11,19 +11,19 @@ questions to win juicy prizes 🥇
 ![KaW](https://github.com/Arquisoft/wiq_en3b/assets/109146445/73f37c88-7ce7-4b3b-9cc9-982a5e3a8a34)
 
 ## 🚀 Test our app at 🚀
-http://kawgame.xyz:3000/
+http://kawgame.xyz:3000
 
 And if it doesn't work, try the following...
 
-http://20.117.173.161:3000
+http://172.187.153.13:3000
 
 ## 🛠 Test our API at 🛠
 
-http://20.117.173.161:8000/
+http://172.187.153.13:8000
 
 And if you want to check the documentation for it...
 
-http://20.117.173.161:8000/api-doc
+http://172.187.153.13:8000/api-doc
 
 ## 🦾 Quick start guide 🦾
 

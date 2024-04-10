@@ -1,6 +1,6 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
-import { MemoryRouter, Route, Routes } from 'react-router-dom';
+import { render, fireEvent, waitFor,screen } from '@testing-library/react';
+import { MemoryRouter } from 'react-router-dom';
 import Register from '../../pages/Register/Register';
 import { AuthContext } from '../../context/AuthContext';
 import '@testing-library/jest-dom/extend-expect';
@@ -12,67 +12,64 @@ const mockUser = {
   password: "newPassword"
 };
 
-test('renders without crashing', () => {
-    render(
+const renderWithAuthAndRouter = (component) => {
+    return render(
         <MemoryRouter>
             <AuthContext.Provider value={{ user: mockUser, register: mockRegister }}>
-                <Register />
+                {component}
             </AuthContext.Provider>
         </MemoryRouter>
     );
+};
+
+const fireInputChangeEvent = (placeholder, value) => {
+    fireEvent.change(screen.getByPlaceholderText(placeholder), { target: { value } });
+};
+
+const fireClickEvent = (text) => {
+    fireEvent.click(screen.getByText(text));
+};
+
+test('renders without crashing', () => {
+    renderWithAuthAndRouter(<Register />)
 });
 
 test('renders welcome message', () => {
-    const { getByText } = render(
-        <MemoryRouter>
-            <AuthContext.Provider value={{ user: mockUser, register: mockRegister }}>
-                <Register />
-            </AuthContext.Provider>
-        </MemoryRouter>
-    );
-    expect(getByText('Welcome to Know and Win App, fill the form to register your account')).toBeInTheDocument();
+    renderWithAuthAndRouter(<Register />)
+    expect(screen.getByText('Welcome to Know and Win App, fill the form to register your account')).toBeInTheDocument();
 });
 
 test('renders register component and calls register function on register button click', async () => {
-    const mockRegister = jest.fn();
-    const { getByText, getByPlaceholderText } = render(
-        <MemoryRouter>
-            <AuthContext.Provider value={{ user: mockUser, register: mockRegister }}>
-                <Register />
-            </AuthContext.Provider>
-        </MemoryRouter>
-    );
+    renderWithAuthAndRouter(<Register />);
 
     // Simulate user input
-    fireEvent.change(getByPlaceholderText('Username'), { target: { value: 'testuser' } });
-    fireEvent.change(getByPlaceholderText('Password'), { target: { value: 'testpassword' } }); // Password is now at least 8 characters
-    fireEvent.change(getByPlaceholderText('Repeat Password'), { target: { value: 'testpassword' } }); // Repeat Password matches Password
+    fireInputChangeEvent('Username', 'testuser');
+    fireInputChangeEvent('Password', 'testpassword');
+    fireInputChangeEvent('Repeat Password', 'testpassword');
 
     // Click the register button
-    fireEvent.click(getByText('Register'));
+    fireClickEvent('Register');
 });
 
 test('shows error messages when form validation fails', async () => {
-    const { getByText, getByPlaceholderText } = render(
-        <MemoryRouter>
-            <AuthContext.Provider value={{ user: mockUser, register: mockRegister }}>
-                <Register />
-            </AuthContext.Provider>
-        </MemoryRouter>
-    );
+    renderWithAuthAndRouter(<Register />);
 
     // Simulate user input
-    fireEvent.change(getByPlaceholderText('Username'), { target: { value: '' } }); // Leave username empty
-    fireEvent.change(getByPlaceholderText('Password'), { target: { value: 'short' } }); // Password is too short
-    fireEvent.change(getByPlaceholderText('Repeat Password'), { target: { value: 'notmatching' } }); // Repeat Password does not match Password
+    fireInputChangeEvent('Username', ''); // Leave username empty
+    fireInputChangeEvent('Password', 'short'); // Password is too short
+    fireInputChangeEvent('Repeat Password', 'notmatching'); // Repeat Password does not match Password
 
     // Click the register button
-    fireEvent.click(getByText('Register'));
+    fireClickEvent('Register');
 
     // Check that error messages are displayed
     await waitFor(() => {
-        expect(getByText('Username is required')).toBeInTheDocument();
-        expect(getByText('Password must be at least 8 characters')).toBeInTheDocument();
-        expect(getByText('Confirm password and password should be same')).toBeInTheDocument();
+        checkErrors();
     });
+
+    function checkErrors(){
+        expect(screen.getByText('Username is required')).toBeInTheDocument();
+        expect(screen.getByText('Password must be at least 8 characters')).toBeInTheDocument();
+        expect(screen.getByText('Confirm password and password should be same')).toBeInTheDocument();
+    }
 });

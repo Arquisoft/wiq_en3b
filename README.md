@@ -8,6 +8,8 @@ This repo is part of the [Software Architecture course](http://arquisoft.github.
 a web game trying to emulate the famous spanish TV show [Saber y Ganar](https://www.youtube.com/watch?v=w0Q0i0fnfwM), a trivia like game where users answers 
 questions to win juicy prizes 🥇 
 
+![KaW](https://github.com/Arquisoft/wiq_en3b/assets/109146445/73f37c88-7ce7-4b3b-9cc9-982a5e3a8a34)
+
 ## 🚀 Test our app at 🚀
 http://kawgame.xyz:3000/
 

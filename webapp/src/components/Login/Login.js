@@ -1,80 +1,97 @@
-// src/components/Login.js
-import React, { useState } from 'react';
-import axios from 'axios';
-import { Container, Typography, TextField, Button, Snackbar } from '@mui/material';
+import '../Base.css'
+import './Login.css'
+
+import axios from 'axios'
+import { useState } from 'react'
+import { useAuth } from '../../hooks/useAuth'
+import { API_ENDPOINT } from '../../utils/constants'
+import { NavLink } from 'react-router-dom'
 
 const Login = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
-  const [loginSuccess, setLoginSuccess] = useState(false);
-  const [createdAt, setCreatedAt] = useState('');
-  const [openSnackbar, setOpenSnackbar] = useState(false);
+  const [username, setUsername] = useState('')
+  const [password, setPassword] = useState('')
+  const { login } = useAuth()
+  const [error, setError] = useState()
+  const [formErrors, setFormErrors] = useState({})
 
-  const apiEndpoint = process.env.REACT_APP_API_ENDPOINT || 'http://localhost:8000';
+  const validateForm = values => {
+    const error = {}
 
-  const loginUser = async () => {
-    try {
-      const response = await axios.post(`${apiEndpoint}/login`, { username, password });
-
-      // Extract data from the response
-      const { createdAt: userCreatedAt } = response.data;
-
-      setCreatedAt(userCreatedAt);
-      setLoginSuccess(true);
-
-      setOpenSnackbar(true);
-    } catch (error) {
-      setError(error.response.data.error);
+    if (!values.username) {
+      error.username = 'Username is required'
     }
-  };
 
-  const handleCloseSnackbar = () => {
-    setOpenSnackbar(false);
-  };
+    if (!values.password) {
+      error.password = 'Password is required'
+    }
+
+    return error
+  }
+
+  const loginHandler = async e => {
+    e.preventDefault()
+    setFormErrors(
+      validateForm({
+        username,
+        password,
+      })
+    )
+
+    try {
+      const response = await axios.post(`${API_ENDPOINT}/login`, {
+        username,
+        password,
+      })
+
+      const { username: user, token } = response.data.data.user
+
+      const obj = {
+        username: user,
+        token,
+      }
+
+      login(obj)
+    } catch (error) {
+      const status = error.response.data.status
+
+      if (status === 'error') {
+        setError(error.response.data.error)
+      } else {
+        setError(error.response.data.data.error)
+      }
+    }
+  }
 
   return (
-    <Container component="main" maxWidth="xs" sx={{ marginTop: 4 }}>
-      {loginSuccess ? (
-        <div>
-          <Typography component="h1" variant="h5" sx={{ textAlign: 'center' }}>
-            Hello {username}!
-          </Typography>
-          <Typography component="p" variant="body1" sx={{ textAlign: 'center', marginTop: 2 }}>
-            Your account was created on {new Date(createdAt).toLocaleDateString()}.
-          </Typography>
-        </div>
-      ) : (
-        <div>
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <TextField
-            margin="normal"
-            fullWidth
-            label="Password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <Button variant="contained" color="primary" onClick={loginUser}>
-            Login
-          </Button>
-          <Snackbar open={openSnackbar} autoHideDuration={6000} onClose={handleCloseSnackbar} message="Login successful" />
-          {error && (
-            <Snackbar open={!!error} autoHideDuration={6000} onClose={() => setError('')} message={`Error: ${error}`} />
-          )}
-        </div>
-      )}
-    </Container>
-  );
-};
+    <div className='login'>
+      <form>
+        <h1>Login</h1>
+        {error && <div className="response-error">{error}</div>}
+        <input
+          type="username"
+          name="username"
+          id="username"
+          placeholder="Username"
+          onChange={e => setUsername(e.target.value)}
+          value={username}
+        />
+        <p className="form-error">{formErrors.username}</p>
+        <input
+          type="password"
+          name="password"
+          id="password"
+          placeholder="Password"
+          onChange={e => setPassword(e.target.value)}
+          value={password}
+        />
+        <p className="form-error">{formErrors.password}</p>
+        <button className="button-common" onClick={loginHandler}>
+          Login
+        </button>
+      </form>
+      <NavLink to="/register">Not yet registered? Register Now</NavLink>
+    </div>
+  )
+}
 
-export default Login;
+export default Login

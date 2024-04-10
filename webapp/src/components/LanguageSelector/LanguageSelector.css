@@ -1,0 +1,17 @@
+.language-selector select {
+    padding: 8px;
+    font-size: 16px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    background-color: #fff;
+    outline: none;
+    cursor: pointer;
+}
+
+.language-selector select:hover {
+    border-color: #999;
+}
+
+.language-selector select:focus {
+    border-color: #555;
+}

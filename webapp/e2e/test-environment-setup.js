@@ -1,19 +1,14 @@
-const { MongoMemoryServer } = require('mongodb-memory-server');
-
-
-let mongoserver;
-let userservice;
-let authservice;
-let gatewayservice;
+const { MongoMemoryServer } = require('mongodb-memory-server')
 
 async function startServer() {
-    console.log('Starting MongoDB memory server...');
-    mongoserver = await MongoMemoryServer.create();
-    const mongoUri = mongoserver.getUri();
-    process.env.MONGODB_URI = mongoUri;
-    userservice = await require("../../users/userservice/user-service");
-    authservice = await require("../../users/authservice/auth-service");
-    gatewayservice = await require("../../gatewayservice/gateway-service");
-  }
+  console.log('Starting MongoDB memory server...')
+  const mongoserver = await MongoMemoryServer.create()
+  const mongoUri = mongoserver.getUri()
+  process.env.MONGODB_URI = mongoUri
+  require('../../users/userservice/src/index.ts')
+  require('../../users/authservice/src/index.ts')
+  require('../../gatewayservice/src/index.ts')
+  require('../../questionservice/src/index.ts')
+}
 
-  startServer();
+startServer()

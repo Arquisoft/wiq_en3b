@@ -57,4 +57,6 @@ The development of the application has several architectural constraints that mu
 | Language | All the project must be developed in English.
 | ARC42 | The documentation of the project must use the ARC42 template.
 | GitHub conventions | Changes in the project must be carried out by using different branches. Issues are used as official communication means.
+| OpenAPI | The APIs documentation will follow https://www.openapis.org/[OpenAPI specification] to have an standarized way of documenting and make it easier for the users consulting it.
+| JSend | All services must follow the https://github.com/omniti-labs/jsend[JSend] specification for each JSON response. 
 |===

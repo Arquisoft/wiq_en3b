@@ -4,6 +4,42 @@ ifndef::imagesdir[:imagesdir: ../images]
 
 
 == Building Block View
+
+[role="arc42help"]
+****
+.Content
+The building block view shows the static decomposition of the system into building blocks (modules, components, subsystems, classes, interfaces, packages, libraries, frameworks, layers, partitions, tiers, functions, macros, operations, data structures, ...) as well as their dependencies (relationships, associations, ...)
+
+This view is mandatory for every architecture documentation.
+In analogy to a house this is the _floor plan_.
+
+.Motivation
+Maintain an overview of your source code by making its structure understandable through
+abstraction.
+
+This allows you to communicate with your stakeholder on an abstract level without disclosing implementation details.
+
+.Form
+The building block view is a hierarchical collection of black boxes and white boxes
+(see figure below) and their descriptions.
+
+image::05_building_blocks-EN.png["Hierarchy of building blocks"]
+
+*Level 1* is the white box description of the overall system together with black
+box descriptions of all contained building blocks.
+
+*Level 2* zooms into some building blocks of level 1.
+Thus it contains the white box description of selected building blocks of level 1, together with black box descriptions of their internal building blocks.
+
+*Level 3* zooms into selected building blocks of level 2, and so on.
+
+
+.Further Information
+
+See https://docs.arc42.org/section-5/[Building Block View] in the arc42 documentation.
+
+****
+
  
 === Scope and Context
 
@@ -30,24 +66,28 @@ components: Users and Application; and one External service: Wikidata.
 The general workflow consists on a series of interactions done by the users through
 the different components exposed by the Application. During the game, the application
 will require the help of the external service to generate the different questions
-and answers that the user will have to choose.
+and answers that the user will have to choose. Also, users can communicate with
+our API to retrieve or generate information to be used in other applications.
 
 Contained Building Blocks::
 
 [cols="1,2" options="header"]
 |===
 | **Building block** | **Description** 
-| KaW Application | The core block that manages the game itself and the visuals of it.
+| KaW Application | The core block that manages the game itself, the visuals of it and the API interface.
 | WikiData | API that offers the Application an easy-to-use interface to perform queries for the question and answer generation.
 |===
 
-=== Level 1: 
+=== Level 1
 
 [mermaid]
 ....
 flowchart LR
     u("fa:fa-users"
     User) --"interact"--> Frontend
+
+    api("fa:fa-users"
+    API Consumer) --"requests"-->Gateway
 
     subgraph app [KaW]
         Frontend("fa:fa-home"
@@ -69,7 +109,12 @@ flowchart LR
 
 Motivation::
 
-In this level of decomposition, we illustrate the primary services of our system. The Frontend service serves as the entry point for user interactions, directing them to the Gateway. The Gateway then routes these interactions to the appropriate microservices for processing. This diagram emphasizes the flow of interactions through the system's components.
+In this level of decomposition, we illustrate the primary services of our system. The Frontend 
+service serves as the entry point for user interactions with the KaW game, 
+directing them to the Gateway. The Gateway then routes these interactions to the appropriate 
+microservices for processing. The users can also make direct requests to the Gateway to communicate
+with our API instead that playing the game. This diagram emphasizes the flow of interactions through the 
+system's components.
 
 
 Contained Building Blocks::
@@ -77,16 +122,20 @@ Contained Building Blocks::
 |===
 | **Building block** | **Description** 
 | Frontend | Service responsible for collecting user interactions and routing them to the Gateway.
-| Gateway | Middleware component that routes user interactions to the appropriate microservices and serves as an API entrance point.
+| Gateway | Middleware component that routes user interactions or API requests to the appropriate microservices.
 | Microservices | Collection of smaller services responsible for handling various functionalities of the application.
 |===
 
-=== Level 2:
+=== Level 2
 
 [mermaid]
 ....
 flowchart TD
-    u("fa:fa-users" User) --"interact"--> WebApp
+    u("fa:fa-users" 
+    Users) --"interact"--> WebApp
+
+    api("fa:fa-users"
+    API Consumer) --"requests"-->Gateway
 
     subgraph app [KaW]
         subgraph front [Frontend]
@@ -104,8 +153,8 @@ flowchart TD
             QuestionService)
             UserDatabase("fa:fa-database" 
             UserDatabase)
-            TemplateDatabase("fa:fa-database" 
-            TemplateDatabase)
+            QuestionDatabase("fa:fa-database" 
+            QuestionDatabase)
         end
     end
 
@@ -117,7 +166,7 @@ flowchart TD
     Gateway <--> UserService
     Gateway <--> QuestionService
     QuestionService <--> Wikidata
-    QuestionService <--> TemplateDatabase
+    QuestionService <--> QuestionDatabase
     style Wikidata fill:#fff,stroke:#000,stroke-width:2px,rx:20px,ry:20px
     classDef subgraphstyle margin-left:3cm
     class back subgraphstyle
@@ -133,6 +182,11 @@ The Gateway then communicates with the different microservices to perform variou
 The QuestionService also interacts with the Wikidata API to generate questions and answers. 
 The results are then sent back to the user through the same path. 
 This architecture allows for a separation of concerns, where each component has a specific role and responsibility.
+
+If users decide to use the API, they must always connect through our Gateway and never directly to
+the services itself. Having this in mind, users can make requests to generate questions (the same
+way as we use for our game) for its own purposes and also, consult a series of historical records
+of the game itself such as games played, questions failed, etc.
 
 Contained Building Blocks::
 

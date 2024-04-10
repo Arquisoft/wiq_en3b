@@ -58,6 +58,22 @@ describe("Question Service - Erroneous parameters for /questions", () => {
 
     })
 
+    it("should return 400 if accessed with only lang parameter", async () => {
+
+        const response = await request(app).get('/questions?lang=en')
+        expect(response.status).toBe(400)
+        expect(response.body.data).toHaveProperty("error")
+
+    })
+
+    it("should return 400 if accessed with size parameter and not supported language", async () => {
+
+        const response = await request(app).get('/questions?size=5&lang=nonsupported')
+        expect(response.status).toBe(400)
+        expect(response.body.data).toHaveProperty("error")
+
+    })
+
 })
 
 // Mocking the question-generator.ts to test question-controller
@@ -77,7 +93,7 @@ describe("Question Service - Question Generation", () => {
         (generateQuestions as jest.Mock).mockResolvedValue(mockResponse)
 
         // Mock req and res for controller
-        const req = { query: { size: mockResponse.length } } as any
+        const req = { query: { size: mockResponse.length, lang: "en" } } as any
         const res = {
             json: jest.fn(),
             status: jest.fn().mockReturnThis()
@@ -86,20 +102,20 @@ describe("Question Service - Question Generation", () => {
         await generateQuestionsController(req, res)
         
         // Ensuring mock fn was called like => await generateQuestions(3)
-        expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length);
+        expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length, "en");
         // Ensuring mock fn was called like => res.json(['Question1', 'Question2', 'Question3'])
         expect(res.json).toHaveBeenCalledWith(mockResponse)
       
     })
 
-    it("should return an error when controller fails", async () => {
+    it("should return an error 500 when controller fails", async () => {
 
         // Mocking the response of generateQuestions(size) => Error!
         const mockError = new Error("Mock!! A fail");
         (generateQuestions as jest.Mock).mockRejectedValue(mockError)
 
         // Mock req and res for controller
-        const req = { query: { size: 3 } } as any
+        const req = { query: { size: 3, lang: "en" } } as any
         const res = {
             json: jest.fn(),
             status: jest.fn().mockReturnThis()
@@ -108,13 +124,13 @@ describe("Question Service - Question Generation", () => {
         await generateQuestionsController(req, res)
 
         // Ensuring mock fn was called like => await generateQuestions(3)
-        expect(generateQuestions).toHaveBeenCalledWith(3);
+        expect(generateQuestions).toHaveBeenCalledWith(3, "en");
         // Ensuring mock fn was called like => res.status(500)
         expect(res.status).toHaveBeenCalledWith(500)
         // Ensuring mock fn was called like => res.json({status: 'fail'})
         expect(res.json).toHaveBeenLastCalledWith({
-            status: 'error',
-            message: "Can't generate questions! Internal server error"
+            status: 'fail',
+            message: "Can't generate questions! Mock!! A fail"
         })
 
 

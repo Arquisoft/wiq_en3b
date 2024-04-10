@@ -11,3 +11,8 @@
   display: block;
   padding: 5px;
 }
+
+.settings-option {
+  display: flex;
+  align-items: first baseline;
+}

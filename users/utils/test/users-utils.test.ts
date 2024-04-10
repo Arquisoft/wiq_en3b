@@ -1,5 +1,5 @@
 import { Request } from 'express';
-const {validateNotEmpty, validateRequiredFields, validateRequiredLength} = require("../src/field-validations");
+const {validateNotEmpty, validateRequiredFields, validateRequiredLength} = require("../src/index");
 
 describe('Users Utils', () => {
     // Empty field validation
@@ -9,14 +9,7 @@ describe('Users Utils', () => {
         } as Request;
         mockRequest.body['history'] = '';
 
-        let gotError = false;
-        try {
-            validateNotEmpty(mockRequest, ['history']);
-        } catch (error) {
-            gotError = true
-        }
-        if (!gotError)
-            fail('Should get an error');
+        expect(() => validateNotEmpty(mockRequest, ['history'])).toThrowError();
 
         // Should ignore field if does not exist
         try {
@@ -33,14 +26,7 @@ describe('Users Utils', () => {
         } as Request;
         mockRequest.body['test'] = '123456789';
 
-        let gotError = false;
-        try {
-            validateRequiredLength(mockRequest, ['test'], 10);
-        } catch (error) {
-            gotError = true;
-        }
-        if (!gotError)
-            fail('Should get an error');
+        expect(() => validateRequiredLength(mockRequest, ['test'], 10)).toThrowError();
 
         // Should ignore field if does not exist
         try {
@@ -72,14 +58,6 @@ describe('Users Utils', () => {
         mockRequest.body['test'] = 'test';
 
         // Should get an error when the field does not exist
-        let gotError = false;
-        gotError = false;
-        try {
-            validateRequiredFields(mockRequest, ['nonexistent']);
-        } catch (error) {
-            gotError = true;
-        }
-        if (!gotError)
-            fail('Should get an error');
+        expect(() => validateRequiredFields(mockRequest, ['nonexistent'])).toThrowError();
     });
 });

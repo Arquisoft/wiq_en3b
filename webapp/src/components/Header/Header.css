@@ -1,15 +1,15 @@
 .header {
   background-color: #717bee;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
   align-items: center;
-  padding: 20px;
+  padding: 15px;
   transition: all 0.4s ease;
 }
 
 .header-button {
   height: 40px;
-  width: 40px;
+  width: 35px;
   display: flex;
   cursor: pointer;
 }
@@ -19,6 +19,50 @@
 }
 
 .theme {
+  height: 40px;
+  width: 40px;
+  margin-right: 20px;
+  background-color: #fff;
+  padding: 10px;
+  border-radius: 50%;
+  cursor: pointer;
+  color: #717bee;
+}
+
+.options {
+  display: flex;
+}
+
+img {
+  width: 5rem;
+  height: auto;
+  margin: 0rem;
+  margin-left: 0.5rem;
+}
+
+.login-logout-link {
+  background-color: #fff;
+  color: #717bee;
+  border: none;
+  padding: 0.5em 1em;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 0.8em;
+  margin: 0.5em 1.25em 0.5em 0.2em;
+  cursor: pointer;
+  border-radius: 0.5em;
+  transition: background-color 0.3s ease;
+  white-space: nowrap;
+  line-height: 1.2em;
+}
+
+.login-logout-link:hover {
+  background-color: #636ad5;
+  color: #fff;
+}
+
+.sound {
   height: 40px;
   width: 40px;
   margin-right: 20px;

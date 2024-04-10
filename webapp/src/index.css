@@ -9,6 +9,7 @@
 :root {
   --dark-gray: #121212;
   --black: #000;
+  --gray: #252525;
 }
 
 body {
@@ -72,4 +73,29 @@ main {
 
 .dark .form-create input {
   background-color: var(--dark-gray);
+}
+
+.dark .login {
+  background-color: var(--dark-gray);
+  color: #fff;
+}
+
+.dark .register {
+  background-color: var(--dark-gray);
+  color: #fff;
+}
+
+.dark .login-logout-link {
+  background-color: var(--dark-gray);
+  color: #747ae7;
+}
+
+.dark .theme {
+  background-color: var(--dark-gray);
+  color: #747ae7;
+}
+
+.dark .sound {
+  background-color: var(--dark-gray);
+  color: #747ae7;
 }

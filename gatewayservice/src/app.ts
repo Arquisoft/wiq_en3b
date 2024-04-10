@@ -10,18 +10,18 @@ import { notFound } from './middlewares/not-found';
 import { errorHandler } from './middlewares/error-handler';
 
 // libraries required for OpenAPI-Swagger
-const swaggerUI = require('swagger-ui-express'); 
+const swaggerUI = require('swagger-ui-express');
 const fs = require("fs")
 const YAML = require('yaml')
 
 const app = express();
 app.disable("x-powered-by");
 
-const frontURI = process.env.API_URI?.replace('8000', '3000') || 'http://localhost:3000'
-const gatewayURI = process.env.API_URI || 'http://localhost:8000'
+const frontURI = process.env.WEBAPP_ENDPOINT ?? 'http://localhost:3000'
+const gatewayURI = process.env.GATEWAY_ENDPOINT ?? 'http://localhost:8000'
 
-const corsWhitelist = [frontURI, gatewayURI]
-app.use(cors({origin: corsWhitelist}));
+const corsWhitelist = [frontURI, gatewayURI, 'http://kawgame.xyz:3000', 'http://kawgame.xyz:8000']
+app.use(cors({ origin: corsWhitelist }));
 app.use(express.json());
 
 //Prometheus configuration
@@ -36,7 +36,7 @@ app.use(historyRouter);
 app.use(questionRouter);
 
 // Read the OpenAPI YAML file synchronously
-const openapiPath='./openapi.yaml'
+const openapiPath = './openapi.yaml'
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');
 

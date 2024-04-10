@@ -1,0 +1,24 @@
+
+{
+    "settings":{
+    "title":"Settings",
+    "choose_lang":"Choose language: ",
+    "choose_seconds":"Choose question duration: "
+    },
+    "leaderboard":{
+    "title":"Leaderboard"
+    },
+    "profile":{
+    "title":"Profile"
+    },
+    "play":{
+    "title": "Play",
+    "choose_difficulty": "Choose difficulty",
+    "easy": "Easy",
+    "medium": "Medium",
+    "hard": "Hard"
+    },
+    "home":{
+    "title":"Home"
+    }
+    }

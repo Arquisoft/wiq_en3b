@@ -7,6 +7,7 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { ReactComponent as StopwatchIcon } from "../../assets/stopwatch-solid.svg";
 import { useAuth } from '../../hooks/useAuth'
 import { API_ENDPOINT } from "../../utils/constants";
+import i18next from 'i18next';
 
 const getTimerValue = (level) => {
   let timerValue = 0;
@@ -79,7 +80,7 @@ const Quiz = ({ level }) => {
     else if (level === "medium") numQuestions = 10;
     else if (level === "hard") numQuestions = 15;
 
-    const response = await fetch(API_ENDPOINT + `/questions?size=${numQuestions}`);
+    const response = await fetch(API_ENDPOINT + `/questions?size=${numQuestions}&lang=${i18next.language}`);
 
     if (!response.ok) throw new Error("Failed to fetch questions");
 

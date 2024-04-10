@@ -1,14 +1,13 @@
 import React from 'react';
-import { render, fireEvent, waitFor } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router-dom';
-import axios from 'axios';
 import Login from '../../pages/Login/Login';
 import { AuthContext } from '../../context/AuthContext';
 
 const mockUser = {
-  username: "mateo2",
-  password: "1234567891011"
+    username: "mateo2",
+    password: "1234567891011"
 };
 const mockLogin = jest.fn();
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import Settings from './Settings';
+import Settings from '../../pages/Settings/Settings';
 import '@testing-library/jest-dom'
 
 

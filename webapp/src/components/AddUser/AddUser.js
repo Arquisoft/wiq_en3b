@@ -85,7 +85,6 @@ const AddUser = () => {
   }
 
   return (
-    <>
       <div className="register">
         <form onSubmit={addUser}>
           <h1>Create your account</h1>

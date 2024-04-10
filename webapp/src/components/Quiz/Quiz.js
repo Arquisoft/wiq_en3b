@@ -9,8 +9,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { API_ENDPOINT } from "../../utils/constants";
 
 const getTimerValue = (level) => {
-
-  var timerValue = 0;
+  let timerValue = 0;
 
   if (level === "easy") timerValue = 30;
   if (level === "medium") timerValue = 15;
@@ -20,7 +19,7 @@ const getTimerValue = (level) => {
 };
 
 const getPoints = (level) => {
-  var points = 0;
+  let points = 0;
 
   if (level === "easy") points = 5;
   if (level === "medium") points = 15;
@@ -189,7 +188,7 @@ const Quiz = ({ level }) => {
 
   const updateStatistics = () => {
 
-    var finishTime = Date.now();
+    const finishTime = Date.now();
 
     console.log("Milliseconds played:", finishTime - startTime);
 

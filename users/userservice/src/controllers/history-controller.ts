@@ -29,7 +29,7 @@ const getHistory = async (req: Request, res: Response) => {
 
     if (!user) {
       throw new Error(
-        `The provided user \'${username}\' is not registered in the application`
+        `The provided user '${username}' is not registered in the application`
       );
     }
 

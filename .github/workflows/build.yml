@@ -26,7 +26,7 @@ jobs:
     - run: npm --prefix users/userservice test -- --coverage
     - run: npm --prefix questionservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
-    # - run: npm --prefix webapp test -- --coverage
+    - run: npm --prefix webapp test -- --coverage
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
       env:

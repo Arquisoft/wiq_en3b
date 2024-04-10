@@ -1,10 +1,9 @@
 import React from 'react';
-import { render, act } from '@testing-library/react';
+import { render, act, screen } from '@testing-library/react';
 import { MemoryRouter, Routes, Route } from 'react-router-dom';
 import { AuthProvider } from '../../context/AuthContext';
-import Home from './Home';
+import Home from '../../pages/Home/Home';
 import '@testing-library/jest-dom/extend-expect';
-import { waitFor } from '@testing-library/react';
 
 test('renders without crashing', () => {
     render(
@@ -17,7 +16,7 @@ test('renders without crashing', () => {
 });
 
 test('redirects to login page if user is not authenticated', async () => {
-    const { queryByText } = render(
+    render(
         <MemoryRouter initialEntries={['/']}>
             <AuthProvider>
                 <Routes>
@@ -31,5 +30,5 @@ test('redirects to login page if user is not authenticated', async () => {
     // Espera a que se complete el efecto secundario en Home
     await act(() => new Promise((resolve) => setTimeout(resolve, 0)));
 
-    expect(queryByText('Login Page')).toBeInTheDocument();
+    expect(screen.getByText('Login Page')).toBeInTheDocument();
 });

@@ -3,7 +3,7 @@ import { render, fireEvent, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { MemoryRouter } from 'react-router-dom';
 import axios from 'axios';
-import Login from './Login';
+import Login from '../../pages/Login/Login';
 import { AuthContext } from '../../context/AuthContext';
 
 const mockUser = {

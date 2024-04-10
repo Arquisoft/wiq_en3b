@@ -1,5 +1,7 @@
 import { performTranslationRequestWithOptions } from '../utils/translation-utils';
 
+const API_KEY = process.env.TRANSLATION_KEY ?? '***';
+
 export const getTranslatedQuestions = async (
   questionsArray: any,
   language: any
@@ -32,7 +34,7 @@ export const getTranslatedQuestions = async (
     },
     headers: {
       'content-type': 'application/json',
-      'X-RapidAPI-Key': '***',
+      'X-RapidAPI-Key': API_KEY,
       'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com',
     },
     data: [

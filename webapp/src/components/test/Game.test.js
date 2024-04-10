@@ -3,7 +3,7 @@ import { render, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom/extend-expect';
 import { I18nextProvider } from 'react-i18next';
 import i18n from 'i18next'; // Importa i18next directamente
-import Game from './Game';
+import Game from '../../pages/Game/Game';
 import { AuthContext } from '../../context/AuthContext'; // Asegúrate de importar AuthContext desde la ubicación correcta
 
 // Crea un mock de i18next

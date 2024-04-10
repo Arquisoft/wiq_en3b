@@ -1,6 +1,5 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import '@testing-library/jest-dom/extend-expect';
 import LanguageSelector from '../LanguageSelector/LanguageSelector';
 
 const testLanguages = [
@@ -12,7 +11,7 @@ const testLanguages = [
 test('renders LanguageSelector component with provided languages', () => {
     render(<LanguageSelector languages={testLanguages} />);
 
-    expect(screen.getByText('English')).toBeInTheDocument();
-    expect(screen.getByText('Español')).toBeInTheDocument();
-    expect(screen.getByText('Français')).toBeInTheDocument();
+    expect(screen.getByText('English')).toBeTruthy();
+    expect(screen.getByText('Español')).toBeTruthy();
+    expect(screen.getByText('Français')).toBeTruthy();
 });

@@ -1,7 +1,7 @@
 import React from 'react';
 import { render, fireEvent, waitFor } from '@testing-library/react';
 import { MemoryRouter, Route, Routes } from 'react-router-dom';
-import Register from './Register';
+import Register from '../../pages/Register/Register';
 import { AuthContext } from '../../context/AuthContext';
 import '@testing-library/jest-dom/extend-expect';
 

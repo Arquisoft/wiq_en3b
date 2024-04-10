@@ -17,6 +17,10 @@
     gap: 8rem;
 }
 
+.profile-title {
+    margin-top: 1rem;
+}
+
 /* Profile header section */
 .profile-header {
     margin-top: 25px;

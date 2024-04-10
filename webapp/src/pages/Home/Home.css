@@ -55,6 +55,7 @@
 }
 
 .App-logo {
+    overflow: hidden;
     grid-row: 1;
     height: 10rem;
     width: auto;
@@ -65,6 +66,7 @@
     grid-row: 2;
     font-size: 2rem;
     font-family: 'Courier New', Courier, monospace;
+    text-align: center;
 }
 
 .username {

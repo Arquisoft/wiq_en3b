@@ -83,7 +83,7 @@ const Leaderboard = () => {
 
   return (
     <div>
-      <h1>{t("leaderboard.title")}</h1>
+      <h1 style={{ textAlign: 'center', marginTop: '1rem' }}>{t("leaderboard.title")}</h1>
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
         <TableContainer component={Paper} style={{ width: '75%' }}>
           <Table sx={{ minWidth: 600 }} aria-label="customized table">

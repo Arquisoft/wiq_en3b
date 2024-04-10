@@ -17,7 +17,7 @@ const getMocks = (url: string) => {
   } else if (url.endsWith('/profile')) {
     return Promise.resolve({data: { bio: 'Test' }});
   }
-  return Promise.reject();
+  return Promise.resolve({});
 };
 
 const postMocks = (url: string) => {
@@ -32,7 +32,7 @@ const postMocks = (url: string) => {
   } else if (url.endsWith('/profile')) {
     return Promise.resolve({data: { bio: 'Test' }});
   }
-  return Promise.reject();
+  return Promise.resolve({});
 };
 
 describe('Gateway Service', () => {

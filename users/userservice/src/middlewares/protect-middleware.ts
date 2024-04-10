@@ -10,7 +10,7 @@ const protect = async (req: Request, res: Response, next: NextFunction) => {
       throw new Error('You must be logged in to update your data');
     }
 
-    const token = authorization!.split(' ')[1];
+    const token = authorization.split(' ')[1];
     const decoded: any = await verifyJWT(token);
     const { userId } = decoded;
     const user = await User.findById(userId);

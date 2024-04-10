@@ -279,7 +279,7 @@ function getSparqlQueryFromDocument(document: any): string {
   let sparqlQuery: string = document.question_type.query;
   let optionEntities = document.question_type.entities as string[];
   if (optionEntities.length > 0) {
-    const randomEntity = getRandomItem(optionEntities);
+    let randomEntity = getRandomItem(optionEntities);
     sparqlQuery = sparqlQuery.replace(/\$\$\$/g, randomEntity);
   }
   return sparqlQuery;

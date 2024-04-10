@@ -15,3 +15,9 @@
     margin-bottom: 10px;
     /* Space between buttons */
 }
+
+h2 {
+    margin-top: 1rem;
+    font-size: 2rem;
+    text-align: center;
+}

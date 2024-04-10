@@ -50,7 +50,7 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <h1>{user.username}'s profile</h1>
+      <h1 className="profile-title">{user.username}'s profile</h1>
       <div className="user-select">
         <div className="profile-header">
           <img

@@ -1,8 +1,16 @@
+.settings {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 .settings h1 {
   margin-bottom: 50px;
 }
 
 .settings label {
+  margin-right: 0.5rem;
   margin-bottom: 10px;
   display: inline-block;
 }

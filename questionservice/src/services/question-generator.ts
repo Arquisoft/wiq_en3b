@@ -26,46 +26,43 @@ async function generateQuestions(
   size: number,
   lang: any
 ): Promise<object[] | void> {
-  try {
+  
+  let numberQuestionsDB = Math.min(Math.floor(size / 2), await QuestionModel.countDocuments());
+  let questionsToGenerate = size - numberQuestionsDB;
+  console.log('------------------');
+  console.log('Questions requested: ' + size);
+  console.log('------------------');
+  console.log('Questions from DB: ' + numberQuestionsDB);
+  console.log('Expected Questions to Generate: ' + questionsToGenerate);
 
-    let numberQuestionsDB = Math.min(Math.floor(size / 2), await QuestionModel.countDocuments());
-    let questionsToGenerate = size - numberQuestionsDB;
-    console.log('------------------');
-    console.log('Questions requested: ' + size);
-    console.log('------------------');
-    console.log('Questions from DB: ' + numberQuestionsDB);
-    console.log('Expected Questions to Generate: ' + questionsToGenerate);
+  // Trying to obtain n random documents
+  let randomQuestionsTemplates = await getRandomQuestions(questionsToGenerate);
 
-    // Trying to obtain n random documents
-    let randomQuestionsTemplates = await getRandomQuestions(questionsToGenerate);
+  // Generate and return questions generated from those documents
+  let questionsArray = await generateQuestionsArray(randomQuestionsTemplates);
 
-    // Generate and return questions generated from those documents
-    let questionsArray = await generateQuestionsArray(randomQuestionsTemplates);
+  // Skipping questions not generated a.k.a. void
+  questionsArray = questionsArray.filter(q => typeof q === 'object');
 
-    // Skipping questions not generated a.k.a. void
-    questionsArray = questionsArray.filter(q => typeof q === 'object');
+  // We take the remaining questions from DB
+  numberQuestionsDB = size - questionsArray.length;
+  let questionsArrayDB = await getQuestionsFromDB(numberQuestionsDB);
+  // Save questions to DB
+  saveQuestions(questionsArray);
 
-    // We take the remaining questions from DB
-    numberQuestionsDB = size - questionsArray.length;
-    let questionsArrayDB = await getQuestionsFromDB(numberQuestionsDB);
-    // Save questions to DB
-    saveQuestions(questionsArray);
+  console.log('Retrieved ' + questionsArray.length + ' Questions from Wikidata');
+  console.log('------------------');
+  // Concatenating both arrays
+  questionsArray = questionsArray.concat(questionsArrayDB);
 
-    console.log('Retrieved ' + questionsArray.length + ' Questions from Wikidata');
-    console.log('------------------');
-    // Concatenating both arrays
-    questionsArray = questionsArray.concat(questionsArrayDB);
+  console.log('Retrieved ' + questionsArray.length + ' Questions from DB and Wikidata');
 
-    console.log('Retrieved ' + questionsArray.length + ' Questions from DB and Wikidata');
-
-    // Translation
-    if (lang && lang.toLowerCase() !== 'en') {
-      return await translateQuestionsArray(questionsArray, lang);
-    }
-    return questionsArray;
-  } catch (error) {
-    throw error;
+  // Translation
+  if (lang && lang.toLowerCase() !== 'en') {
+    return await translateQuestionsArray(questionsArray, lang);
   }
+
+  return questionsArray;
 }
 
 /**
@@ -284,7 +281,7 @@ function getSparqlQueryFromDocument(document: any): string {
   let sparqlQuery: string = document.question_type.query;
   let optionEntities = document.question_type.entities as string[];
   if (optionEntities.length > 0) {
-    var randomEntity = getRandomItem(optionEntities);
+    let randomEntity = getRandomItem(optionEntities);
     sparqlQuery = sparqlQuery.replace(/\$\$\$/g, randomEntity);
   }
   return sparqlQuery;
@@ -300,9 +297,9 @@ function generateRandomIndexes(
   length: number,
   numberOfIndexes: number = optionsNumber
 ) {
-  var randomIndexes: number[] = [];
-  for (var i = 0; i < numberOfIndexes; i++) {
-    var possibleRandom = Math.floor(Math.random() * length);
+  let randomIndexes: number[] = [];
+  for (let i = 0; i < numberOfIndexes; i++) {
+    let possibleRandom = Math.floor(Math.random() * length);
     while (randomIndexes.includes(possibleRandom))
       possibleRandom = Math.floor(Math.random() * length);
 
@@ -322,8 +319,8 @@ function getRandomResponses(
   randomIndexes: number[]
 ): any {
   let answersArray: object[] = [];
-  for (var i = 0; i < optionsNumber; i++) {
-    var answer = wikidataResponse[randomIndexes[i]].answerLabel;
+  for (let i = 0; i < optionsNumber; i++) {
+    let answer = wikidataResponse[randomIndexes[i]].answerLabel;
     answersArray[i] = {
       id: i + 1,
       text: answer,

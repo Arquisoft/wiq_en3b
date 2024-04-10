@@ -18,7 +18,7 @@ function validateSizePresent(req: Request) {
  * @returns The field as a number
  */
 function validateNumber(field: string) {
-  const size = parseInt(field as string, 10);
+  const size = parseInt(field, 10);
   // Checking parameter is a number
   if (isNaN(size)) {
     throw new Error('The size parameter must be a number');

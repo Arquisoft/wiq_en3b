@@ -54,13 +54,13 @@ export const getTranslatedQuestions = async (
 
   response.data[0].translations[0].text
     .split('|||')
-    .forEach((question: any) => {
+    .forEach((question: any, i: number) => {
       const [questionPart, answersPart] = question.split('[;;');
 
       arr.push({
         question: questionPart.trim(),
-        answers: answersPart.split('];;').map((answer: any, i: number) => ({
-          id: i + 1,
+        answers: answersPart.split('];;').map((answer: any, j: number) => ({
+          id: questionsArray[i].answers[j].id,
           text: answer.trim(),
         })),
       });

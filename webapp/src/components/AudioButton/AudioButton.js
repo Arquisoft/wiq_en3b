@@ -14,13 +14,13 @@ const AudioButton = ({ volume }) => {
         audioElement.loop = true;
         audioElement.volume = volume / 100;
         setAudio(audioElement);
-    }, []);
+    }, [volume]);
 
     useEffect(() => {
         if (audio) {
             audio.volume = volume / 100;
         }
-    }, [volume]);
+    }, [audio, volume]);
 
     const play = () => {
         audio.play();
@@ -41,7 +41,12 @@ const AudioButton = ({ volume }) => {
     };
 
     return (
-        <div className="sound" onClick={toggleAudio} data-testid="audio-button">
+        <div className="sound" onClick={toggleAudio} data-testid="audio-button" tabIndex={0}
+            onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    toggleAudio();
+                }
+            }}>
             {playing ? <SoundIcon data-testid="sound-icon" /> : <MuteIcon data-testid="mute-icon" />}
         </div>
     );

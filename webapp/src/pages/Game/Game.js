@@ -9,7 +9,7 @@ import { useTranslation } from "react-i18next"
 
 const Game = (props) => {
 
-  var [level, setLevel] = useState()
+  const [level, setLevel] = useState()
   const { t } = useTranslation();
 
   function goEasyLevel() {

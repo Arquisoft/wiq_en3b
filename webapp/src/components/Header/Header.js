@@ -13,15 +13,25 @@ const Header = props => {
       </Link>
 
       <div className="options">
-        <div className="theme" onClick={props.onChangeTheme} data-testid="theme-element">
+        <div className="theme" onClick={props.onChangeTheme} tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              props.onChangeTheme();
+            }
+          }} data-testid="theme-element">
           {props.theme === "light" ? <MoonIcon /> : <SunIcon />}
         </div>
 
         <AudioButton url="../../assets/music.wav" volume={props.volume} />
 
-          <div className="header-button" onClick={props.onToggleNav} data-testid="navigation-element">
-              <BarIcon/>
-          </div>
+        <div className="header-button" onClick={props.onToggleNav} tabIndex={0}
+          onKeyDown={(event) => {
+            if (event.key === 'Enter' || event.key === ' ') {
+              props.onToggleNav();
+            }
+          }} data-testid="navigation-element">
+          <BarIcon />
+        </div>
       </div>
     </header>
   )

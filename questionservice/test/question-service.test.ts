@@ -11,7 +11,7 @@ describe("Question Service - Health", () => {
         const response = await request(app).get('/');
         expect(response.status).toBe(200)
         expect(response.body.data).toHaveProperty("health", "Operative")
-        
+
     })
 
     it("should return / if any url is accessed", async () => {
@@ -25,7 +25,7 @@ describe("Question Service - Health", () => {
 })
 
 describe("Question Service - Erroneous parameters for /questions", () => {
-    
+
     it("should return 400 if accessed without parameter", async () => {
 
         const response = await request(app).get('/questions')
@@ -74,6 +74,22 @@ describe("Question Service - Erroneous parameters for /questions", () => {
 
     })
 
+    it("should return 400 if the size is too big", async () => {
+
+        const response = await request(app).get('/questions?size=101')
+        expect(response.status).toBe(400)
+        expect(response.body.data).toHaveProperty("error")
+
+    })
+
+    it("should return 400 if the size is negative", async () => {
+
+        const response = await request(app).get('/questions?size=-1')
+        expect(response.status).toBe(400)
+        expect(response.body.data).toHaveProperty("error")
+
+    })
+
 })
 
 // Mocking the question-generator.ts to test question-controller
@@ -82,11 +98,11 @@ jest.mock('../src/services/question-generator')
 
 describe("Question Service - Question Generation", () => {
 
-    beforeEach( () =>{
+    beforeEach(() => {
         jest.clearAllMocks()
     })
 
-    it("should return questions when controller succeeds", async () =>{
+    it("should return questions when controller succeeds", async () => {
 
         // Mocking the response of generateQuestions(size) => Questions
         const mockResponse = ['Question 1', 'Question 2', 'Question 3'];
@@ -100,12 +116,12 @@ describe("Question Service - Question Generation", () => {
         } as any
 
         await generateQuestionsController(req, res)
-        
+
         // Ensuring mock fn was called like => await generateQuestions(3)
         expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length, "en");
         // Ensuring mock fn was called like => res.json(['Question1', 'Question2', 'Question3'])
         expect(res.json).toHaveBeenCalledWith(mockResponse)
-      
+
     })
 
     it("should return an error 500 when controller fails", async () => {

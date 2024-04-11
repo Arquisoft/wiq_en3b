@@ -62,45 +62,32 @@ function shuffleArray(array: any[]): void {
 }
 
 /**
- * Formats a number to a string with dots as thousands separators and a comma as decimal separator
+ * Formats a number to a string based on a locale
  * @param number The number to format
  * @returns The formatted number 
 */
-function getFormatedNumber(number: string): string {
+function getFormatedNumber(number: string, locale: string): string {
     let parsedNumber = Number(number);
 
-    // Numbers lower than 1 are not modified
-    if (parsedNumber <= 1) {
-        return number;
-    }
     // The number is an integer
     let isInteger = Number.isInteger(parsedNumber)
     if (isInteger && parsedNumber < 10000) {
         return number;
     }
 
-    if (isInteger) {
-        return parsedNumber.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
-    }
-    // The number is a float
-    else {
-        // Split the number into integer and decimal parts
-        let [integerPart, decimalPart] = parsedNumber.toFixed(2).toString().split(".");
-
-        // Add dots as thousands separators to the integer part
-        let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-
-        let formattedNumber = `${formattedIntegerPart}.${decimalPart}`;
-
-        return formattedNumber;
-    }
+    return new Intl.NumberFormat(locale).format(parsedNumber);
 }
 
-function validateAnswersNumbers(questionsArray: any[]) {
+/**
+ * Sets the correct format for the answers that are numbers
+ * @param questionsArray array of questions
+ * @param locale locale for the number format
+ */
+function validateAnswersNumbers(questionsArray: any[], locale: string) {
     for (const question of questionsArray) {
         for (const answer of question.answers) {
             if (!isNaN(answer.text)) {
-                answer.text = getFormatedNumber(answer.text);
+                answer.text = getFormatedNumber(answer.text, locale);
             }
         }
     }

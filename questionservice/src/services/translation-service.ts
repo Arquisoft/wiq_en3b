@@ -1,6 +1,7 @@
 import { performTranslationRequestWithOptions } from '../utils/translation-utils';
 
-const API_KEY = process.env.TRANSLATION_KEY ?? '***';
+// const API_KEY = process.env.TRANSLATION_KEY ?? '***';
+const API_KEY = "c30d4bcd50msh89a1aa813730fe6p167ffbjsn236010b9270f";
 
 export const getTranslatedQuestions = async (
   questionsArray: any,

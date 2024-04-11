@@ -19,36 +19,36 @@ describe("Question Service - Health", () => {
 describe("Question Service - Erroneous parameters for /questions", () => {
 
     it("should return 400 if accessed without parameter", async () => {
-        requestAndGetError('/questions')
+        await requestAndGetError('/questions')
     })
 
     it("should return 400 if accessed with erroneous parameter", async () => {
-        requestAndGetError('/questions?errorTest')
+        await requestAndGetError('/questions?errorTest')
     })
 
     it("should return 400 if accessed with size parameter but is not provided", async () => {
-        requestAndGetError('/questions?size')
+        await requestAndGetError('/questions?size')
     })
 
     it("should return 400 if accessed with size parameter but value type is wrong", async () => {
-        requestAndGetError('/questions?size=wrongValue')
+        await requestAndGetError('/questions?size=wrongValue')
     })
 
     it("should return 400 if accessed with only lang parameter", async () => {
-        requestAndGetError('/questions?lang=en')
+        await requestAndGetError('/questions?lang=en')
     })
 
     it("should return 400 if accessed with size parameter and not supported language", async () => {
-        requestAndGetError('/questions?size=10&lang=notSupported')
+        await requestAndGetError('/questions?size=10&lang=notSupported')
     })
 
     it("should return 400 if the size is too big", async () => {
-        requestAndGetError('/questions?size=101')
+        await requestAndGetError('/questions?size=101')
 
     })
 
     it("should return 400 if the size is negative", async () => {
-        requestAndGetError('/questions?size=-1')
+        await requestAndGetError('/questions?size=-1')
     })
 
 })

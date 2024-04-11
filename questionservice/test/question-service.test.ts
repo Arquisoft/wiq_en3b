@@ -7,19 +7,13 @@ import { generateQuestionsController } from '../src/controllers/question-control
 describe("Question Service - Health", () => {
 
     it("should return 200 if / is accessed", async () => {
-
         const response = await request(app).get('/');
-        expect(response.status).toBe(200)
-        expect(response.body.data).toHaveProperty("health", "Operative")
-
+        expectOperative(response);
     })
 
     it("should return / if any url is accessed", async () => {
-
         const response = await request(app).get('/testTest');
-        expect(response.status).toBe(200)
-        expect(response.body.data).toHaveProperty("health", "Operative")
-
+        expectOperative(response);
     })
 
 })
@@ -27,70 +21,61 @@ describe("Question Service - Health", () => {
 describe("Question Service - Erroneous parameters for /questions", () => {
 
     it("should return 400 if accessed without parameter", async () => {
-
         const response = await request(app).get('/questions')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        expectError(response)
     })
 
     it("should return 400 if accessed with erroneous parameter", async () => {
-
         const response = await request(app).get('/questions?errorTest')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        expectError(response)
     })
 
     it("should return 400 if accessed with size parameter but is not provided", async () => {
 
         const response = await request(app).get('/questions?size')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        expectError(response)
     })
 
     it("should return 400 if accessed with size parameter but value type is wrong", async () => {
-
         const response = await request(app).get('/questions?size=wrongValue')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
+        expectError(response)
 
     })
 
     it("should return 400 if accessed with only lang parameter", async () => {
-
         const response = await request(app).get('/questions?lang=en')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
+        expectError(response)
 
     })
 
     it("should return 400 if accessed with size parameter and not supported language", async () => {
-
         const response = await request(app).get('/questions?size=5&lang=nonsupported')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        expectError(response)
     })
 
     it("should return 400 if the size is too big", async () => {
 
         const response = await request(app).get('/questions?size=101')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
+        expectError(response)
 
     })
 
     it("should return 400 if the size is negative", async () => {
-
         const response = await request(app).get('/questions?size=-1')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        expectError(response)
     })
 
 })
+
+function expectOperative(response: any) {
+    expect(response.status).toBe(200)
+    expect(response.body.data).toHaveProperty("health", "Operative")
+}
+
+function expectError(response: any) {
+    expect(response.status).toBe(400)
+    expect(response.body.data).toHaveProperty("error")
+}
 
 // Mocking the question-generator.ts to test question-controller
 // Done to avoid flakiness by calling DB or API

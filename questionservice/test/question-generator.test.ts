@@ -186,7 +186,7 @@ describe("Question Service - Question Generator", () => {
             answers.push(element.text);
         }
         expect(answers).toContain("10,000");
-        expect(answers).toContain("7.30");
+        expect(answers).toContain("1967");
         expect(answers).toContain("67,897.89");
         expect(answers).toContain("0.876");
     })
@@ -243,7 +243,7 @@ async function mockWikidataSparqlWithNumbers(numberReturnValues: number) {
         answerLabel: "10000"
     }, {
         templateLabel: "Spain",
-        answerLabel: "7.3"
+        answerLabel: "1967"
     }, {
         templateLabel: "Russia",
         answerLabel: "67897.89"

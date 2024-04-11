@@ -104,18 +104,30 @@ paths:
                     status: Fail
                     data:
                       error: You need to provide a size for questions to be generated!
+                sizeTooBig:
+                  summary: Client has provided a size that exceeds the maximum limit  of 100
+                  value:
+                    status: Fail
+                    data:
+                      error: The size parameter must be less than 100
+                sizeNegative:
+                  summary: Client has provided a negative or zero size
+                  value:
+                    status: Fail
+                    data:
+                      error: The size parameter must be a positive number  
                 typeMissing:
                   summary: Client has provided a size but is not a number
                   value:
                     status: Fail
                     data:
-                      error: The size parameter must be a number
+                      error: The size parameter must be a number 
                 languageNotSupported:
                   summary: Client has provided a language not supported for translation.
                   value:
                     status: Fail
                     data:
-                      error: The provided language is not supported            
+                      error: The provided language is not supported     
         500:
           description: An internal server error has occured. Either DB related, Wikidata API or others.
           content:

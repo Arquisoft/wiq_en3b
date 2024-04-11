@@ -17,7 +17,7 @@ const YAML = require('yaml')
 const app = express();
 app.disable("x-powered-by");
 
-const frontURI = process.env.WEBAPP_ENDPOINT ?? 'http://localhost:80'
+const frontURI = process.env.WEBAPP_ENDPOINT ?? 'http://localhost'
 const gatewayURI = process.env.GATEWAY_ENDPOINT ?? 'http://localhost:8000'
 
 const corsWhitelist = [frontURI, gatewayURI, 'http://kawgame.xyz:80', 'http://kawgame.xyz:8000']

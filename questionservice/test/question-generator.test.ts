@@ -162,9 +162,33 @@ describe("Question Service - Question Generator", () => {
 
         const response = await generateQuestions(2, "es") as any;
         console.log(response)
-        
+
         checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)
         checkAllFieldsWithoutImage(response);
+    })
+
+
+    it("should return numbers correctly formatted", async () => {
+
+        const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
+        await mockWikidataSparqlWithNumbers(defaultNumberQuestions)
+        await mockQuestionCount();
+
+        // Testing function
+        const response = await generateQuestions(1, "en") as any;
+
+        // The call to QuestionModel.aggregate must be of size 1
+        checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)
+
+        checkAllFieldsWithoutImage(response);
+        let answers = [];
+        for (const element of response[0].answers) {
+            answers.push(element.text);
+        }
+        expect(answers).toContain("10,000");
+        expect(answers).toContain("7.30");
+        expect(answers).toContain("67,897.89");
+        expect(answers).toContain("0.876");
     })
 })
 
@@ -215,17 +239,49 @@ async function mockWikidataSparql(numberReturnValues: number) {
 
 }
 
+/**
+ * Creates a mock for getWikidataSparql function, emulating an API response.
+ * @param numberReturnValues number of responses to be returned by this function
+ * @returns the created mock
+ */
+async function mockWikidataSparqlWithNumbers(numberReturnValues: number) {
+
+    // Mock-Response for: getWikidataSparql(sparqlQuery)
+    const mockResponseWikidata = [{
+        templateLabel: "Peru",
+        answerLabel: "10000"
+    }, {
+        templateLabel: "Spain",
+        answerLabel: "7.3"
+    }, {
+        templateLabel: "Russia",
+        answerLabel: "67897.89"
+    }, {
+        templateLabel: "Ucrania",
+        answerLabel: "0.876"
+    }];
+
+    // Mock: getWikidataSparql(sparqlQuery)
+    const wikidataMock = getWikidataSparql as jest.Mock;
+
+    // Adding <numberReturnValues> responses to this mock
+    for (let i = 0; i < numberReturnValues; i++)
+        wikidataMock.mockReturnValue(mockResponseWikidata)
+
+    return wikidataMock
+}
+
 async function mockResponseTranslationRequest() {
 
     const mockResponseTranslation = {
         status: 200,
-        data: [ 
+        data: [
             {
                 translations: [
                     {
                         text: "¿Cuál es el número atómico del unbiseptio? [;; 13];; 35];; 160];; 127|||¿Cuál es la capital de Sudán? [;; Pekín];; Andorra la Vella];; Jartum];; Libreville"
                     }
-                ] 
+                ]
             }
         ]
     };

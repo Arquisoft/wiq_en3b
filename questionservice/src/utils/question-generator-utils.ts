@@ -80,7 +80,7 @@ function getFormatedNumber(number: string): string {
     }
 
     if (isInteger) {
-        return parsedNumber.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        return parsedNumber.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ',');
     }
     // The number is a float
     else {
@@ -88,9 +88,9 @@ function getFormatedNumber(number: string): string {
         let [integerPart, decimalPart] = parsedNumber.toFixed(2).toString().split(".");
 
         // Add dots as thousands separators to the integer part
-        let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+        let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 
-        let formattedNumber = `${formattedIntegerPart},${decimalPart}`;
+        let formattedNumber = `${formattedIntegerPart}.${decimalPart}`;
 
         return formattedNumber;
     }

@@ -227,16 +227,7 @@ async function mockWikidataSparql(numberReturnValues: number) {
         answerLabel: "Kiev"
     }];
 
-    // Mock: getWikidataSparql(sparqlQuery)
-    const wikidataMock = getWikidataSparql as jest.Mock;
-
-    // Adding <numberReturnValues> responses to this mock
-    for (let i = 0; i < numberReturnValues; i++)
-        wikidataMock.mockReturnValue(mockResponseWikidata)
-
-    return wikidataMock
-
-
+    return await mockWikidataResponse(mockResponseWikidata, numberReturnValues);
 }
 
 /**
@@ -261,6 +252,10 @@ async function mockWikidataSparqlWithNumbers(numberReturnValues: number) {
         answerLabel: "0.876"
     }];
 
+    return await mockWikidataResponse(mockResponseWikidata, numberReturnValues);
+}
+
+async function mockWikidataResponse(mockResponseWikidata: any, numberReturnValues: number) {
     // Mock: getWikidataSparql(sparqlQuery)
     const wikidataMock = getWikidataSparql as jest.Mock;
 

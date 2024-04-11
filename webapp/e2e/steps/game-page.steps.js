@@ -17,7 +17,7 @@ const PASS = 'kawpass123@'
 
 defineFeature(feature, test => {
   beforeAll(async () => {
-    browser = await puppeteer.launch({ slowMo: 10 })
+    browser = await puppeteer.launch({ slowMo: 10, ignoreHTTPSErrors: true })
     page = await browser.newPage()
     setDefaultOptions({ timeout: 10000 })
 

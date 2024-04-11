@@ -19,14 +19,13 @@ defineFeature(feature, test => {
   beforeAll(async () => {
     browser = await puppeteer.launch({ slowMo: 10 })
     page = await browser.newPage()
-
     setDefaultOptions({ timeout: 10000 })
 
     await page
       .goto('http://localhost:3000', {
         waitUntil: 'networkidle0',
       })
-      .catch(() => {})
+      .catch(() => { })
 
     await registerAUser(USER, PASS)
   })
@@ -40,7 +39,7 @@ defineFeature(feature, test => {
       .goto('http://localhost:3000', {
         waitUntil: 'networkidle0',
       })
-      .catch(() => {})
+      .catch(() => { })
   })
 
   test('The user wants to go to the game menu', ({ given, when, then }) => {
@@ -59,7 +58,6 @@ defineFeature(feature, test => {
       expect(buttons.length).toBe(3)
     })
   })
-
   test('The user wants to start an easy game', ({ given, when, and, then }) => {
     given('A logged user', async () => {
       await loginUser(page, USER, PASS)

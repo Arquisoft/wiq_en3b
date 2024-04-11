@@ -30,7 +30,7 @@ defineFeature(feature, test => {
       .goto('http://localhost:3000', {
         waitUntil: 'networkidle0',
       })
-      .catch(() => {})
+      .catch(() => { })
 
     await registerAUser(username, password)
   })

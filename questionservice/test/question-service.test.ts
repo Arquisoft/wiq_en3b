@@ -7,13 +7,11 @@ import { generateQuestionsController } from '../src/controllers/question-control
 describe("Question Service - Health", () => {
 
     it("should return 200 if / is accessed", async () => {
-        const response = await request(app).get('/');
-        expectOperative(response);
+        requestAndSuccess('/')
     })
 
     it("should return / if any url is accessed", async () => {
-        const response = await request(app).get('/testTest');
-        expectOperative(response);
+        requestAndSuccess('/testTest')
     })
 
 })
@@ -21,48 +19,36 @@ describe("Question Service - Health", () => {
 describe("Question Service - Erroneous parameters for /questions", () => {
 
     it("should return 400 if accessed without parameter", async () => {
-        const response = await request(app).get('/questions')
-        expectError(response)
+        requestAndGetError('/questions')
     })
 
     it("should return 400 if accessed with erroneous parameter", async () => {
-        const response = await request(app).get('/questions?errorTest')
-        expectError(response)
+        requestAndGetError('/questions?errorTest')
     })
 
     it("should return 400 if accessed with size parameter but is not provided", async () => {
-
-        const response = await request(app).get('/questions?size')
-        expectError(response)
+        requestAndGetError('/questions?size')
     })
 
     it("should return 400 if accessed with size parameter but value type is wrong", async () => {
-        const response = await request(app).get('/questions?size=wrongValue')
-        expectError(response)
-
+        requestAndGetError('/questions?size=wrongValue')
     })
 
     it("should return 400 if accessed with only lang parameter", async () => {
-        const response = await request(app).get('/questions?lang=en')
-        expectError(response)
-
+        requestAndGetError('/questions?lang=en')
     })
 
     it("should return 400 if accessed with size parameter and not supported language", async () => {
-        const response = await request(app).get('/questions?size=5&lang=nonsupported')
-        expectError(response)
+        requestAndGetError('/questions?size=10&lang=notSupported')
     })
 
     it("should return 400 if the size is too big", async () => {
-
-        const response = await request(app).get('/questions?size=101')
-        expectError(response)
+        requestAndGetError('/questions?size=101')
 
     })
 
     it("should return 400 if the size is negative", async () => {
-        const response = await request(app).get('/questions?size=-1')
-        expectError(response)
+        requestAndGetError('/questions?size=-1')
     })
 
 })
@@ -77,6 +63,15 @@ function expectError(response: any) {
     expect(response.body.data).toHaveProperty("error")
 }
 
+async function requestAndGetError(url: string) {
+    const response = await request(app).get(url);
+    expectError(response);
+}
+
+async function requestAndSuccess(url: string) {
+    const response = await request(app).get(url);
+    expectOperative(response);
+}
 // Mocking the question-generator.ts to test question-controller
 // Done to avoid flakiness by calling DB or API
 jest.mock('../src/services/question-generator')

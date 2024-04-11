@@ -21,7 +21,7 @@ defineFeature(feature, test => {
     setDefaultOptions({ timeout: 10000 })
 
     await page
-      .goto("http://localhost:80", {
+      .goto("http://localhost:3000", {
         waitUntil: "networkidle0",
       })
       .catch(() => { });
@@ -53,7 +53,7 @@ defineFeature(feature, test => {
     });
 
     await page
-      .goto("http://localhost:80", {
+      .goto("http://localhost:3000", {
         waitUntil: "networkidle0",
       })
       .catch(() => { });

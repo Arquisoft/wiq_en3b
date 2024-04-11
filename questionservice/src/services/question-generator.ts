@@ -3,7 +3,8 @@ import {
   getRandomItem,
   getWikidataSparqlWithTimeout,
   Question,
-  shuffleArray
+  shuffleArray,
+  validateAnswersNumbers
 } from '../utils/question-generator-utils';
 import { getTranslatedQuestions } from './translation-service';
 import { QuestionModel } from '../models/question-model';
@@ -43,6 +44,9 @@ async function generateQuestions(
   // Skipping questions not generated a.k.a. void
   questionsArray = questionsArray.filter(q => typeof q === 'object');
 
+  // Perform checks on the questions
+  performChecks(questionsArray)
+
   // We take the remaining questions from DB
   numberQuestionsDB = size - questionsArray.length;
   let questionsArrayDB = await getQuestionsFromDB(numberQuestionsDB);
@@ -61,6 +65,14 @@ async function generateQuestions(
     return await translateQuestionsArray(questionsArray, lang);
   }
   return questionsArray;
+}
+
+/**
+ * Validates the questions array and makes changes if needed
+ * @param questionsArray array of questions
+ */
+function performChecks(questionsArray: any[]) {
+  validateAnswersNumbers(questionsArray);
 }
 
 /**
@@ -228,7 +240,7 @@ const generateQuestionJson = async (
     );
 
     // Randomizing answers order
-    answersArray = shuffleArray(answersArray);
+    shuffleArray(answersArray);
 
     // Build it
     if (image != null)

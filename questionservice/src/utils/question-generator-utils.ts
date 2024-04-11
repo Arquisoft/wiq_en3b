@@ -54,12 +54,57 @@ async function getWikidataSparqlWithTimeout(sparqlQuery: string, requestTimeout:
  * @param array 
  * @returns 
  */
-function shuffleArray(array: any[]) {
+function shuffleArray(array: any[]): void {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
-    return array;
 }
 
-export { getRandomItem, getWikidataSparqlWithTimeout, shuffleArray, Question }
+/**
+ * Formats a number to a string with dots as thousands separators and a comma as decimal separator
+ * @param number The number to format
+ * @returns The formatted number 
+*/
+function getFormatedNumber(number: string): string {
+    let parsedNumber = Number(number);
+
+    // Numbers lower than 1 are not modified
+    if (parsedNumber <= 1) {
+        return number;
+    }
+    // The number is an integer
+    let isInteger = Number.isInteger(parsedNumber)
+    if (isInteger && parsedNumber < 10000) {
+        return number;
+    }
+
+    if (isInteger) {
+        return parsedNumber.toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    }
+    // The number is a float
+    else {
+        // Split the number into integer and decimal parts
+        let [integerPart, decimalPart] = parsedNumber.toFixed(2).toString().split(".");
+
+        // Add dots as thousands separators to the integer part
+        let formattedIntegerPart = integerPart.replace(/\B(?=(\d{3})+(?!\d))/g, ".");
+
+        let formattedNumber = `${formattedIntegerPart},${decimalPart}`;
+
+        return formattedNumber;
+    }
+}
+
+function validateAnswersNumbers(questionsArray: any[]) {
+    for (const question of questionsArray) {
+        for (const answer of question.answers) {
+            if (!isNaN(answer.text)) {
+                answer.text = getFormatedNumber(answer.text);
+            }
+        }
+    }
+}
+
+
+export { getRandomItem, getWikidataSparqlWithTimeout, shuffleArray, Question, validateAnswersNumbers }

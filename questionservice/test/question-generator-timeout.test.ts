@@ -20,6 +20,7 @@ describe("Question Service - Question Generator", () => {
         const aggregateQuestionMock = await mockQuestionAggregateEmpty();
         await mockWikidataTimeout(0)
         await mockQuestionCount()
+        // await mockshuffleArray()
 
         const result = await generateQuestions(defaultNumberQuestions, "en") as any;
 

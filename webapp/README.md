@@ -56,7 +56,7 @@ describe('AddUser component', () => {
     const addUserButton = screen.getByRole('button', { name: /Add User/i });
 
     // Mock the axios.post request to simulate a successful response
-    mockAxios.onPost('http://localhost:8000/adduser').reply(200);
+    mockAxios.onPost('https://localhost:8000/adduser').reply(200);
 
     // Simulate user input
     fireEvent.change(usernameInput, { target: { value: 'testUser' } });
@@ -111,7 +111,7 @@ In this project, the E2E testing user stories are defined using Cucumber. Cucumb
 The E2E tests have two extra difficulties. The first one, we need a browser to perform the tests as if the user was using the application. For this matter, we use `jest-puppeteer` that will launch a Chromium instance for running the tests. The browser is started in the `beforeAll` function. Note that the browser is launched in a headless mode. This is necessary for the tests to run in the CI environment. If you want to debug the tests you can always turn this feature off. The second problem is that we need all our services at the same time to be able to run the tests. For achieving this, we are going to use the package `start-server-and-test`. This package, allows us to launch multiple servers and then run the tests. No need for any configuration. We can configure it straight in the `package.json` file:
 
 ```json
-   "test:e2e": "start-server-and-test 'node e2e/test-environment-setup.js' http://localhost:8000/health prod 3000 \"cd e2e && jest\"",
+   "test:e2e": "start-server-and-test 'node e2e/test-environment-setup.js' https://localhost:8000/health prod 3000 \"cd e2e && jest\"",
 ```
 
 

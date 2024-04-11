@@ -11,16 +11,16 @@ import { errorHandler } from './middlewares/error-handler';
 
 // libraries required for OpenAPI-Swagger
 const swaggerUI = require('swagger-ui-express');
-const fs = require("fs")
-const YAML = require('yaml')
+const fs = require("fs");
+const YAML = require('yaml');
 
 const app = express();
 app.disable("x-powered-by");
 
-const frontURI = process.env.WEBAPP_ENDPOINT ?? 'http://localhost:3000'
-const gatewayURI = process.env.GATEWAY_ENDPOINT ?? 'http://localhost:8000'
+const frontURI = process.env.WEBAPP_ENDPOINT ?? 'http://localhost:3000';
+const gatewayURI = process.env.GATEWAY_ENDPOINT ?? 'https://localhost:8000';
 
-const corsWhitelist = [frontURI, gatewayURI, 'http://localhost', 'http://kawgame.xyz:80', 'http://kawgame.xyz:8000']
+const corsWhitelist = [frontURI, gatewayURI, 'http://localhost', 'http://kawgame.xyz:80', 'http://kawgame.xyz:8000'];
 app.use(cors({ origin: corsWhitelist }));
 app.use(express.json());
 
@@ -36,7 +36,7 @@ app.use(historyRouter);
 app.use(questionRouter);
 
 // Read the OpenAPI YAML file synchronously
-const openapiPath = './openapi.yaml'
+const openapiPath = './openapi.yaml';
 if (fs.existsSync(openapiPath)) {
   const file = fs.readFileSync(openapiPath, 'utf8');
 
@@ -48,7 +48,7 @@ if (fs.existsSync(openapiPath)) {
   // It takes the parsed Swagger document as input
   app.use('/api-doc', swaggerUI.serve, swaggerUI.setup(swaggerDocument));
 } else {
-  console.log("Not configuring OpenAPI. Configuration file not present.")
+  console.log("Not configuring OpenAPI. Configuration file not present.");
 }
 
 // Not found router

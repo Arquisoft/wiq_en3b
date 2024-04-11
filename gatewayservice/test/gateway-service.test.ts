@@ -210,7 +210,7 @@ describe('Gateway Service', () => {
     const req = { path: "/questions" };
     const headers = new AxiosHeaders();
     const config = {
-      url: "http://localhost:8000",
+      url: "https://localhost:8000",
       headers
     };
     const res = {
@@ -240,7 +240,7 @@ describe('Gateway Service', () => {
     const req = { path: "/questions" };
     const headers = new AxiosHeaders();
     const config = {
-      url: "http://localhost:8000",
+      url: "https://localhost:8000",
       headers
     };
     const res = {

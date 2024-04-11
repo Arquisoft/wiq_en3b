@@ -13,7 +13,7 @@ async function waitForInvalidCredentialsError(page) {
 }
 
 async function registerAUser(username, password) {
-  await axios.post('http://localhost:8000/adduser', {
+  await axios.post('https://localhost:8000/adduser', {
     username,
     password,
   })

@@ -1,45 +1,36 @@
-import React, { useState } from "react"
-
-import Quiz from '../../components/Quiz/Quiz'
+import { useState } from 'react'
 import Button from '../../components/Button/Button'
+import './Game.css'
+import Classic from '../../components/GameModes/Classic'
+import Custom from '../../components/GameModes/Custom'
 
-import "./Game.css"
+const Game = () => {
+  const [gamemode, setGamemode] = useState()
 
-import { useTranslation } from "react-i18next"
-
-const Game = (props) => {
-
-  const [level, setLevel] = useState()
-  const { t } = useTranslation();
-
-  function goEasyLevel() {
-    setLevel("easy")
+  const goBack = () => {
+    setGamemode(null)
   }
 
-  function goMediumLevel() {
-    setLevel("medium")
-  }
-
-  function goHardLevel() {
-    setLevel("hard")
+  const changeToGameMode = gamemode => () => {
+    setGamemode(gamemode)
   }
 
   return (
-    <div className="quiz-wrapper">
-      {!level && (
-        <div className="header-and-buttons-container">
-          <h2>{t("play.choose_difficulty")}</h2>
-          <div className="button-container">
-            <Button onClick={goEasyLevel}>{t("play.easy")}</Button>
-            <Button onClick={goMediumLevel}>{t("play.medium")}</Button>
-            <Button onClick={goHardLevel}>{t("play.hard")}</Button>
+    <>
+      {!gamemode && (
+        <div className="quiz-wrapper">
+          <div className="header-and-buttons-container">
+            <h2>Select the gamemode</h2>
+            <div className="button-container">
+              <Button onClick={changeToGameMode('classic')}>Classic</Button>
+              <Button onClick={changeToGameMode('custom')}>Custom</Button>
+            </div>
           </div>
         </div>
       )}
-      {level && (
-        <Quiz level={level} />
-      )}
-    </div>
+      {gamemode === 'classic' && <Classic goBack={goBack} />}
+      {gamemode === 'custom' && <Custom goBack={goBack} />}
+    </>
   )
 }
 

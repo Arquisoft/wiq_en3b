@@ -1,23 +1,40 @@
-import "./AnswerList.css";
+import './AnswerList.css'
 
-import AnswerItem from "./AnswerItem";
+import AnswerItem from './AnswerItem'
 
-const AnswerList = (props) => {
+const AnswerList = ({ answersData, selectedAnswerId, answerQuestionWith }) => {
+  const { correctAnswerId, answers } = answersData
+  const hasSelected = Boolean(selectedAnswerId)
+
   return (
     <ul className="answer-list">
-      {props.answers.map((answer) => (
-        <AnswerItem
-          key={answer.id}
-          onSelectAnswer={props.onSelectAnswer}
-          answer={answer}
-          selected={props.selected}
-          btnDisabled={props.btnDisabled}
-        >
-          {answer.text}
-        </AnswerItem>
-      ))}
-    </ul>
-  );
-};
+      {answers.map(answer => {
+        const { id, text } = answer
+        let className = 'answer-item '
 
-export default AnswerList;
+        if (hasSelected) {
+          if (id === correctAnswerId) {
+            className += 'success'
+          }
+
+          if (id === selectedAnswerId && id !== correctAnswerId) {
+            className += 'error'
+          }
+        }
+
+        return (
+          <AnswerItem
+            key={id}
+            onClick={answerQuestionWith(id)}
+            className={className}
+            disabled={hasSelected}
+          >
+            {text}
+          </AnswerItem>
+        )
+      })}
+    </ul>
+  )
+}
+
+export default AnswerList

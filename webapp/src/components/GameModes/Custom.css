@@ -1,0 +1,12 @@
+.custom-option {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-block: 2rem;
+}
+
+.custom-option input[type='range'] {
+  max-width: 20rem;
+  width: 100%;
+  display: block;
+}

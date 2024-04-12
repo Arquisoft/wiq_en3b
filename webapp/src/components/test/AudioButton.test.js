@@ -3,6 +3,11 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import AudioButton from '../AudioButton/AudioButton';
 
 describe('AudioButton component', () => {
+    beforeEach(() => {
+        jest.spyOn(window.HTMLMediaElement.prototype, 'play').mockImplementation(() => {});
+        jest.spyOn(window.HTMLMediaElement.prototype, 'pause').mockImplementation(() => {});
+    })
+
     it('renders without crashing', () => {
         render(<AudioButton volume={50} />);
     });

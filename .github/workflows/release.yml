@@ -43,7 +43,7 @@ jobs:
     - run: npm --prefix webapp install
     - run: npm --prefix questionservice install
     - run: npm --prefix webapp run build
-    - run: npm --prefix webapp run test:e2e
+    - run: npm --prefix webapp run test:e2eci
 
   docker-push-webapp:
     name: Push webapp Docker Image to GitHub Packages
@@ -57,7 +57,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
-          API_URI: http://${{ secrets.DEPLOY_HOST }}:8000
+          API_URI: https://${{ secrets.DEPLOY_HOST }}:8000
         with:
           name: arquisoft/wiq_en3b/webapp
           username: ${{ github.actor }}
@@ -140,7 +140,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
-          GATEWAY_URI: http://${{ secrets.DEPLOY_HOST }}:8000
+          GATEWAY_URI: https://${{ secrets.DEPLOY_HOST }}:8000
           WEBAPP_URI: http://${{ secrets.DEPLOY_HOST }}:80
         with:
           name: arquisoft/wiq_en3b/gatewayservice
@@ -165,4 +165,6 @@ jobs:
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/docker-compose.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/.env
             docker compose --profile prod down
+            echo -e "-----BEGIN CERTIFICATE-----\n${{ secrets.CERTIFICATE }}\n-----END CERTIFICATE-----" > gatewayservice/certificate/certificate.crt
+            echo -e "-----BEGIN PRIVATE KEY-----\n${{ secrets.CERTIFICATE_KEY }}\n-----END PRIVATE KEY-----" > gatewayservice/certificate/certificatekey.key
             docker compose --profile prod up -d --pull always

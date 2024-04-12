@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 ARG WEBAPP_URI="http://localhost:80"
-ARG GATEWAY_URI="http://localhost:8000"
+ARG GATEWAY_URI="https://localhost:8000"
 ENV GATEWAY_ENDPOINT=$GATEWAY_URI
 ENV WEBAPP_ENDPOINT=$WEBAPP_URI
 

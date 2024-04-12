@@ -9,7 +9,7 @@ info:
     email: uo287866@uniovi.es
   version: 0.2.0
 servers:
-  - url: http://localhost:8000
+  - url: https://localhost:8000
     description: Development server
   - url: http://SOMEIP:8000
     description: Production server

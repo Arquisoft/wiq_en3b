@@ -3,7 +3,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import Nav from '../Nav/Nav';
 import '@testing-library/jest-dom'
 import { Routes, BrowserRouter, Route } from 'react-router-dom'
-import { runI18n } from './utils/i18n';
+import { runI18n } from './utils/i18n.test-utils';
 
 jest.mock('../../hooks/useAuth', () => ({
     useAuth: () => ({

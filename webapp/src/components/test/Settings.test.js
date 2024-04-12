@@ -2,7 +2,7 @@ import React from 'react';
 import { render, screen } from '@testing-library/react';
 import Settings from '../../pages/Settings/Settings';
 import '@testing-library/jest-dom'
-import { runI18n } from './utils/i18n';
+import { runI18n } from './utils/i18n.test-utils';
 
 
 describe('Settings component', () => {

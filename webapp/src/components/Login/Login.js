@@ -30,12 +30,15 @@ const Login = () => {
 
   const loginHandler = async e => {
     e.preventDefault()
-    setFormErrors(
-      validateForm({
-        username,
-        password,
-      })
-    )
+    const errors = validateForm({
+      username,
+      password,
+    })
+
+    if (Object.keys(errors).length) {
+      setFormErrors(errors)
+      return
+    }
 
     try {
       const response = await axios.post(`${API_ENDPOINT}/login`, {
@@ -63,7 +66,7 @@ const Login = () => {
   }
 
   return (
-    <div className='login'>
+    <div className="login">
       <form>
         <h1>Login</h1>
         {error && <div className="response-error">{error}</div>}

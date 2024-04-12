@@ -29,7 +29,7 @@
     "build": "set PORT=80 && react-scripts build",
     "prod": "serve -s build",
     "test": "react-scripts test --transformIgnorePatterns 'node_modules/(?!axios)/'",
-    "test:e2e": "cross-env START_SERVER_AND_TEST_INSECURE=1 npm run rune2etests",
+    "test:e2e": "cross-env START_SERVER_AND_TEST_INSECURE=1 NODE_TLS_REJECT_UNAUTHORIZED=0 npm run rune2etests",
     "rune2etests": "start-server-and-test 'ts-node e2e/test-environment-setup.js' https://localhost:8000/health prod 3000 \"cd e2e && jest\"",
     "eject": "react-scripts eject"
   },

@@ -22,7 +22,6 @@ export const getTranslatedQuestions = async (
 
     responses.forEach((response, i) => {
       const text = response.data[0].translations[0].text.split('\\+\\');
-      console.log(text);
       const question = text[0];
       const answers = text[1].split('***');
 
@@ -35,11 +34,12 @@ export const getTranslatedQuestions = async (
       });
     });
 
-    console.log(arr);
+    console.log(
+      `${arr.length} questions translated successfully to ${language}`
+    );
 
     return arr;
   } catch (err) {
-    console.log(err);
     throw new Error('Error while translating');
   }
 };

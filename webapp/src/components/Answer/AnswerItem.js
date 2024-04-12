@@ -1,37 +1,21 @@
-import "./AnswerItem.css";
+import './AnswerItem.css'
 
-const AnswerItem = (props) => {
-  const selectAnswerHandler = () => {
-    if (props.btnDisabled) {
-      return;
-    }
-    props.onSelectAnswer(props.answer.id);
-  };
-
-  const handleAnswerItemClass = (correctAnswerId, selectedAnswerId) => {
-
-    if (props.answer.id === correctAnswerId) return "answer-item success";
-
-    if (props.answer.id === selectedAnswerId) return "answer-item error";
-
-    return "answer-item";
-  };
-
+function AnswerItem({ onClick, className, disabled, children }) {
   return (
     <li
-      disabled={props.btnDisabled}
-      onClick={selectAnswerHandler}
+      disabled={disabled}
+      onClick={onClick}
       tabIndex={0}
-      onKeyDown={(event) => {
+      onKeyDown={event => {
         if (event.key === 'Enter' || event.key === ' ') {
-          selectAnswerHandler();
+          onClick()
         }
       }}
-      className={handleAnswerItemClass(props.selected.correctId, props.selected.selectedId)}
+      className={className}
     >
-      {props.children}
+      {children}
     </li>
-  );
-};
+  )
+}
 
-export default AnswerItem;
+export default AnswerItem

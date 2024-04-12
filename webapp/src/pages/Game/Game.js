@@ -1,44 +1,38 @@
-import React, { useState } from "react"
-
 import Quiz from '../../components/Quiz/Quiz'
 import Button from '../../components/Button/Button'
 
-import "./Game.css"
+import './Game.css'
 
-import { useTranslation } from "react-i18next"
+import { useTranslation } from 'react-i18next'
+import { useDifficulty } from '../../hooks/useDifficulty'
 
-const Game = (props) => {
+const Game = () => {
+  const { difficulty, switchDifficulty } = useDifficulty()
+  const { t } = useTranslation()
 
-  const [level, setLevel] = useState()
-  const { t } = useTranslation();
-
-  function goEasyLevel() {
-    setLevel("easy")
-  }
-
-  function goMediumLevel() {
-    setLevel("medium")
-  }
-
-  function goHardLevel() {
-    setLevel("hard")
+  const changeDifficultyTo = difficulty => () => {
+    switchDifficulty(difficulty)
   }
 
   return (
     <div className="quiz-wrapper">
-      {!level && (
+      {!difficulty && (
         <div className="header-and-buttons-container">
-          <h2>{t("play.choose_difficulty")}</h2>
+          <h2>{t('play.choose_difficulty')}</h2>
           <div className="button-container">
-            <Button onClick={goEasyLevel}>{t("play.easy")}</Button>
-            <Button onClick={goMediumLevel}>{t("play.medium")}</Button>
-            <Button onClick={goHardLevel}>{t("play.hard")}</Button>
+            <Button onClick={changeDifficultyTo('easy')}>
+              {t('play.easy')}
+            </Button>
+            <Button onClick={changeDifficultyTo('medium')}>
+              {t('play.medium')}
+            </Button>
+            <Button onClick={changeDifficultyTo('hard')}>
+              {t('play.hard')}
+            </Button>
           </div>
         </div>
       )}
-      {level && (
-        <Quiz level={level} />
-      )}
+      {difficulty && <Quiz configuration={difficulty} />}
     </div>
   )
 }

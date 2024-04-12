@@ -1,30 +1,40 @@
-import "./Question.css";
+import './Question.css'
 
-import AnswerList from "../Answer/AnswerList";
+import AnswerList from '../Answer/AnswerList'
 
-const Question = (props) => {
+const Question = ({
+  question: questionData,
+  quizLength,
+  answerQuestionWith,
+  selectedAnswerId,
+}) => {
+  const { id, question, answers, correctAnswerId, image = false } = questionData
+  const answersData = {
+    correctAnswerId,
+    answers,
+  }
+
   return (
     <div className="quiz">
       <div className="quiz-counter">
-        Question {props.activeQuizIndex} of {props.quizLength}
+        Question {id + 1} of {quizLength}
       </div>
       <div className="question">
-        <p className="question-text">{props.quiz.question}</p>
-        {props.quiz.image && (
+        <p className="question-text">{question}</p>
+        {image && (
           <div className="quiz-image">
-            <img src={props.quiz.image} alt="Question" />
+            <img src={image} alt="Question" />
           </div>
         )}
       </div>
 
       <AnswerList
-        btnDisabled={props.btnDisabled}
-        answers={props.quiz.answers}
-        onSelectAnswer={props.onSelectAnswer}
-        selected={props.selected}
+        answersData={answersData}
+        answerQuestionWith={answerQuestionWith}
+        selectedAnswerId={selectedAnswerId}
       />
     </div>
-  );
-};
+  )
+}
 
-export default Question;
+export default Question

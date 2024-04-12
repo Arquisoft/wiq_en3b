@@ -1,23 +1,26 @@
-import { useEffect, useState } from "react"
-import { getQuestions } from "../services/apiQuestions"
-import { shuffle } from "../utils/shuffle"
+import { useCallback, useEffect, useState } from 'react'
+import { getQuestions } from '../services/apiQuestions'
+import { shuffle } from '../utils/shuffle'
 
-const useQuestions = () => {
+const useQuestions = ({ numberOfQuestions, language }) => {
   const [questions, setQuestions] = useState([])
 
+  const generateNewQuestions = useCallback(async () => {
+    const questions = await getQuestions(numberOfQuestions, language)
+
+    questions.forEach((question, i) => {
+      question.id = i
+      question.answers = shuffle(question.answers)
+    })
+
+    setQuestions(questions)
+  }, [language, numberOfQuestions])
+
   useEffect(() => {
-    ;(async () => {
-      const questions = await getQuestions()
+    generateNewQuestions()
+  }, [generateNewQuestions])
 
-      questions.forEach(question => {
-        question.answers = shuffle(question.answers)
-      })
-
-      setQuestions(questions)
-    })()
-  }, [])
-
-  return { questions }
+  return { questions, generateNewQuestions }
 }
 
 export { useQuestions }

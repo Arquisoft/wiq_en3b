@@ -20,6 +20,16 @@
   color: #1e1e20;
 }
 
+.button.danger {
+  background-color: #c92a2a;
+}
+
+.button.danger:hover {
+  background-color: #fff;
+  border-color: #c92a2a;
+  color: #c92a2a;
+}
+
 .button--sm {
   padding: 10px;
 }

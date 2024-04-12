@@ -7,7 +7,7 @@ import { GAME_STATES, useGame } from '../../hooks/useGame'
 import i18next from 'i18next'
 import Timer from './Timer'
 
-const Quiz = ({ configuration }) => {
+const Quiz = ({ configuration, goBack }) => {
   const { user } = useAuth()
   const {
     resetGame,
@@ -31,6 +31,7 @@ const Quiz = ({ configuration }) => {
           quizLength={numberOfQuestions}
           onPlayAgain={resetGame}
           points={points}
+          goBack={goBack}
         />
       )}
       {state === GAME_STATES.playing && (

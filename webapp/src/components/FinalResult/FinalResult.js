@@ -1,10 +1,8 @@
-import "./FinalResult.css";
+import './FinalResult.css'
 
-import Button from "../Button/Button";
+import Button from '../Button/Button'
 
-const FinalResult = (props) => {
-
-
+const FinalResult = props => {
   return (
     <div className="final-result">
       <h1>Final result</h1>
@@ -13,8 +11,11 @@ const FinalResult = (props) => {
       </p>
       <p>Your score is {props.points} points.</p>
       <Button onClick={props.onPlayAgain}>Play again</Button>
+      <Button onClick={props.goBack} className="danger">
+        Go back
+      </Button>
     </div>
-  );
-};
+  )
+}
 
-export default FinalResult;
+export default FinalResult

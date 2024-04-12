@@ -3,6 +3,7 @@ import { render, fireEvent, screen } from '@testing-library/react';
 import Nav from '../Nav/Nav';
 import '@testing-library/jest-dom'
 import { Routes, BrowserRouter, Route } from 'react-router-dom'
+import { runI18n } from './utils/i18n';
 
 jest.mock('../../hooks/useAuth', () => ({
     useAuth: () => ({
@@ -11,6 +12,10 @@ jest.mock('../../hooks/useAuth', () => ({
 }));
 
 describe('Nav component', () => {
+    beforeAll(() => {
+        runI18n()
+      })
+
     it('renders Nav without crashing', () => {
         render(
             <BrowserRouter>

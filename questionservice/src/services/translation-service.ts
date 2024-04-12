@@ -6,67 +6,61 @@ export const getTranslatedQuestions = async (
   questionsArray: any,
   language: any
 ) => {
-  /*
-  The idea of this is to transform the questions array to this
-  "QUESTION[;;ANSWER];;ANSWER]!!ANSWER]!!ANSWER]!!|||QUESTION[;;ANSWER]!!ANSWER]!!ANSWER]!!ANSWER]!!"
-  So the number of requests to the API is the minimum and with the minimum number of
-  chars spent
-  */
-  const text = questionsArray
-    .map((questionElement: any) => {
-      const { question, answers } = questionElement;
-      const answersRepresentation = answers
+  try {
+    const translationPromises = questionsArray.map(async (question: any) => {
+      const text = `${question.question}\\+\\${question.answers
         .map(({ text }: any) => text)
-        .join('];;');
+        .join('***')}`;
+      return await performTranslationRequestWithOptions(
+        getOptionsForTranslationRequest(language, text)
+      );
+    });
 
-      return `${question}[;;${answersRepresentation}`;
-    })
-    .join('|||');
+    const responses = await Promise.all(translationPromises);
 
-  const options = {
-    method: 'POST',
-    url: 'https://microsoft-translator-text.p.rapidapi.com/translate',
-    params: {
-      'to[0]': language,
-      'api-version': '3.0',
-      profanityAction: 'NoAction',
-      textType: 'plain',
-    },
-    headers: {
-      'content-type': 'application/json',
-      'X-RapidAPI-Key': API_KEY,
-      'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com',
-    },
-    data: [
-      {
-        Text: text,
-      },
-    ],
-  };
+    const arr: any[] = [];
 
-  const response = await performTranslationRequestWithOptions(options);
-
-  if (response.status !== 200) {
-    throw new Error('Error while translating');
-  }
-
-  const arr: any[] = [];
-
-  response.data[0].translations[0].text
-    .split('|||')
-    .forEach((question: any, i: number) => {
-      const [questionPart, answersPart] = question.split('[;;');
+    responses.forEach((response, i) => {
+      const text = response.data[0].translations[0].text.split('\\+\\');
+      console.log(text);
+      const question = text[0];
+      const answers = text[1].split('***');
 
       arr.push({
-        question: questionPart.trim(),
-        answers: answersPart.split('];;').map((answer: any, j: number) => ({
+        question,
+        answers: answers.map((answer: any, j: number) => ({
           id: questionsArray[i].answers[j].id,
           text: answer.trim(),
         })),
       });
     });
 
-  console.log(arr);
+    console.log(arr);
 
-  return arr;
+    return arr;
+  } catch (err) {
+    console.log(err);
+    throw new Error('Error while translating');
+  }
 };
+
+const getOptionsForTranslationRequest = (language: any, text: string) => ({
+  method: 'POST',
+  url: 'https://microsoft-translator-text.p.rapidapi.com/translate',
+  params: {
+    'to[0]': language,
+    'api-version': '3.0',
+    profanityAction: 'NoAction',
+    textType: 'plain',
+  },
+  headers: {
+    'content-type': 'application/json',
+    'X-RapidAPI-Key': API_KEY,
+    'X-RapidAPI-Host': 'microsoft-translator-text.p.rapidapi.com',
+  },
+  data: [
+    {
+      Text: text,
+    },
+  ],
+});

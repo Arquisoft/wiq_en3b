@@ -10,8 +10,8 @@ In our case we are going to use Azure as our cloud provider. The following steps
    - Download the private key (.pem file) and paste all of its textual content over `DEPLOY_KEY`. Save the file for later configurations over SSH at the virtual machine.
    - Check the public IP of the virtual machine at Azure and save it in `DEPLOY_HOST`.
 6. Once the virtual machine is created and the repository is configured, we have to create some rules for the virtual machine:
-   - Open port 3000 for the gateway.
-   - Open port 8000 for the webapp.
+   - Open port 8000 for the gateway.
+   - Open port 80 for the webapp.
 7. Configure the virtual machine by connecting through SSH:
    - Use a tool for connecting to the server using SSH (example... PuTTY, MobaXterm…​).
    - Use the public IP address and the file .pem for making the connection.

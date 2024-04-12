@@ -44,6 +44,25 @@ describe('Header component', () => {
         expect(onToggleNavMock).toHaveBeenCalled();
     });
 
+    it('calls onToggleNav prop when navigation element is focused and enter key is pressed', () => {
+        const onToggleNavMock = jest.fn();
+
+        render(
+            <BrowserRouter>
+                <AuthProvider>
+                    <SettingsProvider>
+                        <Header theme="light" onChangeTheme={() => {}} onToggleNav={onToggleNavMock} />
+                    </SettingsProvider>
+                </AuthProvider>
+            </BrowserRouter>
+        );
+
+        const navigationElement = screen.getByTestId('navigation-element');
+        navigationElement.focus();
+        fireEvent.keyDown(navigationElement, { key: 'Enter' });
+        expect(onToggleNavMock).toHaveBeenCalled();
+    });
+
     it('calls onChangeTheme prop when theme element is clicked', () => {
         const onChangeThemeMock = jest.fn();
         render(
@@ -61,4 +80,21 @@ describe('Header component', () => {
         expect(onChangeThemeMock).toHaveBeenCalled();
     });
 
+    it('calls onChangeTheme prop when theme element is focused and enter key is pressed', () => {
+        const onChangeThemeMock = jest.fn();
+        render(
+            <BrowserRouter>
+                <AuthProvider>
+                    <SettingsProvider>
+                        <Header theme="light" onChangeTheme={onChangeThemeMock} onToggleNav={() => {}} />
+                    </SettingsProvider>
+                </AuthProvider>
+            </BrowserRouter>
+        );
+
+        const themeElement = screen.getByTestId('theme-element');
+        themeElement.focus();
+        fireEvent.keyDown(themeElement, { key: 'Enter' });
+        expect(onChangeThemeMock).toHaveBeenCalled();
+    });
 });

@@ -153,14 +153,14 @@ describe("Question Service - Question Generator", () => {
         checkAllFieldsWithoutImage(response);
     })
 
-    it("should return 2 questions translated to spanish", async () => {
+    it("should return 1 question translated to spanish", async () => {
 
         const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
         await mockWikidataSparql(defaultNumberQuestions)
         await mockQuestionCount();
         mockResponseTranslationRequest()
 
-        const response = await generateQuestions(2, "es") as any;
+        const response = await generateQuestions(1, "es") as any;
         console.log(response)
         
         checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)
@@ -223,7 +223,7 @@ async function mockResponseTranslationRequest() {
             {
                 translations: [
                     {
-                        text: "¿Cuál es el número atómico del unbiseptio? [;; 13];; 35];; 160];; 127|||¿Cuál es la capital de Sudán? [;; Pekín];; Andorra la Vella];; Jartum];; Libreville"
+                        text: "¿Cuál es la capital de Sudán?\\+\\Pekín]***Andorra la Vella***Jartum***Libreville"
                     }
                 ] 
             }

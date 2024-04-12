@@ -51,11 +51,11 @@ defineFeature(feature, test => {
       await selectNavOptionByHref(page, '/game')
     })
 
-    then('The three possible difficulties should appear', async () => {
+    then('The two gamemodes should appear', async () => {
       const buttonContainer = await page.$('.button-container') // document.quesrySelector
       const buttons = await buttonContainer.$$('button') // document.quesrySelectorAll
 
-      expect(buttons.length).toBe(3)
+      expect(buttons.length).toBe(2)
     })
   })
   test('The user wants to start an easy game', ({ given, when, and, then }) => {
@@ -65,6 +65,10 @@ defineFeature(feature, test => {
 
     when('The user navigates to the game page', async () => {
       await selectNavOptionByHref(page, '/game')
+    })
+
+    and('The user press the Classic button', async () => {
+      await clickOnGameDifficulty(page, 'Classic')
     })
 
     and('The user press the Easy button', async () => {
@@ -90,6 +94,10 @@ defineFeature(feature, test => {
       await selectNavOptionByHref(page, '/game')
     })
 
+    and('The user press the Classic button', async () => {
+        await clickOnGameDifficulty(page, 'Classic')
+    })
+
     and('The user press the Medium button', async () => {
       await clickOnGameDifficulty(page, 'Medium')
     })
@@ -106,6 +114,10 @@ defineFeature(feature, test => {
 
     when('The user navigates to the game page', async () => {
       await selectNavOptionByHref(page, '/game')
+    })
+
+    and('The user press the Classic button', async () => {
+        await clickOnGameDifficulty(page, 'Classic')
     })
 
     and('The user press the Hard button', async () => {

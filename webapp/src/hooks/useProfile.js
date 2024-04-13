@@ -13,17 +13,14 @@ export const useProfile = (username) => {
   useEffect(() => {
     ;(async () => {
       try {
-        if (!username) {
-          if (!user) {
-            setErrorProfile('Only logged users can see their own profile')
-            return
-          }
-          username = user.username;
+        if (!username && !user) {
+          setErrorProfile('Only logged users can see their own profile')
+          return
         }
 
         const [profile, biography] = await Promise.all([
-          await getProfile(username),
-          await getBiography(username),
+          await getProfile(username ? username : user.username),
+          await getBiography(username ? username : user.username),
         ])
 
         if (profile.status === 'fail') {

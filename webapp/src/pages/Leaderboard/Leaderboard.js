@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import './Leaderboard.css'
 
 import { API_ENDPOINT } from "../../utils/constants";
 import { formatTime } from "../../utils/formatTime";
@@ -110,7 +111,7 @@ const Leaderboard = () => {
                   </StyledTableCell>
 
                   <StyledTableCell align="center">
-                    <Link to={`../profile/${row.username}`}>
+                    <Link to={`../profile/${row.username}`} className="username-profile">
                       {row.username}
                     </Link>
                   </StyledTableCell>

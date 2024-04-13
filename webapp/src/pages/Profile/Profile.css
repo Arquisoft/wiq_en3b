@@ -28,6 +28,10 @@
     justify-content: center;
 }
 
+.circle-shadow img {
+    border-radius:50%;
+}
+
 /* Bio container section */
 .bio-container {
     margin-top: 20px;

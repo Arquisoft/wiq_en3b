@@ -55,7 +55,8 @@ const Profile = () => {
       {(username || user) && <h1 className="profile-title">{username ? username : user?.username}'s profile</h1>}
       {(username || user) &&
       <div className={canModify || bio ? "user-select" : ""}>
-        <div className={canModify ? "profile-header" : "other-user-header"}>
+        <div className={`${canModify ? "profile-header" : "other-user-header"} ${(!selectedImage 
+            || selectedImage === "default-avatar.png") && "circle-shadow"}`}>
           <img
             src={
               selectedImage

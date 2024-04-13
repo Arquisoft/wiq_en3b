@@ -43,14 +43,7 @@ function App() {
                 </ProtectedRoute>
               }
             ></Route>
-            <Route
-              path="profile"
-              element={
-                <ProtectedRoute>
-                  <Profile />
-                </ProtectedRoute>
-              }
-            ></Route>
+            <Route path="profile/:username?" element={<Profile />} />
             <Route path="leaderboard" element={<Leaderboard />}></Route>
             <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} />}></Route>
           </Route>

@@ -5,16 +5,18 @@ import { useAuth } from '../../hooks/useAuth'
 import { Modal, Fade } from '@mui/material'
 import { updateBiography } from '../../services/apiBiography'
 import { debounce } from '../../utils/debounce'
-
 import { formatTime } from '../../utils/formatTime'
+import { useParams } from 'react-router-dom'
 
 const Profile = () => {
-  const { profile, errorProfile, biography, errorBiography } = useProfile()
+  const { username } = useParams();
+  const { profile, errorProfile, biography, errorBiography } = useProfile(username)
   const { user } = useAuth()
   const [bio, setBio] = useState('')
   const [selectedImage, setSelectedImage] = useState(null)
   const [open, setOpen] = useState(false)
   const [showAvatarText, setShowAvatarText] = useState(false)
+  const canModify = (!username || username === user?.username) && !errorProfile
 
   useEffect(() => {
     setBio(biography?.profile?.bio)
@@ -24,9 +26,9 @@ const Profile = () => {
   const debounceUpdateBio = useMemo(
     () =>
       debounce(newBio => {
-        updateBiography(user.token, { bio: newBio, pic: selectedImage })
+        updateBiography(user?.token, { bio: newBio, pic: selectedImage })
       }, 1000),
-    [selectedImage, user.token]
+    [selectedImage, user?.token]
   )
 
   const handleBioChange = event => {
@@ -50,9 +52,10 @@ const Profile = () => {
 
   return (
     <div className="profile-container">
-      <h1 className="profile-title">{user.username}'s profile</h1>
-      <div className="user-select">
-        <div className="profile-header">
+      {(username || user) && <h1 className="profile-title">{username ? username : user?.username}'s profile</h1>}
+      {(username || user) &&
+      <div className={canModify || bio ? "user-select" : ""}>
+        <div className={canModify ? "profile-header" : "other-user-header"}>
           <img
             src={
               selectedImage
@@ -60,8 +63,8 @@ const Profile = () => {
                 : require('../../assets/pictures/default-avatar.png')
             }
             alt="Selected Profile"
-            onClick={() => setOpen(true)}
-            onMouseEnter={() => setShowAvatarText(true)}
+            onClick={() => setOpen(canModify)}
+            onMouseEnter={() => setShowAvatarText(canModify)}
             onMouseLeave={() => setShowAvatarText(false)}
           />
           {showAvatarText && (
@@ -70,7 +73,8 @@ const Profile = () => {
         </div>
 
         <div className="bio-container">
-          <h2>Bio</h2>
+          {(canModify || bio) && (<h2>Bio</h2>)}
+          {canModify ? (
           <textarea
             className="bio-textarea"
             value={bio}
@@ -79,8 +83,15 @@ const Profile = () => {
             maxLength={100}
             style={{ width: '100%', minHeight: '100px' }}
           />
+          ) : bio && (
+          <p className="bio-textarea">
+            {bio}
+          </p>
+          )}
         </div>
       </div>
+      }
+
 
       <Modal
         open={open}
@@ -126,6 +137,7 @@ const Profile = () => {
           </div>
         </Fade>
       </Modal>
+
 
       {errorProfile ? (
         <p style={{ color: '#7b0c0c' }}>{errorProfile}</p>

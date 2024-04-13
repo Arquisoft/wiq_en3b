@@ -16,6 +16,7 @@ import { ReactComponent as SilverMedalIcon } from "../../assets/medal-silver.svg
 import { ReactComponent as GoldMedalIcon } from "../../assets/medal-gold.svg";
 
 import { useTranslation } from "react-i18next";
+import {Link} from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -108,7 +109,11 @@ const Leaderboard = () => {
                     {index >= 3 && row.ranking}
                   </StyledTableCell>
 
-                  <StyledTableCell align="center">{row.username}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Link to={`../profile/${row.username}`}>
+                      {row.username}
+                    </Link>
+                  </StyledTableCell>
                   <StyledTableCell align="center">{row.passedQuestions}</StyledTableCell>
                   <StyledTableCell align="center">{row.failedQuestions}</StyledTableCell>
                   <StyledTableCell align="center">{row.gamesPlayed}</StyledTableCell>

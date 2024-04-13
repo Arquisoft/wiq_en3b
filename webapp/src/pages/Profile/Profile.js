@@ -85,7 +85,7 @@ const Profile = () => {
             style={{ width: '100%', minHeight: '100px' }}
           />
           ) : bio && (
-          <p className="bio-textarea">
+          <p className="bio-textarea" style={{ wordBreak: 'break-all' }}>
             {bio}
           </p>
           )}

@@ -54,12 +54,44 @@ async function getWikidataSparqlWithTimeout(sparqlQuery: string, requestTimeout:
  * @param array 
  * @returns 
  */
-function shuffleArray(array: any[]) {
+function shuffleArray(array: any[]): void {
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [array[i], array[j]] = [array[j], array[i]];
     }
-    return array;
 }
 
-export { getRandomItem, getWikidataSparqlWithTimeout, shuffleArray, Question }
+/**
+ * Formats a number to a string based on a locale
+ * @param number The number to format
+ * @returns The formatted number 
+*/
+function getFormatedNumber(number: string, locale: string): string {
+    let parsedNumber = Number(number);
+
+    // The number is an integer
+    let isInteger = Number.isInteger(parsedNumber)
+    if (isInteger && parsedNumber < 10000) {
+        return number;
+    }
+
+    return new Intl.NumberFormat(locale).format(parsedNumber);
+}
+
+/**
+ * Sets the correct format for the answers that are numbers
+ * @param questionsArray array of questions
+ * @param locale locale for the number format
+ */
+function validateAnswersNumbers(questionsArray: any[], locale: string) {
+    for (const question of questionsArray) {
+        for (const answer of question.answers) {
+            if (!isNaN(answer.text)) {
+                answer.text = getFormatedNumber(answer.text, locale);
+            }
+        }
+    }
+}
+
+
+export { getRandomItem, getWikidataSparqlWithTimeout, shuffleArray, Question, validateAnswersNumbers }

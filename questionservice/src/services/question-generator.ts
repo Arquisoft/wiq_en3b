@@ -3,7 +3,8 @@ import {
   getRandomItem,
   getWikidataSparqlWithTimeout,
   Question,
-  shuffleArray
+  shuffleArray,
+  validateAnswersNumbers
 } from '../utils/question-generator-utils';
 import { getTranslatedQuestions } from './translation-service';
 import { QuestionModel } from '../models/question-model';
@@ -56,11 +57,31 @@ async function generateQuestions(
 
   console.log('Retrieved ' + questionsArray.length + ' Questions from DB and Wikidata');
 
-  // Translation
-  if (lang && lang.toLowerCase() !== 'en') {
-    return await translateQuestionsArray(questionsArray, lang);
+  // Translation and number validation
+  return await prepareQuestionsForLanguage(questionsArray, lang);
+}
+
+/**
+ * Returns the questions in the desired language
+ * @param questionsArray array of questions
+ * @param lang language to translate to
+ * @returns questions in the desired language
+ */
+async function prepareQuestionsForLanguage(questionsArray: any[], lang: string): Promise<any[]> {
+  if (!lang || lang === 'en') {
+    performChecks(questionsArray);
+    return questionsArray;
   }
-  return questionsArray;
+  performChecks(questionsArray, lang);
+  return await translateQuestionsArray(questionsArray, lang);
+}
+
+/**
+ * Validates the questions array and makes changes if needed
+ * @param questionsArray array of questions
+ */
+function performChecks(questionsArray: any[], lang: string = 'en') {
+  validateAnswersNumbers(questionsArray, lang);
 }
 
 /**
@@ -228,7 +249,7 @@ const generateQuestionJson = async (
     );
 
     // Randomizing answers order
-    answersArray = shuffleArray(answersArray);
+    shuffleArray(answersArray);
 
     // Build it
     if (image != null)

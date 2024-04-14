@@ -7,86 +7,82 @@ import { generateQuestionsController } from '../src/controllers/question-control
 describe("Question Service - Health", () => {
 
     it("should return 200 if / is accessed", async () => {
-
-        const response = await request(app).get('/');
-        expect(response.status).toBe(200)
-        expect(response.body.data).toHaveProperty("health", "Operative")
-        
+        requestAndSuccess('/')
     })
 
     it("should return / if any url is accessed", async () => {
-
-        const response = await request(app).get('/testTest');
-        expect(response.status).toBe(200)
-        expect(response.body.data).toHaveProperty("health", "Operative")
-
+        requestAndSuccess('/testTest')
     })
 
 })
 
 describe("Question Service - Erroneous parameters for /questions", () => {
-    
+
     it("should return 400 if accessed without parameter", async () => {
-
-        const response = await request(app).get('/questions')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        await requestAndGetError('/questions')
     })
 
     it("should return 400 if accessed with erroneous parameter", async () => {
-
-        const response = await request(app).get('/questions?errorTest')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        await requestAndGetError('/questions?errorTest')
     })
 
     it("should return 400 if accessed with size parameter but is not provided", async () => {
-
-        const response = await request(app).get('/questions?size')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        await requestAndGetError('/questions?size')
     })
 
     it("should return 400 if accessed with size parameter but value type is wrong", async () => {
-
-        const response = await request(app).get('/questions?size=wrongValue')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        await requestAndGetError('/questions?size=wrongValue')
     })
 
     it("should return 400 if accessed with only lang parameter", async () => {
-
-        const response = await request(app).get('/questions?lang=en')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
-
+        await requestAndGetError('/questions?lang=en')
     })
 
     it("should return 400 if accessed with size parameter and not supported language", async () => {
+        await requestAndGetError('/questions?size=10&lang=notSupported')
+    })
 
-        const response = await request(app).get('/questions?size=5&lang=nonsupported')
-        expect(response.status).toBe(400)
-        expect(response.body.data).toHaveProperty("error")
+    it("should return 400 if the size is too big", async () => {
+        await requestAndGetError('/questions?size=101')
 
+    })
+
+    it("should return 400 if the size is negative", async () => {
+        await requestAndGetError('/questions?size=-1')
     })
 
 })
 
+function expectOperative(response: any) {
+    expect(response.status).toBe(200)
+    expect(response.body.data).toHaveProperty("health", "Operative")
+}
+
+function expectError(response: any) {
+    expect(response.status).toBe(400)
+    expect(response.body.data).toHaveProperty("error")
+}
+
+async function requestAndGetError(url: string) {
+    const response = await request(app).get(url);
+    expectError(response);
+}
+
+async function requestAndSuccess(url: string) {
+    const response = await request(app).get(url);
+    expectOperative(response);
+}
 // Mocking the question-generator.ts to test question-controller
 // Done to avoid flakiness by calling DB or API
 jest.mock('../src/services/question-generator')
 
 describe("Question Service - Question Generation", () => {
 
-    beforeEach( () =>{
+    beforeEach(() => {
         jest.clearAllMocks()
     })
 
-    it("should return questions when controller succeeds", async () =>{
+    it("should return questions when controller succeeds", async () => {
 
         // Mocking the response of generateQuestions(size) => Questions
         const mockResponse = ['Question 1', 'Question 2', 'Question 3'];
@@ -100,12 +96,12 @@ describe("Question Service - Question Generation", () => {
         } as any
 
         await generateQuestionsController(req, res)
-        
+
         // Ensuring mock fn was called like => await generateQuestions(3)
         expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length, "en");
         // Ensuring mock fn was called like => res.json(['Question1', 'Question2', 'Question3'])
         expect(res.json).toHaveBeenCalledWith(mockResponse)
-      
+
     })
 
     it("should return an error 500 when controller fails", async () => {

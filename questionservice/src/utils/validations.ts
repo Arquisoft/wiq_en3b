@@ -23,6 +23,15 @@ function validateNumber(field: string) {
   if (isNaN(size)) {
     throw new Error('The size parameter must be a number');
   }
+
+  if (size > 100) {
+    throw new Error('The size parameter must be less than 100');
+  }
+
+  if (size <= 0) {
+    throw new Error('The size parameter must be a positive number');
+  }
+
   return size;
 }
 

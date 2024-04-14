@@ -7,6 +7,7 @@ import TableContainer from '@mui/material/TableContainer';
 import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
+import './Leaderboard.css'
 
 import { API_ENDPOINT } from "../../utils/constants";
 import { formatTime } from "../../utils/formatTime";
@@ -16,6 +17,7 @@ import { ReactComponent as SilverMedalIcon } from "../../assets/medal-silver.svg
 import { ReactComponent as GoldMedalIcon } from "../../assets/medal-gold.svg";
 
 import { useTranslation } from "react-i18next";
+import {Link} from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -108,7 +110,11 @@ const Leaderboard = () => {
                     {index >= 3 && row.ranking}
                   </StyledTableCell>
 
-                  <StyledTableCell align="center">{row.username}</StyledTableCell>
+                  <StyledTableCell align="center">
+                    <Link to={`../profile/${row.username}`} className="username-profile">
+                      {row.username}
+                    </Link>
+                  </StyledTableCell>
                   <StyledTableCell align="center">{row.passedQuestions}</StyledTableCell>
                   <StyledTableCell align="center">{row.failedQuestions}</StyledTableCell>
                   <StyledTableCell align="center">{row.gamesPlayed}</StyledTableCell>

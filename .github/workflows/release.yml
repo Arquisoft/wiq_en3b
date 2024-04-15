@@ -137,6 +137,14 @@ jobs:
         run: |
           DEPLOY_HOST=${{ secrets.DEPLOY_HOST }}
           sed -i "s/SOMEIP/${DEPLOY_HOST}/g" gatewayservice/openapi.yaml
+      - name: Setup certificate
+        run: |
+          'echo "$CERTIFICATE" > gatewayservice/certificate/certificate.crt'
+          'echo "$CERTIFICATE_KEY" > gatewayservice/certificate/certificatekey.key'
+        shell: bash
+        env:
+          CERTIFICATE: ${{ secrets.CERTIFICATE }}
+          CERTIFICATE_KEY: ${{ secrets.CERTIFICATE_KEY }}
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
@@ -165,6 +173,4 @@ jobs:
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/docker-compose.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/.env
             docker compose --profile prod down
-            echo -e "-----BEGIN CERTIFICATE-----\n${{ secrets.CERTIFICATE }}\n-----END CERTIFICATE-----" > gatewayservice/certificate/certificate.crt
-            echo -e "-----BEGIN PRIVATE KEY-----\n${{ secrets.CERTIFICATE_KEY }}\n-----END PRIVATE KEY-----" > gatewayservice/certificate/certificatekey.key
             docker compose --profile prod up -d --pull always

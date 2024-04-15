@@ -141,6 +141,7 @@ jobs:
         run: |
           CERTIFICATE=${{ secrets.CERTIFICATE }}
           CERTIFICATE_KEY=${{ secrets.CERTIFICATE_KEY }}
+          mkdir -p gatewayservice/certificate
           'echo "${CERTIFICATE}" > gatewayservice/certificate/certificate.crt'
           'echo "${CERTIFICATE_KEY}" > gatewayservice/certificate/certificatekey.key'
       - name: Publish to Registry

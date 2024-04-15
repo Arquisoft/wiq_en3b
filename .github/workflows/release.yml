@@ -139,12 +139,10 @@ jobs:
           sed -i "s/SOMEIP/${DEPLOY_HOST}/g" gatewayservice/openapi.yaml
       - name: Setup certificate
         run: |
-          'echo "$CERTIFICATE" > gatewayservice/certificate/certificate.crt'
-          'echo "$CERTIFICATE_KEY" > gatewayservice/certificate/certificatekey.key'
-        shell: bash
-        env:
-          CERTIFICATE: ${{ secrets.CERTIFICATE }}
-          CERTIFICATE_KEY: ${{ secrets.CERTIFICATE_KEY }}
+          CERTIFICATE=${{ secrets.CERTIFICATE }}
+          CERTIFICATE_KEY=${{ secrets.CERTIFICATE_KEY }}
+          'echo "${CERTIFICATE}" > gatewayservice/certificate/certificate.crt'
+          'echo "${CERTIFICATE_KEY}" > gatewayservice/certificate/certificatekey.key'
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:

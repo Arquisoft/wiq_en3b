@@ -142,8 +142,8 @@ jobs:
           CERTIFICATE=${{ secrets.CERTIFICATE }}
           CERTIFICATE_KEY=${{ secrets.CERTIFICATE_KEY }}
           mkdir -p gatewayservice/certificate
-          'echo -e "${CERTIFICATE}" | tr -d "\r" > gatewayservice/certificate/certificate.crt'
-          'echo -e "${CERTIFICATE_KEY}" | tr -d "\r" > gatewayservice/certificate/certificatekey.key'
+          printf "%s" "${CERTIFICATE}" | tr -d "\r" > gatewayservice/certificate/certificate.crt
+          printf "%s" "${CERTIFICATE_KEY}" | tr -d "\r" > gatewayservice/certificate/certificatekey.key
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:

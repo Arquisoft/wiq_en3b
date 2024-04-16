@@ -5,7 +5,7 @@ on:
     types: [published]
 
 jobs:
-
+    
   unit-tests:
     runs-on: ubuntu-latest
     steps:
@@ -127,7 +127,7 @@ jobs:
           registry: ghcr.io
           workdir: questionservice
           buildargs: TRANSLATION_API_KEY
-
+      
 
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages

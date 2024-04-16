@@ -5,45 +5,45 @@ on:
     types: [published]
 
 jobs:
-    
+
   unit-tests:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-    - run: npm --prefix users/authservice ci
-    - run: npm --prefix users/userservice ci
-    - run: npm --prefix questionservice ci
-    - run: npm --prefix gatewayservice ci
-    - run: npm --prefix webapp ci
-    - run: npm --prefix users/authservice test -- --coverage
-    - run: npm --prefix users/userservice test -- --coverage
-    - run: npm --prefix questionservice test -- --coverage
-    - run: npm --prefix gatewayservice test -- --coverage
-    - run: npm --prefix webapp test -- --coverage
-    - name: Analyze with SonarCloud
-      uses: sonarsource/sonarcloud-github-action@master
-      env:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm --prefix users/authservice ci
+      - run: npm --prefix users/userservice ci
+      - run: npm --prefix questionservice ci
+      - run: npm --prefix gatewayservice ci
+      - run: npm --prefix webapp ci
+      - run: npm --prefix users/authservice test -- --coverage
+      - run: npm --prefix users/userservice test -- --coverage
+      - run: npm --prefix questionservice test -- --coverage
+      - run: npm --prefix gatewayservice test -- --coverage
+      - run: npm --prefix webapp test -- --coverage
+      - name: Analyze with SonarCloud
+        uses: sonarsource/sonarcloud-github-action@master
+        env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
   e2e-tests:
     needs: [unit-tests]
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v4
-    - uses: actions/setup-node@v4
-      with:
-        node-version: 20
-    - run: npm --prefix users/utils install
-    - run: npm --prefix users/authservice install
-    - run: npm --prefix users/userservice install
-    - run: npm --prefix gatewayservice install
-    - run: npm --prefix webapp install
-    - run: npm --prefix questionservice install
-    - run: npm --prefix webapp run build
-    - run: npm --prefix webapp run test:e2eci
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: npm --prefix users/utils install
+      - run: npm --prefix users/authservice install
+      - run: npm --prefix users/userservice install
+      - run: npm --prefix gatewayservice install
+      - run: npm --prefix webapp install
+      - run: npm --prefix questionservice install
+      - run: npm --prefix webapp run build
+      - run: npm --prefix webapp run test:e2eci
 
   docker-push-webapp:
     name: Push webapp Docker Image to GitHub Packages
@@ -54,6 +54,11 @@ jobs:
     needs: [e2e-tests]
     steps:
       - uses: actions/checkout@v4
+      - name: Setup certificate
+          run: |
+            mkdir -p webapp/certificate
+            echo -e "${{ secrets.CERTIFICATE }}" > webapp/certificate/certificate.crt
+            echo -e "${{ secrets.CERTIFICATE_KEY }}" > webapp/certificate/certificatekey.key
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
@@ -122,7 +127,7 @@ jobs:
           registry: ghcr.io
           workdir: questionservice
           buildargs: TRANSLATION_API_KEY
-      
+
 
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages
@@ -137,11 +142,16 @@ jobs:
         run: |
           DEPLOY_HOST=${{ secrets.DEPLOY_HOST }}
           sed -i "s/SOMEIP/${DEPLOY_HOST}/g" gatewayservice/openapi.yaml
+      - name: Setup certificate
+        run: |
+          mkdir -p gatewayservice/certificate
+          echo -e "${{ secrets.CERTIFICATE }}" > gatewayservice/certificate/certificate.crt
+          echo -e "${{ secrets.CERTIFICATE_KEY }}" > gatewayservice/certificate/certificatekey.key
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
           GATEWAY_URI: https://${{ secrets.DEPLOY_HOST }}:8000
-          WEBAPP_URI: http://${{ secrets.DEPLOY_HOST }}:80
+          WEBAPP_URI: https://${{ secrets.DEPLOY_HOST }}:443
         with:
           name: arquisoft/wiq_en3b/gatewayservice
           username: ${{ github.actor }}
@@ -165,6 +175,4 @@ jobs:
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/docker-compose.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/.env
             docker compose --profile prod down
-            echo -e "-----BEGIN CERTIFICATE-----\n${{ secrets.CERTIFICATE }}\n-----END CERTIFICATE-----" > gatewayservice/certificate/certificate.crt
-            echo -e "-----BEGIN PRIVATE KEY-----\n${{ secrets.CERTIFICATE_KEY }}\n-----END PRIVATE KEY-----" > gatewayservice/certificate/certificatekey.key
             docker compose --profile prod up -d --pull always

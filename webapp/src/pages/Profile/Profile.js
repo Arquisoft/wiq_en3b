@@ -47,6 +47,26 @@ const Profile = () => {
     setOpen(false)
   }
 
+  const handleStatisticRowTitle = (key) => {
+
+    if (key === 'timePlayed') {
+      return t("profile.statistics.total_time")
+    }
+    else if (key === 'gamesPlayed') {
+      return t("profile.statistics.games_played")
+    }
+    else if (key === 'passedQuestions') {
+      return t("profile.statistics.correct_answers")
+    }
+    else if (key === 'failedQuestions') {
+      return t("profile.statistics.incorrect_answers")
+    }
+    else if (key === 'points') {
+      return t("profile.statistics.points")
+    }
+
+  }
+
   useEffect(() => {
     const savedImage = localStorage.getItem('selectedImage')
     if (savedImage) {
@@ -158,11 +178,7 @@ const Profile = () => {
               Object.entries(profile.history).map(([key, value]) => (
                 <tr key={key}>
                   <td>
-                    {key.charAt(0).toUpperCase() +
-                      key
-                        .slice(1)
-                        .replace(/([A-Z])/g, ' $1')
-                        .trim()}
+                    {handleStatisticRowTitle(key)}
                   </td>
                   {
                     key === 'timePlayed' ? (
@@ -183,5 +199,7 @@ const Profile = () => {
       )}
     </div>
   )
+
+
 }
 export default Profile

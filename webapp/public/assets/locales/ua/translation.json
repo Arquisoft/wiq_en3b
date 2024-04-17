@@ -1,0 +1,97 @@
+{
+    "settings": {
+        "title": "Налаштування",
+        "choose_lang": "Виберіть мову: ",
+        "choose_seconds": "Виберіть тривалість запитань: "
+    },
+    "leaderboard": {
+        "title": "Таблиця лідерів",
+        "header": {
+            "username": "Ім'я користувача",
+            "points": "Очки",
+            "correct_answers": "Правильні відповіді",
+            "incorrect_answers": "Неправильні відповіді",
+            "games_played": "Зіграні ігри",
+            "total_time": "Загальний час",
+            "ranking": "Рейтинг"
+        }
+    },
+    "profile": {
+        "nav_title": "Профіль",
+        "title": "Профіль {{username}}",
+        "bio": {
+            "title": "Біографія",
+            "placeholder": "Тут ви можете написати щось про себе! Або просто все, що приходить вам на думку :)"
+        },
+        "choose_avatar": "Виберіть свій аватар!",
+        "statistics": {
+            "title": "Статистика",
+            "games_played": "Зіграні ігри",
+            "total_time": "Загальний час",
+            "correct_answers": "Правильні відповіді",
+            "incorrect_answers": "Неправильні відповіді",
+            "points": "Загальні очки"
+        },
+        "profile_not_available": "Інформація профілю недоступна"
+    },
+    "play": {
+        "nav_title": "Грати",
+        "gamemode": {
+            "title": "Виберіть режим гри",
+            "classic": {
+                "button": "Класичний",
+                "go_back_button": "Назад",
+                "title": "Виберіть складність",
+                "easy": "Легко",
+                "medium": "Середнє",
+                "hard": "Складно"
+            },
+            "custom": {
+                "button": "Користувальницький",
+                "start_button": "Почати",
+                "go_back_button": "Назад",
+                "title": "Налаштуйте вашу гру",
+                "time": "Час (секунди)",
+                "questions": "Кількість запитань"
+            }
+        },
+        "question_counter": "Питання {{current}} з {{total}}",
+        "result": {
+            "title": "Кінцевий результат",
+            "questions": "Ви відповіли на {{correct}} питань правильно з {{total}}",
+            "points": "Ви набрали {{points}} очок",
+            "play_again": "Грати знову",
+            "go_back_button": "Назад"
+        }
+    },
+    "home": {
+        "title": "Домашня сторінка",
+        "welcome": "Ласкаво просимо, "
+    },
+    "login": {
+        "title": "Увійти",
+        "welcome": "Ласкаво просимо до Знати і Виграти, будь ласка, увійдіть, щоб продовжити",
+        "username_placeholder": "Ім'я користувача",
+        "password_placeholder": "Пароль",
+        "button": "Увійти",
+        "go_register": "Ще не зареєстровані? Зареєструйтеся зараз",
+        "empty_password_error": "Пароль не може бути порожнім",
+        "empty_username_error": "Ім'я користувача не може бути порожнім"
+    },
+    "register": {
+        "form_title": "Створіть свій обліковий запис",
+        "nav_title": "Реєстрація",
+        "welcome": "Ласкаво просимо до Знати і Виграти, заповніть форму для реєстрації",
+        "username_placeholder": "Ім'я користувача",
+        "password_placeholder": "Пароль",
+        "password_confirm_placeholder": "Підтвердити пароль",
+        "button": "Зареєструватися",
+        "go_login": "Вже зареєстровані? Увійдіть",
+        "empty_username_error": "Ім'я користувача не може бути порожнім",
+        "empty_password_error": "Пароль не може бути порожнім",
+        "empty_password_confirm_error": "Підтвердження пароля не може бути порожнім"
+    },
+    "logout": {
+        "title": "Вийти"
+    }
+}

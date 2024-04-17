@@ -1,23 +1,97 @@
 {
-    "settings":{
-    "title":"Paramètres",
-    "choose_lang":"Choisissez la langue : ",
-    "choose_seconds":"Choisissez la durée des questions : "
+    "settings": {
+        "title": "Paramètres",
+        "choose_lang": "Choisissez la langue : ",
+        "choose_seconds": "Choisissez la durée des questions : "
     },
-    "leaderboard":{
-    "title":"Classement"
+    "leaderboard": {
+        "title": "Classement",
+        "header": {
+            "username": "Nom d'utilisateur",
+            "points": "Points",
+            "correct_answers": "Réponses correctes",
+            "incorrect_answers": "Réponses incorrectes",
+            "games_played": "Jeux joués",
+            "total_time": "Temps total",
+            "ranking": "Classement"
+        }
     },
-    "profile":{
-    "title":"Profil"
+    "profile": {
+        "nav_title": "Profil",
+        "title": "Profil de {{username}}",
+        "bio": {
+            "title": "Biographie",
+            "placeholder": "Vous pouvez écrire quelque chose sur vous ici ! Ou simplement ce qui vous passe par la tête :)"
+        },
+        "choose_avatar": "Choisissez votre avatar !",
+        "statistics": {
+            "title": "Statistiques",
+            "games_played": "Jeux joués",
+            "total_time": "Temps total",
+            "correct_answers": "Réponses correctes",
+            "incorrect_answers": "Réponses incorrectes",
+            "points": "Points totaux"
+        },
+        "profile_not_available": "Informations de profil non disponibles"
     },
-    "play":{
-    "title": "Jouer",
-    "choose_difficulty": "Choisissez la difficulté",
-    "easy": "Facile",
-    "medium": "Moyen",
-    "hard": "Difficile"
+    "play": {
+        "nav_title": "Jouer",
+        "gamemode": {
+            "title": "Choisissez le mode de jeu",
+            "classic": {
+                "button": "Classique",
+                "go_back_button": "Retour",
+                "title": "Choisissez la difficulté",
+                "easy": "Facile",
+                "medium": "Moyen",
+                "hard": "Difficile"
+            },
+            "custom": {
+                "button": "Personnalisé",
+                "start_button": "Démarrer",
+                "go_back_button": "Retour",
+                "title": "Configurez votre partie",
+                "time": "Temps (secondes)",
+                "questions": "Nombre de questions"
+            }
+        },
+        "question_counter": "Question {{current}} sur {{total}}",
+        "result": {
+            "title": "Résultat final",
+            "questions": "Vous avez répondu correctement à {{correct}} questions sur {{total}}",
+            "points": "Vous avez obtenu {{points}} points",
+            "play_again": "Rejouer",
+            "go_back_button": "Retour"
+        }
     },
-    "home":{
-    "title":"Accueil"
+    "home": {
+        "title": "Accueil",
+        "welcome": "Bienvenue de nouveau, "
+    },
+    "login": {
+        "title": "Connexion",
+        "welcome": "Bienvenue sur Connaissez et Gagnez, veuillez vous connecter pour continuer",
+        "username_placeholder": "Nom d'utilisateur",
+        "password_placeholder": "Mot de passe",
+        "button": "Connexion",
+        "go_register": "Pas encore inscrit ? Inscrivez-vous maintenant",
+        "empty_password_error": "Le mot de passe ne peut pas être vide",
+        "empty_username_error": "Le nom d'utilisateur ne peut pas être vide"
+    },
+    "register": {
+        "form_title": "Créez votre compte",
+        "nav_title": "Inscription",
+        "welcome": "Bienvenue sur Connaissez et Gagnez, remplissez le formulaire pour vous inscrire",
+        "username_placeholder": "Nom d'utilisateur",
+        "password_placeholder": "Mot de passe",
+        "password_confirm_placeholder": "Confirmez le mot de passe",
+        "button": "S'inscrire",
+        "go_login": "Déjà inscrit ? Connectez-vous",
+        "empty_username_error": "Le nom d'utilisateur ne peut pas être vide",
+        "empty_password_error": "Le mot de passe ne peut pas être vide",
+        "empty_password_confirm_error": "La confirmation du mot de passe ne peut pas être vide"
+    },
+    "logout": {
+        "title": "Déconnexion"
     }
-    }
+}

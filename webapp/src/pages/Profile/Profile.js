@@ -73,7 +73,7 @@ const Profile = () => {
               onMouseLeave={() => setShowAvatarText(false)}
             />
             {showAvatarText && (
-              <p className="selection-text">Choose your avatar!</p>
+              <p className="selection-text">{t("profile.choose_avatar")}</p>
             )}
           </div>
 
@@ -175,7 +175,7 @@ const Profile = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="2">No profile data available</td>
+                <td colSpan="2">{t("profile.profile_not_available")}</td>
               </tr>
             )}
           </tbody>

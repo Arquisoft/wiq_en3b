@@ -23,6 +23,7 @@
             "title": "Biografía",
             "placeholder": "Aquí puedes escribir algo sobre ti! O simplemente lo que se te pase por la cabeza :)"
         },
+        "choose_avatar": "Elije tu avatar!",
         "statistics": {
             "title": "Estadísticas",
             "games_played": "Partidas jugadas",
@@ -30,7 +31,8 @@
             "correct_answers": "Respuestas correctas",
             "incorrect_answers": "Respuestas incorrectas",
             "points": "Puntuación total"
-        }
+        },
+        "profile_not_available": "Información de perfil no disponible"
     },
     "play": {
         "nav_title": "Jugar",

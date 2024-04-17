@@ -1,24 +1,62 @@
 {
-    "settings":{
-        "title":"Configuración",
-        "choose_lang":"Elija el idioma: ",
-        "choose_seconds":"Elija la duración de las pregutnas: "
+    "settings": {
+        "title": "Configuración",
+        "choose_lang": "Elija el idioma: ",
+        "choose_seconds": "Elija la duración de las preguntas: "
     },
-    "leaderboard":{
-        "title":"Tabla de clasificación"
+    "leaderboard": {
+        "title": "Tabla de clasificación"
     },
-    "profile":{
-        "title":"Perfil"
+    "profile": {
+        "title": "Perfil"
     },
-    "play":{
-        "title": "Jugar",
-        "choose_difficulty": "Elija la dificultad",
-        "easy": "Fácil",
-        "medium": "Intermedio",
-        "hard": "Difícil"
-    },
-    "home":{
-        "title":"Inicio"
+    "play": {
+        "nav_title": "Jugar",
+        "gamemode": {
+            "title": "Elije el modo de juego",
+            "classic": {
+                "go_back_button": "Volver",
+                "title": "Elija la dificultad",
+                "easy": "Fácil",
+                "medium": "Intermedio",
+                "hard": "Difícil"
+            },
+            "custom": {
+                "go_back_button": "Volver",
+                "title": "Configura tu partida",
+                "time": "Tiempo (segundos)",
+                "questions": "Número de preguntas"
+            }
+        },
+        "home": {
+            "title": "Inicio",
+            "welcome": "Bienvenido de nuevo, "
+        },
+        "login": {
+            "title": "Iniciar sesión",
+            "welcome": "Bienvenido a Saber y Ganar, por favor inicia sesión para continuar",
+            "username_placeholder": "Nombre de usuario",
+            "password_placeholder": "Contraseña",
+            "button": "Iniciar sesión",
+            "go_register": "¿No estas registrado?, Registrate ahora",
+            "empty_password_error": "La contraseña no puede estar vacía",
+            "empty_username_error": "El nombre de usuario no puede estar vacío"
+        },
+        "register": {
+            "form_title": "Crea tu cuenta",
+            "nav_title": "Registro",
+            "welcome": "Bienvenido a Saber y Ganar, rellena el formulario para registrarte",
+            "username_placeholder": "Nombre de usuario",
+            "password_placeholder": "Contraseña",
+            "password_confirm_placeholder": "Confirmar contraseña",
+            "button": "Registrar",
+            "go_login": "¿Ya estas registrado?, Inicia sesión",
+            "empty_username_error": "El nombre de usuario no puede estar vacío",
+            "empty_password_error": "La contraseña no puede estar vacía",
+            "empty_password_confirm_error": "La confirmación de la contraseña no puede estar vacía"
+        },
+        "logout": {
+            "title": "Cerrar sesión"
+        }
     }
 }
-  

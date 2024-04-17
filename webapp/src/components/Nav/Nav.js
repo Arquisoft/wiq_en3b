@@ -77,7 +77,7 @@ const Nav = (props) => {
               <div className="nav-link-icon">
                 <SquareQuestionIcon />
               </div>
-              {t("play.title")}
+              {t("play.nav_title")}
             </Link>
           )}
 
@@ -110,7 +110,7 @@ const Nav = (props) => {
             <div className="nav-link-icon">
               {user ? <LogoutIcon /> : <LoginIcon />}
             </div>
-            {user ? 'Logout' : 'Login'}
+            {user ? t("logout.title") : t("login.title")}
           </Link>
 
           {!user && (
@@ -118,7 +118,7 @@ const Nav = (props) => {
               <div className="nav-link-icon">
                 <SingUpIcon />
               </div>
-              Register
+              {t("register.nav_title")}
             </Link>)}
         </div>
       </div>

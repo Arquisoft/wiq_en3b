@@ -7,6 +7,8 @@ import { useAuth } from '../../hooks/useAuth'
 import { API_ENDPOINT } from '../../utils/constants'
 import { NavLink } from 'react-router-dom'
 
+import { useTranslation } from "react-i18next";
+
 const Login = () => {
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
@@ -14,15 +16,18 @@ const Login = () => {
   const [error, setError] = useState()
   const [formErrors, setFormErrors] = useState({})
 
+  //Translation
+  const { t } = useTranslation();
+
   const validateForm = values => {
     const error = {}
 
     if (!values.username) {
-      error.username = 'Username is required'
+      error.username = t("login.empty_username_error")
     }
 
     if (!values.password) {
-      error.password = 'Password is required'
+      error.password = t("login.empty_password_error")
     }
 
     return error
@@ -68,13 +73,13 @@ const Login = () => {
   return (
     <div className="login">
       <form>
-        <h1>Login</h1>
+        <h1>{t("login.title")}</h1>
         {error && <div className="response-error">{error}</div>}
         <input
           type="username"
           name="username"
           id="username"
-          placeholder="Username"
+          placeholder={t("login.username_placeholder")}
           onChange={e => setUsername(e.target.value)}
           value={username}
         />
@@ -83,16 +88,16 @@ const Login = () => {
           type="password"
           name="password"
           id="password"
-          placeholder="Password"
+          placeholder={t("login.password_placeholder")}
           onChange={e => setPassword(e.target.value)}
           value={password}
         />
         <p className="form-error">{formErrors.password}</p>
         <button className="button-common" onClick={loginHandler}>
-          Login
+          {t("login.button")}
         </button>
       </form>
-      <NavLink to="/register">Not yet registered? Register Now</NavLink>
+      <NavLink to="/register">{t("login.go_register")}</NavLink>
     </div>
   )
 }

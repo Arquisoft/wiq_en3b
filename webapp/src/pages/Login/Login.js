@@ -3,7 +3,12 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import LoginComponent from '../../components/Login/Login'
 
+import { useTranslation } from "react-i18next";
+
 function Login() {
+
+  const { t } = useTranslation();
+
   return (
     <Container component="main" maxWidth="xs">
       <CssBaseline />
@@ -11,13 +16,14 @@ function Login() {
         component="h1"
         variant="h5"
         align="center"
-        sx={{ marginTop: 2, 
+        sx={{
+          marginTop: 2,
           marginBottom: 8,
           fontSize: '2rem',
           fontFamily: 'Courier New, Courier, monospace'
-         }}
+        }}
       >
-        Welcome to Know and Win App, please login to procceed
+        {t("login.welcome")}
       </Typography>
       <LoginComponent />
     </Container>

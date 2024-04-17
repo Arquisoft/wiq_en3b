@@ -43,7 +43,7 @@ jobs:
       - run: npm --prefix webapp install
       - run: npm --prefix questionservice install
       - run: npm --prefix webapp run build
-      - run: npm --prefix webapp run test:e2eci
+      - run: npm --prefix webapp run test:e2ecisudo
 
   docker-push-webapp:
     name: Push webapp Docker Image to GitHub Packages

@@ -48,4 +48,5 @@ jobs:
     - run: npm --prefix webapp install
     - run: npm --prefix questionservice install
     - run: npm --prefix webapp run build
+    - run: sudo setcap 'cap_net_bind_service=+ep' `which node`
     - run: npm --prefix webapp run test:e2eci

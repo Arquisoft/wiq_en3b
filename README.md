@@ -11,19 +11,19 @@ questions to win juicy prizes 🥇
 ![KaW](https://github.com/Arquisoft/wiq_en3b/assets/109146445/73f37c88-7ce7-4b3b-9cc9-982a5e3a8a34)
 
 ## 🚀 Test our app at 🚀
-http://kawgame.xyz
+https://kawgame.xyz
 
 And if it doesn't work, try the following...
 
-http://172.187.153.13
+https://172.187.153.13
 
 ## 🛠 Test our API at 🛠
 
-http://172.187.153.13:8000
+https://172.187.153.13:8000
 
 And if you want to check the documentation for it...
 
-http://172.187.153.13:8000/api-doc
+https://172.187.153.13:8000/api-doc
 
 ## 🦾 Quick start guide 🦾
 
@@ -56,7 +56,7 @@ Now, launch the auth, user, question and gateway services. Just go to each direc
 
 Lastly, go to the webapp directory and launch this component with `npm install` followed by `npm start`.
 
-After all the components are launched, the app should be available in localhost in port 3000.
+After all the components are launched, the app should be available in localhost in port 443.
 
 ## 🤖 Deployment guide 🤖
 

@@ -32,12 +32,10 @@
     "test:e2e": "cd ../gatewayservice && npm install && cd ../questionservice && npm install && cd ../users/authservice && npm install && cd ../userservice && npm install && cd ../../webapp && npm run build && npm run test:e2eci",
     "test:e2eci": "cross-env START_SERVER_AND_TEST_INSECURE=1 NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=443 npm run rune2etests",
     "rune2etests": "start-server-and-test 'ts-node e2e/test-environment-setup.js' https://localhost:8000/health prod https://localhost:443 \"cd e2e && jest\"",
+    "eject": "react-scripts eject",
 
     "test:e2ecisudo": "cross-env START_SERVER_AND_TEST_INSECURE=1 NODE_TLS_REJECT_UNAUTHORIZED=0 PORT=443 npm run rune2etestssudo",
-    "rune2etestssudo": "start-server-and-test 'ts-node e2e/test-environment-setup.js' https://localhost:8000/health prodsudo https://localhost:443 \"cd e2e && jest\"",
-    "prodsudo": "sudo serve -s build -l 443 --ssl-cert certificate/certificate.crt --ssl-key certificate/certificatekey.key",
-
-    "eject": "react-scripts eject"
+    "rune2etestssudo": "start-server-and-test 'ts-node e2e/test-environment-setup.js' https://localhost:8000/health \"sudo prod\" https://localhost:443 \"cd e2e && jest\""
   },
   "eslintConfig": {
     "extends": [

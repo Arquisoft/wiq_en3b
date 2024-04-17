@@ -56,10 +56,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - name: Setup certificate
-          run: |
-            mkdir -p webapp/certificate
-            echo -e "${{ secrets.CERTIFICATE }}" > webapp/certificate/certificate.crt
-            echo -e "${{ secrets.CERTIFICATE_KEY }}" > webapp/certificate/certificatekey.key
+        run: |
+          mkdir -p webapp/certificate
+          echo -e "${{ secrets.CERTIFICATE }}" > webapp/certificate/certificate.crt
+          echo -e "${{ secrets.CERTIFICATE_KEY }}" > webapp/certificate/certificatekey.key
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:

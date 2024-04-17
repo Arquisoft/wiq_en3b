@@ -5,6 +5,8 @@ import '../../pages/Game/Game.css'
 import './Custom.css'
 import { useState } from 'react'
 
+import { useTranslation } from 'react-i18next'
+
 const DEFAULT_TIME = 15
 const DEFAULT_NUMBER_OF_QUESTIONS = 10
 
@@ -15,6 +17,8 @@ const Custom = ({ goBack }) => {
   const [numOfQuestions, setNumOfQuestions] = useState(
     DEFAULT_NUMBER_OF_QUESTIONS
   )
+
+  const { t } = useTranslation()
 
   const handleTimeChange = e => {
     setTimeInSeconds(e.target.value)
@@ -29,9 +33,9 @@ const Custom = ({ goBack }) => {
       <div className="quiz-wrapper">
         {!hasFinishedConfiguration && (
           <div className="header-and-buttons-container">
-            <h2>Configure your game</h2>
+            <h2>{t('play.gamemode.custom.title')}</h2>
             <div className="custom-option">
-              <label htmlFor="timeSlider">Time (Seconds)</label>
+              <label htmlFor="timeSlider">{t('play.gamemode.custom.time')}</label>
               <input
                 type="range"
                 id="timeSlider"
@@ -44,7 +48,7 @@ const Custom = ({ goBack }) => {
               <span>{timeInSeconds}</span>
             </div>
             <div className="custom-option">
-              <label htmlFor="questionsSlider">Number of Questions</label>
+              <label htmlFor="questionsSlider">{t('play.gamemode.custom.questions')}</label>
               <input
                 type="range"
                 id="questionsSlider"
@@ -62,10 +66,10 @@ const Custom = ({ goBack }) => {
                   setHasFinishedConfiguration(true)
                 }}
               >
-                Start
+                {t('play.gamemode.custom.start_button')}
               </Button>
               <Button onClick={goBack} className="danger">
-                Go back
+                {t('play.gamemode.custom.go_back_button')}
               </Button>
             </div>
           </div>

@@ -17,7 +17,7 @@ import { ReactComponent as SilverMedalIcon } from "../../assets/medal-silver.svg
 import { ReactComponent as GoldMedalIcon } from "../../assets/medal-gold.svg";
 
 import { useTranslation } from "react-i18next";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -74,8 +74,6 @@ const Leaderboard = () => {
         return createData(index + 1, username, passedQuestions, failedQuestions, gamesPlayed, timePlayed, points);
       });
 
-      console.log(leaderboard);
-
       return leaderboard;
     } catch (error) {
       throw new Error('Failed to fetch leaderboard data');
@@ -91,13 +89,13 @@ const Leaderboard = () => {
           <Table sx={{ minWidth: 600 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="center">Ranking</StyledTableCell>
-                <StyledTableCell align="center">Username</StyledTableCell>
-                <StyledTableCell align="center">Passed questions</StyledTableCell>
-                <StyledTableCell align="center">Failed questions</StyledTableCell>
-                <StyledTableCell align="center">Games played</StyledTableCell>
-                <StyledTableCell align="center">Time played</StyledTableCell>
-                <StyledTableCell align="center">Points</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.ranking")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.username")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.correct_answers")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.incorrect_answers")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.games_played")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.total_time")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.points")}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>

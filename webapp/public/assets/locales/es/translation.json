@@ -5,16 +5,39 @@
         "choose_seconds": "Elija la duración de las preguntas: "
     },
     "leaderboard": {
-        "title": "Tabla de clasificación"
+        "title": "Tabla de clasificación",
+        "header": {
+            "username": "Nombre de usuario",
+            "points": "Puntuación",
+            "correct_answers": "Respuestas correctas",
+            "incorrect_answers": "Respuestas incorrectas",
+            "games_played": "Partidas jugadas",
+            "total_time": "Tiempo jugado",
+            "ranking": "Posición"
+        }
     },
     "profile": {
-        "title": "Perfil"
+        "nav_title": "Perfil",
+        "title": "Perfil de {{username}}",
+        "bio": {
+            "title": "Biografía",
+            "placeholder": "Aquí puedes escribir algo sobre ti! O simplemente lo que se te pase por la cabeza :)"
+        },
+        "statistics": {
+            "title": "Estadísticas",
+            "games_played": "Partidas jugadas",
+            "total_time": "Tiempo jugado",
+            "correct_answers": "Respuestas correctas",
+            "incorrect_answers": "Respuestas incorrectas",
+            "points": "Puntuación total"
+        }
     },
     "play": {
         "nav_title": "Jugar",
         "gamemode": {
             "title": "Elije el modo de juego",
             "classic": {
+                "button": "Clásico",
                 "go_back_button": "Volver",
                 "title": "Elija la dificultad",
                 "easy": "Fácil",
@@ -22,41 +45,43 @@
                 "hard": "Difícil"
             },
             "custom": {
+                "button": "Personalizado",
+                "start_button": "Comenzar",
                 "go_back_button": "Volver",
                 "title": "Configura tu partida",
                 "time": "Tiempo (segundos)",
                 "questions": "Número de preguntas"
             }
-        },
-        "home": {
-            "title": "Inicio",
-            "welcome": "Bienvenido de nuevo, "
-        },
-        "login": {
-            "title": "Iniciar sesión",
-            "welcome": "Bienvenido a Saber y Ganar, por favor inicia sesión para continuar",
-            "username_placeholder": "Nombre de usuario",
-            "password_placeholder": "Contraseña",
-            "button": "Iniciar sesión",
-            "go_register": "¿No estas registrado?, Registrate ahora",
-            "empty_password_error": "La contraseña no puede estar vacía",
-            "empty_username_error": "El nombre de usuario no puede estar vacío"
-        },
-        "register": {
-            "form_title": "Crea tu cuenta",
-            "nav_title": "Registro",
-            "welcome": "Bienvenido a Saber y Ganar, rellena el formulario para registrarte",
-            "username_placeholder": "Nombre de usuario",
-            "password_placeholder": "Contraseña",
-            "password_confirm_placeholder": "Confirmar contraseña",
-            "button": "Registrar",
-            "go_login": "¿Ya estas registrado?, Inicia sesión",
-            "empty_username_error": "El nombre de usuario no puede estar vacío",
-            "empty_password_error": "La contraseña no puede estar vacía",
-            "empty_password_confirm_error": "La confirmación de la contraseña no puede estar vacía"
-        },
-        "logout": {
-            "title": "Cerrar sesión"
         }
+    },
+    "home": {
+        "title": "Inicio",
+        "welcome": "Bienvenido de nuevo, "
+    },
+    "login": {
+        "title": "Iniciar sesión",
+        "welcome": "Bienvenido a Saber y Ganar, por favor inicia sesión para continuar",
+        "username_placeholder": "Nombre de usuario",
+        "password_placeholder": "Contraseña",
+        "button": "Iniciar sesión",
+        "go_register": "¿No estas registrado?, Registrate ahora",
+        "empty_password_error": "La contraseña no puede estar vacía",
+        "empty_username_error": "El nombre de usuario no puede estar vacío"
+    },
+    "register": {
+        "form_title": "Crea tu cuenta",
+        "nav_title": "Registro",
+        "welcome": "Bienvenido a Saber y Ganar, rellena el formulario para registrarte",
+        "username_placeholder": "Nombre de usuario",
+        "password_placeholder": "Contraseña",
+        "password_confirm_placeholder": "Confirmar contraseña",
+        "button": "Registrar",
+        "go_login": "¿Ya estas registrado?, Inicia sesión",
+        "empty_username_error": "El nombre de usuario no puede estar vacío",
+        "empty_password_error": "La contraseña no puede estar vacía",
+        "empty_password_confirm_error": "La confirmación de la contraseña no puede estar vacía"
+    },
+    "logout": {
+        "title": "Cerrar sesión"
     }
 }

@@ -86,7 +86,7 @@ const Nav = (props) => {
               <div className="nav-link-icon">
                 <UserIcon />
               </div>
-              {t("profile.title")}
+              {t("profile.nav_title")}
             </Link>
           )}
 

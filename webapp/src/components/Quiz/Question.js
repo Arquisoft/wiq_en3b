@@ -2,6 +2,8 @@ import './Question.css'
 
 import AnswerList from '../Answer/AnswerList'
 
+import { useTranslation } from 'react-i18next'
+
 const Question = ({
   question: questionData,
   quizLength,
@@ -13,11 +15,12 @@ const Question = ({
     correctAnswerId,
     answers,
   }
+  const { t } = useTranslation()
 
   return (
     <div className="quiz">
       <div className="quiz-counter">
-        Question {id + 1} of {quizLength}
+        {t("play.question_counter", { current: id + 1, total: quizLength })}
       </div>
       <div className="question">
         <p className="question-text">{question}</p>

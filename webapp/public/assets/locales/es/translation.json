@@ -54,6 +54,14 @@
                 "time": "Tiempo (segundos)",
                 "questions": "Número de preguntas"
             }
+        },
+        "question_counter": "Pregunta {{current}} de {{total}}",
+        "result": {
+            "title": "Resultado final",
+            "questions": "Has respondido {{correct}} preguntas correctas de {{total}}",
+            "points": "Has conseguido {{points}} puntos",
+            "play_again": "Jugar de nuevo",
+            "go_back_button": "Volver"
         }
     },
     "home": {

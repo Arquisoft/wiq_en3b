@@ -65,7 +65,7 @@ our game. Obviously, internationalization is more than just changing the
 language of the Application but due to time constraints we will just offer 
 Spanish, English and French languages ( although, our API can generate questions
 in other languages different from described, to see the whole list, refer to 
-our http://20.117.173.161:8000/[API documentation] ).
+our https://kawgame.xyz:8000/[API documentation] ).
 
 The library used for language translation in our KaW game is called 
 https://react.i18next.com/[*react-i18next*]. 

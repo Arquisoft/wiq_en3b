@@ -60,7 +60,7 @@ public class LeaderboardSimulation extends Simulation {
     Map.entry("Accept-Encoding", "gzip, deflate, br"),
     Map.entry("Access-Control-Request-Headers", "content-type"),
     Map.entry("Access-Control-Request-Method", "POST"),
-    Map.entry("Origin", "http://localhost"),
+    Map.entry("Origin", "https://localhost"),
     Map.entry("Sec-Fetch-Dest", "empty"),
     Map.entry("Sec-Fetch-Mode", "cors"),
     Map.entry("Sec-Fetch-Site", "cross-site"),
@@ -71,7 +71,7 @@ public class LeaderboardSimulation extends Simulation {
     Map.entry("Accept", "application/json, text/plain, */*"),
     Map.entry("Accept-Encoding", "gzip, deflate, br"),
     Map.entry("Content-Type", "application/json"),
-    Map.entry("Origin", "http://localhost"),
+    Map.entry("Origin", "https://localhost"),
     Map.entry("Sec-Fetch-Dest", "empty"),
     Map.entry("Sec-Fetch-Mode", "cors"),
     Map.entry("Sec-Fetch-Site", "cross-site"),
@@ -80,7 +80,7 @@ public class LeaderboardSimulation extends Simulation {
   
   private Map<CharSequence, String> headers_8 = Map.ofEntries(
     Map.entry("Accept-Encoding", "gzip, deflate, br"),
-    Map.entry("Origin", "http://localhost"),
+    Map.entry("Origin", "https://localhost"),
     Map.entry("Sec-Fetch-Dest", "empty"),
     Map.entry("Sec-Fetch-Mode", "cors"),
     Map.entry("Sec-Fetch-Site", "cross-site"),
@@ -92,23 +92,23 @@ public class LeaderboardSimulation extends Simulation {
   private ScenarioBuilder scn = scenario("LeaderboardSimulation")
     .exec(
       http("request_0")
-        .get("http://" + uri1 + "/")
+        .get("https://" + uri1 + "/")
         .headers(headers_0)
         .resources(
           http("request_1")
-            .get("http://" + uri1 + "/static/js/main.9dbc8138.js")
+            .get("https://" + uri1 + "/static/js/main.9dbc8138.js")
             .headers(headers_1),
           http("request_2")
-            .get("http://" + uri1 + "/static/css/main.4fe7b79e.css")
+            .get("https://" + uri1 + "/static/css/main.4fe7b79e.css")
             .headers(headers_2),
           http("request_3")
-            .get("http://" + uri1 + "/KaW.png")
+            .get("https://" + uri1 + "/KaW.png")
             .headers(headers_3),
           http("request_4")
-            .get("http://" + uri1 + "/assets/locales/es/translation.json")
+            .get("https://" + uri1 + "/assets/locales/es/translation.json")
             .headers(headers_4),
           http("request_5")
-            .get("http://" + uri1 + "/assets/locales/en/translation.json")
+            .get("https://" + uri1 + "/assets/locales/en/translation.json")
             .headers(headers_5)
         ),
       pause(9),

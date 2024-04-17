@@ -14,7 +14,7 @@ import static io.gatling.javaapi.jdbc.JdbcDsl.*;
 public class LogInSimulation extends Simulation {
 
   private HttpProtocolBuilder httpProtocol = http
-    .baseUrl("http://localhost")
+    .baseUrl("https://localhost")
     .inferHtmlResources()
     .acceptHeader("*/*")
     .acceptEncodingHeader("gzip, deflate")
@@ -60,7 +60,7 @@ public class LogInSimulation extends Simulation {
     Map.entry("Accept-Encoding", "gzip, deflate, br"),
     Map.entry("Access-Control-Request-Headers", "content-type"),
     Map.entry("Access-Control-Request-Method", "POST"),
-    Map.entry("Origin", "http://localhost"),
+    Map.entry("Origin", "https://localhost"),
     Map.entry("Sec-Fetch-Dest", "empty"),
     Map.entry("Sec-Fetch-Mode", "cors"),
     Map.entry("Sec-Fetch-Site", "cross-site"),
@@ -71,7 +71,7 @@ public class LogInSimulation extends Simulation {
     Map.entry("Accept", "application/json, text/plain, */*"),
     Map.entry("Accept-Encoding", "gzip, deflate, br"),
     Map.entry("Content-Type", "application/json"),
-    Map.entry("Origin", "http://localhost"),
+    Map.entry("Origin", "https://localhost"),
     Map.entry("Sec-Fetch-Dest", "empty"),
     Map.entry("Sec-Fetch-Mode", "cors"),
     Map.entry("Sec-Fetch-Site", "cross-site"),

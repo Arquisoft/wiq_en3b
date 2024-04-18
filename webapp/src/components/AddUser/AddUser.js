@@ -23,19 +23,19 @@ const AddUser = () => {
     const error = {}
 
     if (!values.username) {
-      error.username = 'Username is required'
+      error.username = t("register.empty_username_error")
     }
 
     if (!values.password) {
-      error.password = 'Password is required'
+      error.password = t("register.empty_password_error")
     } else if (values.password.length < 8) {
-      error.password = 'Password must be at least 8 characters'
+      error.password = t("register.password_length_error")
     }
 
     if (!values.repeatPassword) {
-      error.repeatPassword = 'Confirm Password is required'
+      error.repeatPassword = t("register.empty_password_confirm_error")
     } else if (values.repeatPassword !== values.password) {
-      error.repeatPassword = 'Confirm password and password should be same'
+      error.repeatPassword = t("register.passwords_not_match_error")
     }
 
     return error

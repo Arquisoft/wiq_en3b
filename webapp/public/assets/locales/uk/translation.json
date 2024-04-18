@@ -1,8 +1,8 @@
 {
     "settings": {
         "title": "Налаштування",
-        "choose_lang": "Виберіть мову: ",
-        "choose_seconds": "Виберіть тривалість питань: "
+        "choose_lang": "Оберіть мову: ",
+        "choose_seconds": "Оберіть тривалість питань: "
     },
     "leaderboard": {
         "title": "Таблиця лідерів",
@@ -12,7 +12,7 @@
             "correct_answers": "Правильні відповіді",
             "incorrect_answers": "Неправильні відповіді",
             "games_played": "Зіграні ігри",
-            "total_time": "Загальний час",
+            "total_time": "Загальний час гри",
             "ranking": "Рейтинг"
         }
     },
@@ -21,35 +21,35 @@
         "title": "Профіль користувача {{username}}",
         "bio": {
             "title": "Біографія",
-            "placeholder": "Тут ви можете написати щось про себе! Або просто все, що приходить на думку :)"
+            "placeholder": "Тут ви можете написати щось про себе! Або просто те, що прийде вам на думку :)"
         },
         "choose_avatar": "Виберіть свій аватар!",
         "statistics": {
             "title": "Статистика",
             "games_played": "Зіграні ігри",
-            "total_time": "Загальний час",
+            "total_time": "Загальний час гри",
             "correct_answers": "Правильні відповіді",
             "incorrect_answers": "Неправильні відповіді",
-            "points": "Загальні бали"
+            "points": "Загальна кількість балів"
         },
         "profile_not_available": "Інформація профілю недоступна"
     },
     "play": {
         "nav_title": "Грати",
         "gamemode": {
-            "title": "Виберіть режим гри",
+            "title": "Оберіть режим гри",
             "classic": {
                 "button": "Класичний",
-                "go_back_button": "Назад",
-                "title": "Виберіть складність",
+                "go_back_button": "Повернутися",
+                "title": "Оберіть складність",
                 "easy": "Легко",
                 "medium": "Середній",
                 "hard": "Складно"
             },
             "custom": {
-                "button": "Власний",
+                "button": "Налаштований",
                 "start_button": "Почати",
-                "go_back_button": "Назад",
+                "go_back_button": "Повернутися",
                 "title": "Налаштуйте свою гру",
                 "time": "Час (секунди)",
                 "questions": "Кількість питань"
@@ -57,11 +57,11 @@
         },
         "question_counter": "Питання {{current}} з {{total}}",
         "result": {
-            "title": "Завершальний результат",
-            "questions": "Ви дали {{correct}} правильних відповідей з {{total}}",
-            "points": "Ви набрали {{points}} балів",
+            "title": "Кінцевий результат",
+            "questions": "Ви відповіли на {{correct}} питань правильно з {{total}}",
+            "points": "Ви заробили {{points}} балів",
             "play_again": "Грати знову",
-            "go_back_button": "Назад"
+            "go_back_button": "Повернутися"
         }
     },
     "home": {
@@ -70,26 +70,29 @@
     },
     "login": {
         "title": "Увійти",
-        "welcome": "Ласкаво просимо до Know and Win, будь ласка, увійдіть, щоб продовжити",
+        "welcome": "Ласкаво просимо до Знай і Виграй, будь ласка, увійдіть, щоб продовжити",
         "username_placeholder": "Ім'я користувача",
         "password_placeholder": "Пароль",
         "button": "Увійти",
-        "go_register": "Ще не зареєстровані? Зареєструйтесь зараз",
+        "go_register": "Ще не зареєстровані? Зареєструйтеся зараз",
         "empty_password_error": "Пароль не може бути порожнім",
         "empty_username_error": "Ім'я користувача не може бути порожнім"
     },
     "register": {
         "form_title": "Створіть свій обліковий запис",
         "nav_title": "Реєстрація",
-        "welcome": "Ласкаво просимо до Know and Win, заповніть форму для реєстрації",
+        "welcome": "Ласкаво просимо до Знай і Виграй, заповніть форму для реєстрації",
         "username_placeholder": "Ім'я користувача",
         "password_placeholder": "Пароль",
         "password_confirm_placeholder": "Підтвердити пароль",
-        "button": "Зареєструватися",
-        "go_login": "Вже зареєстровані? Увійдіть",
+        "button": "Зареєструвати",
+        "go_login": "Вже зареєстровані? Увійти",
         "empty_username_error": "Ім'я користувача не може бути порожнім",
         "empty_password_error": "Пароль не може бути порожнім",
-        "empty_password_confirm_error": "Підтвердження пароля не може бути порожнім"
+        "empty_password_confirm_error": "Підтвердження пароля не може бути порожнім",
+        "passwords_not_match_error": "Паролі не співпадають",
+        "password_length_error": "Пароль повинен містити принаймні 8 символів",
+        "invalid_credentials_error": "Недійсні облікові дані"
     },
     "logout": {
         "title": "Вийти"

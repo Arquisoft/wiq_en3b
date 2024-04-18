@@ -89,7 +89,10 @@
         "go_login": "¿Ya estas registrado?, Inicia sesión",
         "empty_username_error": "El nombre de usuario no puede estar vacío",
         "empty_password_error": "La contraseña no puede estar vacía",
-        "empty_password_confirm_error": "La confirmación de la contraseña no puede estar vacía"
+        "empty_password_confirm_error": "La confirmación de la contraseña no puede estar vacía",
+        "passwords_not_match_error": "Las contraseñas no coinciden",
+        "password_length_error": "La contraseña debe tener al menos 8 caracteres",
+        "invalid_credentials_error": "Credeciales inválidas"
     },
     "logout": {
         "title": "Cerrar sesión"

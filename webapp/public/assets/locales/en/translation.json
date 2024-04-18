@@ -12,22 +12,22 @@
             "correct_answers": "Correct Answers",
             "incorrect_answers": "Incorrect Answers",
             "games_played": "Games Played",
-            "total_time": "Total Time",
+            "total_time": "Total Time Played",
             "ranking": "Ranking"
         }
     },
     "profile": {
         "nav_title": "Profile",
-        "title": "{{username}}'s Profile",
+        "title": "Profile of {{username}}",
         "bio": {
             "title": "Biography",
-            "placeholder": "Here you can write something about yourself! Or simply whatever comes to your mind :)"
+            "placeholder": "Here you can write something about yourself! Or just whatever comes to your mind :)"
         },
         "choose_avatar": "Choose your avatar!",
         "statistics": {
             "title": "Statistics",
             "games_played": "Games Played",
-            "total_time": "Total Time",
+            "total_time": "Total Time Played",
             "correct_answers": "Correct Answers",
             "incorrect_answers": "Incorrect Answers",
             "points": "Total Points"
@@ -37,11 +37,11 @@
     "play": {
         "nav_title": "Play",
         "gamemode": {
-            "title": "Choose game mode",
+            "title": "Choose Game Mode",
             "classic": {
                 "button": "Classic",
                 "go_back_button": "Go Back",
-                "title": "Choose difficulty",
+                "title": "Choose Difficulty",
                 "easy": "Easy",
                 "medium": "Medium",
                 "hard": "Hard"
@@ -50,16 +50,16 @@
                 "button": "Custom",
                 "start_button": "Start",
                 "go_back_button": "Go Back",
-                "title": "Configure your game",
+                "title": "Configure Your Game",
                 "time": "Time (seconds)",
-                "questions": "Number of questions"
+                "questions": "Number of Questions"
             }
         },
         "question_counter": "Question {{current}} of {{total}}",
         "result": {
             "title": "Final Result",
-            "questions": "You answered {{correct}} questions correctly out of {{total}}",
-            "points": "You achieved {{points}} points",
+            "questions": "You answered {{correct}} correct questions out of {{total}}",
+            "points": "You earned {{points}} points",
             "play_again": "Play Again",
             "go_back_button": "Go Back"
         }
@@ -86,10 +86,13 @@
         "password_placeholder": "Password",
         "password_confirm_placeholder": "Confirm Password",
         "button": "Register",
-        "go_login": "Already registered? Log in",
+        "go_login": "Already registered? Log In",
         "empty_username_error": "Username cannot be empty",
         "empty_password_error": "Password cannot be empty",
-        "empty_password_confirm_error": "Password confirmation cannot be empty"
+        "empty_password_confirm_error": "Password confirmation cannot be empty",
+        "passwords_not_match_error": "Passwords do not match",
+        "password_length_error": "Password must be at least 8 characters long",
+        "invalid_credentials_error": "Invalid credentials"
     },
     "logout": {
         "title": "Log Out"

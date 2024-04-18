@@ -74,7 +74,7 @@ const Login = () => {
     <div className="login">
       <form>
         <h1>{t("login.title")}</h1>
-        {error && <div className="response-error">{error}</div>}
+        {error && <div className="response-error">{t("register.invalid_credentials_error")}</div>}
         <input
           type="username"
           name="username"

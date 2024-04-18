@@ -73,6 +73,8 @@ public class MongoHandler {
 
             users.insertMany(userList);
 
+            System.out.println("Inserted " + numberUsers + " users");
+
         }catch (Exception e){
             logger.error(String.format("Inserting %d documents", numberUsers), e);
         }
@@ -83,6 +85,7 @@ public class MongoHandler {
             MongoDatabase database = mongoClient.getDatabase(usersDBName);
             MongoCollection<Document> users = database.getCollection(usersCollectionName);
             users.deleteMany(new Document());
+            System.out.println("Deleted all users");
         }catch (Exception e){
             logger.error("When flushing db.", e);
         }

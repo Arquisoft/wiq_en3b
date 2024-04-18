@@ -50,6 +50,7 @@ const getHistory = async (req: Request, res: Response) => {
 };
 
 const DEFAULT_LEADERBOARD_SIZE = 10;
+const SORT_BY_STRINGS = ["points", "passedQuestions", "timePlayed", "gamesPlayed"]
 
 const getLeaderboard = async (req: Request, res: Response) => {
   try {
@@ -62,10 +63,21 @@ const getLeaderboard = async (req: Request, res: Response) => {
       }
     }
 
+    const sortByParam = req.query.sortby as string;
+    let sortBy = SORT_BY_STRINGS[0];
+    if (sortByParam) {
+      if (SORT_BY_STRINGS.indexOf(sortByParam) > -1) {
+        sortBy = sortByParam;
+      } else {
+        throw new Error(`'${sortByParam}' parameter is not valid. Can only sort by 'points', 'passedQuestions', 'timePlayed' or 'gamesPlayed'`);
+      }
+    }
+
     let leaderboard
     try {
+      sortBy = 'history.'+sortBy
       leaderboard = await User.find({})
-          .sort({ 'history.points': -1 }) // Sort in descending order of points
+          .sort({ [sortBy as keyof typeof User.schema.obj]: -1 }) // Sort in descending order of points
           .limit(size) // Only take the first (size) users
           .select('username history'); // Select only username and history (no password, date, etc.)
     } catch (error) {

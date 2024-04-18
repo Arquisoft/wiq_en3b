@@ -30,6 +30,7 @@ function useGame({ configuration, language, user }) {
   const question = questions[gameInfo.questionIndex] ?? {}
 
   useEffect(() => {
+
     const isThereQuestions = Boolean(questions.length)
 
     if (isThereQuestions) {
@@ -40,7 +41,7 @@ function useGame({ configuration, language, user }) {
       }))
       startTime.current = new Date()
     }
-  }, [questions, timePerQuestion])
+  }, [questions.length, timePerQuestion])
 
   const resetGame = useCallback(() => {
     setGameInfo(INITIAL_STATE)
@@ -48,19 +49,30 @@ function useGame({ configuration, language, user }) {
   }, [generateNewQuestions])
 
   const countdownCompleteHandler = useCallback(() => {
-    if (gameInfo.questionIndex < questions.length - 1) {
-      setGameInfo({
-        ...gameInfo,
-        questionIndex: gameInfo.questionIndex + 1,
-        timer: Date.now() + timePerQuestion * 1000,
-      })
-    } else {
-      setGameInfo({
-        ...gameInfo,
-        state: GAME_STATES.finished,
-      })
-    }
-  }, [gameInfo, questions.length, timePerQuestion])
+
+    setGameInfo({
+      ...gameInfo,
+      selectedAnswerId: question.correctAnswerId,
+    })
+
+    setTimeout(() => {
+
+      if (gameInfo.questionIndex < questions.length - 1) {
+        setGameInfo({
+          ...gameInfo,
+          questionIndex: gameInfo.questionIndex + 1,
+          timer: Date.now() + timePerQuestion * 1000
+        })
+      } else {
+        setGameInfo({
+          ...gameInfo,
+          state: GAME_STATES.finished
+        })
+      }
+
+    }, 2000)
+
+  }, [gameInfo, questions.length, timePerQuestion, question.correctAnswerId])
 
   const answerQuestionWith = useCallback(
     id => () => {

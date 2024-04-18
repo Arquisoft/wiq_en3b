@@ -16,7 +16,7 @@ i18n
   .use(HttpApi)
   .init({
 
-    supportedLngs: ['en', 'es', 'fr', 'ua'],// array of supported languages
+    supportedLngs: ['en', 'es', 'fr', 'uk'],// array of supported languages
 
     fallbackLng: "es",// if the user selects a language that is not defined in the resources, the fallbackLng will be used
 

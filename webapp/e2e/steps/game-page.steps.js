@@ -55,7 +55,7 @@ defineFeature(feature, test => {
       const buttonContainer = await page.$('.button-container') // document.quesrySelector
       const buttons = await buttonContainer.$$('button') // document.quesrySelectorAll
 
-      expect(buttons.length).toBe(2)
+      expect(buttons.length).toBe(3)
     })
   })
   test('The user wants to start an easy game', ({ given, when, and, then }) => {

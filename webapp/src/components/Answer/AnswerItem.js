@@ -4,10 +4,14 @@ function AnswerItem({ onClick, className, disabled, children }) {
   return (
     <li
       disabled={disabled}
-      onClick={onClick}
+      onClick={() => {
+        if (!disabled) {
+          onClick()
+        }
+      }}
       tabIndex={0}
       onKeyDown={event => {
-        if (event.key === 'Enter' || event.key === ' ') {
+        if (!disabled && (event.key === 'Enter' || event.key === ' ')) {
           onClick()
         }
       }}

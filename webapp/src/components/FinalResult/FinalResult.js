@@ -7,8 +7,8 @@ const FinalResult = ({ result, quizLength, points, onPlayAgain, goBack }) => {
     <div className="final-result">
       <h1>Final result</h1>
       <p>
-        You answered {result} questions correct{' '}
-        {quizLength !== 0 && `out of ${quizLength}`}
+        You answered {result} question correct{' '}
+        {quizLength !== 0 && `out of ${quizLength}.`}
       </p>
       <p>Your score is {points} points.</p>
       <Button onClick={onPlayAgain}>Play again</Button>

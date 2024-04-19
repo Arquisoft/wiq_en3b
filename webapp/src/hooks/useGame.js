@@ -8,6 +8,8 @@ export const GAME_STATES = {
   finished: 'finished',
 }
 
+const QUESTIONS_TO_GENERATE_PER_DEMAND = 4
+
 const INITIAL_STATE = {
   state: GAME_STATES.loading,
   passedQuestions: 0,
@@ -20,8 +22,11 @@ const INITIAL_STATE = {
 function useGame({ configuration, language, user }) {
   const { numberOfQuestions, timePerQuestion, pointsPerQuestion } =
     configuration
-  const { questions, generateNewQuestions } = useQuestions({
-    numberOfQuestions,
+  const { questions, generateNewQuestions, addMoreQuestions } = useQuestions({
+    numberOfQuestions:
+      numberOfQuestions === 0
+        ? QUESTIONS_TO_GENERATE_PER_DEMAND
+        : numberOfQuestions,
     language,
   })
   const [gameInfo, setGameInfo] = useState(INITIAL_STATE)
@@ -32,7 +37,7 @@ function useGame({ configuration, language, user }) {
   useEffect(() => {
     const isThereQuestions = Boolean(questions.length)
 
-    if (isThereQuestions) {
+    if (isThereQuestions && gameInfo.state === GAME_STATES.loading) {
       setGameInfo(gameInfo => ({
         ...gameInfo,
         state: GAME_STATES.playing,
@@ -40,7 +45,7 @@ function useGame({ configuration, language, user }) {
       }))
       startTime.current = new Date()
     }
-  }, [questions, timePerQuestion])
+  }, [questions, timePerQuestion, gameInfo.state])
 
   const resetGame = useCallback(() => {
     setGameInfo(INITIAL_STATE)
@@ -48,7 +53,9 @@ function useGame({ configuration, language, user }) {
   }, [generateNewQuestions])
 
   const countdownCompleteHandler = useCallback(() => {
-    if (gameInfo.questionIndex < questions.length - 1) {
+    const isHardcoreMode = numberOfQuestions === 0
+
+    if (gameInfo.questionIndex < questions.length - 1 && !isHardcoreMode) {
       setGameInfo({
         ...gameInfo,
         questionIndex: gameInfo.questionIndex + 1,
@@ -60,17 +67,25 @@ function useGame({ configuration, language, user }) {
         state: GAME_STATES.finished,
       })
     }
-  }, [gameInfo, questions.length, timePerQuestion])
+  }, [gameInfo, questions.length, timePerQuestion, numberOfQuestions])
 
   const answerQuestionWith = useCallback(
     id => () => {
       const isCorrect = question.correctAnswerId === id
+      const isHardcoreMode = numberOfQuestions === 0
       let passedQuestions = gameInfo.passedQuestions
       let points = gameInfo.points
 
       if (isCorrect) {
         passedQuestions += 1
         points += pointsPerQuestion
+      }
+
+      if (
+        isHardcoreMode &&
+        gameInfo.questionIndex + 1 >= questions.length / 2
+      ) {
+        addMoreQuestions({ amount: QUESTIONS_TO_GENERATE_PER_DEMAND })
       }
 
       setGameInfo({
@@ -81,7 +96,9 @@ function useGame({ configuration, language, user }) {
       })
 
       setTimeout(() => {
-        const hasGameFinished = gameInfo.questionIndex >= questions.length - 1
+        const hasGameFinished =
+          gameInfo.questionIndex >= questions.length - 1 ||
+          (isHardcoreMode && !isCorrect)
 
         if (hasGameFinished) {
           const finishTime = Date.now()
@@ -118,6 +135,8 @@ function useGame({ configuration, language, user }) {
       questions.length,
       timePerQuestion,
       user.token,
+      addMoreQuestions,
+      numberOfQuestions,
     ]
   )
 

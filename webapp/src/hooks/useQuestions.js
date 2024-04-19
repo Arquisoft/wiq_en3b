@@ -6,6 +6,7 @@ const useQuestions = ({ numberOfQuestions, language }) => {
   const [questions, setQuestions] = useState([])
 
   const generateNewQuestions = useCallback(async () => {
+    setQuestions([])
     const questions = await getQuestions(numberOfQuestions, language)
 
     questions.forEach((question, i) => {

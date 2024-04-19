@@ -1,10 +1,9 @@
-import Button from '../../components/Button/Button'
-import Quiz from '../../components/Quiz/Quiz'
+import Button from '../Button/Button'
+import Quiz from '../Quiz/Quiz'
 import '../../pages/Game/Game.css'
-import { QUESTIONS } from '../../hooks/useGame'
 import { useState } from 'react'
 
-function Survival({ goBack }) {
+function Hardcore({ goBack }) {
   const [hasFinishedConfiguration, setHasFinishedConfiguration] =
     useState(false)
 
@@ -13,11 +12,13 @@ function Survival({ goBack }) {
       <div className="quiz-wrapper">
         {!hasFinishedConfiguration && (
           <div className="header-and-buttons-container">
-            <h2>Survival mode</h2>
+            <h2>Hardcore mode</h2>
             <p className="quiz-mode-description">
-              The Survival mode is just you against the clock. Correct answers
-              earn you precious time, but get one wrong, and the clock starts
-              ticking faster. How long can you survive?
+              In the Hardcore mode there is no room for error. You must answer
+              every question correctly, one after another, to stay in the game.
+              Test your knowledge, nerve, and focus as you strive for
+              perfection. Can you conquer the challenge and emerge as the
+              ultimate quiz master?
             </p>
             <div className="button-container">
               <Button
@@ -36,8 +37,9 @@ function Survival({ goBack }) {
         {hasFinishedConfiguration && (
           <Quiz
             configuration={{
-              numberOfQuestions: QUESTIONS.ondemand,
-              pointsPerQuestion: 0,
+              numberOfQuestions: 0,
+              pointsPerQuestion: 10,
+              timePerQuestion: 10,
             }}
             goBack={goBack}
           />
@@ -47,4 +49,4 @@ function Survival({ goBack }) {
   )
 }
 
-export default Survival
+export default Hardcore

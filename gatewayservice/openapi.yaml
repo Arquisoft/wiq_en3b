@@ -585,6 +585,7 @@ components:
       schema:
         type: integer
       default: 10
+      minimum: 1
       examples:
         size-example:
           summary: Retrieving the top 3 players.

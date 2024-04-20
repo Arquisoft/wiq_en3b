@@ -49,6 +49,7 @@
     opacity: 0;
     animation: collapse 0.5s forwards;
     border-radius: 1em;
+    align-items: center;
 }
 
 .audio-button-container:hover .volume-slider-container,

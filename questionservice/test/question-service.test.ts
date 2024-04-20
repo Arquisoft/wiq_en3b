@@ -98,7 +98,7 @@ describe("Question Service - Question Generation", () => {
         await generateQuestionsController(req, res)
 
         // Ensuring mock fn was called like => await generateQuestions(3)
-        expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length, "en");
+        expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length, "en", undefined);
         // Ensuring mock fn was called like => res.json(['Question1', 'Question2', 'Question3'])
         expect(res.json).toHaveBeenCalledWith(mockResponse)
 
@@ -120,7 +120,7 @@ describe("Question Service - Question Generation", () => {
         await generateQuestionsController(req, res)
 
         // Ensuring mock fn was called like => await generateQuestions(3)
-        expect(generateQuestions).toHaveBeenCalledWith(3, "en");
+        expect(generateQuestions).toHaveBeenCalledWith(3, "en", undefined);
         // Ensuring mock fn was called like => res.status(500)
         expect(res.status).toHaveBeenCalledWith(500)
         // Ensuring mock fn was called like => res.json({status: 'fail'})

@@ -8,12 +8,14 @@ interface QuestionType {
   name: string;
   query: string;
   entities: string[];
+  typeName: string;
 }
 
 const questionTypeSchema = new Schema<QuestionType>({
   name: { type: String, required: true },
   query: { type: String, required: true },
   entities: { type: [String], required: false },
+  typeName: { type: String, required: true },
 });
 
 interface Question {
@@ -54,6 +56,7 @@ const generateSampleTest = () => {
         'Q6256', // Country (any)
         'Q10742', // Autonomous Community of Spain
       ],
+      typeName: 'geography',
     },
   });
 
@@ -75,7 +78,8 @@ const generateSampleTest = () => {
         'Q6256', // Country (any)
         'Q10742', // Autonomous Community of Spain
         'Q35657', // State of the United States
-      ], // City
+      ],
+      typeName: 'geography',
     },
   });
 
@@ -100,7 +104,8 @@ const generateSampleTest = () => {
         'Q6256', // Country (any)
         'Q10742', // Autonomous Community of Spain
         'Q35657', // State of the United States
-      ], // City
+      ],
+      typeName: 'history',
     },
   });
 
@@ -121,10 +126,9 @@ const generateSampleTest = () => {
           LIMIT 10
           `,
       entities: [
-        'Q198', // War
+        'Q198' // War
       ],
-
-      // , "Q209715"] // Coronation of a king/queen
+      typeName: 'history',
     },
   });
 
@@ -147,6 +151,7 @@ const generateSampleTest = () => {
         LIMIT 10
         `,
       entities: [],
+      typeName: 'science',
     },
   });
 
@@ -168,6 +173,7 @@ const generateSampleTest = () => {
       LIMIT 10
       `,
       entities: [],
+      typeName: 'science',
     },
   });
 
@@ -191,7 +197,8 @@ const generateSampleTest = () => {
         'Q6256', // Country (any)
         'Q10742', // Autonomous Community of Spain
         'Q35657' // State of the United States],
-      ]
+      ],
+      typeName: 'geography',
     },
   });
 
@@ -211,7 +218,8 @@ const generateSampleTest = () => {
       }
       LIMIT 5    
       `,
-      entities: []
+      entities: [],
+      typeName: 'science',
     },
   });
 
@@ -230,7 +238,8 @@ const generateSampleTest = () => {
       }
       LIMIT 5  
       `,
-      entities: []
+      entities: [],
+      typeName: 'science',
     },
   });
 };

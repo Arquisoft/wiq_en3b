@@ -112,7 +112,7 @@ public class ChangeProfileSimulation extends Simulation {
           .exec(enterProfile());
 
   // It works but take in mind to change the token in headers_7
-  // I have seek ways to do it but it seems that Gatling does not load the JSON responses in
+  // I have seek ways to do it, but it seems that Gatling does not load the JSON responses in
   // logIn()
   public ChangeProfileSimulation(){
       MongoHandler.getInstance().addNUsers(nUsersStored);

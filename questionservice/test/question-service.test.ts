@@ -2,6 +2,7 @@ const request = require('supertest');
 import app from '../src/app';
 import { generateQuestions } from '../src/services/question-generator';
 import { generateQuestionsController } from '../src/controllers/question-controller';
+import * as storage from '../src/services/question-storage';
 
 
 describe("Question Service - Health", () => {
@@ -83,10 +84,10 @@ describe("Question Service - Question Generation", () => {
     })
 
     it("should return questions when controller succeeds", async () => {
-
         // Mocking the response of generateQuestions(size) => Questions
         const mockResponse = ['Question 1', 'Question 2', 'Question 3'];
-        (generateQuestions as jest.Mock).mockResolvedValue(mockResponse)
+        (generateQuestions as jest.Mock).mockResolvedValue(mockResponse);
+
 
         // Mock req and res for controller
         const req = { query: { size: mockResponse.length, lang: "en" } } as any
@@ -101,7 +102,6 @@ describe("Question Service - Question Generation", () => {
         expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length, "en", undefined);
         // Ensuring mock fn was called like => res.json(['Question1', 'Question2', 'Question3'])
         expect(res.json).toHaveBeenCalledWith(mockResponse)
-
     })
 
     it("should return an error 500 when controller fails", async () => {
@@ -133,3 +133,54 @@ describe("Question Service - Question Generation", () => {
     })
 
 })
+
+describe("Question Service - Question Generator With Types", () => {
+    jest.mock('../src/utils/validations')
+
+    it("should return questions when controller succeeds with types", async () => {
+        // Mocking the response of generateQuestions(size) => Questions
+        const mockResponse = ['Question 1', 'Question 2', 'Question 3'];
+        (generateQuestions as jest.Mock).mockResolvedValue(mockResponse);
+        const validateTypesMock = jest.spyOn(storage, 'getQuestionTypes');
+        validateTypesMock.mockImplementation(async () => ['history']);
+
+
+        // Mock req and res for controller
+        const req = { query: { size: mockResponse.length, lang: "en", type: 'history' } } as any
+        const res = {
+            json: jest.fn(),
+            status: jest.fn().mockReturnThis()
+        } as any
+
+        await generateQuestionsController(req, res)
+
+        // Ensuring mock fn was called like => await generateQuestions(3)
+        expect(generateQuestions).toHaveBeenCalledWith(mockResponse.length, "en", ['history']);
+        // Ensuring mock fn was called like => res.json(['Question1', 'Question2', 'Question3'])
+        expect(res.json).toHaveBeenCalledWith(mockResponse)
+    })
+
+
+    it("should fail when type is invalid", async () => {
+        const validateTypesMock = jest.spyOn(storage, 'getQuestionTypes');
+        validateTypesMock.mockImplementation(async () => { throw new Error('Invalid type') });
+        // Mock req and res for controller
+        const req = { query: { size: 3, lang: "en", type: 'invalid' } } as any
+        const res = {
+            json: jest.fn(),
+            status: jest.fn().mockReturnThis()
+        } as any
+
+        await generateQuestionsController(req, res);
+
+        // Ensuring correct status is returned
+        expect(res.status).toHaveBeenCalledWith(400)
+        // Ensuring mock fn was called like => res.json({status: 'fail'})
+        expect(res.json).toHaveBeenLastCalledWith({
+            status: 'fail',
+            data: {
+                error: "Invalid type",
+            },
+        });
+    })
+});

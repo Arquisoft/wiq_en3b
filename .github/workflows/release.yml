@@ -63,7 +63,7 @@ jobs:
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
         env:
-          API_URI: https://${{ secrets.DEPLOY_HOST }}:8000
+          API_URI: https://kawgame.xyz:8000
         with:
           name: arquisoft/wiq_en3b/webapp
           username: ${{ github.actor }}

@@ -34,6 +34,12 @@ const Custom = ({ goBack }) => {
         {!hasFinishedConfiguration && (
           <div className="header-and-buttons-container">
             <h2>{t('play.gamemode.custom.title')}</h2>
+            <p className="quiz-mode-description">
+              This is the Custom mode. Take control of your quiz experience. Set
+              the number of questions, time per question, and select your
+              preferred question types. Tailor the challenge to your liking and
+              dive into a personalized trivia adventure.
+            </p>
             <div className="custom-option">
               <label htmlFor="timeSlider">{t('play.gamemode.custom.time')}</label>
               <input

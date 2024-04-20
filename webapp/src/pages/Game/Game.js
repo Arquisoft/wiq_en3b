@@ -2,6 +2,7 @@ import { useState } from 'react'
 import Button from '../../components/Button/Button'
 import './Game.css'
 import Classic from '../../components/GameModes/Classic'
+import Hardcore from '../../components/GameModes/Hardcore'
 import Custom from '../../components/GameModes/Custom'
 
 import { useTranslation } from 'react-i18next'
@@ -27,12 +28,14 @@ const Game = () => {
             <h2>{t('play.gamemode.title')}</h2>
             <div className="button-container">
               <Button onClick={changeToGameMode('classic')}>{t("play.gamemode.classic.button")}</Button>
+              <Button onClick={changeToGameMode('hardcore')}>Hardcore</Button>
               <Button onClick={changeToGameMode('custom')}>{t("play.gamemode.custom.button")}</Button>
             </div>
           </div>
         </div>
       )}
       {gamemode === 'classic' && <Classic goBack={goBack} />}
+      {gamemode === 'hardcore' && <Hardcore goBack={goBack} />}
       {gamemode === 'custom' && <Custom goBack={goBack} />}
     </>
   )

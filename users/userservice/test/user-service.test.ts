@@ -259,8 +259,37 @@ describe('User Service', () => {
     expect(response.body.data.leaderboard).not.toBeUndefined();
   });
 
+  // GET /history/leaderboard sortby
+  it('should obtain users with the highest number of passed questions', async () => {
+    const newHistory = {
+      history: {
+        passedQuestions: 10000,
+      },
+    };
+    await request(app)
+        .post('/history')
+        .send(newHistory)
+        .set('Authorization', `Bearer ${testToken}`);
+
+    const response = await request(app)
+        .get('/history/leaderboard?sortby=passedQuestions');
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.data.leaderboard[0].username).toEqual('testuser');
+    expect(response.body.data.leaderboard[0].history.passedQuestions).toBe(10000);
+  });
+
+  // GET /history/leaderboard invalid sortby
+  it('should get an error when the sortby parameter is invalid', async () => {
+    const response = await request(app)
+        .get('/history/leaderboard?sortby=invalidparameter');
+
+    expect(response.statusCode).toBe(400);
+    expect(response.body.data.leaderboard).toBeUndefined();
+  });
+
   // GET /history/leaderboard negative param
-  it('should obtain users with the highest scores', async () => {
+  it('should get an error if the size is negative', async () => {
     // If a request is made with a negative size, it will throw an exception
     const response = await request(app)
         .get('/history/leaderboard?size=-1');

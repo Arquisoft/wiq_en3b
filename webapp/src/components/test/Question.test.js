@@ -43,4 +43,9 @@ describe('Question component', () => {
     render(<Question {...mockProps} />)
     expect(screen.getByText('Question 1 of 1')).toBeInTheDocument()
   })
+
+  it('renders question counter when hardcore', () => {
+    render(<Question {...{ ...mockProps, quizLength: 0 }} />)
+    expect(screen.getByText('Question 1')).toBeInTheDocument()
+  })
 })

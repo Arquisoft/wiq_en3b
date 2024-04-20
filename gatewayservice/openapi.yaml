@@ -218,9 +218,10 @@ paths:
       operationId: userLeaderboard
       parameters:
         - $ref: '#/components/parameters/leaderboardSize'
+        - $ref: '#/components/parameters/leaderboardSortBy'
       responses:
         200:
-          description: Service has retrieved the leaderboard with the number of users requested in Descending order of points
+          description: Service has retrieved the leaderboard with the number of users requested in descending order of the requested attribute
           content:
             application/json:
               schema:
@@ -259,6 +260,12 @@ paths:
                     status: Fail
                     data:
                       error: The size must be a positive value.
+                badSortBy:
+                  summary: Client has provided an invalid 'sortby' parameter
+                  value:
+                    status: Fail
+                    data:
+                      error: Parameter is not valid. Can only sort by 'points', 'passedQuestions', 'timePlayed' or 'gamesPlayed'
         
         500:
           description: An internal server error has occurred
@@ -371,7 +378,7 @@ components:
           properties:
             leaderboard:
               type: array
-              description: An array with all users in leaderboard sorted by points
+              description: An array with all users in leaderboard sorted by the requested attribute
               items:
                 type: object
                 properties:
@@ -573,7 +580,7 @@ components:
     leaderboardSize:
       name: size
       in: query
-      description: Number users to retrieve in leaderboard.
+      description: Number of users to retrieve in leaderboard.
       required: false
       schema:
         type: integer
@@ -583,6 +590,28 @@ components:
         size-example:
           summary: Retrieving the top 3 players.
           value: 3
+
+    leaderboardSortBy:
+      name: sortby
+      in: query
+      description: Field of the history to sort by
+      schema:
+        type: string
+        enum: [points, passedQuestions, timePlayed, gamesPlayed]
+      default: points
+      examples:
+        sortby-points-example:
+          summary: Retrieving the top users with highest score (default behavior)
+          value: points
+        sortby-passedquestions-example:
+          summary: Retrieving the top users with most passed questions
+          value: passedQuestions
+        sortby-timeplayed-example:
+          summary: Retrieving the top users with most time played
+          value: timePlayed
+        sortby-gamesplayed-example:
+          summary: Retrieving the top users with most games played
+          value: gamesPlayed
   
     userParam:
       name: user

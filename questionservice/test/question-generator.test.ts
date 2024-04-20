@@ -104,6 +104,25 @@ describe("Question Service - Question Generator", () => {
         checkAllFields(response);
     })
 
+    it("should return 2 questions with all correct parameters given a type", async () => {
+
+        // Setting up the mocks
+        const numberQuestions = 2;
+        await mocktemplateModelAggregate(numberQuestions);
+        await mockWikidataSparql(numberQuestions)
+        await mockQuestionAggregate();
+        await mockQuestionCount();
+
+        // Testing function
+        const response = await generateQuestions(numberQuestions, "en", ['geography']) as any;
+
+        // It must be generated two questions
+        expect(response.length).toBe(numberQuestions)
+        checkAllFields(response);
+    })
+
+
+
     it("should return an error if fetching documents from Mongo fails - First call", async () => {
         await mockQuestionCount();
 
@@ -308,6 +327,7 @@ async function mocktemplateModelAggregate(numberReturnValues: number) {
                 'Q6256',
                 'Q10742',
             ],
+            typeName: 'geography',
         }
     }];
 
@@ -340,7 +360,9 @@ async function mockTemplateModelAggregateWithImage() {
                 'Q6256', // Country (any)
                 'Q10742', // Autonomous Community of Spain
                 'Q35657' // State of the United States],
-            ]
+            ],
+            typeName: 'geography',
+
         },
     }];
 
@@ -380,6 +402,7 @@ function checkAllFields(response: any) {
         expect(r).toHaveProperty("answers") // a list of answers
         expect(r.answers.length).toBe(4) // 4 answers
         expect(r).toHaveProperty("correctAnswerId", 1) // a correct answer Id set to 1
+        expect(r).toHaveProperty("type") // a type field
     }
 
 }

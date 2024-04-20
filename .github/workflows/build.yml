@@ -26,7 +26,7 @@ jobs:
     - run: npm --prefix users/userservice test -- --coverage
     - run: npm --prefix questionservice test -- --coverage
     - run: npm --prefix gatewayservice test -- --coverage
-    # - run: npm --prefix webapp test -- --coverage
+    - run: npm --prefix webapp test -- --coverage
     - name: Analyze with SonarCloud
       uses: sonarsource/sonarcloud-github-action@master
       env:
@@ -49,4 +49,4 @@ jobs:
     - run: npm --prefix questionservice install
     - run: npm --prefix webapp run build
     - run: sudo setcap 'cap_net_bind_service=+ep' `which node`
-    # - run: npm --prefix webapp run test:e2eci
+    - run: npm --prefix webapp run test:e2eci

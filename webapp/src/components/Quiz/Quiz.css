@@ -4,3 +4,11 @@
   justify-content: center;
   align-items: center;
 }
+
+.quiz-wrapper > span {
+  margin-top: 5rem;
+}
+
+.quiz-wrapper > .quiz-timer {
+  margin-top: 1rem;
+}

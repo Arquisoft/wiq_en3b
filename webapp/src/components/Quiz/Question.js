@@ -17,7 +17,7 @@ const Question = ({
   return (
     <div className="quiz">
       <div className="quiz-counter">
-        Question {id + 1} of {quizLength}
+        Question {id + 1} {quizLength !== 0 && `of ${quizLength}`}
       </div>
       <div className="question">
         <p className="question-text">{question}</p>

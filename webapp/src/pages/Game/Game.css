@@ -15,4 +15,10 @@ h2 {
   margin-top: 1rem;
   font-size: 2rem;
   text-align: center;
+  margin-bottom: 2rem;
+}
+
+.quiz-mode-description {
+  max-width: 50ch;
+  text-align: center;
 }

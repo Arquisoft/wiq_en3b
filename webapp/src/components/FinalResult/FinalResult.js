@@ -2,16 +2,17 @@ import './FinalResult.css'
 
 import Button from '../Button/Button'
 
-const FinalResult = props => {
+const FinalResult = ({ result, quizLength, points, onPlayAgain, goBack }) => {
   return (
     <div className="final-result">
       <h1>Final result</h1>
       <p>
-        You answered {props.result} question correct out of {props.quizLength}.
+        You answered {result} question correct{' '}
+        {quizLength !== 0 && `out of ${quizLength}.`}
       </p>
-      <p>Your score is {props.points} points.</p>
-      <Button onClick={props.onPlayAgain}>Play again</Button>
-      <Button onClick={props.goBack} className="danger">
+      <p>Your score is {points} points.</p>
+      <Button onClick={onPlayAgain}>Play again</Button>
+      <Button onClick={goBack} className="danger">
         Go back
       </Button>
     </div>

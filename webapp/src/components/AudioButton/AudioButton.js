@@ -51,23 +51,21 @@ const AudioButton = () => {
     };
 
     return (
-        <div className="audio-button-container"
-            onMouseEnter={handleMouseEnter}
-            onMouseLeave={handleMouseLeave}>
-            <div className="sound" onClick={toggleAudio} data-testid="audio-button" tabIndex={0}
-                onKeyDown={(event) => {
-                    if (event.key === 'Enter' || event.key === ' ') {
-                        toggleAudio();
-                    }
-                }}>
-                {playing ? <SoundIcon data-testid="sound-icon" /> : <MuteIcon data-testid="mute-icon" />}
-            </div>
-            {showVolumeSlider && (
-                <div className="volume-slider-container">
-                    <Slider volume={volume} handleVolumeChange={handleVolumeChange} />
-                </div>
-            )}
+    <div className="audio-button-container"
+        onMouseEnter={handleMouseEnter}
+        onMouseLeave={handleMouseLeave}>
+        <div className="sound" onClick={toggleAudio} data-testid="audio-button" tabIndex={0}
+            onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    toggleAudio();
+                }
+            }}>
+            {playing ? <SoundIcon data-testid="sound-icon" /> : <MuteIcon data-testid="mute-icon" />}
         </div>
+        <div className={`volume-slider-container ${showVolumeSlider ? 'show' : ''}`}>
+            <Slider volume={volume} handleVolumeChange={handleVolumeChange} />
+        </div>
+    </div>
     );
 };
 

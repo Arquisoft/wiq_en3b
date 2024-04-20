@@ -1,3 +1,25 @@
+@keyframes expand {
+    0% {
+        transform: translateX(-80%) scaleX(0) scaleY(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-80%) scaleX(1) scaleY(1);
+        opacity: 1;
+    }
+}
+
+@keyframes collapse {
+    0% {
+        transform: translateX(-80%) scaleX(1) scaleY(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-80%) scaleX(0) scaleY(0);
+        opacity: 0;
+    }
+}
+
 .pause-btn {
     background-image: url("../../assets/sound.svg");
 }
@@ -7,14 +29,15 @@
 }
 
 .audio-button-container {
-    position: relative; /* Asegúrate de que el contenedor del botón de audio tiene position: relative */
+    position: relative;
 }
 
 .volume-slider-container {
     position: absolute;
     top: 100%;
     left: 50%;
-    transform: translateX(-80%); 
+    transform: translateX(-80%) scaleX(0) scaleY(0);
+    transform-origin: 80% top;
     width: auto;
     max-width: calc(100vw - 20px); 
     min-width: 100px;
@@ -24,15 +47,11 @@
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     z-index: 1000;
     opacity: 0;
-    visibility: hidden;
-    transition: visibility 1s, opacity 1s linear;
+    animation: collapse 0.5s forwards;
     border-radius: 1em;
 }
 
 .audio-button-container:hover .volume-slider-container,
 .volume-slider-container:hover {
-    opacity: 1;
-    transform: translateX(-80%) translateY(0);
-    visibility: visible;
-    transition: visibility 1s, opacity 1s linear;
+    animation: expand 0.5s forwards;
 }

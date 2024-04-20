@@ -20,12 +20,13 @@ const getQuestions = async (
 };
 
 const getQuestionTypes = async (
+  _: Request,
   res: Response,
   next: NextFunction
 ) => {
   try {
     const questionTypesResponse = await axios.get(
-      QUESTION_SERVICE_URL + '/question/types'
+      QUESTION_SERVICE_URL + '/questions/types'
     );
 
     res.json(questionTypesResponse.data);

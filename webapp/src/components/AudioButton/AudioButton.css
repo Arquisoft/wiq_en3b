@@ -5,3 +5,34 @@
 .play-btn {
     background-image: url("../../assets/mute.svg")
 }
+
+.audio-button-container {
+    position: relative; /* Asegúrate de que el contenedor del botón de audio tiene position: relative */
+}
+
+.volume-slider-container {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-80%); 
+    width: auto;
+    max-width: calc(100vw - 20px); 
+    min-width: 100px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: visibility 1s, opacity 1s linear;
+    border-radius: 1em;
+}
+
+.audio-button-container:hover .volume-slider-container,
+.volume-slider-container:hover {
+    opacity: 1;
+    transform: translateX(-80%) translateY(0);
+    visibility: visible;
+    transition: visibility 1s, opacity 1s linear;
+}

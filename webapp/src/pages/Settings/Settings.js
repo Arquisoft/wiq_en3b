@@ -31,20 +31,6 @@ const Settings = (props) => {
   return (
     <div className="settings">
       <h1>{t("settings.title")}</h1>
-
-      <div className="settings-option">
-        <label htmlFor="selectLanguage">{t("settings.choose_lang")}</label>
-        <LanguageSelector
-          id="selectLanguage"
-          languages={languages}
-        />
-      </div>
-
-      <div className="settings-option">
-        <Slider id="selectVolume" volume={props.volume} handleVolumeChange={props.handleVolumeChange} />
-      </div>
-
-
     </div>
   );
 }

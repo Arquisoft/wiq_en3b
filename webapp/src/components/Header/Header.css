@@ -72,3 +72,80 @@ img {
   cursor: pointer;
   color: #717bee;
 }
+
+.options {
+  display: flex;
+}
+
+/* Estilo para el contenedor del selector de idioma */
+.language-selector {
+  position: relative;
+  display: inline-block;
+  margin-left: auto;
+  margin-right: 1em;
+}
+
+/* Estilo para el selector de idioma */
+.language-selector select {
+  position: relative;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #717bee;
+  cursor: pointer;
+}
+
+/* Estilo para el selector de idioma */
+.selected-language {
+  position: relative;
+  padding: 10px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #fff;
+  color: #717bee;
+  cursor: pointer;
+  width: 8rem;
+  align-items: center;
+  align-content: center;
+}
+
+/* Estilo para la flecha del desplegable */
+.selected-language::after {
+  content: '▼';
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+}
+
+.flag {
+  width: 1rem;
+  height: auto;
+  margin: 0rem;
+  margin-left: 0.5rem;
+}
+
+.language-options {
+  position: absolute;
+  background-color: #fff;
+  width: 100%;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  z-index: 1;
+  top: 100%;
+}
+
+.language-options div {
+  padding: 10px;
+  cursor: pointer;
+}
+
+.language-options div:hover {
+  background-color: #f1f1f1;
+}
+
+.homeButton {
+  align-items: center;
+}

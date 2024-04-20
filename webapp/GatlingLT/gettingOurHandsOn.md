@@ -1,5 +1,24 @@
 # How to Load Testing with Gatling!
 
+## Now, running is even easier!! 🚀🚀
+
+The LoadTesting folder has been refatored and now is a complete Java
+Project.
+
+- To run Recorder: Simply run the src/test/java/Recorder.java
+- To run the Load Tests: Simply run the src/test/java/Engine.java and then select the
+test you want.
+
+If you want to change something from the Simulation classes, go to
+src/test/java/kaw and there you will find well refactored Java classes for
+better understanding.
+
+Other Java classes:
+
+- src/test/java/mongo/MongoHandler: This class helps the Simulation classes
+to have some data stored in DB (ex. having 100 random users)
+- src/test/java/util/LoadTestUtil: Simply to refactor some common test access.
+
 ## Understanding
 1. First go to https://docs.gatling.io/reference/install/oss/ and download Gatling
    files. You will probably obtain a zip file. Uncompress it.

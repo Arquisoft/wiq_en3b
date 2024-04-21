@@ -25,6 +25,11 @@ const Settings = (props) => {
       code: 'fr',
       name: 'Français',
       country_code: 'fr'
+    },
+    {
+      code: 'uk',
+      name: 'Українська',
+      country_code: 'uk'
     }
   ]
 

@@ -1,19 +1,21 @@
 import './FinalResult.css'
 
 import Button from '../Button/Button'
+import { useTranslation } from 'react-i18next'
 
 const FinalResult = ({ result, quizLength, points, onPlayAgain, goBack }) => {
+  const { t } = useTranslation()
+  
   return (
     <div className="final-result">
-      <h1>Final result</h1>
+      <h1>{t("play.result.title")}</h1>
       <p>
-        You answered {result} question correct{' '}
-        {quizLength !== 0 && `out of ${quizLength}.`}
+        {t("play.result.questions", { correct: result, total: quizLength })}
       </p>
-      <p>Your score is {points} points.</p>
-      <Button onClick={onPlayAgain}>Play again</Button>
+      <p>{t("play.result.points", { points: points })}</p>
+      <Button onClick={onPlayAgain}>{t("play.result.play_again")}</Button>
       <Button onClick={goBack} className="danger">
-        Go back
+        {t("play.result.go_back_button")}
       </Button>
     </div>
   )

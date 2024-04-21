@@ -1,24 +1,100 @@
-
 {
-    "settings":{
-    "title":"Settings",
-    "choose_lang":"Choose language: ",
-    "choose_seconds":"Choose question duration: "
+    "settings": {
+        "title": "Settings",
+        "choose_lang": "Choose language: ",
+        "choose_seconds": "Choose question duration: "
     },
-    "leaderboard":{
-    "title":"Leaderboard"
+    "leaderboard": {
+        "title": "Leaderboard",
+        "header": {
+            "username": "Username",
+            "points": "Points",
+            "correct_answers": "Correct Answers",
+            "incorrect_answers": "Incorrect Answers",
+            "games_played": "Games Played",
+            "total_time": "Total Time Played",
+            "ranking": "Ranking"
+        }
     },
-    "profile":{
-    "title":"Profile"
+    "profile": {
+        "nav_title": "Profile",
+        "title": "Profile of {{username}}",
+        "bio": {
+            "title": "Biography",
+            "placeholder": "Here you can write something about yourself! Or just whatever comes to your mind :)"
+        },
+        "choose_avatar": "Choose your avatar!",
+        "statistics": {
+            "title": "Statistics",
+            "games_played": "Games Played",
+            "total_time": "Total Time Played",
+            "correct_answers": "Correct Answers",
+            "incorrect_answers": "Incorrect Answers",
+            "points": "Total Points"
+        },
+        "profile_not_available": "Profile information not available"
     },
-    "play":{
-    "title": "Play",
-    "choose_difficulty": "Choose difficulty",
-    "easy": "Easy",
-    "medium": "Medium",
-    "hard": "Hard"
+    "play": {
+        "nav_title": "Play",
+        "gamemode": {
+            "title": "Choose Game Mode",
+            "classic": {
+                "button": "Classic",
+                "go_back_button": "Go Back",
+                "title": "Choose Difficulty",
+                "easy": "Easy",
+                "medium": "Medium",
+                "hard": "Hard"
+            },
+            "custom": {
+                "button": "Custom",
+                "start_button": "Start",
+                "go_back_button": "Go Back",
+                "title": "Configure Your Game",
+                "time": "Time (seconds)",
+                "questions": "Number of Questions"
+            }
+        },
+        "question_counter": "Question {{current}} of {{total}}",
+        "result": {
+            "title": "Final Result",
+            "questions": "You answered {{correct}} correct questions out of {{total}}",
+            "points": "You earned {{points}} points",
+            "play_again": "Play Again",
+            "go_back_button": "Go Back"
+        }
     },
-    "home":{
-    "title":"Home"
+    "home": {
+        "title": "Home",
+        "welcome": "Welcome back, "
+    },
+    "login": {
+        "title": "Log In",
+        "welcome": "Welcome to Know and Win, please log in to continue",
+        "username_placeholder": "Username",
+        "password_placeholder": "Password",
+        "button": "Log In",
+        "go_register": "Not registered yet? Register now",
+        "empty_password_error": "Password cannot be empty",
+        "empty_username_error": "Username cannot be empty"
+    },
+    "register": {
+        "form_title": "Create Your Account",
+        "nav_title": "Registration",
+        "welcome": "Welcome to Know and Win, fill out the form to register",
+        "username_placeholder": "Username",
+        "password_placeholder": "Password",
+        "password_confirm_placeholder": "Confirm Password",
+        "button": "Register",
+        "go_login": "Already registered? Log In",
+        "empty_username_error": "Username cannot be empty",
+        "empty_password_error": "Password cannot be empty",
+        "empty_password_confirm_error": "Password confirmation cannot be empty",
+        "passwords_not_match_error": "Passwords do not match",
+        "password_length_error": "Password must be at least 8 characters long",
+        "invalid_credentials_error": "Invalid credentials"
+    },
+    "logout": {
+        "title": "Log Out"
     }
-    }
+}

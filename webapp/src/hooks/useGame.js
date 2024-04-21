@@ -35,6 +35,7 @@ function useGame({ configuration, language, user }) {
   const question = questions[gameInfo.questionIndex] ?? {}
 
   useEffect(() => {
+
     const isThereQuestions = Boolean(questions.length)
 
     if (isThereQuestions && gameInfo.state === GAME_STATES.loading) {
@@ -45,7 +46,8 @@ function useGame({ configuration, language, user }) {
       }))
       startTime.current = new Date()
     }
-  }, [questions, timePerQuestion, gameInfo.state])
+  }, [questions.length, timePerQuestion, gameInfo.state])
+
 
   const resetGame = useCallback(() => {
     setGameInfo(INITIAL_STATE)
@@ -53,21 +55,31 @@ function useGame({ configuration, language, user }) {
   }, [generateNewQuestions])
 
   const countdownCompleteHandler = useCallback(() => {
-    const isHardcoreMode = numberOfQuestions === 0
+    setGameInfo({
+      ...gameInfo,
+      selectedAnswerId: question.correctAnswerId,
+    })
 
-    if (gameInfo.questionIndex < questions.length - 1 && !isHardcoreMode) {
-      setGameInfo({
-        ...gameInfo,
-        questionIndex: gameInfo.questionIndex + 1,
-        timer: Date.now() + timePerQuestion * 1000,
-      })
-    } else {
-      setGameInfo({
-        ...gameInfo,
-        state: GAME_STATES.finished,
-      })
-    }
-  }, [gameInfo, questions.length, timePerQuestion, numberOfQuestions])
+    setTimeout(() => {
+
+      const isHardcoreMode = numberOfQuestions === 0
+
+      if (gameInfo.questionIndex < questions.length - 1 && !isHardcoreMode) {
+        setGameInfo({
+          ...gameInfo,
+          questionIndex: gameInfo.questionIndex + 1,
+          timer: Date.now() + timePerQuestion * 1000,
+        })
+      } else {
+        setGameInfo({
+          ...gameInfo,
+          state: GAME_STATES.finished,
+        })
+      }
+
+    }, 2000)
+
+  }, [gameInfo, questions.length, timePerQuestion, question.correctAnswerId, numberOfQuestions])
 
   const answerQuestionWith = useCallback(
     id => () => {

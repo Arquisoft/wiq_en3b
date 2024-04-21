@@ -19,6 +19,7 @@ const Classic = ({ goBack }) => {
       <div className="quiz-wrapper">
         {!difficulty && (
           <div className="header-and-buttons-container">
+            <h2>{t('play.gamemode.classic.title')}</h2>
             <h2>{t('play.choose_difficulty')}</h2>
             <p className="quiz-mode-description">
               Welcome to Classic Mode. Choose your difficulty level and tackle
@@ -27,16 +28,16 @@ const Classic = ({ goBack }) => {
             </p>
             <div className="button-container">
               <Button onClick={changeDifficultyTo('easy')}>
-                {t('play.easy')}
+                {t('play.gamemode.classic.easy')}
               </Button>
               <Button onClick={changeDifficultyTo('medium')}>
-                {t('play.medium')}
+                {t('play.gamemode.classic.medium')}
               </Button>
               <Button onClick={changeDifficultyTo('hard')}>
-                {t('play.hard')}
+                {t('play.gamemode.classic.hard')}
               </Button>
               <Button onClick={goBack} className="danger">
-                Go back
+                {t('play.gamemode.classic.go_back_button')}
               </Button>
             </div>
           </div>

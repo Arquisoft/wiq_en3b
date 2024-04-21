@@ -26,3 +26,9 @@
   border-color: lightcoral;
   color: #fff;
 }
+
+.disabled {
+  pointer-events: none;
+  opacity: 0.9;
+  cursor: not-allowed;
+}

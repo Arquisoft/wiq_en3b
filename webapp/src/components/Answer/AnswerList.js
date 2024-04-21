@@ -20,6 +20,8 @@ const AnswerList = ({ answersData, selectedAnswerId, answerQuestionWith }) => {
           if (id === selectedAnswerId && id !== correctAnswerId) {
             className += 'error'
           }
+
+          className += ' disabled'
         }
 
         return (

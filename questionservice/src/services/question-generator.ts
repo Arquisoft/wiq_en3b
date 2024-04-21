@@ -25,18 +25,23 @@ const SPARQL_TIMEOUT = 5000; // 5000 ms = 5s
  */
 async function generateQuestions(
   size: number,
-  lang: any
+  lang: any,
+  types: any = []
 ): Promise<object[] | void> {
-  let numberQuestionsDB = Math.min(Math.floor(size / 2), await QuestionModel.countDocuments());
-  let questionsToGenerate = size - numberQuestionsDB;
   console.log('------------------');
   console.log('Questions requested: ' + size);
+  if (types) {
+    console.log('------------------');
+    console.log("Requested questions of Type: " + types)
+  }
+  let numberQuestionsDB = await getNumberQuestionsDB(types, size);
+  let questionsToGenerate = size - numberQuestionsDB;
   console.log('------------------');
   console.log('Questions from DB: ' + numberQuestionsDB);
   console.log('Expected Questions to Generate: ' + questionsToGenerate);
 
   // Trying to obtain n random documents
-  let randomQuestionsTemplates = await getRandomQuestions(questionsToGenerate);
+  let randomQuestionsTemplates = await getRandomQuestions(questionsToGenerate, types);
 
   // Generate and return questions generated from those documents
   let questionsArray = await generateQuestionsArray(randomQuestionsTemplates);
@@ -46,7 +51,7 @@ async function generateQuestions(
 
   // We take the remaining questions from DB
   numberQuestionsDB = size - questionsArray.length;
-  let questionsArrayDB = await getQuestionsFromDB(numberQuestionsDB);
+  let questionsArrayDB = await getQuestionsFromDB(numberQuestionsDB, types);
   // Save questions to DB
   saveQuestions(questionsArray);
 
@@ -59,6 +64,13 @@ async function generateQuestions(
 
   // Translation and number validation
   return await prepareQuestionsForLanguage(questionsArray, lang);
+}
+
+async function getNumberQuestionsDB(types: any, size: number): Promise<number> {
+  if (types.length == 0)
+    return Math.min(Math.floor(size / 2), await QuestionModel.countDocuments());
+  else
+    return Math.min(Math.floor(size / 2), await QuestionModel.countDocuments({ 'type': { $in: types } }));
 }
 
 /**
@@ -89,14 +101,18 @@ function performChecks(questionsArray: any[], lang: string = 'en') {
  * @param questionsDB number of questions to get from DB
  * @returns array containing questions in JSON format
  */
-const getQuestionsFromDB = async (questionsDB: number) => {
-  let questionsArrayDB = await QuestionModel.aggregate([
+const getQuestionsFromDB = async (questionsDB: number, types: any) => {
+  let questionsArrayDB: any[] = [];
+  if (types.length == 0)
+    questionsArrayDB = await QuestionModel.aggregate([{ $sample: { size: questionsDB } }]);
+  else
+    questionsArrayDB = await QuestionModel.aggregate([{ $match: { 'type': { $in: types } } },
     { $sample: { size: questionsDB } },
-  ]);
+    ]);
 
   questionsArrayDB = questionsArrayDB.map((q: any) => {
-    if (q.image === undefined) return questionJsonBuilder(q.question, q.answers);
-    return questionJsonBuilder(q.question, q.answers, q.image);
+    if (q.image === undefined) return questionJsonBuilder(q.question, q.answers, q.type);
+    return questionJsonBuilder(q.question, q.answers, q.type, q.image);
   });
   console.log('------------------');
   console.log('Retrieved ' + questionsArrayDB.length + ' Questions from DB');
@@ -139,21 +155,20 @@ const translateQuestionsArray = async (
     // Causes unexpected behaviour due to loops and awaits (concurrency) 
     // If query was size = 9, it was adding 5 + 4 + 3 + 2 + 1 instead of 5 + 4)
     additionalQuestions = await ... 
-
+ 
     // Appart from that, this part was adding directly the arrays: 
     // randomQuestions = [t1, t2, t3, t4, t5, [t6, t7, t8, t9], [t10, t11, t12], ...]
     randomQuestions.push(additional Questions)
     ...
   }
-
+ 
   In conclusion, careful with loops and concurrency issues. Also, have in mind
   this curious feature of "..." for pushing arrays
 */
-async function getRandomQuestions(n: number): Promise<any[]> {
+async function getRandomQuestions(n: number, types: any): Promise<any[]> {
   // We try to obtain the whole random templates
-  let randomQuestionsTemplates = await TemplateModel.aggregate([
-    { $sample: { size: n } },
-  ]);
+  let randomQuestionsTemplates = await aggregateQuestionTemplates(n, types);
+
   async function addMoreRandomQuestionsIfNeeded(): Promise<any[]> {
     // If required questions are fulfilled, simply returning the questions
     if (randomQuestionsTemplates.length >= n) return randomQuestionsTemplates;
@@ -162,9 +177,7 @@ async function getRandomQuestions(n: number): Promise<any[]> {
     const remaining = n - randomQuestionsTemplates.length;
 
     // Fetch again from DB more templates
-    const additionalQuestions = await TemplateModel.aggregate([
-      { $sample: { size: remaining } },
-    ]);
+    let additionalQuestions = await aggregateQuestionTemplates(remaining, types);
     // ... additionalQuestions -> this is called "sparse" syntax
     // is used to concatenate the elements of array individually and not the whole array
     // otherwise, the result would be:
@@ -176,6 +189,18 @@ async function getRandomQuestions(n: number): Promise<any[]> {
 
   // call function that add more if needed
   return addMoreRandomQuestionsIfNeeded();
+}
+
+
+async function aggregateQuestionTemplates(n: number, types: any): Promise<any[]> {
+  if (types.length == 0)
+    return await TemplateModel.aggregate([
+      { $sample: { size: n } },
+    ]);
+  return await TemplateModel.aggregate([{ $match: { 'question_type.typeName': { $in: types } } },
+  { $sample: { size: n } },
+  ]);
+
 }
 
 /**
@@ -243,10 +268,15 @@ const generateQuestionJson = async (
     }
 
     // Generate answers
-    let answersArray: object[] = getRandomResponses(
-      wikidataResponse,
-      randomIndexes
-    );
+    let answersArray: object[] = [];
+    try {
+      answersArray = getRandomResponses(
+        wikidataResponse,
+        randomIndexes
+      );
+    } catch (error) {
+      return undefined;
+    }
 
     // Randomizing answers order
     shuffleArray(answersArray);
@@ -256,9 +286,10 @@ const generateQuestionJson = async (
       return questionJsonBuilder(
         questionGen,
         answersArray,
+        questionTemplate.question_type.typeName,
         image
       );
-    else return questionJsonBuilder(questionGen, answersArray);
+    else return questionJsonBuilder(questionGen, answersArray, questionTemplate.question_type.typeName);
   } catch (error) {
     throw new Error('Error while fetching Wikidata');
   }
@@ -275,12 +306,14 @@ const generateQuestionJson = async (
 const questionJsonBuilder = (
   questionGen: string,
   answersArray: object[],
+  type: string,
   image: string = '',
 ): object => {
   const myJson: Question = {
     question: questionGen,
     answers: answersArray,
     correctAnswerId: 1,
+    type: type,
   };
 
   if (image != '') {
@@ -338,14 +371,30 @@ function getRandomResponses(
   randomIndexes: number[]
 ): any {
   let answersArray: object[] = [];
-  for (let i = 0; i < optionsNumber; i++) {
+  let answersIndex = 0;
+  let i = 0;
+  while (answersIndex < optionsNumber) {
     let answer = wikidataResponse[randomIndexes[i]].answerLabel;
-    answersArray[i] = {
-      id: i + 1,
+    i++;
+    if (answersArrayContainsAnswer(answersArray, answer)) {
+      continue;
+    }
+    answersArray[answersIndex] = {
+      id: answersIndex + 1,
       text: answer,
     };
+    answersIndex++;
   }
+  if (answersArray.length != optionsNumber) {
+    throw new Error('Not enough answers for the question could be found');
+  }
+
   return answersArray;
+}
+
+
+function answersArrayContainsAnswer(answersArray: any, answer: string): boolean {
+  return !answersArray.every((answerObject: any) => answerObject.text !== answer);
 }
 
 export { generateQuestions };

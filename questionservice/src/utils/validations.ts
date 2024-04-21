@@ -1,4 +1,5 @@
 import { Request } from 'express';
+import { getQuestionTypes } from '../services/question-storage';
 
 /**
  * Validates if the size parameter is present in the request
@@ -33,6 +34,20 @@ function validateNumber(field: string) {
   }
 
   return size;
+}
+
+/**
+ * Validates if the types field is accepted
+ * @param types Array of types to be validated
+ */
+async function validateTypes(types: string[]) {
+  const acceptedTypes = await getQuestionTypes();
+
+  for (let questionType of types) {
+    if (!acceptedTypes.includes(questionType.toLowerCase())) {
+      throw new Error('The provided type ' + questionType + ' is not supported');
+    }
+  }
 }
 
 /**
@@ -187,4 +202,4 @@ function validateLanguage(field: string) {
   }
 }
 
-export { validateNumber, validateSizePresent, validateLanguage };
+export { validateNumber, validateSizePresent, validateLanguage, validateTypes };

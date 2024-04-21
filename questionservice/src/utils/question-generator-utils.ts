@@ -7,6 +7,7 @@ interface Question {
     question: string,
     answers: object[],
     correctAnswerId: number,
+    type: string,
     image?: string
 }
 

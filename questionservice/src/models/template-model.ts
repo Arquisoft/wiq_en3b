@@ -242,6 +242,106 @@ const generateSampleTest = () => {
       typeName: 'science',
     },
   });
+
+  addQuestionTemplate({
+    questionTemplate: 'What is the official language of $$$?',
+    question_type: {
+      name: 'Language',
+      query: `SELECT DISTINCT ?templateLabel ?answerLabel
+      WHERE {
+        ?template wdt:P31 wd:Q6256; 
+                 wdt:P1082 ?population. 
+        ?template wdt:P37 ?answer. 
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5
+      `,
+      entities: [],
+      typeName: 'geography',
+    },
+  });
+
+  addQuestionTemplate({
+    questionTemplate: 'Where did the Olympic Games of $$$ take place?',
+    question_type: {
+      name: 'Olympics',
+      query: `SELECT ?templateLabel ?answerLabel
+      WHERE {
+        ?olympicGame wdt:P31 wd:Q159821; # Instances of Olympic Games
+                     wdt:P276 ?answer;
+                     wdt:P585 ?date.
+        BIND(YEAR(?date) AS ?templateLabel)
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5      
+      `,
+      entities: [],
+      typeName: 'sports',
+    },
+  });
+
+  addQuestionTemplate({
+    questionTemplate: 'Where did the Winter Olympic Games of $$$ take place?',
+    question_type: {
+      name: 'Olympics',
+      query: `SELECT ?templateLabel ?answerLabel
+      WHERE {
+        ?olympicGame wdt:P31 wd:Q82414; # Instances of Winter Olympic Games
+                     wdt:P276 ?answer;
+                     wdt:P585 ?date.
+        BIND(YEAR(?date) AS ?templateLabel)
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5      
+      `,
+      entities: [],
+      typeName: 'sports',
+    },
+  });
+
+  addQuestionTemplate({
+    questionTemplate: 'What is the capacity of $$$?',
+    question_type: {
+      name: 'Stadiums',
+      query: `SELECT ?templateLabel ?answerLabel
+      WHERE {
+        ?template wdt:P31 wd:Q483110;      # Instances of stadiums
+                 wdt:P1083 ?answer.    
+        FILTER (?answer >= 40000)     
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5
+           
+      `,
+      entities: [],
+      typeName: 'sports',
+    },
+  });
+
+
+  addQuestionTemplate({
+    questionTemplate: 'Which stadium is this?',
+    question_type: {
+      name: 'Images_Stadiums',
+      query: `SELECT ?templateLabel ?answerLabel
+      WHERE {
+        ?answer wdt:P31 wd:Q483110;      # Instances of stadiums
+                 wdt:P1083 ?capacity;
+                 wdt:P18 ?template.
+        FILTER (?capacity >= 40000)     
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5      
+      `,
+      entities: [],
+      typeName: 'sports',
+    },
+  });
 };
 
 export { TemplateModel, generateSampleTest };

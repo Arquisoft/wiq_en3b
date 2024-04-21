@@ -172,6 +172,21 @@ describe("Question Service - Question Generator", () => {
         checkAllFieldsWithoutImage(response);
     })
 
+    it("should return 1 question with all correct when there are repeated answers", async () => {
+
+        const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
+        await mockWikidataSparqlRepeated(defaultNumberQuestions)
+        await mockQuestionCount(1);
+
+        // Testing function
+        const response = await generateQuestions(1, "en") as any;
+
+        // The call to QuestionModel.aggregate must be of size 1
+        checkCallsAggregateWithSize(aggregateMock, defaultNumberQuestions)
+
+        checkAllFieldsWithoutImage(response);
+    })
+
     it("should return 1 question translated to spanish", async () => {
 
         const aggregateMock = await mocktemplateModelAggregate(defaultNumberQuestions);
@@ -244,6 +259,31 @@ async function mockWikidataSparql(numberReturnValues: number) {
     }, {
         templateLabel: "Ucrania",
         answerLabel: "Kiev"
+    }];
+
+    return await mockWikidataResponse(mockResponseWikidata, numberReturnValues);
+}
+
+/**
+ * Creates a mock for getWikidataSparql function, emulating an API response where all answers are the same.
+ * @param numberReturnValues number of responses to be returned by this function
+ * @returns the created mock
+ */
+async function mockWikidataSparqlRepeated(numberReturnValues: number) {
+
+    // Mock-Response for: getWikidataSparql(sparqlQuery)
+    const mockResponseWikidata = [{
+        templateLabel: "Peru",
+        answerLabel: "Lima"
+    }, {
+        templateLabel: "Spain",
+        answerLabel: "Lima"
+    }, {
+        templateLabel: "Russia",
+        answerLabel: "Lima"
+    }, {
+        templateLabel: "Ucrania",
+        answerLabel: "Lima"
     }];
 
     return await mockWikidataResponse(mockResponseWikidata, numberReturnValues);
@@ -426,9 +466,8 @@ async function mockQuestionAggregate() {
     return (QuestionModel.aggregate as jest.Mock).mockReturnValue(mockResponseAggregate);
 }
 
-async function mockQuestionCount() {
+async function mockQuestionCount(mockResponseCount: number = 0) {
     // Mock response for QuestionModel.aggregate making it  return an empty array
-    const mockResponseCount: number = 0;
 
     return (QuestionModel.countDocuments as jest.Mock).mockReturnValue(mockResponseCount);
 }

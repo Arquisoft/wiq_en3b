@@ -268,10 +268,15 @@ const generateQuestionJson = async (
     }
 
     // Generate answers
-    let answersArray: object[] = getRandomResponses(
-      wikidataResponse,
-      randomIndexes
-    );
+    let answersArray: object[] = [];
+    try {
+      answersArray = getRandomResponses(
+        wikidataResponse,
+        randomIndexes
+      );
+    } catch (error) {
+      return undefined;
+    }
 
     // Randomizing answers order
     shuffleArray(answersArray);
@@ -366,14 +371,30 @@ function getRandomResponses(
   randomIndexes: number[]
 ): any {
   let answersArray: object[] = [];
-  for (let i = 0; i < optionsNumber; i++) {
+  let answersIndex = 0;
+  let i = 0;
+  while (answersIndex < optionsNumber) {
     let answer = wikidataResponse[randomIndexes[i]].answerLabel;
-    answersArray[i] = {
-      id: i + 1,
+    i++;
+    if (answersArrayContainsAnswer(answersArray, answer)) {
+      continue;
+    }
+    answersArray[answersIndex] = {
+      id: answersIndex + 1,
       text: answer,
     };
+    answersIndex++;
   }
+  if (answersArray.length != optionsNumber) {
+    throw new Error('Not enough answers for the question could be found');
+  }
+
   return answersArray;
+}
+
+
+function answersArrayContainsAnswer(answersArray: any, answer: string): boolean {
+  return !answersArray.every((answerObject: any) => answerObject.text !== answer);
 }
 
 export { generateQuestions };

@@ -301,6 +301,47 @@ const generateSampleTest = () => {
       typeName: 'sports',
     },
   });
+
+  addQuestionTemplate({
+    questionTemplate: 'What is the capacity of $$$?',
+    question_type: {
+      name: 'Stadiums',
+      query: `SELECT ?templateLabel ?answerLabel
+      WHERE {
+        ?template wdt:P31 wd:Q483110;      # Instances of stadiums
+                 wdt:P1083 ?answer.    
+        FILTER (?answer >= 40000)     
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5
+           
+      `,
+      entities: [],
+      typeName: 'sports',
+    },
+  });
+
+
+  addQuestionTemplate({
+    questionTemplate: 'Which stadium is this?',
+    question_type: {
+      name: 'Images_Stadiums',
+      query: `SELECT ?templateLabel ?answerLabel
+      WHERE {
+        ?answer wdt:P31 wd:Q483110;      # Instances of stadiums
+                 wdt:P1083 ?capacity;
+                 wdt:P18 ?template.
+        FILTER (?capacity >= 40000)     
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5      
+      `,
+      entities: [],
+      typeName: 'sports',
+    },
+  });
 };
 
 export { TemplateModel, generateSampleTest };

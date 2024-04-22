@@ -1,0 +1,40 @@
+.xbtn {
+    cursor: pointer;
+    border: none;
+    border-radius: 100px;
+    display: flex;
+    column-gap: 0.2rem;
+    align-items: center;
+    justify-content: center;
+    width: 10rem;
+    text-decoration: none;
+}
+
+.xbtn:hover {
+    background-color: #5ab8f3;
+}
+
+.xbtn--blue {
+    background-color: #1da1f2;
+    color: #fff;
+    fill: #fff;
+    padding: 0.5rem 1rem;
+}
+
+.xbtn__icon * {
+    height: 1rem;
+    width: 1rem;
+}
+
+.xbtn__text {
+    color: black;
+    font-size: 1rem;
+    font-weight: 600;
+}
+
+.svgX {
+    stroke: none;
+    fill-rule: nonzero;
+    fill: rgb(0%, 0%, 0%);
+    fill-opacity: 1;
+  }

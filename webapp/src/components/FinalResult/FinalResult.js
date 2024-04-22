@@ -1,5 +1,6 @@
 import './FinalResult.css'
 
+import XButton from '../XButton/XButton'
 import Button from '../Button/Button'
 import { useTranslation } from 'react-i18next'
 
@@ -14,6 +15,9 @@ const FinalResult = ({ result, quizLength, points, onPlayAgain, goBack }) => {
       </p>
       <p>{t("play.result.points", { points: points })}</p>
       <Button onClick={onPlayAgain}>{t("play.result.play_again")}</Button>
+
+      <XButton href="https://twitter.com/intent/tweet"></XButton>
+
       <Button onClick={goBack} className="danger">
         {t("play.result.go_back_button")}
       </Button>

@@ -3,6 +3,7 @@ import './XButton.css'
 const XButton = ({
     href,
     disabled = false,
+    textShare = 'Share your results'
 }) => {
     return (
         <a href={href || 'https://www.twitter.com'} disabled={disabled} className="xbtn xbtn--blue" target='_blank' rel="noreferrer">
@@ -14,7 +15,7 @@ const XButton = ({
                 />
                 </svg>
             </i>
-            <span className="xbtn__text"> Share your results! </span>
+            <span className="xbtn__text">{textShare}</span>
         </a>
     )
 }

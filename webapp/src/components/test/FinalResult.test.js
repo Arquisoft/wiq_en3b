@@ -5,22 +5,29 @@ import '@testing-library/jest-dom'
 
 describe('FinalResult component', () => {
   it('FinalResult renders without crashing', () => {
-    const result = 5
-    const quizLength = 15
-    render(<FinalResult result={result} quizLength={quizLength} />)
-    const resultText = screen.getByText(
-      `You answered ${result} question correct out of ${quizLength}.`
-    )
-    expect(resultText).toBeInTheDocument()
+    const result = 5;
+    const quizLength = 15;
+    const text = `You answered ${result} correct questions out of ${quizLength}` // TODO: Change!! Is not taking i18n into account
+    renderFinalResultAndTestText(result,quizLength,text)
+  })
+
+  it('FinalResult renders the X Share Button', () => {
+    const text = "Share your results"
+    renderFinalResultAndTestText(5,15,text)
   })
 
   it('FinalResult renders when playing hardcore', () => {
     const result = 5
     const quizLength = 0
-    render(<FinalResult result={result} quizLength={quizLength} />)
-    const resultText = screen.getByText(
-      `You answered ${result} question correct`
-    )
-    expect(resultText).toBeInTheDocument()
+    const text = `You answered ${result} question correct`
+    renderFinalResultAndTestText(result,quizLength,text)
   })
+
+  function renderFinalResultAndTestText(result,quizLength, text){
+    render(<FinalResult result={result} quizLength={quizLength} />)
+    expect(screen.getByText(text)).toBeInTheDocument()
+  }
+  
+
 })
+

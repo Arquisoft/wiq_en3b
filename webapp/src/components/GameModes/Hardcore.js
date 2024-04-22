@@ -40,6 +40,7 @@ function Hardcore({ goBack }) {
               numberOfQuestions: 0,
               pointsPerQuestion: 10,
               timePerQuestion: 10,
+              questionTypes: []
             }}
             goBack={goBack}
           />

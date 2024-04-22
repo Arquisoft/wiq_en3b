@@ -61,7 +61,8 @@
             "questions": "Vous avez répondu {{correct}} questions correctes sur {{total}}",
             "points": "Vous avez gagné {{points}} points",
             "play_again": "Rejouer",
-            "go_back_button": "Retour"
+            "go_back_button": "Retour",
+            "tweetShare": "---- 🤔 Know and Win 🤔 ----%0A%0AJ'ai répondu correctement à {{correct}}/{{total}} questions et j'ai gagné {{points}} points 💪💪%0AViens jouer à ça jeu-questionnaire incroyable et essayez de me battre!! 😎%0A"
         }
     },
     "home": {

@@ -12,10 +12,10 @@ i18n.init({
   resources: {
     en: {
       translation: {
-        'play.choose_difficulty': 'Choose difficulty',
-        'play.easy': 'Easy',
-        'play.medium': 'Medium',
-        'play.hard': 'Hard',
+        'play.gamemode.classic.title': 'Choose difficulty',
+        'play.gamemode.classic.easy': 'Easy',
+        'play.gamemode.classic.medium': 'Medium',
+        'play.gamemode.classic.hard': 'Hard',
       },
     },
   },

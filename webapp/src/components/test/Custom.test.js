@@ -3,14 +3,41 @@ import { render, fireEvent, screen } from '@testing-library/react'
 import '@testing-library/jest-dom/extend-expect'
 import { AuthContext } from '../../context/AuthContext'
 import Custom from '../GameModes/Custom'
+import { I18nextProvider } from 'react-i18next'
+import i18n from 'i18next'
 
 const mockUser = {}
+
+jest.mock('../../hooks/useQuestionTypes.js', () => ({
+  useQuestionTypes: () => ({
+    questionTypes: ['geography', 'sports'],
+  }),
+}))
+
+i18n.init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
+    en: {
+      translation: {
+        'play.gamemode.custom.title': 'Configure your game',
+        'play.gamemode.custom.time': 'Time (Seconds)',
+        'play.gamemode.custom.questions': 'Number of Questions',
+        'play.gamemode.custom.questionTypes.geography': 'Geography',
+        'play.gamemode.custom.questionTypes.sports': 'Sports',
+        'play.gamemode.custom.start_button': 'Start',
+      },
+    },
+  },
+})
 
 describe('test for custom component', () => {
   test('renders custom component', async () => {
     render(
       <AuthContext.Provider value={{ user: mockUser }}>
-        <Custom />
+        <I18nextProvider i18n={i18n}>
+          <Custom />
+        </I18nextProvider>
       </AuthContext.Provider>
     )
 
@@ -20,7 +47,9 @@ describe('test for custom component', () => {
   test('it is possible to change the sliders and start the game', async () => {
     render(
       <AuthContext.Provider value={{ user: mockUser }}>
-        <Custom />
+        <I18nextProvider i18n={i18n}>
+          <Custom />
+        </I18nextProvider>
       </AuthContext.Provider>
     )
 
@@ -31,6 +60,13 @@ describe('test for custom component', () => {
     const questionsSlider = screen.getByLabelText('Number of Questions')
     fireEvent.change(questionsSlider, { target: { value: 12 } })
     expect(screen.getByText('12')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByLabelText('Geography'))
+    expect(screen.getByLabelText('Geography')).toBeInTheDocument()
+    expect(screen.getByLabelText('Sports')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByLabelText('Geography'))
+    expect(screen.getByLabelText('Geography')).toBeInTheDocument()
 
     fireEvent.click(screen.getByText('Start'))
     expect(screen.queryByText('Configure your game')).not.toBeInTheDocument()

@@ -1,0 +1,30 @@
+.question-type-selector {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.question-type-selector > h3 {
+  text-align: center;
+  margin-bottom: 1rem;
+  font-size: 1.6rem;
+}
+
+.question-type-selector > div {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.question-type-selector label {
+  display: flex;
+  gap: 0.4rem;
+  font-size: 1.2rem;
+}
+
+@media (max-width: 450px) {
+  .question-type-selector div {
+    flex-direction: column;
+  }
+}

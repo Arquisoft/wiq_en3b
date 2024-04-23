@@ -20,11 +20,8 @@ const Classic = ({ goBack }) => {
         {!difficulty && (
           <div className="header-and-buttons-container">
             <h2>{t('play.gamemode.classic.title')}</h2>
-            <h2>{t('play.choose_difficulty')}</h2>
             <p className="quiz-mode-description">
-              Welcome to Classic Mode. Choose your difficulty level and tackle
-              the quiz with varying time limits and question counts. Perfect for
-              all levels of trivia enthusiasts.
+              {t('play.gamemode.classic.description')}
             </p>
             <div className="button-container">
               <Button onClick={changeDifficultyTo('easy')}>

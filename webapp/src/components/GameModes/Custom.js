@@ -3,9 +3,11 @@ import Button from '../../components/Button/Button'
 
 import '../../pages/Game/Game.css'
 import './Custom.css'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import { useQuestionTypes } from '../../hooks/useQuestionTypes'
 
 import { useTranslation } from 'react-i18next'
+import QuestionTypeSelector from '../QuestionTypeSelector/QuestionTypeSelector'
 
 const DEFAULT_TIME = 15
 const DEFAULT_NUMBER_OF_QUESTIONS = 10
@@ -16,6 +18,19 @@ const Custom = ({ goBack }) => {
   const [timeInSeconds, setTimeInSeconds] = useState(DEFAULT_TIME)
   const [numOfQuestions, setNumOfQuestions] = useState(
     DEFAULT_NUMBER_OF_QUESTIONS
+  )
+  const { questionTypes } = useQuestionTypes()
+  const [selectedTypes, setSelectedTypes] = useState([])
+
+  const handleTypeToggle = useCallback(
+    type => {
+      if (selectedTypes.includes(type)) {
+        setSelectedTypes(selectedTypes.filter(t => t !== type))
+      } else {
+        setSelectedTypes([...selectedTypes, type])
+      }
+    },
+    [selectedTypes]
   )
 
   const { t } = useTranslation()
@@ -35,13 +50,12 @@ const Custom = ({ goBack }) => {
           <div className="header-and-buttons-container">
             <h2>{t('play.gamemode.custom.title')}</h2>
             <p className="quiz-mode-description">
-              This is the Custom mode. Take control of your quiz experience. Set
-              the number of questions, time per question, and select your
-              preferred question types. Tailor the challenge to your liking and
-              dive into a personalized trivia adventure.
+              {t('play.gamemode.custom.description')}
             </p>
             <div className="custom-option">
-              <label htmlFor="timeSlider">{t('play.gamemode.custom.time')}</label>
+              <label htmlFor="timeSlider">
+                {t('play.gamemode.custom.time')}
+              </label>
               <input
                 type="range"
                 id="timeSlider"
@@ -54,7 +68,9 @@ const Custom = ({ goBack }) => {
               <span>{timeInSeconds}</span>
             </div>
             <div className="custom-option">
-              <label htmlFor="questionsSlider">{t('play.gamemode.custom.questions')}</label>
+              <label htmlFor="questionsSlider">
+                {t('play.gamemode.custom.questions')}
+              </label>
               <input
                 type="range"
                 id="questionsSlider"
@@ -66,6 +82,11 @@ const Custom = ({ goBack }) => {
               />
               <span>{numOfQuestions}</span>
             </div>
+            <QuestionTypeSelector
+              onChange={handleTypeToggle}
+              selectedTypes={selectedTypes}
+              types={questionTypes}
+            />
             <div className="button-container">
               <Button
                 onClick={() => {
@@ -86,6 +107,7 @@ const Custom = ({ goBack }) => {
               numberOfQuestions: numOfQuestions,
               timePerQuestion: timeInSeconds,
               pointsPerQuestion: Math.floor(150 / timeInSeconds),
+              questionTypes: selectedTypes,
             }}
             goBack={goBack}
           />

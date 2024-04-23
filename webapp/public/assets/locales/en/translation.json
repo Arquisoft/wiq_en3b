@@ -44,21 +44,38 @@
                 "title": "Choose Difficulty",
                 "easy": "Easy",
                 "medium": "Medium",
-                "hard": "Hard"
+                "hard": "Hard",
+                "description": "Welcome to Classic Mode. Choose your difficulty level and tackle the quiz with varying time limits and question counts. Perfect for all levels of trivia enthusiasts."
             },
+            "hardcore": {
+                "title": "Hardcore mode",
+                "description": "In the Hardcore mode there is no room for error. You must answer every question correctly, one after another, to stay in the game. Test your knowledge, nerve, and focus as you strive for perfection. Can you conquer the challenge and emerge as the ultimate quiz master?",
+                "button": "Hardcore"
+
+            }, 
             "custom": {
                 "button": "Custom",
                 "start_button": "Start",
                 "go_back_button": "Go Back",
                 "title": "Configure Your Game",
                 "time": "Time (seconds)",
-                "questions": "Number of Questions"
+                "questions": "Number of Questions",
+                "questionTypesTitle": "Select question types",
+                "questionTypes": {
+                    "geography": "Geography",
+                    "history": "History",
+                    "science": "Science",
+                    "sports": "Sports"
+                },
+                "description": "This is the Custom mode. Take control of your quiz experience. Set the number of questions, time per question, and select your preferred question types. Tailor the challenge to your liking and dive into a personalized trivia adventure."
             }
         },
         "question_counter": "Question {{current}} of {{total}}",
+        "simple_question_counter": "Question {{current}}",
         "result": {
             "title": "Final Result",
             "questions": "You answered {{correct}} correct questions out of {{total}}",
+            "simple_questions": "You answered {{correct}} correct questions",
             "points": "You earned {{points}} points",
             "play_again": "Play Again",
             "go_back_button": "Go Back"

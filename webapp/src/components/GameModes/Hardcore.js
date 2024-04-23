@@ -2,23 +2,21 @@ import Button from '../Button/Button'
 import Quiz from '../Quiz/Quiz'
 import '../../pages/Game/Game.css'
 import { useState } from 'react'
+import { useTranslation } from 'react-i18next'
 
 function Hardcore({ goBack }) {
   const [hasFinishedConfiguration, setHasFinishedConfiguration] =
     useState(false)
+  const { t } = useTranslation()
 
   return (
     <>
       <div className="quiz-wrapper">
         {!hasFinishedConfiguration && (
           <div className="header-and-buttons-container">
-            <h2>Hardcore mode</h2>
+            <h2>{t('play.gamemode.hardcore.title')}</h2>
             <p className="quiz-mode-description">
-              In the Hardcore mode there is no room for error. You must answer
-              every question correctly, one after another, to stay in the game.
-              Test your knowledge, nerve, and focus as you strive for
-              perfection. Can you conquer the challenge and emerge as the
-              ultimate quiz master?
+            {t('play.gamemode.hardcore.description')}
             </p>
             <div className="button-container">
               <Button
@@ -26,10 +24,10 @@ function Hardcore({ goBack }) {
                   setHasFinishedConfiguration(true)
                 }}
               >
-                Start
+                {t('play.gamemode.custom.start_button')}
               </Button>
               <Button onClick={goBack} className="danger">
-                Go back
+                {t('play.gamemode.classic.go_back_button')}
               </Button>
             </div>
           </div>
@@ -40,7 +38,7 @@ function Hardcore({ goBack }) {
               numberOfQuestions: 0,
               pointsPerQuestion: 10,
               timePerQuestion: 10,
-              questionTypes: []
+              questionTypes: [],
             }}
             goBack={goBack}
           />

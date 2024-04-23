@@ -1,10 +1,12 @@
-import { capitalizeFirstLetter } from '../../utils/capitalize'
+import { useTranslation } from 'react-i18next'
 import './QuestionTypeSelector.css'
 
 const QuestionTypeSelector = ({ onChange, selectedTypes, types }) => {
+  const { t } = useTranslation()
+
   return (
     <div className="question-type-selector">
-      <h3>Select Question Types</h3>
+      <h3>{t('play.gamemode.custom.questionTypesTitle')}</h3>
       <div>
         {types.map(type => (
           <label key={type}>
@@ -13,7 +15,7 @@ const QuestionTypeSelector = ({ onChange, selectedTypes, types }) => {
               checked={selectedTypes.includes(type)}
               onChange={() => onChange(type)}
             />
-            {capitalizeFirstLetter(type)}
+            {t(`play.gamemode.custom.questionTypes.${type}`)}
           </label>
         ))}
       </div>

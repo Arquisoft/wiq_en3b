@@ -36,7 +36,7 @@ const useQuestions = ({ numberOfQuestions, language, questionTypes }) => {
 
   useEffect(() => {
     generateNewQuestions()
-  }, [])
+  }, [generateNewQuestions])
 
   return { questions, generateNewQuestions, addMoreQuestions }
 }

@@ -70,9 +70,11 @@
             }
         },
         "question_counter": "Питання {{current}} з {{total}}",
+        "simple_question_counter": "Питання {{current}}",
         "result": {
             "title": "Кінцевий результат",
             "questions": "Ви відповіли на {{correct}} питань правильно з {{total}}",
+            "simple_questions": "Ви дали правильну відповідь на {{correct}} питань",
             "points": "Ви заробили {{points}} балів",
             "play_again": "Грати знову",
             "go_back_button": "Повернутися"

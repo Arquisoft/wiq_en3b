@@ -70,9 +70,11 @@
             }
         },
         "question_counter": "Question {{current}} sur {{total}}",
+        "simple_question_counter": "Question {{current}}",
         "result": {
             "title": "Résultat final",
             "questions": "Vous avez répondu {{correct}} questions correctes sur {{total}}",
+            "simple_questions": "Vous avez répondu correctement à {{correct}} questions",
             "points": "Vous avez gagné {{points}} points",
             "play_again": "Rejouer",
             "go_back_button": "Retour"

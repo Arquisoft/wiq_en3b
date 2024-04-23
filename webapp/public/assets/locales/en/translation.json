@@ -71,9 +71,11 @@
             }
         },
         "question_counter": "Question {{current}} of {{total}}",
+        "simple_question_counter": "Question {{current}}",
         "result": {
             "title": "Final Result",
             "questions": "You answered {{correct}} correct questions out of {{total}}",
+            "simple_questions": "You answered {{correct}} correct questions",
             "points": "You earned {{points}} points",
             "play_again": "Play Again",
             "go_back_button": "Go Back"

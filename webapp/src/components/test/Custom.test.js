@@ -8,6 +8,12 @@ import i18n from 'i18next'
 
 const mockUser = {}
 
+jest.mock('../../hooks/useQuestionTypes.js', () => ({
+  useQuestionTypes: () => ({
+    questionTypes: ['geography', 'sports'],
+  }),
+}))
+
 i18n.init({
   lng: 'en',
   fallbackLng: 'en',
@@ -17,6 +23,8 @@ i18n.init({
         'play.gamemode.custom.title': 'Configure your game',
         'play.gamemode.custom.time': 'Time (Seconds)',
         'play.gamemode.custom.questions': 'Number of Questions',
+        'play.gamemode.custom.questionTypes.geography': 'Geography',
+        'play.gamemode.custom.questionTypes.sports': 'Sports',
         'play.gamemode.custom.start_button': 'Start',
       },
     },
@@ -52,6 +60,13 @@ describe('test for custom component', () => {
     const questionsSlider = screen.getByLabelText('Number of Questions')
     fireEvent.change(questionsSlider, { target: { value: 12 } })
     expect(screen.getByText('12')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByLabelText('Geography'))
+    expect(screen.getByLabelText('Geography')).toBeInTheDocument()
+    expect(screen.getByLabelText('Sports')).toBeInTheDocument()
+
+    fireEvent.click(screen.getByLabelText('Geography'))
+    expect(screen.getByLabelText('Geography')).toBeInTheDocument()
 
     fireEvent.click(screen.getByText('Start'))
     expect(screen.queryByText('Configure your game')).not.toBeInTheDocument()

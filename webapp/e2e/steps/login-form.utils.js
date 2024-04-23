@@ -3,7 +3,7 @@ const axios = require('axios')
 async function loginUser(page, username, password) {
   await expect(page).toFill('input[name="username"]', username)
   await expect(page).toFill('input[name="password"]', password)
-  await expect(page).toClick('button', { text: 'Login' })
+  await expect(page).toClick('button', { text: 'Log In' })
 }
 
 async function waitForInvalidCredentialsError(page) {

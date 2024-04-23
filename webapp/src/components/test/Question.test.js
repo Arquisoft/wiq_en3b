@@ -1,7 +1,22 @@
 import React from 'react'
 import { render, screen } from '@testing-library/react'
+import { I18nextProvider } from 'react-i18next'
+import i18n from 'i18next'
 import Question from '../Quiz/Question'
 import '@testing-library/jest-dom'
+
+i18n.init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
+    en: {
+      translation: {
+        'play.question_counter': 'Question {{current}} of {{total}}',
+        'play.simple_question_counter': 'Question {{current}}',
+      },
+    },
+  },
+})
 
 describe('Question component', () => {
   const mockProps = {
@@ -23,29 +38,49 @@ describe('Question component', () => {
   }
 
   it('renders question text', () => {
-    render(<Question {...mockProps} />)
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Question {...mockProps} />
+      </I18nextProvider>
+    )
     expect(
       screen.getByText('What is the capital of France?')
     ).toBeInTheDocument()
   })
 
   it('renders quiz image if provided', () => {
-    render(<Question {...mockProps} />)
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Question {...mockProps} />
+      </I18nextProvider>
+    )
     expect(screen.getByAltText('Question')).toBeInTheDocument()
   })
 
   it('renders answer list', () => {
-    render(<Question {...mockProps} />)
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Question {...mockProps} />
+      </I18nextProvider>
+    )
     expect(screen.getByRole('list')).toBeInTheDocument()
   })
 
   it('displays question counter', () => {
-    render(<Question {...mockProps} />)
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Question {...mockProps} />
+      </I18nextProvider>
+    )
     expect(screen.getByText('Question 1 of 1')).toBeInTheDocument()
   })
 
   it('renders question counter when hardcore', () => {
-    render(<Question {...{ ...mockProps, quizLength: 0 }} />)
+    render(
+      <I18nextProvider i18n={i18n}>
+        <Question {...{ ...mockProps, quizLength: 0 }} />
+      </I18nextProvider>
+    )
     expect(screen.getByText('Question 1')).toBeInTheDocument()
   })
 })

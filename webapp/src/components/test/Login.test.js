@@ -5,6 +5,8 @@ import { MemoryRouter } from 'react-router-dom'
 import Login from '../../pages/Login/Login'
 import { AuthContext } from '../../context/AuthContext'
 import axios from 'axios'
+import { I18nextProvider } from 'react-i18next'
+import i18n from 'i18next'
 
 const mockUser = {
   username: 'mateo2',
@@ -12,13 +14,34 @@ const mockUser = {
 }
 const mockLogin = jest.fn()
 
+i18n.init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
+    en: {
+      translation: {
+        'login.username_placeholder': 'Username',
+        'login.password_placeholder': 'Password',
+        'login.button': 'Login',
+        'login.welcome':
+          'Welcome to Know and Win App, please login to procceed',
+        'login.empty_username_error': 'Username is required',
+        'login.empty_password_error': 'Password is required',
+        'register.invalid_credentials_error': 'Invalid credentials',
+      },
+    },
+  },
+})
+
 jest.mock('axios')
 
 const renderLoginTree = (user, login) =>
   render(
     <MemoryRouter>
       <AuthContext.Provider value={{ user, login }}>
-        <Login />
+        <I18nextProvider i18n={i18n}>
+          <Login />
+        </I18nextProvider>
       </AuthContext.Provider>
     </MemoryRouter>
   )
@@ -110,7 +133,7 @@ describe('login tests', () => {
     fillLoginForm('testuser', 'testpassword')
 
     await waitFor(() => {
-      expect(screen.getByText('Error message')).toBeInTheDocument()
+      expect(screen.getByText('Invalid credentials')).toBeInTheDocument()
     })
   })
 
@@ -131,7 +154,7 @@ describe('login tests', () => {
     fillLoginForm('testuser', 'testpassword')
 
     await waitFor(() => {
-      expect(screen.getByText('Network error message')).toBeInTheDocument()
+      expect(screen.getByText('Invalid credentials')).toBeInTheDocument()
     })
   })
 })

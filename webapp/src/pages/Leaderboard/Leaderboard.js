@@ -50,6 +50,7 @@ const Leaderboard = () => {
 
   var [leaderboard, setLeaderboard] = useState([])
   var [, setError] = useState(null)
+  var [nUsers, setNUsers] = useState(10);
 
   useEffect(() => {
     ; (async () => {
@@ -59,13 +60,13 @@ const Leaderboard = () => {
         setError(error.message) // Set error state if fetch fails
       }
     })()
-  }, [])
+  }, [nUsers])
 
 
 
   const fetchLeaderboard = async () => {
     try {
-      const response = await fetch(API_ENDPOINT + '/history/leaderboard');
+      const response = await fetch(API_ENDPOINT + '/history/leaderboard?size=' + nUsers);
       const data = await response.json();
 
       const leaderboard = data.data.leaderboard.map((element, index) => {
@@ -123,6 +124,20 @@ const Leaderboard = () => {
             </TableBody>
           </Table>
         </TableContainer>
+      </div>
+      <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+        <button onClick={() => setNUsers(nUsers + 10)} style={{
+          backgroundColor: 'black',
+          color: 'white',
+          fontSize: '1em',
+          borderRadius: '12px',
+          padding: '10px 20px',
+          outline: 'none',
+          border: 'none',
+          cursor: 'pointer'
+          }}>
+          Show more
+        </button>
       </div>
     </div >
   );

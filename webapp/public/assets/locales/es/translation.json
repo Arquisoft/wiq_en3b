@@ -44,7 +44,13 @@
                 "title": "Elija la dificultad",
                 "easy": "Fácil",
                 "medium": "Intermedio",
-                "hard": "Difícil"
+                "hard": "Difícil",
+                "description": "Bienvenido al Modo Clásico. Elige tu nivel de dificultad y enfrenta el cuestionario con límites de tiempo y cantidades de preguntas variables. Perfecto para todos los niveles de entusiastas de los trivia."
+            },
+            "hardcore": {
+                "title": "Modo hardcore",
+                "description": "En el modo Hardcore no hay margen para el error. Debes responder cada pregunta correctamente, una tras otra, para permanecer en el juego. Pon a prueba tu conocimiento, nervios y concentración mientras te esfuerzas por la perfección. ¿Podrás conquistar el desafío y emerger como el maestro del cuestionario definitivo?",
+                "button": "Hardcore"
             },
             "custom": {
                 "button": "Personalizado",
@@ -52,13 +58,23 @@
                 "go_back_button": "Volver",
                 "title": "Configura tu partida",
                 "time": "Tiempo (segundos)",
-                "questions": "Número de preguntas"
+                "questions": "Número de preguntas",
+                "questionTypesTitle": "Seleccionar tipos de preguntas",
+                "questionTypes": {
+                    "geography": "Geografía",
+                    "history": "Historia",
+                    "science": "Ciencia",
+                    "sports": "Deportes"
+                  },
+                "description": "Este es el modo Personalizado. Toma el control de tu experiencia de quiz. Establece el número de preguntas, el tiempo por pregunta y selecciona tus tipos de preguntas preferidos. Adapta el desafío a tu gusto y sumérgete en una aventura de trivia personalizada."
             }
         },
         "question_counter": "Pregunta {{current}} de {{total}}",
+        "simple_question_counter": "Pregunta {{current}}",
         "result": {
             "title": "Resultado final",
             "questions": "Has respondido {{correct}} preguntas correctas de {{total}}",
+            "simple_questions": "Has respondido {{correct}} preguntas correctas",
             "points": "Has conseguido {{points}} puntos",
             "play_again": "Jugar de nuevo",
             "go_back_button": "Volver"

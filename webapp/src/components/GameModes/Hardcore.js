@@ -10,7 +10,6 @@ function Hardcore({ goBack }) {
   const { t } = useTranslation()
 
   return (
-    <>
       <div className="quiz-wrapper">
         {!hasFinishedConfiguration && (
           <div className="header-and-buttons-container">
@@ -44,7 +43,6 @@ function Hardcore({ goBack }) {
           />
         )}
       </div>
-    </>
   )
 }
 

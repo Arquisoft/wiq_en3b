@@ -49,7 +49,7 @@ const Leaderboard = () => {
   //Translation
   const { t } = useTranslation();
   const lastFetchedCount = useRef(10);
-  const scrollPosition = useRef(0); // Add this line
+  const scrollPosition = useRef(0);
 
   var [leaderboard, setLeaderboard] = useState([])
   var [, setError] = useState(null)
@@ -79,7 +79,7 @@ const Leaderboard = () => {
   useEffect(() => {
     ; (async () => {
       try {
-        scrollPosition.current = window.pageYOffset || document.documentElement.scrollTop;
+        scrollPosition.current = window.pageYOffset || document.documentElement.scrollTop; // Store the current scroll
         setLeaderboard(await fetchLeaderboard()) // Fetch leaderboard data and set state
       } catch (error) {
         setError(error.message) // Set error state if fetch fails
@@ -88,7 +88,7 @@ const Leaderboard = () => {
   }, [fetchLeaderboard])
 
   useEffect(() => {
-    window.scrollTo(0, scrollPosition.current);
+    window.scrollTo(0, scrollPosition.current); // Reset scroll to stored one
   }, [leaderboard])
 
   return (

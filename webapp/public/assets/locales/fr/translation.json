@@ -44,7 +44,13 @@
                 "title": "Choisissez la difficulté",
                 "easy": "Facile",
                 "medium": "Moyen",
-                "hard": "Difficile"
+                "hard": "Difficile",
+                "description": "Bienvenue en Mode Classique. Choisissez votre niveau de difficulté et affrontez le quiz avec des limites de temps et des nombres de questions variables. Parfait pour tous les niveaux d'enthousiastes des quiz."
+            },
+            "hardcore": {
+                "title": "Mode hardcore",
+                "description": "Dans le mode Hardcore, il n'y a pas de place pour l'erreur. Vous devez répondre à chaque question correctement, l'une après l'autre, pour rester dans le jeu. Testez vos connaissances, vos nerfs et votre concentration alors que vous vous efforcez de perfectionner. Pouvez-vous relever le défi et émerger comme le maître ultime du quiz ?",
+                "button": "Hardcore"
             },
             "custom": {
                 "button": "Personnalisé",
@@ -52,16 +58,27 @@
                 "go_back_button": "Retour",
                 "title": "Configurez votre partie",
                 "time": "Temps (secondes)",
-                "questions": "Nombre de questions"
+                "questions": "Nombre de questions",
+                "questionTypesTitle": "Sélectionner les types de questions",
+                "questionTypes": {
+                    "geography": "Géographie",
+                    "history": "Histoire",
+                    "science": "Science",
+                    "sports": "Sports"
+                  },
+                "description": "Ceci est le mode Personnalisé. Prenez le contrôle de votre expérience de quiz. Définissez le nombre de questions, le temps par question, et sélectionnez vos types de questions préférés. Personnalisez le défi à votre goût et plongez dans une aventure de quiz personnalisée."
             }
         },
         "question_counter": "Question {{current}} sur {{total}}",
+        "simple_question_counter": "Question {{current}}",
         "result": {
             "title": "Résultat final",
             "questions": "Vous avez répondu {{correct}} questions correctes sur {{total}}",
+            "simple_questions": "Vous avez répondu correctement à {{correct}} questions",
             "points": "Vous avez gagné {{points}} points",
             "play_again": "Rejouer",
             "go_back_button": "Retour",
+            "xshare_button": "Partagez vos résultats",
             "tweetShare": "---- 🤔 Know and Win 🤔 ----%0A%0AJ'ai répondu correctement à {{correct}}/{{total}} questions et j'ai gagné {{points}} points 💪💪%0AViens jouer à ça jeu-questionnaire incroyable et essayez de me battre!! 😎%0A"
         }
     },

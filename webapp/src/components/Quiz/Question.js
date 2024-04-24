@@ -20,7 +20,9 @@ const Question = ({
   return (
     <div className="quiz">
       <div className="quiz-counter">
-        {t("play.question_counter", { current: id + 1, total: quizLength })}
+        {quizLength !== 0
+          ? t('play.question_counter', { current: id + 1, total: quizLength })
+          : t('play.simple_question_counter', { current: id + 1 })}
       </div>
       <div className="question">
         <p className="question-text">{question}</p>

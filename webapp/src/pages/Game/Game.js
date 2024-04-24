@@ -28,7 +28,7 @@ const Game = () => {
             <h2>{t('play.gamemode.title')}</h2>
             <div className="button-container">
               <Button onClick={changeToGameMode('classic')}>{t("play.gamemode.classic.button")}</Button>
-              <Button onClick={changeToGameMode('hardcore')}>Hardcore</Button>
+              <Button onClick={changeToGameMode('hardcore')}>{t('play.gamemode.hardcore.button')}</Button>
               <Button onClick={changeToGameMode('custom')}>{t("play.gamemode.custom.button")}</Button>
             </div>
           </div>

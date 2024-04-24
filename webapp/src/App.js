@@ -9,6 +9,7 @@ import Settings from './pages/Settings/Settings'
 import Login from './pages/Login/Login'
 import Logout from './pages/Logout/Logout'
 import Register from './pages/Register/Register'
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 
 import { ProtectedRoute } from './components/ProtectedRoute'
 
@@ -17,6 +18,7 @@ import { SettingsProvider } from './context/SettingsContext'
 
 import { useState } from 'react'
 import { useTranslation } from 'react-i18next'
+
 
 
 function App() {
@@ -39,6 +41,7 @@ function App() {
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/logout" element={<Logout />} />
+
             <Route
               path="game"
               element={
@@ -58,6 +61,7 @@ function App() {
             <Route path="leaderboard" element={<Leaderboard />}></Route>
             <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} />}></Route>
           </Route>
+          <Route path="*" element={<PageNotFound />}></Route>
         </Routes>
       </AuthProvider>
     </SettingsProvider>

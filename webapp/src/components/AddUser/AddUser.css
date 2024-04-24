@@ -9,7 +9,7 @@
   text-align: center;
 }
 
-.register > form input {
+.register>form input {
   border-radius: 8px;
   border: 2px solid lightgrey;
   outline: none;
@@ -19,3 +19,44 @@
   padding: 12px;
   font-size: 16px;
 }
+
+.indicator {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.indicator span {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background: lightgrey;
+  border-radius: 15px;
+}
+
+/*
+.indicator span:nth-child(2) {
+  margin: 0 3px;
+}
+
+.indicator span.active:before {
+  position: absolute;
+  content: '';
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  border-radius: 5px;
+}
+
+.indicator span.weak:before {
+  background-color: #ff4757;
+}
+
+.indicator span.medium:before {
+  background-color: orange;
+}
+
+.indicator span.strong:before {
+  background-color: #23ad5c;
+} */

@@ -7,12 +7,17 @@ import { API_ENDPOINT } from '../../utils/constants'
 import { useAuth } from '../../hooks/useAuth'
 import { Link } from 'react-router-dom'
 
+import PasswordStrengthBar from 'react-password-strength-bar';
+
 import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
 import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 
 import { useTranslation } from "react-i18next";
 
 const AddUser = () => {
+
+  const { t } = useTranslation();
+
   const [username, setUsername] = useState('')
   const [password, setPassword] = useState('')
   const [repeatPassword, setRepeatPassword] = useState('')
@@ -20,8 +25,7 @@ const AddUser = () => {
   const [error, setError] = useState('')
   const { login } = useAuth()
   const [showPassword, setShowPassword] = useState(false);
-
-  const { t } = useTranslation();
+  const strengthWords = [t("register.strength.week"), t("register.strength.moderate"), t("register.strength.strong"), t("register.strength.very_strong"), t("register.strength.extremely_strong")]
 
   const validateForm = values => {
     const error = {}
@@ -120,6 +124,8 @@ const AddUser = () => {
             {showPassword ? <VisibilityOffRoundedIcon /> : <VisibilityRoundedIcon />}
           </button>
         </div>
+
+        <PasswordStrengthBar password={password} shortScoreWord={t("register.strength.very_week")} scoreWords={strengthWords} minLength={8} />
 
         <p className="form-error">{formErrors.password}</p>
         <input

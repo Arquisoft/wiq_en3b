@@ -11,7 +11,7 @@ describe('X Share Button', () => {
 
         render(
             <AuthContext.Provider value={{ user: mockUser }}>
-              <XButton></XButton>
+              <XButton href={'some_url'} textShare={'Share your results'}></XButton>
             </AuthContext.Provider>
           )
 

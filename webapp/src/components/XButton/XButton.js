@@ -1,10 +1,7 @@
 import './XButton.css'
+import PropTypes from 'prop-types'
 
-const XButton = ({
-    href,
-    disabled = false,
-    textShare = 'Share your results'
-}) => {
+function XButton({href,disabled=false,textShare}){
     return (
         <a href={href || 'https://www.twitter.com'} disabled={disabled} className="xbtn xbtn--blue" target='_blank' rel="noreferrer">
             <i className="xbtn__icon">
@@ -18,6 +15,12 @@ const XButton = ({
             <span className="xbtn__text">{textShare}</span>
         </a>
     )
+}
+
+XButton.propTypes = {
+    href: PropTypes.string.isRequired,
+    disabled: PropTypes.bool,
+    textShare: PropTypes.string.isRequired
 }
 
 export default XButton

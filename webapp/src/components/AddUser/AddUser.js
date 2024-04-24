@@ -7,6 +7,9 @@ import { API_ENDPOINT } from '../../utils/constants'
 import { useAuth } from '../../hooks/useAuth'
 import { Link } from 'react-router-dom'
 
+import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
+import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+
 import { useTranslation } from "react-i18next";
 
 const AddUser = () => {
@@ -16,6 +19,7 @@ const AddUser = () => {
   const [formErrors, setFormErrors] = useState({})
   const [error, setError] = useState('')
   const { login } = useAuth()
+  const [showPassword, setShowPassword] = useState(false);
 
   const { t } = useTranslation();
 
@@ -102,14 +106,21 @@ const AddUser = () => {
           value={username}
         />
         <p className="form-error">{formErrors.username}</p>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder={t("register.password_placeholder")}
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-        />
+
+        <div className="input-box">
+          <input
+            type={showPassword ? "text" : "password"}
+            name="password"
+            id="password"
+            placeholder={t("register.password_placeholder")}
+            onChange={e => setPassword(e.target.value)}
+            value={password}
+          />
+          <button type="button" onClick={() => setShowPassword(!showPassword)}>
+            {showPassword ? <VisibilityOffRoundedIcon /> : <VisibilityRoundedIcon />}
+          </button>
+        </div>
+
         <p className="form-error">{formErrors.password}</p>
         <input
           type="password"

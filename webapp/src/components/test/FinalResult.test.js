@@ -15,6 +15,8 @@ i18n.init({
           'You answered {{correct}} correct questions out of {{total}}',
         'play.result.simple_questions':
           'You answered {{correct}} correct questions',
+        'play.result.xshare_button':
+        'Share your results'
       },
     },
   },
@@ -35,6 +37,18 @@ describe('FinalResult component', () => {
     expect(resultText).toBeInTheDocument()
   })
 
+  it('FinalResult renders with XShareButton', () => {
+    const result = 5
+    const quizLength = 15
+    render(
+      <I18nextProvider i18n={i18n}>
+        <FinalResult result={result} quizLength={quizLength} />
+      </I18nextProvider>
+    )
+    const shareX = screen.getByText("Share your results")
+    expect(shareX).toBeInTheDocument()
+  })
+
   it('FinalResult renders when playing hardcore', () => {
     const result = 5
     const quizLength = 0
@@ -48,4 +62,7 @@ describe('FinalResult component', () => {
     )
     expect(resultText).toBeInTheDocument()
   })
+  
+
 })
+

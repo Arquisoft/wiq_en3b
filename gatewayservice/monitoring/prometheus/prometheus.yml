@@ -1,6 +1,9 @@
 global:
   scrape_interval: 5s
 scrape_configs:
-  - job_name: "example-nodejs-app"
+  - job_name: "kaw-gateway-monitor"
+    scheme: https
+    tls_config:
+      insecure_skip_verify: true
     static_configs:
       - targets: ["gatewayservice:8000"]

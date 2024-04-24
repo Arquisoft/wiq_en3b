@@ -9,7 +9,7 @@
   text-align: center;
 }
 
-.login > form input {
+.login>form input {
   border-radius: 8px;
   border: 2px solid lightgrey;
   outline: none;
@@ -27,4 +27,24 @@ h1 {
 a {
   display: inline-block;
   margin-top: 1rem;
+}
+
+.input-box {
+  position: relative;
+}
+
+.input-box button {
+  position: absolute;
+  right: 5px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  padding: 5px;
+  cursor: pointer;
+
+}
+
+.input-box button>svg {
+  color: rgb(116, 122, 231);
 }

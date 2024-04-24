@@ -19,4 +19,20 @@ const getQuestions = async (
   }
 };
 
-export { getQuestions };
+const getQuestionTypes = async (
+  _: Request,
+  res: Response,
+  next: NextFunction
+) => {
+  try {
+    const questionTypesResponse = await axios.get(
+      QUESTION_SERVICE_URL + '/questions/types'
+    );
+
+    res.json(questionTypesResponse.data);
+  } catch (error: any) {
+    next(error);
+  }
+}
+
+export { getQuestions, getQuestionTypes };

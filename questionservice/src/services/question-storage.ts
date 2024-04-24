@@ -1,4 +1,5 @@
 import { QuestionModel } from '../models/question-model';
+import { TemplateModel } from '../models/template-model';
 /**
  * Stores the questions in the database.
  * If these questions are already on the database, they won't stored.
@@ -45,4 +46,11 @@ const saveUniqueQuestionNoImage = async (question: any) => {
         QuestionModel.create(question);
 }
 
-export { saveQuestions }
+
+const getQuestionTypes = async () => {
+    let types = await TemplateModel.distinct('question_type.typeName');
+    types = types.map((type: any) => type.toLowerCase());
+    return types;
+}
+
+export { saveQuestions, getQuestionTypes }

@@ -3,9 +3,13 @@ import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import './Home.css'
 
+import { useTranslation } from 'react-i18next'
+
 function Home() {
   const navigate = useNavigate()
   const { user } = useAuth()
+
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (!user) {
@@ -19,7 +23,7 @@ function Home() {
         <>
           <img className="App-logo" src="KaW.png" alt="Logo of Know and Win APP" />
           <div className="welcome-message">
-            Welcome back, <span className="username">{user.username}</span>!
+            {t("home.welcome")}<span className="username">{user.username}</span>!
           </div>
         </>
       ) : (

@@ -6,6 +6,21 @@ import i18n from 'i18next'
 import Game from '../../pages/Game/Game'
 import { AuthContext } from '../../context/AuthContext'
 
+i18n.init({
+  lng: 'en',
+  fallbackLng: 'en',
+  resources: {
+    en: {
+      translation: {
+        'play.gamemode.title': 'Select the gamemode',
+        'play.gamemode.classic.button': 'Classic',
+        'play.gamemode.hardcore.button': 'Hardcore',
+        'play.gamemode.custom.button': 'Custom',
+      },
+    },
+  },
+})
+
 test('renders gamemodes when no gamemode is selected', async () => {
   render(
     <AuthContext.Provider value={{ user: {} }}>

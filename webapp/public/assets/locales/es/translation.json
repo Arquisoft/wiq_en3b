@@ -1,24 +1,118 @@
 {
-    "settings":{
-        "title":"Configuración",
-        "choose_lang":"Elija el idioma: ",
-        "choose_seconds":"Elija la duración de las pregutnas: "
+    "settings": {
+        "title": "Configuración",
+        "choose_lang": "Elija el idioma: ",
+        "choose_seconds": "Elija la duración de las preguntas: "
     },
-    "leaderboard":{
-        "title":"Tabla de clasificación"
+    "leaderboard": {
+        "title": "Tabla de clasificación",
+        "header": {
+            "username": "Nombre de usuario",
+            "points": "Puntuación",
+            "correct_answers": "Respuestas correctas",
+            "incorrect_answers": "Respuestas incorrectas",
+            "games_played": "Partidas jugadas",
+            "total_time": "Tiempo jugado",
+            "ranking": "Posición"
+        }
     },
-    "profile":{
-        "title":"Perfil"
+    "profile": {
+        "nav_title": "Perfil",
+        "title": "Perfil de {{username}}",
+        "bio": {
+            "title": "Biografía",
+            "placeholder": "Aquí puedes escribir algo sobre ti! O simplemente lo que se te pase por la cabeza :)"
+        },
+        "choose_avatar": "Elije tu avatar!",
+        "statistics": {
+            "title": "Estadísticas",
+            "games_played": "Partidas jugadas",
+            "total_time": "Tiempo jugado",
+            "correct_answers": "Respuestas correctas",
+            "incorrect_answers": "Respuestas incorrectas",
+            "points": "Puntuación total"
+        },
+        "profile_not_available": "Información de perfil no disponible"
     },
-    "play":{
-        "title": "Jugar",
-        "choose_difficulty": "Elija la dificultad",
-        "easy": "Fácil",
-        "medium": "Intermedio",
-        "hard": "Difícil"
+    "play": {
+        "nav_title": "Jugar",
+        "gamemode": {
+            "title": "Elije el modo de juego",
+            "classic": {
+                "button": "Clásico",
+                "go_back_button": "Volver",
+                "title": "Elija la dificultad",
+                "easy": "Fácil",
+                "medium": "Intermedio",
+                "hard": "Difícil",
+                "description": "Bienvenido al Modo Clásico. Elige tu nivel de dificultad y enfrenta el cuestionario con límites de tiempo y cantidades de preguntas variables. Perfecto para todos los niveles de entusiastas de los trivia."
+            },
+            "hardcore": {
+                "title": "Modo hardcore",
+                "description": "En el modo Hardcore no hay margen para el error. Debes responder cada pregunta correctamente, una tras otra, para permanecer en el juego. Pon a prueba tu conocimiento, nervios y concentración mientras te esfuerzas por la perfección. ¿Podrás conquistar el desafío y emerger como el maestro del cuestionario definitivo?",
+                "button": "Hardcore"
+            },
+            "custom": {
+                "button": "Personalizado",
+                "start_button": "Comenzar",
+                "go_back_button": "Volver",
+                "title": "Configura tu partida",
+                "time": "Tiempo (segundos)",
+                "questions": "Número de preguntas",
+                "questionTypesTitle": "Seleccionar tipos de preguntas",
+                "questionTypes": {
+                    "geography": "Geografía",
+                    "history": "Historia",
+                    "science": "Ciencia",
+                    "sports": "Deportes"
+                  },
+                "description": "Este es el modo Personalizado. Toma el control de tu experiencia de quiz. Establece el número de preguntas, el tiempo por pregunta y selecciona tus tipos de preguntas preferidos. Adapta el desafío a tu gusto y sumérgete en una aventura de trivia personalizada."
+            }
+        },
+        "question_counter": "Pregunta {{current}} de {{total}}",
+        "simple_question_counter": "Pregunta {{current}}",
+        "result": {
+            "title": "Resultado final",
+            "questions": "Has respondido {{correct}} preguntas correctas de {{total}}",
+            "simple_questions": "Has respondido {{correct}} preguntas correctas",
+            "points": "Has conseguido {{points}} puntos",
+            "play_again": "Jugar de nuevo",
+            "go_back_button": "Volver",
+            "xshare_button": "Comparte tu resultado",
+            "tweetShare": "---- 🤔 Saber y Ganar 🤔 ----%0A%0AHe respondido correctamente {{correct}}/{{total}} preguntas y he ganado {{points}} puntos 💪💪%0AVen y juega este increíble juego de preguntas e intenta vencerme!!😎%0A"
+        }
     },
-    "home":{
-        "title":"Inicio"
+    "home": {
+        "title": "Inicio",
+        "welcome": "Bienvenido de nuevo, "
+    },
+    "login": {
+        "title": "Iniciar sesión",
+        "welcome": "Bienvenido a Saber y Ganar, por favor inicia sesión para continuar",
+        "username_placeholder": "Nombre de usuario",
+        "password_placeholder": "Contraseña",
+        "button": "Iniciar sesión",
+        "go_register": "¿No estas registrado?, Registrate ahora",
+        "empty_password_error": "La contraseña no puede estar vacía",
+        "empty_username_error": "El nombre de usuario no puede estar vacío"
+    },
+    "register": {
+        "form_title": "Crea tu cuenta",
+        "nav_title": "Registro",
+        "welcome": "Bienvenido a Saber y Ganar, rellena el formulario para registrarte",
+        "username_placeholder": "Nombre de usuario",
+        "password_placeholder": "Contraseña",
+        "password_confirm_placeholder": "Confirmar contraseña",
+        "button": "Registrar",
+        "go_login": "¿Ya estas registrado?, Inicia sesión",
+        "empty_username_error": "El nombre de usuario no puede estar vacío",
+        "empty_password_error": "La contraseña no puede estar vacía",
+        "empty_password_confirm_error": "La confirmación de la contraseña no puede estar vacía",
+        "passwords_not_match_error": "Las contraseñas no coinciden",
+        "password_length_error": "La contraseña debe tener al menos 8 caracteres",
+        "invalid_credentials_error": "Credeciales inválidas"
+    },
+    "logout": {
+        "title": "Cerrar sesión"
     }
 }
-  

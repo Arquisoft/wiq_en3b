@@ -1,5 +1,5 @@
 const request = require('supertest');
-import axios, {AxiosError, AxiosHeaders, AxiosResponse} from 'axios';
+import axios, { AxiosError, AxiosHeaders, AxiosResponse } from 'axios';
 import app from '../src/app';
 import { Response } from 'express';
 
@@ -8,14 +8,18 @@ jest.mock('axios');
 const getMocks = (url: string) => {
   if (url.endsWith('/questions')) {
     return Promise.resolve({ data: { size: 10 } });
-  } else if (url.endsWith('/history')) {
+  }
+  else if (url.endsWith('/questions/types')) {
+    return Promise.resolve({ data: { types: {} } });
+  }
+  else if (url.endsWith('/history')) {
     return Promise.resolve({ data: { gamesPlayed: 10 } });
   } else if (url.endsWith('/history/leaderboard')) {
-    return Promise.resolve({ data: { leaderboard:  {} } });
+    return Promise.resolve({ data: { leaderboard: {} } });
   } else if (url.endsWith('/health')) {
     return Promise.resolve();
   } else if (url.endsWith('/profile')) {
-    return Promise.resolve({data: { bio: 'Test' }});
+    return Promise.resolve({ data: { bio: 'Test' } });
   }
   return Promise.resolve({});
 };
@@ -30,7 +34,7 @@ const postMocks = (url: string) => {
   } else if (url.endsWith('/history/increment')) {
     return Promise.resolve({ data: { gamesPlayed: 20 } });
   } else if (url.endsWith('/profile')) {
-    return Promise.resolve({data: { bio: 'Test' }});
+    return Promise.resolve({ data: { bio: 'Test' } });
   }
   return Promise.resolve({});
 };
@@ -53,8 +57,8 @@ describe('Gateway Service', () => {
   it('should get an error when auth service is down', async () => {
     const response = await testWithoutServices(() => {
       return request(app)
-          .post('/login')
-          .send({ username: 'testuser', password: 'testpassword' })
+        .post('/login')
+        .send({ username: 'testuser', password: 'testpassword' })
     });
 
     expect(response.statusCode).toBe(500);
@@ -74,8 +78,8 @@ describe('Gateway Service', () => {
   it('should get an error when user service is down', async () => {
     const response = await testWithoutServices(() => {
       return request(app)
-          .post('/adduser')
-          .send({ username: 'newuser', password: 'newpassword' })
+        .post('/adduser')
+        .send({ username: 'newuser', password: 'newpassword' })
     });
 
     expect(response.statusCode).toBe(500);
@@ -95,8 +99,8 @@ describe('Gateway Service', () => {
   it('should get an error when user service is down', async () => {
     const response = await testWithoutServices(() => {
       return request(app)
-          .post('/history')
-          .send({ username: 'testuser', gamesPlayed: 10 })
+        .post('/history')
+        .send({ username: 'testuser', gamesPlayed: 10 })
     });
 
     expect(response.statusCode).toBe(500);
@@ -105,8 +109,8 @@ describe('Gateway Service', () => {
   // Test POST /history/increment endpoint
   it('should forward history request to user service', async () => {
     const response = await request(app)
-        .post('/history/increment')
-        .send({ username: 'testuser', gamesPlayed: 10 });
+      .post('/history/increment')
+      .send({ username: 'testuser', gamesPlayed: 10 });
 
     expect(response.statusCode).toBe(200);
     expect(response.body.gamesPlayed).toBe(20);
@@ -116,8 +120,8 @@ describe('Gateway Service', () => {
   it('should get an error when user service is down', async () => {
     const response = await testWithoutServices(() => {
       return request(app)
-          .post('/history/increment')
-          .send({ username: 'testuser', gamesPlayed: 10 })
+        .post('/history/increment')
+        .send({ username: 'testuser', gamesPlayed: 10 })
     });
 
     expect(response.statusCode).toBe(500);
@@ -138,9 +142,9 @@ describe('Gateway Service', () => {
   it('should get an error when user service is down', async () => {
     const response = await testWithoutServices(() => {
       return request(app)
-          .get('/history')
-          .query({ user: 'newuser' })
-          .send();
+        .get('/history')
+        .query({ user: 'newuser' })
+        .send();
     });
 
     expect(response.statusCode).toBe(500);
@@ -149,8 +153,8 @@ describe('Gateway Service', () => {
   // Test GET /history/leaderboard endpoint
   it('should forward history request to user service', async () => {
     const response = await request(app)
-        .get('/history/leaderboard')
-        .send();
+      .get('/history/leaderboard')
+      .send();
 
     expect(response.statusCode).toBe(200);
     expect(response.body.leaderboard).toBeDefined();
@@ -160,8 +164,8 @@ describe('Gateway Service', () => {
   it('should get an error when user service is down', async () => {
     const response = await testWithoutServices(() => {
       return request(app)
-          .get('/history/leaderboard')
-          .send();
+        .get('/history/leaderboard')
+        .send();
     });
 
     expect(response.statusCode).toBe(500);
@@ -182,9 +186,30 @@ describe('Gateway Service', () => {
   it('should get an error when user service is down', async () => {
     const response = await testWithoutServices(() => {
       return request(app)
-          .get('/questions')
-          .query({ size: 10 })
-          .send();
+        .get('/questions')
+        .query({ size: 10 })
+        .send();
+    });
+
+    expect(response.statusCode).toBe(500);
+  });
+
+  // Test /questions/types endpoint
+  it('should forward question types request to question service', async () => {
+    const response = await request(app)
+      .get('/questions/types')
+      .send();
+
+    expect(response.statusCode).toBe(200);
+    expect(response.body.types).toBeDefined();
+  });
+
+  // Test /questions/types endpoint down
+  it('should get an error when question service is down', async () => {
+    const response = await testWithoutServices(() => {
+      return request(app)
+        .get('/questions/types')
+        .send();
     });
 
     expect(response.statusCode).toBe(500);
@@ -278,8 +303,8 @@ describe('Gateway Service', () => {
   // Test POST /history endpoint with authorization header
   it('should forward history request to user service', async () => {
     const response = await request(app)
-        .post('/history')
-        .set('authorization', '');
+      .post('/history')
+      .set('authorization', '');
 
     expect(response.statusCode).toBe(200);
     expect(response.body.gamesPlayed).toBe(10);
@@ -288,7 +313,7 @@ describe('Gateway Service', () => {
   // Test POST /history endpoint with headers
   it('should forward history request to user service', async () => {
     const response = await request(app)
-        .post('/history');
+      .post('/history');
 
     expect(response.statusCode).toBe(200);
     expect(response.body.gamesPlayed).toBe(10);
@@ -297,8 +322,8 @@ describe('Gateway Service', () => {
   // Test POST /history endpoint with authorization header
   it('should forward history request to user service', async () => {
     const response = await request(app)
-        .post('/history')
-        .set('authorization', '');
+      .post('/history')
+      .set('authorization', '');
 
     expect(response.statusCode).toBe(200);
     expect(response.body.gamesPlayed).toBe(10);
@@ -307,8 +332,8 @@ describe('Gateway Service', () => {
   // Test POST /history/increment endpoint with authorization header
   it('should forward history request to user service', async () => {
     const response = await request(app)
-        .post('/history/increment')
-        .set('authorization', '');
+      .post('/history/increment')
+      .set('authorization', '');
 
     expect(response.statusCode).toBe(200);
     expect(response.body.gamesPlayed).toBe(20);
@@ -328,8 +353,8 @@ describe('Gateway Service', () => {
   it('should get an error when user service is down', async () => {
     const response = await testWithoutServices(() => {
       return request(app)
-          .post('/profile')
-          .send({ username: 'testuser', bio: 'Test' })
+        .post('/profile')
+        .send({ username: 'testuser', bio: 'Test' })
     });
 
     expect(response.statusCode).toBe(500);
@@ -350,16 +375,16 @@ describe('Gateway Service', () => {
   it('should get an error when user service is down', async () => {
     const response = await testWithoutServices(() => {
       return request(app)
-          .get('/profile')
-          .query({ user: 'newuser' })
-          .send();
+        .get('/profile')
+        .query({ user: 'newuser' })
+        .send();
     });
 
     expect(response.statusCode).toBe(500);
   });
 });
 
-async function testWithoutServices(paramFunc : Function) {
+async function testWithoutServices(paramFunc: Function) {
   // Clear the mocks
   (axios.get as jest.Mock).mockImplementation((url: string) => { if (url) return; })
   await (axios.post as jest.Mock).mockImplementation((url: string) => { if (url) return; })

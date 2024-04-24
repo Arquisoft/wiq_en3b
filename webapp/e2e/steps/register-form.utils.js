@@ -16,7 +16,7 @@ async function waitForWelcomeMessage(page, username) {
 }
 
 async function switchFromLoginPageToRegisterPageByUsingLink(page) {
-  await expect(page).toClick('a', { text: 'Not yet registered? Register Now' })
+  await expect(page).toClick('a', { text: 'Not registered yet? Register now' })
 }
 
 async function waitForUserAlreadyRegisteredError(page, username) {

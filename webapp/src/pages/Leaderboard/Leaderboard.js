@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { styled } from '@mui/material/styles';
 import Table from '@mui/material/Table';
 import TableBody from '@mui/material/TableBody';
@@ -8,6 +8,7 @@ import TableHead from '@mui/material/TableHead';
 import TableRow from '@mui/material/TableRow';
 import Paper from '@mui/material/Paper';
 import './Leaderboard.css'
+import Button from '../../components/Button/Button'
 
 import { API_ENDPOINT } from "../../utils/constants";
 import { formatTime } from "../../utils/formatTime";
@@ -17,7 +18,7 @@ import { ReactComponent as SilverMedalIcon } from "../../assets/medal-silver.svg
 import { ReactComponent as GoldMedalIcon } from "../../assets/medal-gold.svg";
 
 import { useTranslation } from "react-i18next";
-import {Link} from "react-router-dom";
+import { Link } from "react-router-dom";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -47,25 +48,17 @@ const Leaderboard = () => {
 
   //Translation
   const { t } = useTranslation();
+  const lastFetchedCount = useRef(10);
+  const scrollPosition = useRef(0);
 
   var [leaderboard, setLeaderboard] = useState([])
   var [, setError] = useState(null)
+  var [nUsers, setNUsers] = useState(10);
+  var [disableButton, setDisableButton] = useState(false);
 
-  useEffect(() => {
-    ; (async () => {
-      try {
-        setLeaderboard(await fetchLeaderboard()) // Fetch leaderboard data and set state
-      } catch (error) {
-        setError(error.message) // Set error state if fetch fails
-      }
-    })()
-  }, [])
-
-
-
-  const fetchLeaderboard = async () => {
+  const fetchLeaderboard = useCallback(async () => {
     try {
-      const response = await fetch(API_ENDPOINT + '/history/leaderboard');
+      const response = await fetch(API_ENDPOINT + '/history/leaderboard?size=' + nUsers);
       const data = await response.json();
 
       const leaderboard = data.data.leaderboard.map((element, index) => {
@@ -74,14 +67,29 @@ const Leaderboard = () => {
         return createData(index + 1, username, passedQuestions, failedQuestions, gamesPlayed, timePlayed, points);
       });
 
-      console.log(leaderboard);
+      setDisableButton(data.data.leaderboard.length % 10 !== 0 || data.data.leaderboard.length === lastFetchedCount);
+      lastFetchedCount.current = data.data.leaderboard.length;
 
       return leaderboard;
     } catch (error) {
       throw new Error('Failed to fetch leaderboard data');
     }
-  };
+  }, [nUsers]);
 
+  useEffect(() => {
+    ; (async () => {
+      try {
+        scrollPosition.current = window.pageYOffset || document.documentElement.scrollTop; // Store the current scroll
+        setLeaderboard(await fetchLeaderboard()) // Fetch leaderboard data and set state
+      } catch (error) {
+        setError(error.message) // Set error state if fetch fails
+      }
+    })()
+  }, [fetchLeaderboard])
+
+  useEffect(() => {
+    window.scrollTo(0, scrollPosition.current); // Reset scroll to stored one
+  }, [leaderboard])
 
   return (
     <div>
@@ -91,13 +99,13 @@ const Leaderboard = () => {
           <Table sx={{ minWidth: 600 }} aria-label="customized table">
             <TableHead>
               <TableRow>
-                <StyledTableCell align="center">Ranking</StyledTableCell>
-                <StyledTableCell align="center">Username</StyledTableCell>
-                <StyledTableCell align="center">Passed questions</StyledTableCell>
-                <StyledTableCell align="center">Failed questions</StyledTableCell>
-                <StyledTableCell align="center">Games played</StyledTableCell>
-                <StyledTableCell align="center">Time played</StyledTableCell>
-                <StyledTableCell align="center">Points</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.ranking")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.username")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.correct_answers")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.incorrect_answers")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.games_played")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.total_time")}</StyledTableCell>
+                <StyledTableCell align="center">{t("leaderboard.header.points")}</StyledTableCell>
               </TableRow>
             </TableHead>
             <TableBody>
@@ -126,6 +134,11 @@ const Leaderboard = () => {
           </Table>
         </TableContainer>
       </div>
+      {!disableButton && <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
+        <Button onClick={() => setNUsers(nUsers + 10)} className="showmore-button">
+          Show more
+        </Button>
+      </div>}
     </div >
   );
 };

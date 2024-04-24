@@ -2,3 +2,13 @@
     color: black;
     margin-top: 0;
 }
+
+.showmore-button {
+    background-color: black;
+    padding: 10px 25px;
+}
+
+.showmore-button:hover {
+    border-color: black;
+    color: black;
+}

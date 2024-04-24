@@ -51,6 +51,7 @@ paths:
       parameters:
         - $ref: '#/components/parameters/questionLanguage'
         - $ref: '#/components/parameters/questionSize'
+        - $ref: '#/components/parameters/questionType'
       responses:
         200:
           description: Service has generated the requested number of questions. It is possible that not ALL questions requested are generated due to timeouts for Wikidata API.
@@ -74,6 +75,7 @@ paths:
                         - id: 4
                           text: 1945
                       correctAnswerId: 1
+                      type: 'history'
                 - questionImage:
                   summary: A question, an Image URL and 4 possible answers have been generated.
                   value:
@@ -89,6 +91,7 @@ paths:
                         - id: 4
                           text: France
                       correctAnswerId: 1
+                      type: 'geography'
                       image: 'https://upload.wikimedia.org/wikipedia/commons/a/ab/img_name.ext'  
 
         400:
@@ -128,6 +131,12 @@ paths:
                     status: Fail
                     data:
                       error: The provided language is not supported     
+                typeNotSupported:
+                  summary: Client has provided a type not supported for question generation.
+                  value:
+                    status: Fail
+                    data:
+                      error: The provided type *** is not supported
         500:
           description: An internal server error has occured. Either DB related, Wikidata API or others.
           content:
@@ -150,6 +159,38 @@ paths:
                   value:
                     status: fail
                     message: Can't generate questions! Error while fetching Wikidata
+  /questions/types:
+    get:
+      summary: Gets the types of questions that can be generated.
+      tags:
+        - Question Service
+      operationId: getQuestionTypes
+      responses:
+        200:
+            description: Service returns the types of questions that can be generated.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/QuestionTypes'
+                examples:
+                  - types:
+                    summary: A list wirh all possible types.
+                    value:
+                    - types: ['history', 'geography', 'art', 'science', 'sports', 'entertainment', 'other']
+                    - n_types: 7
+        500:
+            description: An internal server error has occured.
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/ServerErrorQSResponse'
+                examples:
+                  - dbError:
+                    summary: Error when trying to ontain types.
+                    value:
+                      status: fail
+                      message: There was a problem obtaining types, please try again later.
+            
 
   /history:
 
@@ -218,9 +259,10 @@ paths:
       operationId: userLeaderboard
       parameters:
         - $ref: '#/components/parameters/leaderboardSize'
+        - $ref: '#/components/parameters/leaderboardSortBy'
       responses:
         200:
-          description: Service has retrieved the leaderboard with the number of users requested in Descending order of points
+          description: Service has retrieved the leaderboard with the number of users requested in descending order of the requested attribute
           content:
             application/json:
               schema:
@@ -259,6 +301,12 @@ paths:
                     status: Fail
                     data:
                       error: The size must be a positive value.
+                badSortBy:
+                  summary: Client has provided an invalid 'sortby' parameter
+                  value:
+                    status: Fail
+                    data:
+                      error: Parameter is not valid. Can only sort by 'points', 'passedQuestions', 'timePlayed' or 'gamesPlayed'
         
         500:
           description: An internal server error has occurred
@@ -283,7 +331,19 @@ components:
       description: An array with n generated questions
       items:
         $ref: '#/components/schemas/QuestionJson'
-      
+
+    QuestionTypes:
+      type: object
+      properties:
+        types:
+          type: array
+          description: An array with all possible types of questions
+          items:
+            type: string
+        n_types:
+          type: integer
+          description: The number of types of questions available 
+
     QuestionJson:
       type: object
       properties:
@@ -308,6 +368,9 @@ components:
         correctAnswerId:
           type: string
           description: The identifier of the correct answer.
+        type:
+          type: string
+          description: The type of the question generated
         image:
           type: string
           description: A URL of an image that describes the question.
@@ -371,7 +434,7 @@ components:
           properties:
             leaderboard:
               type: array
-              description: An array with all users in leaderboard sorted by points
+              description: An array with all users in leaderboard sorted by the requested attribute
               items:
                 type: object
                 properties:
@@ -417,6 +480,18 @@ components:
         size-example:
           summary: Retrieving 5 random questions.
           value: 5
+    
+    questionType:
+      name: type
+      in: query
+      description: Type of questions to be generated.
+      required: false
+      schema:
+        type: string
+      examples:
+        type-example:
+          summary: Retrieving questions related to history.
+          value: history
     
     questionLanguage:
       name: lang
@@ -573,7 +648,7 @@ components:
     leaderboardSize:
       name: size
       in: query
-      description: Number users to retrieve in leaderboard.
+      description: Number of users to retrieve in leaderboard.
       required: false
       schema:
         type: integer
@@ -583,6 +658,28 @@ components:
         size-example:
           summary: Retrieving the top 3 players.
           value: 3
+
+    leaderboardSortBy:
+      name: sortby
+      in: query
+      description: Field of the history to sort by
+      schema:
+        type: string
+        enum: [points, passedQuestions, timePlayed, gamesPlayed]
+      default: points
+      examples:
+        sortby-points-example:
+          summary: Retrieving the top users with highest score (default behavior)
+          value: points
+        sortby-passedquestions-example:
+          summary: Retrieving the top users with most passed questions
+          value: passedQuestions
+        sortby-timeplayed-example:
+          summary: Retrieving the top users with most time played
+          value: timePlayed
+        sortby-gamesplayed-example:
+          summary: Retrieving the top users with most games played
+          value: gamesPlayed
   
     userParam:
       name: user

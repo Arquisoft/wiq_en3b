@@ -3,7 +3,11 @@ import Button from '../../components/Button/Button'
 
 import '../../pages/Game/Game.css'
 import './Custom.css'
-import { useState } from 'react'
+import { useCallback, useState } from 'react'
+import { useQuestionTypes } from '../../hooks/useQuestionTypes'
+
+import { useTranslation } from 'react-i18next'
+import QuestionTypeSelector from '../QuestionTypeSelector/QuestionTypeSelector'
 
 const DEFAULT_TIME = 15
 const DEFAULT_NUMBER_OF_QUESTIONS = 10
@@ -15,6 +19,21 @@ const Custom = ({ goBack }) => {
   const [numOfQuestions, setNumOfQuestions] = useState(
     DEFAULT_NUMBER_OF_QUESTIONS
   )
+  const { questionTypes } = useQuestionTypes()
+  const [selectedTypes, setSelectedTypes] = useState([])
+
+  const handleTypeToggle = useCallback(
+    type => {
+      if (selectedTypes.includes(type)) {
+        setSelectedTypes(selectedTypes.filter(t => t !== type))
+      } else {
+        setSelectedTypes([...selectedTypes, type])
+      }
+    },
+    [selectedTypes]
+  )
+
+  const { t } = useTranslation()
 
   const handleTimeChange = e => {
     setTimeInSeconds(e.target.value)
@@ -29,9 +48,14 @@ const Custom = ({ goBack }) => {
       <div className="quiz-wrapper">
         {!hasFinishedConfiguration && (
           <div className="header-and-buttons-container">
-            <h2>Configure your game</h2>
+            <h2>{t('play.gamemode.custom.title')}</h2>
+            <p className="quiz-mode-description">
+              {t('play.gamemode.custom.description')}
+            </p>
             <div className="custom-option">
-              <label htmlFor="timeSlider">Time (Seconds)</label>
+              <label htmlFor="timeSlider">
+                {t('play.gamemode.custom.time')}
+              </label>
               <input
                 type="range"
                 id="timeSlider"
@@ -44,7 +68,9 @@ const Custom = ({ goBack }) => {
               <span>{timeInSeconds}</span>
             </div>
             <div className="custom-option">
-              <label htmlFor="questionsSlider">Number of Questions</label>
+              <label htmlFor="questionsSlider">
+                {t('play.gamemode.custom.questions')}
+              </label>
               <input
                 type="range"
                 id="questionsSlider"
@@ -56,16 +82,21 @@ const Custom = ({ goBack }) => {
               />
               <span>{numOfQuestions}</span>
             </div>
+            <QuestionTypeSelector
+              onChange={handleTypeToggle}
+              selectedTypes={selectedTypes}
+              types={questionTypes}
+            />
             <div className="button-container">
               <Button
                 onClick={() => {
                   setHasFinishedConfiguration(true)
                 }}
               >
-                Start
+                {t('play.gamemode.custom.start_button')}
               </Button>
               <Button onClick={goBack} className="danger">
-                Go back
+                {t('play.gamemode.custom.go_back_button')}
               </Button>
             </div>
           </div>
@@ -76,6 +107,7 @@ const Custom = ({ goBack }) => {
               numberOfQuestions: numOfQuestions,
               timePerQuestion: timeInSeconds,
               pointsPerQuestion: Math.floor(150 / timeInSeconds),
+              questionTypes: selectedTypes,
             }}
             goBack={goBack}
           />

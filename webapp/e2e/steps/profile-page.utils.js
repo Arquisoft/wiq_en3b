@@ -1,6 +1,6 @@
 async function waitForProfileElement(page, username) {
   await expect(page).toMatchElement('h1', {
-    text: `${username}'s profile`,
+    text: `Profile of ${username}`,
   })
 }
 

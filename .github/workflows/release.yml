@@ -160,11 +160,30 @@ jobs:
           registry: ghcr.io
           workdir: gatewayservice
           buildargs: GATEWAY_URI,WEBAPP_URI
+  
+  docker-push-prometheus:
+    name: Push prometheus service Docker Image to Github Packages
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
+    needs: [e2e-tests]
+    steps:
+      - uses: actions/checkout@v4
+      - name: Publish to Registry
+        uses: elgohr/Publish-Docker-Github-Action@v5
+        with:
+          name: arquisoft/wiq_en3b/prometheus
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+          registry: ghcr.io
+          workdir: monitoring/prometheus
+
 
   deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest
-    needs: [docker-push-userservice, docker-push-authservice, docker-push-questionservice, docker-push-gatewayservice,docker-push-webapp]
+    needs: [docker-push-userservice, docker-push-authservice, docker-push-questionservice, docker-push-gatewayservice,docker-push-webapp,docker-push-prometheus]
     steps:
       - name: Deploy over SSH
         uses: fifsky/ssh-action@master

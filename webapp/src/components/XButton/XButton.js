@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 
 function XButton({href,disabled=false,textShare}){
     return (
-        <a href={href || 'https://www.twitter.com'} disabled={disabled} className="xbtn xbtn--blue" target='_blank' rel="noreferrer">
+        <a href={href} disabled={disabled} className="xbtn xbtn--blue" target='_blank' rel="noreferrer">
             <i className="xbtn__icon">
                 <svg xmlns="http://www.w3.org/2000/svg" width="10px" height="9px" viewBox="0 0 9 9">
                 <path

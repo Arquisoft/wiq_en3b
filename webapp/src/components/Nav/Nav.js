@@ -97,15 +97,6 @@ const Nav = (props) => {
             {t("leaderboard.title")}
           </Link>
 
-          {user && (
-            <Link to="settings" className="nav-link">
-              <div className="nav-link-icon">
-                <SettingsIcon />
-              </div>
-              {t("settings.title")}
-            </Link>
-          )}
-
           <Link to={user ? '/logout' : '/login'} className="nav-link">
             <div className="nav-link-icon">
               {user ? <LogoutIcon /> : <LoginIcon />}

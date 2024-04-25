@@ -21,10 +21,6 @@ function App() {
   //State for the volume
   const [volume, setVolume] = useState(10);
 
-  const handleVolumeChange = (event, newVolume) => {
-    setVolume(newVolume);
-  };
-
   return (
     <SettingsProvider>
       <AuthProvider>

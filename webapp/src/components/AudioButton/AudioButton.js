@@ -8,7 +8,7 @@ import Slider from "../../components/Slider/ContinuousSlider";
 
 const AudioButton = () => {
     const [playing, setPlaying] = useState(false);
-    const [audio, setAudio] = useState(new Audio(song));
+    const [audio] = useState(new Audio(song));
     const [volume, setVolume] = useState(30);
     const [showVolumeSlider, setShowVolumeSlider] = useState(false); 
     const [hideTimeout, setHideTimeout] = useState(null);

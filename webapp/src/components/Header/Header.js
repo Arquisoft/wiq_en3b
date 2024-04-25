@@ -27,8 +27,6 @@ const Header = props => {
     }
   ];
 
-  const [selectedLanguage, setSelectedLanguage] = useState(languages[0]);
-  const [showOptions, setShowOptions] = useState(false);
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
   return (

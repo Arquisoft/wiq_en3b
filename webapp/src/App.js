@@ -17,7 +17,6 @@ import { AuthProvider } from './context/AuthContext'
 import { SettingsProvider } from './context/SettingsContext'
 
 import { useState } from 'react'
-import { useTranslation } from 'react-i18next'
 
 
 
@@ -25,8 +24,7 @@ function App() {
 
   //State for the volume
   const [volume, setVolume] = useState(10);
-  //Translation
-  const { t } = useTranslation();
+
 
   const handleVolumeChange = (event, newVolume) => {
     setVolume(newVolume);

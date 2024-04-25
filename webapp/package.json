@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11",
     "axios-mock-adapter": "^1.22.0",
     "cross-env": "^7.0.3",
     "expect-puppeteer": "^9.0.2",

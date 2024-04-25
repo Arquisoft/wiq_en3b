@@ -53,7 +53,7 @@ const AudioButton = () => {
     return (
     <div className="audio-button-container"
         onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}>
+        onMouseLeave={handleMouseLeave} role="button">
         <div className="sound" onClick={toggleAudio} data-testid="audio-button" tabIndex={0}
             onKeyDown={(event) => {
                 if (event.key === 'Enter' || event.key === ' ') {

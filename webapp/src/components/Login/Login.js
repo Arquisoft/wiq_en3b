@@ -7,6 +7,8 @@ import { useAuth } from '../../hooks/useAuth'
 import { API_ENDPOINT } from '../../utils/constants'
 import { NavLink } from 'react-router-dom'
 
+import PasswordField from '../PasswordField/PasswordField'
+
 import { useTranslation } from "react-i18next";
 
 const Login = () => {
@@ -84,14 +86,9 @@ const Login = () => {
           value={username}
         />
         <p className="form-error">{formErrors.username}</p>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder={t("login.password_placeholder")}
-          onChange={e => setPassword(e.target.value)}
-          value={password}
-        />
+
+        <PasswordField password={password} setPassword={setPassword} />
+
         <p className="form-error">{formErrors.password}</p>
         <button className="button-common" onClick={loginHandler}>
           {t("login.button")}

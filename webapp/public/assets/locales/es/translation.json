@@ -65,7 +65,7 @@
                     "history": "Historia",
                     "science": "Ciencia",
                     "sports": "Deportes"
-                  },
+                },
                 "description": "Este es el modo Personalizado. Toma el control de tu experiencia de quiz. Establece el número de preguntas, el tiempo por pregunta y selecciona tus tipos de preguntas preferidos. Adapta el desafío a tu gusto y sumérgete en una aventura de trivia personalizada."
             }
         },
@@ -110,7 +110,15 @@
         "empty_password_confirm_error": "La confirmación de la contraseña no puede estar vacía",
         "passwords_not_match_error": "Las contraseñas no coinciden",
         "password_length_error": "La contraseña debe tener al menos 8 caracteres",
-        "invalid_credentials_error": "Credeciales inválidas"
+        "invalid_credentials_error": "Credeciales inválidas",
+        "strength": {
+            "very_week": "Muy débil",
+            "week": "Débil",
+            "moderate": "Moderada",
+            "strong": "Fuerte",
+            "very_strong": "Muy fuerte",
+            "extremely_strong": "Extremadamente fuerte"
+        }
     },
     "logout": {
         "title": "Cerrar sesión"

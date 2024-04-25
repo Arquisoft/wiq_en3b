@@ -16,7 +16,7 @@ const AudioButton = () => {
     useEffect(() => {
         audio.loop = true;
         audio.volume = volume / 100;
-    }, [volume]);
+    }, [volume, audio]);
 
     const play = () => {
         audio.play();

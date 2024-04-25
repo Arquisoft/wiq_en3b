@@ -19,7 +19,7 @@ import { useState } from 'react'
 function App() {
 
   //State for the volume
-  const [volume, setVolume] = useState(10);
+  const [volume] = useState(10);
 
   return (
     <SettingsProvider>

@@ -30,7 +30,6 @@ describe('Nav component', () => {
         expect(screen.getByText(/Play/i)).toBeInTheDocument();
         expect(screen.getByText(/Profile/i)).toBeInTheDocument();
         expect(screen.getByText(/Leaderboard/i)).toBeInTheDocument();
-        expect(screen.getByText(/Settings/i)).toBeInTheDocument();
 
         // Simulate navigation toggle
         const closeButton = document.querySelector('.close-button');

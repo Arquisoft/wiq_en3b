@@ -28,7 +28,7 @@ const LanguageSelector = ({ languages }) => {
 
     return (
         <div className="language-selector" ref={languageSelectorRef}>
-            <div className="selected-language" onClick={() => setShowOptions(!showOptions)}>
+            <div className="selected-language" data-testid="selectedLanguage" onClick={() => setShowOptions(!showOptions)}>
                 <img className="flag"
                     src={`https://flagsapi.com/${selectedLanguage.country_code}/shiny/16.png`}
                     alt={selectedLanguage.name}
@@ -46,6 +46,7 @@ const LanguageSelector = ({ languages }) => {
                     >
                         <img
                             className="flag"
+                            data-testid={`flag${language.code}`}
                             src={`https://flagsapi.com/${language.country_code}/shiny/16.png`}
                             alt={language.name}
                             style={{ marginRight: '8px' }}

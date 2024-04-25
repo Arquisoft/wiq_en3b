@@ -24,10 +24,10 @@ jobs:
             - name: Installing dependencies
               run: cd docs/ && npm install
             - name: Building docs
-              run: npm run build
+              run: cd docs/ && npm run build
             - name: Deploying docs
               uses: JamesIves/github-pages-deploy-action@v4
               with:
-                folder: build 
+                folder: build
 
     

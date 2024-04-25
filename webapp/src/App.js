@@ -5,7 +5,6 @@ import Profile from './pages/Profile/Profile'
 import Leaderboard from './pages/Leaderboard/Leaderboard'
 import Home from './pages/Home/Home'
 import AppLayout from './pages/AppLayout'
-import Settings from './pages/Settings/Settings'
 import Login from './pages/Login/Login'
 import Logout from './pages/Logout/Logout'
 import Register from './pages/Register/Register'
@@ -45,7 +44,6 @@ function App() {
             ></Route>
             <Route path="profile/:username?" element={<Profile />} />
             <Route path="leaderboard" element={<Leaderboard />}></Route>
-            <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} />}></Route>
           </Route>
         </Routes>
       </AuthProvider>

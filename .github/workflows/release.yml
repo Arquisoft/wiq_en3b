@@ -46,24 +46,6 @@ jobs:
       - run: sudo setcap 'cap_net_bind_service=+ep' `which node`
       - run: npm --prefix webapp run test:e2eci
 
-  deploy-docs:
-    name: Deploying the documentation of project
-    runs-on: ubuntu-latest
-    needs: [e2e-tests]
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - run: apt-get install ruby default-jre
-      - run: gem install asciidoctor asciidoctor-diagram
-      - run: cd docs
-      - run: npm install
-      - run: npm run build
-      - run: npm run deploy
-       
-
-
   docker-push-webapp:
     name: Push webapp Docker Image to GitHub Packages
     runs-on: ubuntu-latest

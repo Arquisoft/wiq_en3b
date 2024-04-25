@@ -15,8 +15,6 @@ import { ProtectedRoute } from './components/ProtectedRoute'
 import { AuthProvider } from './context/AuthContext'
 import { SettingsProvider } from './context/SettingsContext'
 
-import './assets/password.css'
-
 import { useState } from 'react'
 
 function App() {

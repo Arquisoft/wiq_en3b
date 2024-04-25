@@ -8,9 +8,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { Link } from 'react-router-dom'
 
 import PasswordStrengthBar from 'react-password-strength-bar';
-
-import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import PasswordField from '../PasswordField/PasswordField'
 
 import { useTranslation } from "react-i18next";
 
@@ -24,7 +22,6 @@ const AddUser = () => {
   const [formErrors, setFormErrors] = useState({})
   const [error, setError] = useState('')
   const { login } = useAuth()
-  const [showPassword, setShowPassword] = useState(false);
   const strengthWords = [t("register.strength.week"), t("register.strength.moderate"), t("register.strength.strong"), t("register.strength.very_strong"), t("register.strength.extremely_strong")]
 
   const validateForm = values => {
@@ -111,19 +108,7 @@ const AddUser = () => {
         />
         <p className="form-error">{formErrors.username}</p>
 
-        <div className="input-box">
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            id="password"
-            placeholder={t("register.password_placeholder")}
-            onChange={e => setPassword(e.target.value)}
-            value={password}
-          />
-          <button type="button" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <VisibilityOffRoundedIcon /> : <VisibilityRoundedIcon />}
-          </button>
-        </div>
+        <PasswordField password={password} setPassword={setPassword} />
 
         <PasswordStrengthBar password={password} shortScoreWord={t("register.strength.very_week")} scoreWords={strengthWords} minLength={8} />
 

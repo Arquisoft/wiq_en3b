@@ -7,8 +7,7 @@ import { useAuth } from '../../hooks/useAuth'
 import { API_ENDPOINT } from '../../utils/constants'
 import { NavLink } from 'react-router-dom'
 
-import VisibilityOffRoundedIcon from '@mui/icons-material/VisibilityOffRounded';
-import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
+import PasswordField from '../PasswordField/PasswordField'
 
 import { useTranslation } from "react-i18next";
 
@@ -18,7 +17,6 @@ const Login = () => {
   const { login } = useAuth()
   const [error, setError] = useState()
   const [formErrors, setFormErrors] = useState({})
-  const [showPassword, setShowPassword] = useState(false);
 
   //Translation
   const { t } = useTranslation();
@@ -89,19 +87,7 @@ const Login = () => {
         />
         <p className="form-error">{formErrors.username}</p>
 
-        <div className="input-box">
-          <input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            id="password"
-            placeholder={t("login.password_placeholder")}
-            onChange={e => setPassword(e.target.value)}
-            value={password}
-          />
-          <button type="button" onClick={() => setShowPassword(!showPassword)}>
-            {showPassword ? <VisibilityOffRoundedIcon /> : <VisibilityRoundedIcon />}
-          </button>
-        </div>
+        <PasswordField password={password} setPassword={setPassword} />
 
         <p className="form-error">{formErrors.password}</p>
         <button className="button-common" onClick={loginHandler}>

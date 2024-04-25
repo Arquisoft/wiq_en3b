@@ -164,7 +164,7 @@ jobs:
     name: Deploy over SSH
     runs-on: ubuntu-latest
     needs: [docker-push-userservice, docker-push-authservice, docker-push-questionservice, docker-push-gatewayservice,docker-push-webapp]
-    steps:
+    steps:      
       - name: Deploy over SSH
         uses: fifsky/ssh-action@master
         with:
@@ -172,8 +172,11 @@ jobs:
           user: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           command: |
+            rm -rf wiq_en3b
+            rm -rf gatewayservice
+            git clone https://github.com/Arquisoft/wiq_en3b.git
+            cp -r ./wiq_en3b/gatewayservice/ .
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/docker-compose.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/.env
-            wget -r https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/gatewayservice/
             docker compose --profile prod down
             docker compose --profile prod up -d --pull always

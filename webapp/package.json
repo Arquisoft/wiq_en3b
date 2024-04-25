@@ -58,6 +58,7 @@
     "jest-environment-node": "^29.7.0",
     "mongodb-memory-server": "^9.1.4",
     "puppeteer": "^21.7.0",
+    "react-lottie": "^1.2.4",
     "serve": "^14.2.1",
     "start-server-and-test": "^2.0.3"
   }

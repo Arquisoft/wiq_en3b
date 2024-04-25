@@ -65,7 +65,7 @@
                     "history": "Histoire",
                     "science": "Science",
                     "sports": "Sports"
-                  },
+                },
                 "description": "Ceci est le mode Personnalisé. Prenez le contrôle de votre expérience de quiz. Définissez le nombre de questions, le temps par question, et sélectionnez vos types de questions préférés. Personnalisez le défi à votre goût et plongez dans une aventure de quiz personnalisée."
             }
         },
@@ -110,7 +110,15 @@
         "empty_password_confirm_error": "La confirmation du mot de passe ne peut pas être vide",
         "passwords_not_match_error": "Les mots de passe ne correspondent pas",
         "password_length_error": "Le mot de passe doit comporter au moins 8 caractères",
-        "invalid_credentials_error": "Identifiants invalides"
+        "invalid_credentials_error": "Identifiants invalides",
+        "strength": {
+            "very_week": "Très faible",
+            "week": "Faible",
+            "moderate": "Modéré",
+            "strong": "Forte",
+            "very_strong": "Très forte",
+            "extremely_strong": "Extrêmement forte"
+        }
     },
     "logout": {
         "title": "Déconnexion"

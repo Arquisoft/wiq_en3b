@@ -52,15 +52,18 @@ jobs:
     needs: [e2e-tests]
     steps:
       - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
+      - name: Setting up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 3.0
+      - name: Setting up NodeJS
+        uses: actions/setup-node@v4
         with:
           node-version: 20
-      - run: apt-get install ruby default-jre
-      - run: gem install asciidoctor asciidoctor-diagram
-      - run: cd docs
-      - run: npm install
-      - run: npm run build
-      - run: npm run deploy
+      - name: Installing asciidoctor
+        run: gem install asciidoctor asciidoctor-diagram
+      - name: Installing and deploying
+        run: cd docs && npm install && npm run build && npm run deploy
        
 
 

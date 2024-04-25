@@ -147,7 +147,7 @@ The documentation should also be clear for potential new team members.
 | High
 
 | Testability
-| When new features are added to the application, new test should be performed and they should be easy to add.
+| When new features are added to the application, new tests should be performed and they should be easy to add.
 The application must be designed to facilitate testing across new scenarios.
 | High
 

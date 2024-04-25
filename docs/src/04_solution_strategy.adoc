@@ -33,9 +33,9 @@ See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentat
 
 === Technologies
 
-- *React* : React will simplify the task build reusable and modular UI elements for our application thanks to its component-based structure. It'll also allow mobile app development with React Native.
+- *React* : React will simplify the task build reusable and modular UI elements for our application thanks to its component-based structure. It also allows us to use JSX, which is a syntax extension for JavaScript that allows us to write HTML elements inside our JavaScript code. This will make our code more readable and easier to debug.
 - *Express* : Web application framework for Node.js which will simplify development on the server side. There is also available a wide range of third-party middlewares that we could include on our application.
-- *TypeScript* : Since we will be using JavaScript and are more familiar with statically typed languages we will use TypeScript. This will also reduce the likelihood of some unexpected error at runtime.
+- *TypeScript* : Since we will be using JavaScript and are more familiar with statically typed languages we will use TypeScript for the services of our application. This will also reduce the likelihood of some unexpected errors at runtime.
 - *MongoDB* : We chose MongoDB since we consider we could take advantage of it's flexible schema. Its native support for JSON and its simple query language also influenced our decision. We also consider this a valauable oportunity to learn and work with a document database.
 - *Docker*: To deploy our project, Docker was chosen due to its handy portability and its perfect integration with microservices applications. 
 
@@ -50,14 +50,14 @@ each other and have its own database.
 
 - *RESTful APIs*:
 The main architecture for our Services to function as an API. Clients can communicate through
-over HTTP using standard methods such as GET to consult information like history data or
+over HTTPS using standard methods, such as GET to consult information like history data or
 generate questions using Wikidata. All these services are "masked" through a middleware so
 clients do not have to access different endpoints.
 
 - *Gateway*
 A middleware that acts as an API-frontend for clients to access various services within our system.
-This component can be also seen as a "Controller" since it receives petitions from outside, call the
-corresponding service that answers that petition and return its value.
+This component can be also seen as a "Controller" since it receives petitions from outside, calls the
+corresponding service that answers that petition and returns its value.
 
 === Decisions to Achieve Quality Goals 
 
@@ -70,9 +70,8 @@ corresponding service that answers that petition and return its value.
 
 | Performance 
 | Web-app should work smoothly and respond quickly.  
-|
-- Implementing caching mechanisms for Question generation.
-- Optimizing database queries through indexing and query optimization techniques.
+| Implementing caching mechanisms for Question generation.
+  Optimizing database queries through indexing and query optimization techniques.
 
 | Usability 
 | The application aims for user-friendly accessibility with an intuitive design. 

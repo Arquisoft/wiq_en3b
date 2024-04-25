@@ -1,0 +1,33 @@
+name: Build and Deploy of Documentation
+on:
+    push:
+      branches:
+        - master
+permissions:
+    contents: write
+jobs:
+    build-and-deploy:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout
+              uses: actions/checkout@v4
+            - name: Install Ruby
+              uses: ruby/setup-ruby@v1
+              with:
+                ruby-version: 3.0
+            - name: Install Node
+              uses: actions/setup-node@v1
+              with:
+                node-version: 20
+            - name: Install Asciidoctor
+              run: gem install asciidoctor asciidoctor-diagram
+            - name: Installing dependencies
+              run: cd docs/ && npm install
+            - name: Building docs
+              run: npm run build
+            - name: Deploying docs
+              uses: JamesIves/github-pages-deploy-action@v4
+              with:
+                folder: build 
+
+    

@@ -4,8 +4,6 @@ import Nav from '../components/Nav/Nav'
 import {useTheme} from '../hooks/useTheme'
 import {useToggle} from '../hooks/useToggle'
 import './animation.css'
-import useDarkModeCursor from '../hooks/useDarkModeCursor';
-import useLightModeCursor from "../hooks/useLightModeCursor";
 import Lottie from 'react-lottie'
 import darkAnimationData from '../assets/catanimation/sleeping_cat.json';
 import lightAnimationData from '../assets/catanimation/asleep_cat.json';

@@ -21,7 +21,7 @@ i18n.init({
     en: {
       translation: {
         'login.username_placeholder': 'Username',
-        'login.password_placeholder': 'Password',
+        'register.password_placeholder': 'Password',
         'login.button': 'Login',
         'login.welcome':
           'Welcome to Know and Win App, please login to procceed',

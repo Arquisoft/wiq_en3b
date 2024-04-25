@@ -129,7 +129,6 @@ jobs:
           workdir: questionservice
           buildargs: TRANSLATION_API_KEY
       
-
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
@@ -161,43 +160,6 @@ jobs:
           workdir: gatewayservice
           buildargs: GATEWAY_URI,WEBAPP_URI
   
-  docker-push-prometheus:
-    name: Push prometheus service Docker Image to Github Packages
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    needs: [e2e-tests]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@v5
-        with:
-          name: arquisoft/wiq_en3b/prometheus
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ghcr.io
-          workdir: gatewayservice/monitoring/prometheus
-  
-  docker-push-grafana:
-    name: Push grafana service Docker Image to Github Packages
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    needs: [e2e-tests]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@v5
-        with:
-          name: arquisoft/wiq_en3b/grafana
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ghcr.io
-          workdir: gatewayservice/monitoring/grafana
-
-
   deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest

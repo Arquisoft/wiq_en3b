@@ -163,7 +163,7 @@ jobs:
   deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest
-    needs: [docker-push-userservice, docker-push-authservice, docker-push-questionservice, docker-push-gatewayservice,docker-push-webapp,docker-push-prometheus,docker-push-grafana]
+    needs: [docker-push-userservice, docker-push-authservice, docker-push-questionservice, docker-push-gatewayservice,docker-push-webapp]
     steps:
       - name: Deploy over SSH
         uses: fifsky/ssh-action@master

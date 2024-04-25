@@ -12,6 +12,7 @@ const mockUser = {
   username: 'mateo2',
   password: '1234567891011',
 }
+
 const mockLogin = jest.fn()
 
 i18n.init({

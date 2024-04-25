@@ -34,9 +34,6 @@ const AppLayout = ({volume}) => {
     //State for the theme
     const {theme, changeThemeHandler} = useTheme();
 
-    // useDarkModeCursor(theme);
-    // useLightModeCursor(theme);
-
     return (
         <div className={theme}>
 

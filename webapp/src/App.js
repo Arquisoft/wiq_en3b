@@ -40,7 +40,14 @@ function App() {
               <Route path="/register" element={<Register />}></Route>
               <Route path="/logout" element={<Logout />} />
 
-              <Route path="game" element={<ProtectedRoute><Game /></ProtectedRoute>}></Route>
+              <Route
+                  path="game"
+                  element={
+                    <ProtectedRoute>
+                      <Game />
+                    </ProtectedRoute>
+                  }>
+              </Route>
               <Route path="profile/:username?" element={<Profile />}></Route>
               <Route path="leaderboard" element={<Leaderboard />}></Route>
               <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} />}></Route>

@@ -52,7 +52,7 @@ function App() {
               <Route path="leaderboard" element={<Leaderboard />}></Route>
               <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} />}></Route>
             </Route>
-            <Route path="*" element={<PageNotFound />}></Route>
+            {/*<Route path="*" element={<PageNotFound />}></Route>*/}
           </Routes>
         </AuthProvider>
       </SettingsProvider>

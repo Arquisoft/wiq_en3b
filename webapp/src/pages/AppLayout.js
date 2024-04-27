@@ -12,23 +12,23 @@ import './cursor.css'
 
 
 const AppLayout = ({volume}) => {
-    const darkOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: darkAnimationData,
-        rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice'
-        }
-    };
-
-    const lightOptions = {
-        loop: true,
-        autoplay: true,
-        animationData: lightAnimationData,
-        rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice'
-        }
-    };
+    // const darkOptions = {
+    //     loop: true,
+    //     autoplay: true,
+    //     animationData: darkAnimationData,
+    //     rendererSettings: {
+    //         preserveAspectRatio: 'xMidYMid slice'
+    //     }
+    // };
+    //
+    // const lightOptions = {
+    //     loop: true,
+    //     autoplay: true,
+    //     animationData: lightAnimationData,
+    //     rendererSettings: {
+    //         preserveAspectRatio: 'xMidYMid slice'
+    //     }
+    // };
     //State for opening and closing the navigation
     const [nav, toggleNav] = useToggle(false);
     //State for the theme

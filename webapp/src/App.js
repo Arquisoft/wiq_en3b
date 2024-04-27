@@ -9,7 +9,7 @@ import Settings from './pages/Settings/Settings'
 import Login from './pages/Login/Login'
 import Logout from './pages/Logout/Logout'
 import Register from './pages/Register/Register'
-// import PageNotFound from './pages/PageNotFound/PageNotFound';
+import PageNotFound from './pages/PageNotFound/PageNotFound';
 
 import { ProtectedRoute } from './components/ProtectedRoute'
 
@@ -51,8 +51,8 @@ function App() {
               <Route path="profile/:username?" element={<Profile />}></Route>
               <Route path="leaderboard" element={<Leaderboard />}></Route>
               <Route path="settings" element={<Settings volume={volume} handleVolumeChange={handleVolumeChange} />}></Route>
+                <Route path="*" element={<PageNotFound />}></Route>
             </Route>
-            {/*<Route path="*" element={<PageNotFound />}></Route>*/}
           </Routes>
         </AuthProvider>
       </SettingsProvider>

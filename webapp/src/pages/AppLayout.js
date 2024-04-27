@@ -15,21 +15,21 @@ const AppLayout = ({ volume }) => {
     const { theme, changeThemeHandler } = useTheme()
 
     const darkOptions = {
-        loop: true,
-        autoplay: true,
+        // loop: true,
+        // autoplay: true,
         animationData: darkAnimationData,
-        rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice'
-        }
+        // rendererSettings: {
+        //     preserveAspectRatio: 'xMidYMid slice'
+        // }
     };
 
     const lightOptions = {
-        loop: true,
-        autoplay: true,
+        // loop: true,
+        // autoplay: true,
         animationData: lightAnimationData,
-        rendererSettings: {
-            preserveAspectRatio: 'xMidYMid slice'
-        }
+        // rendererSettings: {
+        //     preserveAspectRatio: 'xMidYMid slice'
+        // }
     };
 
     return (

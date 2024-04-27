@@ -46,6 +46,7 @@ const AppLayout = ({ volume }) => {
 
             <main>
                 <Outlet/>
+                <div>
                 {theme === "dark" && (
                     <Lottie
                         options={darkOptions}
@@ -62,6 +63,7 @@ const AppLayout = ({ volume }) => {
                         style={{ position: 'absolute', bottom: 12, right: 40 }}
                     />
                 )}
+                </div>
             </main>
         </div>
     )

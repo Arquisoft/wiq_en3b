@@ -38,16 +38,16 @@ const AppLayout = ({ volume }) => {
                 {theme === "dark" && (
                     <Lottie
                         options={darkOptions}
-                        height={180}
-                        width={280}
+                        height={90}
+                        width={140}
                         style={{position: 'absolute', bottom: 20, right: 80}}
                     />
                 )}
                 {theme === "light" && (
                     <Lottie
                         options={lightOptions}
-                        height={200}
-                        width={400}
+                        height={100}
+                        width={200}
                         style={{position: 'absolute', bottom: 12, right: 40}}
                     />
                 )}

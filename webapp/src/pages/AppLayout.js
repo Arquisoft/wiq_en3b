@@ -3,6 +3,7 @@ import Header from '../components/Header/Header'
 import Nav from '../components/Nav/Nav'
 import { useTheme } from '../hooks/useTheme'
 import { useToggle } from '../hooks/useToggle'
+import './cursor.css'
 
 const AppLayout = ({ volume }) => {
     //State for opening and closing the navigation

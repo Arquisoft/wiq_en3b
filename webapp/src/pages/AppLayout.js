@@ -34,15 +34,6 @@ const AppLayout = ({ volume }) => {
 
     return (
         <div className={theme}>
-
-            <Header
-                onToggleNav={toggleNav}
-                onChangeTheme={changeThemeHandler}
-                theme={theme}
-                volume={volume}
-            />
-
-            <Nav openNav={nav} onToggleNav={toggleNav}/>
             <div>
                 {theme === "dark" && (
                     <Lottie
@@ -60,6 +51,16 @@ const AppLayout = ({ volume }) => {
                         style={{position: 'absolute', bottom: 12, right: 40}}
                     />
                 )}
+
+            <Header
+                onToggleNav={toggleNav}
+                onChangeTheme={changeThemeHandler}
+                theme={theme}
+                volume={volume}
+            />
+
+            <Nav openNav={nav} onToggleNav={toggleNav}/>
+
             </div>
 
             <main>

@@ -15,21 +15,21 @@ const AppLayout = ({ volume }) => {
     const { theme, changeThemeHandler } = useTheme()
 
     const darkOptions = {
-        // loop: true,
-        // autoplay: true,
+        loop: true,
+        autoplay: true,
         animationData: darkAnimationData,
-        // rendererSettings: {
-        //     preserveAspectRatio: 'xMidYMid slice'
-        // }
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
     };
 
     const lightOptions = {
-        // loop: true,
-        // autoplay: true,
+        loop: true,
+        autoplay: true,
         animationData: lightAnimationData,
-        // rendererSettings: {
-        //     preserveAspectRatio: 'xMidYMid slice'
-        // }
+        rendererSettings: {
+            preserveAspectRatio: 'xMidYMid slice'
+        }
     };
 
     return (
@@ -38,16 +38,16 @@ const AppLayout = ({ volume }) => {
                 {theme === "dark" && (
                     <Lottie
                         options={darkOptions}
-                        height={180}
-                        width={280}
+                        height={100}
+                        width={100}
                         style={{position: 'absolute', bottom: 20, right: 80}}
                     />
                 )}
                 {theme === "light" && (
                     <Lottie
                         options={lightOptions}
-                        height={200}
-                        width={400}
+                        height={100}
+                        width={100}
                         style={{position: 'absolute', bottom: 12, right: 40}}
                     />
                 )}

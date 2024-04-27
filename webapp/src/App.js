@@ -9,7 +9,7 @@ import Settings from './pages/Settings/Settings'
 import Login from './pages/Login/Login'
 import Logout from './pages/Logout/Logout'
 import Register from './pages/Register/Register'
-import PageNotFound from './pages/PageNotFound/PageNotFound';
+// import PageNotFound from './pages/PageNotFound/PageNotFound';
 
 import { ProtectedRoute } from './components/ProtectedRoute'
 

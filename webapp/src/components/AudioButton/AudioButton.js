@@ -59,7 +59,9 @@ const AudioButton = () => {
                 if (event.key === 'Enter' || event.key === ' ') {
                     toggleAudio();
                 }
-            }}>
+            }}
+            role="button"
+            aria-label={playing ? 'Mute audio' : 'Play audio'}>
             {playing ? <SoundIcon data-testid="sound-icon" /> : <MuteIcon data-testid="mute-icon" />}
         </div>
         <div className={`volume-slider-container ${showVolumeSlider ? 'show' : ''}`}>

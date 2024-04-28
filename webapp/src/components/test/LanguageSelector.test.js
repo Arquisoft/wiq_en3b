@@ -35,12 +35,7 @@ const languages = [
 ];
 
 test('renders LanguageSelector component with language options', () => {
-    const { getByText } = render(<LanguageSelector languages={languages} />);
-
-
     expect(screen.queryByTestId('selectedLanguage')).toBeTruthy();
-
-
     languages.forEach(language => {
         let lang = `flag${language.code}`;
         expect(screen.queryByTestId(lang)).toBeTruthy();

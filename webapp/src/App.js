@@ -8,6 +8,7 @@ import AppLayout from './pages/AppLayout'
 import Login from './pages/Login/Login'
 import Logout from './pages/Logout/Logout'
 import Register from './pages/Register/Register'
+import PageNotFound from "./pages/PageNotFound/PageNotFound";
 
 import { ProtectedRoute } from './components/ProtectedRoute'
 
@@ -40,12 +41,14 @@ function App() {
             ></Route>
             <Route path="profile/:username?" element={<Profile />} />
             <Route path="leaderboard" element={<Leaderboard />}></Route>
+            <Route
+              path="*"
+              element={<PageNotFound />}
+            />
           </Route>
         </Routes>
       </AuthProvider>
     </SettingsProvider>
   )
-
 }
-
 export default App

@@ -122,5 +122,9 @@
     },
     "logout": {
         "title": "Déconnexion"
+    },
+    "error_page": {
+        "title": "Oups...",
+        "description": "Il semble que vous avez atteint une page perdue dans le cyberespace"
     }
 }

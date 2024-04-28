@@ -1,0 +1,7 @@
+.dark {
+    cursor: url("Light_Cursor.png"), auto;
+}
+
+.light {
+    cursor: url("Dark_Cursor.png"), auto;
+}

@@ -117,3 +117,9 @@ main {
   background-color: var(--dark-gray);
   color: #747ae7;
 }
+
+.app-layout-container > div:first-child {
+  position: absolute; 
+  bottom: 20px; 
+  right: 20px;
+}

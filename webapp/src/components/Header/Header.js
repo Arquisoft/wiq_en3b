@@ -40,8 +40,9 @@ const Header = props => {
       <Link className='homeButton' to="/">
         <img src="KaW.png" alt="Logo of Know and Win APP" />
       </Link>
-      <LanguageSelector languages={languages} />
+      
       <div className="options">
+        <LanguageSelector languages={languages} />
         <div className="theme" onClick={props.onChangeTheme} tabIndex={0}
           onKeyDown={(event) => {
             if (event.key === 'Enter' || event.key === ' ') {

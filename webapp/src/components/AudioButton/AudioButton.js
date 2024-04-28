@@ -3,12 +3,13 @@ import { ReactComponent as SoundIcon } from "../../assets/sound.svg";
 import { ReactComponent as MuteIcon } from "../../assets/mute.svg";
 import "./AudioButton.css";
 import "../Header/Header.css";
-import song from "../../assets/music.mp3";
 import Slider from "../../components/Slider/ContinuousSlider"; 
+
+const audio = new Audio('/assets/music.mp3');
 
 const AudioButton = () => {
     const [playing, setPlaying] = useState(false);
-    const [audio] = useState(new Audio(song));
+    
     const [volume, setVolume] = useState(30);
     const [showVolumeSlider, setShowVolumeSlider] = useState(false); 
     const [hideTimeout, setHideTimeout] = useState(null);
@@ -16,7 +17,8 @@ const AudioButton = () => {
     useEffect(() => {
         audio.loop = true;
         audio.volume = volume / 100;
-    }, [volume, audio]);
+
+    }, [volume]);
 
     const play = () => {
         audio.play();
@@ -46,8 +48,8 @@ const AudioButton = () => {
         }, 500));
     };
 
-    const handleVolumeChange = (event, newValue) => {
-        setVolume(newValue);
+    const handleVolumeChange = (event) => {
+        setVolume(event.target.value);
     };
 
     return (

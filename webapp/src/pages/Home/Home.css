@@ -74,11 +74,6 @@
     color: #61dafb;
 }
 
-
-
-
-
-
 .swipe {
     position: relative;
     background-color: #F1F7F7;
@@ -122,8 +117,6 @@
     left: calc(100% - 55px);
 }
 
-/* Anula la regla del agente de usuario para los elementos con la clase .btn */
 .btn:-webkit-any-link {
     text-decoration: none !important;
-    /* Utiliza !important para priorizar este estilo */
 }

@@ -5,6 +5,7 @@ import Header from '../Header/Header';
 import { AuthProvider } from '../../context/AuthContext';
 import { SettingsProvider } from '../../context/SettingsContext';
 import '@testing-library/jest-dom';
+import i18n from 'i18next'
 
 jest.mock('react', () => {
     const ActualReact = jest.requireActual('react');
@@ -13,6 +14,18 @@ jest.mock('react', () => {
         useEffect: jest.fn(),
     };
 });
+
+i18n.init({
+    lng: 'en',
+    fallbackLng: 'en',
+    resources: {
+      en: {
+        translation: {
+          
+        },
+      },
+    },
+  })
 
 describe('Header component', () => {
     it('renders without crashing', () => {

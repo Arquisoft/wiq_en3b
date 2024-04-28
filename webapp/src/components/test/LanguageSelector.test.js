@@ -1,6 +1,21 @@
 import React from 'react';
 import { render } from '@testing-library/react';
+import {screen} from '@testing-library/dom'
 import LanguageSelector from '../../components/LanguageSelector/LanguageSelector';
+import i18n from 'i18next'
+
+i18n.init({
+    lng: 'en',
+    fallbackLng: 'en',
+    resources: {
+      en: {
+        translation: {
+            'languageSelector.language': 'English',
+        },
+      },
+    },
+  })
+
 const languages = [
     {
         code: 'en',
@@ -20,15 +35,10 @@ const languages = [
 ];
 
 test('renders LanguageSelector component with language options', () => {
-    const { getByText } = render(<LanguageSelector languages={languages} />);
-
-
-    const languageSelector = getByText(/English/i);
-    expect(languageSelector).toBeTruthy();
-
-
+    render(<LanguageSelector languages={languages} />);
+    expect(screen.queryByTestId('selectedLanguage')).toBeTruthy();
     languages.forEach(language => {
-        const option = getByText(language.name);
-        expect(option).toBeTruthy();
+        let lang = `flag${language.code}`;
+        expect(screen.queryByTestId(lang)).toBeTruthy();
     });
 });

@@ -9,7 +9,12 @@ const ContinuousSlider = ({ volume, handleVolumeChange }) => {
 
     return (
         <Box sx={{ width: 300 }}>
-            <Stack spacing={2} direction="row" sx={{ mb: 1 }} alignItems="center">
+            <Stack spacing={2} direction="row" sx={{ mb: 1, 
+                        '& .MuiSlider-thumb': {
+                            bgcolor: '#717bee',
+                        },'& .MuiSlider-track': {
+                            bgcolor: '#717bee',
+                        }}} alignItems="center">
                 <VolumeDown />
                 <Slider aria-label="Volume" value={volume} onChange={handleVolumeChange} />
                 <VolumeUp />

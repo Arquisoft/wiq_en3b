@@ -50,6 +50,18 @@ main {
   background-color: var(--dark-gray);
 }
 
+.dark .selected-language{
+  background-color: var(--dark-gray);
+}
+
+.dark .language-options {
+  background-color: var(--dark-gray);
+}
+
+.dark .volume-slider-container {
+  background-color: var(--dark-gray);
+}
+
 .dark .nav-link {
   color: #fff;
 }

@@ -1,7 +1,58 @@
+@keyframes expand {
+    0% {
+        transform: translateX(-80%) scaleX(0) scaleY(0);
+        opacity: 0;
+    }
+    100% {
+        transform: translateX(-80%) scaleX(1) scaleY(1);
+        opacity: 1;
+    }
+}
+
+@keyframes collapse {
+    0% {
+        transform: translateX(-80%) scaleX(1) scaleY(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(-80%) scaleX(0) scaleY(0);
+        opacity: 0;
+    }
+}
+
 .pause-btn {
     background-image: url("../../assets/sound.svg");
 }
 
 .play-btn {
     background-image: url("../../assets/mute.svg")
+}
+
+.audio-container {
+    position: relative;
+}
+
+.volume-slider-container {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-80%) scaleX(0) scaleY(0);
+    transform-origin: 80% top;
+    width: auto;
+    max-width: calc(100vw - 20px); 
+    min-width: 100px;
+    background: #fff;
+    border: 1px solid #ccc;
+    padding: 10px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+    opacity: 0;
+    animation: collapse 0.5s forwards;
+    border-radius: 1em;
+    align-items: center;
+}
+
+.audio-container:hover .volume-slider-container,
+.volume-slider-container:hover {
+    animation: expand 0.5s forwards;
 }

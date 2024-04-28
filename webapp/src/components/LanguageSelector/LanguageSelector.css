@@ -1,17 +1,22 @@
-.language-selector select {
-    padding: 8px;
-    font-size: 16px;
-    border-radius: 5px;
-    border: 1px solid #ccc;
-    background-color: #fff;
-    outline: none;
-    cursor: pointer;
+@keyframes openAnimation {
+    0% { max-height: 0; }
+    100% { max-height: 100vh; }
 }
 
-.language-selector select:hover {
-    border-color: #999;
+@keyframes closeAnimation {
+    0% { max-height: 100vh; }
+    100% { max-height: 0; }
 }
 
-.language-selector select:focus {
-    border-color: #555;
+.language-options {
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+}
+
+.language-options.open {
+    animation: openAnimation 0.3s forwards;
+}
+
+.language-options.close {
+    animation: closeAnimation 0.3s forwards;
 }

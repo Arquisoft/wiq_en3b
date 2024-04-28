@@ -167,7 +167,7 @@ Motivation::
 
 Quality and/or Performance Features::
 
-    As mentioned earlier, the primary advantage of this architecture lies in the interchangeability of its components. While there are still details to be refined, this represents an initial version with promising potential.
+    As mentioned earlier, the primary advantage of this architecture lies in the interchangeability of its components.
 
 Mapping of Building Blocks to Infrastructure::
 

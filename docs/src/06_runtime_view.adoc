@@ -50,27 +50,36 @@ an error message showing "Invalid credentials" will appear to the user, and if t
 correct, a valid JSON response is created together with the creation of a session token that
 allows the user to stay authenticated for a period of time. Finally the user will be able to access the application.
 
-This case scenario is also represented on the following diagram:
+This case scenario is also represented on the following diagram (splitted in two for better readability):
 
 [mermaid]
 ....
 sequenceDiagram
     actor User as User
-    
     User->>WebApp: Enters details (username, password)
     WebApp->>Gateway: Sends user details
+    
+    alt Credentials are incorrect
+        Gateway-->>WebApp: Sends error message "Invalid credentials"
+        WebApp-->>User: Displays error message "Invalid  credentials"
+    else Credentials are correct
+        Gateway-->>WebApp: Sends success response.
+        WebApp-->>User: Displays the HomePage.
+    end
+....
+
+[mermaid]
+....
+sequenceDiagram
     Gateway->>User Service: Sends user details
     User Service->>UserDatabase: Asks for encrypted password by username
     UserDatabase-->>User Service: Responds with the encrypted password of the user
     User Service-->User Service: Tests if passwords are equal after encryption
+    
     alt Credentials are incorrect
         User Service-->>Gateway: Sends error message "Invalid credentials"
-        Gateway-->>WebApp: Sends error message "Invalid credentials"
-        WebApp-->>User: Displays error message "Invalid  credentials"
     else Credentials are correct
         User Service-->>Gateway: Creates JWT token and sends success response.
-        Gateway-->>WebApp: Sends success response.
-        WebApp-->>User: Displays the HomePage.
     end
 ....
 
@@ -207,10 +216,23 @@ This case scenario is also represented on the following diagram:
     FE->>BE: Indicates correctness of the answer
     BE->>HS: Save the user history
     HS->>DB: Updates the user history
+....
+
+If the user, answers the final question:
+
+[mermaid]
+....
+sequenceDiagram
+    actor U as User
+    participant FE as WebApp 
+    participant BE as Gateway 
+    participant HS as User Service
+    participant DB as UserDatabase 
 
     U->>FE: Answers final Question
     FE-->FE: Determines if the answer is correct
-    FE->>BE: Indicates correctness of the answer and end of game.
+    FE->>BE: Indicates correctness of the answer.
+    FE->>BE: Indicates End of game.
     BE->>HS: Save the user history with other endgame statistics.
     HS->>DB: Updates the user history
 ....

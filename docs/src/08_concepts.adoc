@@ -250,7 +250,8 @@ erDiagram
         String question
         Object[] answers
         int correctAnswerId
-        String image_opt
+        String image
+        String type
     }
     
     QUESTION_TEMPLATE{
@@ -261,6 +262,7 @@ erDiagram
         String name
         String query
         String[] entities
+        String typeName
     }
 ....
 
@@ -268,7 +270,7 @@ erDiagram
 | Document | Description 
 | QUESTION_TEMPLATE
 | Holds the template needed to query the WikiData API for the Question generation. It
-has a reation with *ONE QUESTION_TYPE* document 
+has a relation with *ONE QUESTION_TYPE* document.
 | QUESTION_TYPE
 | Represents a category for a question (e.g. Capitals) together with its SPARQL query.
 Also, several entities are provided so prior to send SPARQL query into Wikidata Service, it
@@ -361,11 +363,42 @@ and hold the necessary information without having to reenter the users' credenti
 In this way, the user will have to keep on its browser this token to maintain
 alive the session.
 
-=== Operation concepts - TBD
+=== Operation concepts
 
-==== Monitoring with Graphana & Promotheus
-Explained in labs after 2nd delivery
+==== Monitoring with Grafana & Promotheus
+
+To provide with quality to the Application, a monitorance system has been applied using
+Grafana and Prometheus,to always keep track of how the application is performing. The 
+work is simple, it has been added Prometheus to "scrap" information from the Gateway Service
+like all the petitions it is asked to it.
+
+This information is available at kawgame.xyz:8000/metrics and the Prometheus application,
+that manages it, at kawgame.xyz:9091. Although, this is retrival is good, for the "humans"
+is not so comfortable to the "eye". For that, Grafana has been set up.
+
+This application help us to see in a graphical way all the load that our Application is
+having and how it responds to it. As this is "developers" information, a login has been set
+up to prevent other people from knowing this information.
+
+In that way, we would have the following:
+
+[mermaid]
+....
+sequenceDiagram
+    Gateway->>Prometheus: GET /...
+    Gateway->>Prometheus: POST /...
+    Gateway->>Prometheus: ... 
+    Prometheus->>+Grafana: Send information
+    actor u as Devs
+    Grafana-->>-u: Display graphs
+....
 
 ==== Persisting the Persistance 
-Explained in labs after 2nd delivery (about mantaining data of volumes and not lost them after new containers
-are deployed)
+
+As requested by our shareholders, the application needed to keep all data from previous
+deployments. For that, the team has decided to have a simple yet powerful solution with
+the usage of Volumes of Docker. 
+
+With this approach, each container from the Infrastructure shown before has its own data
+stored in those Volumes and it is also independent from it, so any new release will use
+the previous data and "persist the persistance".

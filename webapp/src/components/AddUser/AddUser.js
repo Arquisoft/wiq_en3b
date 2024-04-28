@@ -108,13 +108,13 @@ const AddUser = () => {
         />
         <p className="form-error">{formErrors.username}</p>
 
-        <PasswordField placeholder={t("register.password_placeholder")} password={password} setPassword={setPassword} />
+        <PasswordField id="password" name="password" placeholder={t("register.password_placeholder")} password={password} setPassword={setPassword} />
 
         <PasswordStrengthBar password={password} shortScoreWord={t("register.strength.very_week")} scoreWords={strengthWords} minLength={8} />
 
         <p className="form-error">{formErrors.password}</p>
 
-        <PasswordField placeholder={t("register.password_confirm_placeholder")} password={repeatPassword} setPassword={setRepeatPassword} />
+        <PasswordField id="repeatPassword" name="repeatPassword" placeholder={t("register.password_confirm_placeholder")} password={repeatPassword} setPassword={setRepeatPassword} />
 
         <p className="form-error">{formErrors.repeatPassword}</p>
 

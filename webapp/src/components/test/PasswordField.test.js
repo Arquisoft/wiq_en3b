@@ -26,7 +26,7 @@ const renderPasswordField = _ =>
     render(
         <MemoryRouter>
             <I18nextProvider i18n={i18n}>
-                <PasswordField placeholder={"placeholder"} password="12345678" setPassword={() => { }} />
+                <PasswordField id="password" name="password" placeholder={"placeholder"} password="12345678" setPassword={() => { }} />
             </I18nextProvider>
         </MemoryRouter>
     )

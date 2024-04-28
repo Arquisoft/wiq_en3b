@@ -39,15 +39,29 @@
     padding: 60px;
     font-size: 20px;
   }
+
+
 }
+
+@media (min-width: 400px) {
+  .quiz-image img {
+    width: 250px;
+  }
+}
+
+@media (max-width: 400px) {
+  .quiz-image img {
+    width: 195px;
+  }
+}
+
+
 
 .question-text {
   margin-bottom: 20px;
 }
 
 .quiz-image img {
-  width: auto;
-  max-width: 190px;
   border-radius: 10px;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }

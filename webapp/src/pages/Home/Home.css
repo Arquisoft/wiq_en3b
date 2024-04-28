@@ -38,6 +38,7 @@
     from {
         transform: rotate(0deg);
     }
+
     to {
         transform: rotate(360deg);
     }
@@ -71,4 +72,51 @@
 
 .username {
     color: #61dafb;
+}
+
+.swipe {
+    position: relative;
+    background-color: #F1F7F7;
+    width: 200px;
+    height: 60px;
+    color: black;
+    border-radius: 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-decoration: none;
+    letter-spacing: 2px;
+    border-top: 0.5px solid rgba(0, 0, 0, 0.35);
+    border-left: 0.5px solid rgba(0, 0, 0, 0.35);
+    padding-left: 40px;
+    cursor: pointer;
+    transition: 0.35s ease;
+}
+
+.swipe:hover {
+    padding-left: 0;
+    padding-right: 40px;
+    color: #324B4C;
+}
+
+.container {
+    position: absolute;
+    left: 5px;
+    width: 50px;
+    height: 50px;
+    background: #717bee;
+    border-radius: 50%;
+    transition: 0.35s ease;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #f1f4f7;
+}
+
+.swipe:hover .container {
+    left: calc(100% - 55px);
+}
+
+.btn:-webkit-any-link {
+    text-decoration: none !important;
 }

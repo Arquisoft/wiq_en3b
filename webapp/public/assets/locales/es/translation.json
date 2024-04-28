@@ -64,7 +64,8 @@
                     "geography": "Geografía",
                     "history": "Historia",
                     "science": "Ciencia",
-                    "sports": "Deportes"
+                    "sports": "Deportes",
+                    "art": "Arte"
                 },
                 "description": "Este es el modo Personalizado. Toma el control de tu experiencia de quiz. Establece el número de preguntas, el tiempo por pregunta y selecciona tus tipos de preguntas preferidos. Adapta el desafío a tu gusto y sumérgete en una aventura de trivia personalizada."
             }

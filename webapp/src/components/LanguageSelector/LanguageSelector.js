@@ -1,11 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import './LanguageSelector.css';
 import i18next from 'i18next';
+import { useTranslation } from 'react-i18next';
 
 const LanguageSelector = ({ languages }) => {
     const [showOptions, setShowOptions] = useState(false);
+    
     const [selectedLanguage, setSelectedLanguage] = useState(languages.find(lang => lang.code === i18next.language));
     const languageSelectorRef = useRef(null);
+
+    const {t} = useTranslation();
 
     const handleLanguageChange = (language) => {
         i18next.changeLanguage(language.code);
@@ -38,10 +42,10 @@ const LanguageSelector = ({ languages }) => {
             >
                 <img className="flag"
                     src={`https://flagsapi.com/${selectedLanguage.country_code}/shiny/16.png`}
-                    alt={selectedLanguage.name}
+                    alt={"Country_Code:" + selectedLanguage.country_code}
                     style={{ marginRight: '8px' }}
                 />
-                {selectedLanguage.name}
+                {t("settings." + selectedLanguage.country_code)}
             </div>
             <div className={`language-options ${showOptions ? 'open' : 'close'}`}>
                 {languages.map((language, index) => (
@@ -61,10 +65,10 @@ const LanguageSelector = ({ languages }) => {
                             className="flag"
                             data-testid={`flag${language.code}`}
                             src={`https://flagsapi.com/${language.country_code}/shiny/16.png`}
-                            alt={language.name}
+                            alt={"Country_Code:" + language.country_code}
                             style={{ marginRight: '8px' }}
                         />
-                        {language.name}
+                        {t("settings." + language.country_code)}
                     </div>
                 ))}
             </div>

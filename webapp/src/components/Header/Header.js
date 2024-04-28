@@ -7,27 +7,28 @@ import AudioButton from "../AudioButton/AudioButton";
 import Slider from "../../components/Slider/ContinuousSlider";
 import "./Header.css";
 import LanguageSelector from '../../components/LanguageSelector/LanguageSelector';
+// import { useTranslation } from 'react-i18next';
 
 const Header = props => {
+
+  // const {t} = useTranslation();
+
+
   const languages = [
     {
       code: 'en',
-      name: 'English',
       country_code: 'GB'
     },
     {
       code: 'es',
-      name: 'Español',
       country_code: 'ES'
     },
     {
       code: 'fr',
-      name: 'Français',
       country_code: 'FR'
     },
     {
       code: 'uk',
-      name: 'Ukranian',
       country_code: 'UA'
     }
   ];

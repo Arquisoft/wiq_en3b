@@ -2,7 +2,11 @@
     "settings": {
         "title": "Settings",
         "choose_lang": "Choose language: ",
-        "choose_seconds": "Choose question duration: "
+        "choose_seconds": "Choose question duration: ",
+        "GB": "English",
+        "ES": "Spanish",
+        "UA": "Ukranian",
+        "FR": "French"
     },
     "leaderboard": {
         "title": "Leaderboard",
@@ -14,7 +18,8 @@
             "games_played": "Games Played",
             "total_time": "Total Time Played",
             "ranking": "Ranking"
-        }
+        },
+        "showMore": "Show More"
     },
     "profile": {
         "nav_title": "Profile",

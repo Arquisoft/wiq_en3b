@@ -136,7 +136,7 @@ const Leaderboard = () => {
       </div>
       {!disableButton && <div style={{ display: 'flex', justifyContent: 'center', marginTop: '1rem' }}>
         <Button onClick={() => setNUsers(nUsers + 10)} className="showmore-button">
-          Show more
+          {t("leaderboard.showMore")}
         </Button>
       </div>}
     </div >

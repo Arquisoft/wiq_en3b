@@ -2,7 +2,11 @@
     "settings": {
         "title": "Configuración",
         "choose_lang": "Elija el idioma: ",
-        "choose_seconds": "Elija la duración de las preguntas: "
+        "choose_seconds": "Elija la duración de las preguntas: ",
+        "GB": "Inglés",
+        "ES": "Español",
+        "UA": "Ucraniano",
+        "FR": "Francés"
     },
     "leaderboard": {
         "title": "Tabla de clasificación",
@@ -14,7 +18,8 @@
             "games_played": "Partidas jugadas",
             "total_time": "Tiempo jugado",
             "ranking": "Posición"
-        }
+        },
+        "showMore": "Mostrar más"
     },
     "profile": {
         "nav_title": "Perfil",

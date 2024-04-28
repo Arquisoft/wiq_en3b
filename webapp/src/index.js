@@ -18,7 +18,9 @@ i18n
 
     supportedLngs: ['en', 'es', 'fr', 'uk'],// array of supported languages
 
-    fallbackLng: "es",// if the user selects a language that is not defined in the resources, the fallbackLng will be used
+    fallbackLng: "en",// if the user selects a language that is not defined in the resources, the fallbackLng will be used
+
+    initImmediate: false,
 
     detection: {
       order: ['cookie', 'htmlTag', 'localStorage', 'path', 'subdomain'],

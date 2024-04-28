@@ -34,13 +34,12 @@ const AppLayout = ({ volume }) => {
 
     return (
         <div className={theme}>
-            <div>
+            <div className='app-layout-container'>
                 {theme === "dark" && (
                     <Lottie
                         options={darkOptions}
                         height={90}
                         width={140}
-                        style={{position: 'absolute', bottom: 20, right: 80}}
                     />
                 )}
                 {theme === "light" && (
@@ -48,7 +47,6 @@ const AppLayout = ({ volume }) => {
                         options={lightOptions}
                         height={100}
                         width={200}
-                        style={{position: 'absolute', bottom: 12, right: 40}}
                     />
                 )}
 

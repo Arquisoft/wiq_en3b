@@ -122,5 +122,9 @@
     },
     "logout": {
         "title": "Cerrar sesión"
+    },
+    "error_page": {
+        "title": "¡Ups...!",
+        "description": "Parece que has llegado a una página perdida en el ciberespacio"
     }
 }

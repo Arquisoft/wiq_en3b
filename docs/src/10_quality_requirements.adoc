@@ -121,7 +121,7 @@ Additionally, the application's color contrast should be enough for people with 
 | Medium
 
 | Availability
-| Users should be able to access the application at any time, with an availability of about 99.9%.
+| Users should be able to access the application at any time, with an availability of about 95%.
 | Medium
 
 |===

@@ -5,11 +5,9 @@ import VisibilityRoundedIcon from '@mui/icons-material/VisibilityRounded';
 
 import './PasswordField.css'
 
-import { useTranslation } from "react-i18next";
-const PasswordField = ({ password, setPassword }) => {
+const PasswordField = ({ placeholder, password, setPassword }) => {
 
     const [showPassword, setShowPassword] = useState(false);
-    const { t } = useTranslation();
 
     return (
         <div className="input-box">
@@ -17,7 +15,7 @@ const PasswordField = ({ password, setPassword }) => {
                 type={showPassword ? "text" : "password"}
                 name="password"
                 id="password"
-                placeholder={t("register.password_placeholder")}
+                placeholder={placeholder}
                 onChange={e => setPassword(e.target.value)}
                 value={password}
             />

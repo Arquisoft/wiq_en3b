@@ -2,7 +2,6 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;
 }
 
 .content {
@@ -12,6 +11,8 @@
 
 .animation {
     margin-top: 60px;
+    max-width: 600px;
+    margin-inline: auto;
 }
 
 h1 {

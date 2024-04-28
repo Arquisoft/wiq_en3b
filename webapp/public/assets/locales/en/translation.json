@@ -122,5 +122,9 @@
     },
     "logout": {
         "title": "Log Out"
+    },
+    "error_page": {
+        "title": "Oops...",
+        "description": "It seems you've reached a page that's lost in cyberspace"
     }
 }

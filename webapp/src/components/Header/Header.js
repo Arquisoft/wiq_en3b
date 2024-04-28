@@ -9,7 +9,7 @@ const Header = props => {
   return (
     <header className="header">
       <Link to="/">
-        <img src="KaW.png" alt="Logo of Know and Win APP" />
+        <img src="/KaW.png" alt="Logo of Know and Win APP" />
       </Link>
 
       <div className="options">

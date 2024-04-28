@@ -9,7 +9,7 @@
   text-align: center;
 }
 
-.register > form input {
+.register>form input {
   border-radius: 8px;
   border: 2px solid lightgrey;
   outline: none;

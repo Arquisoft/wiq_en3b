@@ -63,4 +63,6 @@ See https://docs.arc42.org/section-12/[Glossary] in the arc42 documentation.
 
 |CSS Frameworks
 |Pre-designed styles and components for building responsive and visually appealing user interfaces.
+|Gatling
+|A load testing tool used to simulate a great amount of users accessing and using our system.
 |===

@@ -129,7 +129,6 @@ jobs:
           workdir: questionservice
           buildargs: TRANSLATION_API_KEY
       
-
   docker-push-gatewayservice:
     name: Push gateway service Docker Image to GitHub Packages
     runs-on: ubuntu-latest
@@ -161,48 +160,11 @@ jobs:
           workdir: gatewayservice
           buildargs: GATEWAY_URI,WEBAPP_URI
   
-  docker-push-prometheus:
-    name: Push prometheus service Docker Image to Github Packages
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    needs: [e2e-tests]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@v5
-        with:
-          name: arquisoft/wiq_en3b/prometheus
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ghcr.io
-          workdir: gatewayservice/monitoring/prometheus
-  
-  docker-push-grafana:
-    name: Push grafana service Docker Image to Github Packages
-    runs-on: ubuntu-latest
-    permissions:
-      contents: read
-      packages: write
-    needs: [e2e-tests]
-    steps:
-      - uses: actions/checkout@v4
-      - name: Publish to Registry
-        uses: elgohr/Publish-Docker-Github-Action@v5
-        with:
-          name: arquisoft/wiq_en3b/grafana
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-          registry: ghcr.io
-          workdir: gatewayservice/monitoring/grafana
-
-
   deploy:
     name: Deploy over SSH
     runs-on: ubuntu-latest
-    needs: [docker-push-userservice, docker-push-authservice, docker-push-questionservice, docker-push-gatewayservice,docker-push-webapp,docker-push-prometheus,docker-push-grafana]
-    steps:
+    needs: [docker-push-userservice, docker-push-authservice, docker-push-questionservice, docker-push-gatewayservice,docker-push-webapp]
+    steps:      
       - name: Deploy over SSH
         uses: fifsky/ssh-action@master
         with:
@@ -210,6 +172,10 @@ jobs:
           user: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.DEPLOY_KEY }}
           command: |
+            rm -rf wiq_en3b
+            rm -rf gatewayservice
+            git clone https://github.com/Arquisoft/wiq_en3b.git
+            cp -r ./wiq_en3b/gatewayservice/ .
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/docker-compose.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/.env
             docker compose --profile prod down

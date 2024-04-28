@@ -21,11 +21,11 @@ https://172.187.153.13
 
 ## 🛠 Test our API at 🛠
 
-https://172.187.153.13:8000
+https://kawgame.xyz:8000
 
 And if you want to check the documentation for it...
 
-https://172.187.153.13:8000/api-doc
+https://kawgame.xyz:8000/api-doc
 
 ## 🦾 Quick start guide 🦾
 

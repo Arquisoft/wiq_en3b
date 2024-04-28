@@ -51,8 +51,7 @@
                 "title": "Hardcore mode",
                 "description": "In the Hardcore mode there is no room for error. You must answer every question correctly, one after another, to stay in the game. Test your knowledge, nerve, and focus as you strive for perfection. Can you conquer the challenge and emerge as the ultimate quiz master?",
                 "button": "Hardcore"
-
-            }, 
+            },
             "custom": {
                 "button": "Custom",
                 "start_button": "Start",
@@ -111,7 +110,15 @@
         "empty_password_confirm_error": "Password confirmation cannot be empty",
         "passwords_not_match_error": "Passwords do not match",
         "password_length_error": "Password must be at least 8 characters long",
-        "invalid_credentials_error": "Invalid credentials"
+        "invalid_credentials_error": "Invalid credentials",
+        "strength": {
+            "very_week": "Very weak",
+            "week": "Weak",
+            "moderate": "Moderate",
+            "strong": "Strong",
+            "very_strong": "Very strong",
+            "extremely_strong": "Extremely strong"
+        }
     },
     "logout": {
         "title": "Log Out"

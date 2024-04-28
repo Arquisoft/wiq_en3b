@@ -178,6 +178,7 @@ jobs:
             cp -r ./wiq_en3b/gatewayservice/ .
             echo -e "${{ secrets.CERTIFICATE }}" > gatewayservice/certificate/certificate.crt
             echo -e "${{ secrets.CERTIFICATE_KEY }}" > gatewayservice/certificate/certificatekey.key
+            echo -e "\n[security]\nadmin_user=${{ secrets.GRAFANA_USER }}\nadmin_password=${{ secrets.GRAFANA_PASSWORD }}" >> gatewayservice/monitoring/grafana/grafana.ini
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/docker-compose.yml -O docker-compose.yml
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/.env
             docker compose --profile prod down

@@ -8,16 +8,20 @@ import VolumeUp from '@mui/icons-material/VolumeUp';
 const ContinuousSlider = ({ volume, handleVolumeChange }) => {
 
     return (
-        <Box sx={{ width: 300 }}>
-            <Stack spacing={2} direction="row" sx={{ mb: 1, 
-                        '& .MuiSlider-thumb': {
-                            bgcolor: '#717bee',
-                        },'& .MuiSlider-track': {
-                            bgcolor: '#717bee',
-                        }}} alignItems="center">
-                <VolumeDown />
-                <Slider aria-label="Volume" value={volume} onChange={handleVolumeChange} />
+        <Box sx={{ height: 300 }}>
+            <Stack spacing={2} direction="column" sx={{
+                mb: 1,
+                '& .MuiSlider-thumb': {
+                    bgcolor: '#717bee',
+                }, '& .MuiSlider-track': {
+                    bgcolor: '#717bee',
+                }
+            }} alignItems="center">
                 <VolumeUp />
+                <Box sx={{ height: 220 }}>
+                    <Slider aria-label="Volume" value={volume} onChange={handleVolumeChange} orientation="vertical" defaultValue={50} />
+                </Box>
+                <VolumeDown />
             </Stack>
         </Box>
     );

@@ -56,7 +56,7 @@ to avoid the rate limit (1000 requests/hr)
 | Risk | Description | Mitigation
 
 | Reponse times
-| Having to wait for API responses can cause serious Bottlenecks on the WebApp. Users wpuld have to wait long time for each game they want to play.
+| Having to wait for API responses can cause serious Bottlenecks on the WebApp. Users would have to wait a long time for each game they want to play.
 | The usage of asynchronus calls can be very beneficial for this risk to be mitigated.  
 
 | Deadlines

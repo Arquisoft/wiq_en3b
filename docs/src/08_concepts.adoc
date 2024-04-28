@@ -63,7 +63,7 @@ One of the things to increase accesibility is giving our application the
 capability of beign in various languages so people around the world can play
 our game. Obviously, internationalization is more than just changing the 
 language of the Application but due to time constraints we will just offer 
-Spanish, English and French languages ( although, our API can generate questions
+Spanish, English, Ukrainian and French languages ( although, our API can generate questions
 in other languages different from described, to see the whole list, refer to 
 our https://kawgame.xyz:8000/[API documentation] ).
 
@@ -71,7 +71,7 @@ The library used for language translation in our KaW game is called
 https://react.i18next.com/[*react-i18next*]. 
 For simplicity (and due to just only having three languages), all of the translations
 of messages are stored locally in properties files. Eventually, if the Application
-grows and we wanted to  have more than 3 languages the best approach is to
+grows and we wanted to  have more than 4 languages the best approach is to
 store those properties in a server and let the application to request
 those on the fly. Again, for simplicity the option of having all bundle
 together in the Frontend just fits.
@@ -93,7 +93,7 @@ and avoid getting suspended.
 
 Keeping a secure website for our users is one of our main quality
 goals. For that, all the passwords stored in MongoDB are simply
-hashes so attackers cannot decypher easily. The library used
+hashes so attackers cannot decypher them easily. The library used
 in the AuthService and UserService to store or compare passwords
 is called *bcrypt*. This library provides with an easy way
 to hash passwords and keep user's data secured.
@@ -313,7 +313,7 @@ erDiagram
 | Document | Description 
 | USER 
 | Holds all the data relationed to a user registered into our game. It
-has a relation with *ONE USER_HISTORY* and *ONE USER_PROFILe* document
+has a relation with *ONE USER_HISTORY* and *ONE USER_PROFILE* document
 | USER_HISTORY
 | Holds all the records/statistics of a single user through all played games.
 | USER_PROFILE

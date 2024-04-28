@@ -132,7 +132,7 @@ flowchart TD
         end
     end
 
-    User-."Web browser : port 3000".->container1
+    User-."Web browser : port 443".->container1
     api-."REST request : port 8000".->container2
     container1-."send request : port 8000".->container2
 
@@ -171,7 +171,7 @@ Quality and/or Performance Features::
 
 Mapping of Building Blocks to Infrastructure::
 
-    The web app, gateway, and services are all contained within Docker containers, which are hosted on a server. The server is responsible for hosting the Docker containers and communicating with Wikidata to retrieve questions. The gateway is responsible for interfacing with the web app and the services, while the services are responsible for managing the user’s data and generating questions.
+    The Web App, gateway, and services are all contained within Docker containers, which are hosted on a server. The server is responsible for hosting the Docker containers and communicating with Wikidata to retrieve questions. The gateway is responsible for interfacing with the web app and the services, while the services are responsible for managing the user’s data and generating questions.
 
 [cols="2,7"]
 |===

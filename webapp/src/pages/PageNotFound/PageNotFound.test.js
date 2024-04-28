@@ -1,6 +1,6 @@
 import React from 'react';
 import { render, screen } from '@testing-library/react';
-import PageNotFound from './pageNotFound';
+import PageNotFound from './PageNotFound';
 import '@testing-library/jest-dom/extend-expect';
 
 jest.mock('react-lottie');

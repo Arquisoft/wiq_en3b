@@ -28,7 +28,7 @@
     background-image: url("../../assets/mute.svg")
 }
 
-.audio-button-container {
+.audio-container {
     position: relative;
 }
 
@@ -52,7 +52,7 @@
     align-items: center;
 }
 
-.audio-button-container:hover .volume-slider-container,
+.audio-container:hover .volume-slider-container,
 .volume-slider-container:hover {
     animation: expand 0.5s forwards;
 }

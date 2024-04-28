@@ -51,7 +51,7 @@ const AudioButton = () => {
     };
 
     return (
-    <div className="audio-button-container"
+    <div className="audio-container"
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}>
         <div className="sound" onClick={toggleAudio} data-testid="audio-button" tabIndex={0}

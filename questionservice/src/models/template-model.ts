@@ -342,6 +342,129 @@ const generateSampleTest = () => {
       typeName: 'sports',
     },
   });
+
+  addQuestionTemplate({
+    questionTemplate: 'Who is this football player?',
+    question_type: {
+      name: 'Images_FootballPlayers',
+      query: `SELECT DISTINCT ?templateLabel ?answerLabel  WHERE {
+        ?answer wdt:P106 wd:Q937857;
+                wdt:P21 wd:Q6581097;  # Male gender
+                wdt:P27 wd:$$$;       # Nationality
+                wdt:P569 ?birthDate.
+        FILTER (YEAR(?birthDate) > 1980)
+        ?answer wdt:P18 ?template.
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5      
+      `,
+      entities: [
+        'Q21',    // England
+        'Q29',    // Spain
+        'Q142',   // France
+        'Q183',   // Germany
+        'Q38'     // Italy
+      ],
+      typeName: 'sports',
+    },
+  });
+
+  addQuestionTemplate({
+    questionTemplate: 'Who is this football player?',
+    question_type: {
+      name: 'Images_FootballPlayers',
+      query: `SELECT DISTINCT ?templateLabel ?answerLabel  WHERE {
+        ?answer wdt:P106 wd:Q937857;
+                wdt:P21 wd:Q6581072;  # Female gender
+                wdt:P27 wd:$$$;       # Nationality
+                wdt:P569 ?birthDate.
+        FILTER (YEAR(?birthDate) > 1980)
+        ?answer wdt:P18 ?template.
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5          
+      `,
+      entities: [
+        'Q21',    // England
+        'Q29',    // Spain
+        'Q142',   // France
+        'Q183',   // Germany
+        'Q38'     // Italy
+      ],
+      typeName: 'sports',
+    },
+  });
+
+  addQuestionTemplate({
+    questionTemplate: 'What is the size in square kilometers of $$$?',
+    question_type: {
+      name: 'CountriesArea',
+      query: `SELECT DISTINCT ?templateLabel ?answerLabel WHERE {
+        ?template wdt:P31 wd:Q6256;   # Instance of country
+                 wdt:P2046 ?answerLabel.   # Area of the country
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5              
+      `,
+      entities: [],
+      typeName: 'geography',
+    },
+  });
+
+  addQuestionTemplate({
+    questionTemplate: 'Which painting is this?',
+    question_type: {
+      name: 'Images_Paintings',
+      query: `SELECT DISTINCT ?templateLabel ?answerLabel WHERE {
+        ?answer wdt:P31 wd:Q3305213;    # Instance of painting
+                  wdt:P18 ?template;         # Image of the painting
+                  wdt:P135 wd:Q947129.    # Genre: Gothic painting
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5
+      `,
+      entities: [],
+      typeName: 'art',
+    },
+  });
+
+  addQuestionTemplate({
+    questionTemplate: 'Which painting is this?',
+    question_type: {
+      name: 'Images_Paintings',
+      query: `SELECT DISTINCT ?templateLabel ?answerLabel WHERE {
+        ?answer wdt:P31 wd:Q3305213;    # Instance of painting
+                  wdt:P18 ?template;         # Image of the painting
+                  wdt:P170 wd:Q104884.    
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
+      }
+      ORDER BY UUID()
+      LIMIT 5
+      `,
+      entities: [],
+      typeName: 'art',
+    },
+  });
+
+  addQuestionTemplate({
+    questionTemplate: 'Which sculpture is this?',
+    question_type: {
+      name: 'Images_Paintings',
+      query: `SELECT DISTINCT ?templateLabel ?answerLabel WHERE {
+        ?answer wdt:P31 wd:Q860861;    # Instance of sculpture
+                   wdt:P18 ?template.        # Image of the sculpture
+        SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
+      }
+      LIMIT 5
+      `,
+      entities: [],
+      typeName: 'art',
+    },
+  });
 };
 
 export { TemplateModel, generateSampleTest };

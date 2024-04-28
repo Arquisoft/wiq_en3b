@@ -69,7 +69,8 @@
                     "geography": "Geography",
                     "history": "History",
                     "science": "Science",
-                    "sports": "Sports"
+                    "sports": "Sports",
+                    "art": "Art"
                 },
                 "description": "This is the Custom mode. Take control of your quiz experience. Set the number of questions, time per question, and select your preferred question types. Tailor the challenge to your liking and dive into a personalized trivia adventure."
             }

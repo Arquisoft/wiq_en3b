@@ -28,7 +28,14 @@ const LanguageSelector = ({ languages }) => {
 
     return (
         <div className="language-selector" ref={languageSelectorRef}>
-            <div className="selected-language" data-testid="selectedLanguage" onClick={() => setShowOptions(!showOptions)}>
+            <div className="selected-language" data-testid="selectedLanguage" onClick={() => setShowOptions(!showOptions)}
+            onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                    setShowOptions(!showOptions);
+                }
+            }}
+            tabIndex={0}
+            >
                 <img className="flag"
                     src={`https://flagsapi.com/${selectedLanguage.country_code}/shiny/16.png`}
                     alt={selectedLanguage.name}
@@ -41,8 +48,14 @@ const LanguageSelector = ({ languages }) => {
                     <div
                         key={language.code}
                         onClick={() => handleLanguageChange(language)}
+                        onKeyDown={(event) => {
+                            if (event.key === 'Enter' || event.key === ' ') {
+                                handleLanguageChange(language);
+                            }
+                        }}
                         className="language-option"
                         style={{ animationDelay: `${index * 0.1}s` }}
+                        tabIndex={0}
                     >
                         <img
                             className="flag"

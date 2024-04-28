@@ -7,11 +7,10 @@ async function registerUser(page, username, password) {
 
 async function waitForWelcomeMessage(page, username) {
   await expect(page).toMatchElement('.welcome-message', {
-    text: 'Welcome back,',
-    timeout: 5000,
+    text: 'Welcome back, ',
   })
 
-  await expect(page).toMatchElement('.welcome-message .username', {
+  await expect(page).toMatchElement('.welcome-message strong', {
     text: username,
   })
 }

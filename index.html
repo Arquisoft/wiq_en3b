@@ -500,7 +500,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <li><a href="#_development_concepts">8.3. Development concepts</a></li>
 <li><a href="#_architecture_and_design_patterns">8.4. Architecture and design patterns</a></li>
 <li><a href="#_under_the_hood_concepts">8.5. "Under-the-hood" concepts</a></li>
-<li><a href="#_operation_concepts_tbd">8.6. Operation concepts - TBD</a></li>
+<li><a href="#_operation_concepts">8.6. Operation concepts</a></li>
 </ul>
 </li>
 <li><a href="#section-design-decisions">9. Architecture Decisions</a>
@@ -1626,11 +1626,16 @@ correct, a valid JSON response is created together with the creation of a sessio
 allows the user to stay authenticated for a period of time. Finally the user will be able to access the application.</p>
 </div>
 <div class="paragraph">
-<p>This case scenario is also represented on the following diagram:</p>
+<p>This case scenario is also represented on the following diagram (splitted in two for better readability):</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-7ab3f06faf657f53adb5301dba77d92b.png" alt="Diagram" width="784" height="390">
+<img src="./images/diag-mermaid-md5-cbf414214f537f5bf7eecf42055d334d.png" alt="Diagram" width="784" height="454">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/diag-mermaid-md5-275bb226c138498d4814f923d1680eec.png" alt="Diagram" width="784" height="444">
 </div>
 </div>
 </div>
@@ -1717,7 +1722,15 @@ the user history is also updated with the game "highlights" such as time spent p
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-279e3b62034e2ba2f88bbfbde8302927.png" alt="Diagram" width="784" height="356">
+<img src="./images/diag-mermaid-md5-75a3a2794e06ffe20e1ea05a1cbee026.png" alt="Diagram" width="784" height="284">
+</div>
+</div>
+<div class="paragraph">
+<p>If the user, answers the final question:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/diag-mermaid-md5-d18207bf0154833285c67f11d6065f61.png" alt="Diagram" width="784" height="266">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -1844,7 +1857,7 @@ continuous integration (CI).</p>
 </dd>
 <dt class="hdlist1">Quality and/or Performance Features</dt>
 <dd>
-<p>As mentioned earlier, the primary advantage of this architecture lies in the interchangeability of its components. While there are still details to be refined, this represents an initial version with promising potential.</p>
+<p>As mentioned earlier, the primary advantage of this architecture lies in the interchangeability of its components.</p>
 </dd>
 <dt class="hdlist1">Mapping of Building Blocks to Infrastructure</dt>
 <dd>
@@ -2228,7 +2241,7 @@ perfectly with our services since the mainly work with JSON-formatted data.</p>
 <h5 id="_er_model_questiondatabase">ER model - QuestionDatabase</h5>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-00bd82bcde6d4a599b99206d7852cf30.png" alt="Diagram" width="432" height="335">
+<img src="./images/diag-mermaid-md5-7e0a05f86a82dd3b1746098cd42875e5.png" alt="Diagram" width="432" height="377">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2244,7 +2257,7 @@ perfectly with our services since the mainly work with JSON-formatted data.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">QUESTION_TEMPLATE</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Holds the template needed to query the WikiData API for the Question generation. It
-has a reation with <strong>ONE QUESTION_TYPE</strong> document</p></td>
+has a relation with <strong>ONE QUESTION_TYPE</strong> document.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">QUESTION_TYPE</p></td>
@@ -2320,18 +2333,45 @@ alive the session.</p>
 </div>
 </div>
 <div class="sect2">
-<h3 id="_operation_concepts_tbd">8.6. Operation concepts - TBD</h3>
+<h3 id="_operation_concepts">8.6. Operation concepts</h3>
 <div class="sect3">
-<h4 id="_monitoring_with_graphana_promotheus">8.6.1. Monitoring with Graphana &amp; Promotheus</h4>
+<h4 id="_monitoring_with_grafana_promotheus">8.6.1. Monitoring with Grafana &amp; Promotheus</h4>
 <div class="paragraph">
-<p>Explained in labs after 2nd delivery</p>
+<p>To provide with quality to the Application, a monitorance system has been applied using
+Grafana and Prometheus,to always keep track of how the application is performing. The
+work is simple, it has been added Prometheus to "scrap" information from the Gateway Service
+like all the petitions it is asked to it.</p>
+</div>
+<div class="paragraph">
+<p>This information is available at kawgame.xyz:8000/metrics and the Prometheus application,
+that manages it, at kawgame.xyz:9091. Although, this is retrival is good, for the "humans"
+is not so comfortable to the "eye". For that, Grafana has been set up.</p>
+</div>
+<div class="paragraph">
+<p>This application help us to see in a graphical way all the load that our Application is
+having and how it responds to it. As this is "developers" information, a login has been set
+up to prevent other people from knowing this information.</p>
+</div>
+<div class="paragraph">
+<p>In that way, we would have the following:</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/diag-mermaid-md5-fd5fe2ec0b7447df473b371da7b5a033.png" alt="Diagram" width="784" height="363">
+</div>
 </div>
 </div>
 <div class="sect3">
 <h4 id="_persisting_the_persistance">8.6.2. Persisting the Persistance</h4>
 <div class="paragraph">
-<p>Explained in labs after 2nd delivery (about mantaining data of volumes and not lost them after new containers
-are deployed)</p>
+<p>As requested by our shareholders, the application needed to keep all data from previous
+deployments. For that, the team has decided to have a simple yet powerful solution with
+the usage of Volumes of Docker.</p>
+</div>
+<div class="paragraph">
+<p>With this approach, each container from the Infrastructure shown before has its own data
+stored in those Volumes and it is also independent from it, so any new release will use
+the previous data and "persist the persistance".</p>
 </div>
 <div style="page-break-after: always;"></div>
 </div>
@@ -2601,7 +2641,7 @@ Additionally, the application&#8217;s color contrast should be enough for people
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Users should be able to access the application at any time, with an availability of about 99.9%.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Users should be able to access the application at any time, with an availability of about 95%.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
 </tr>
 </tbody>
@@ -2876,7 +2916,7 @@ to avoid the rate limit (1000 requests/hr)</p></td>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-28 21:13:05 UTC
+Last updated 2024-04-28 22:03:39 UTC
 </div>
 </div>
 </body>

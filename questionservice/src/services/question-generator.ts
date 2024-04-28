@@ -13,7 +13,7 @@ import { saveQuestions } from './question-storage';
 
 const distractorsNumber: number = 3;
 const optionsNumber: number = distractorsNumber + 1;
-const SPARQL_TIMEOUT = 5000; // 5000 ms = 5s
+const SPARQL_TIMEOUT = 8000; // 8000 ms = 8s
 // Tested manually usign our beloved "Who wrote..." If
 // timer runs out, only returns the data that met that requirement (ex: requested 2 questions --> returned 1 question if
 // a question lasted too much) --> This can be changed to simply rethrow the error

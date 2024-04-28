@@ -26,24 +26,24 @@ const renderPasswordField = _ =>
     render(
         <MemoryRouter>
             <I18nextProvider i18n={i18n}>
-                <PasswordField password="12345678" setPassword={() => {}} />
+                <PasswordField placeholder={"placeholder"} password="12345678" setPassword={() => { }} />
             </I18nextProvider>
         </MemoryRouter>
     )
 
 
 describe('password field tests', () => {
-   
+
     test('hide password', () => {
         renderPasswordField()
-        const inputElement = screen.getByPlaceholderText('Password')
+        const inputElement = screen.getByPlaceholderText('placeholder')
         expect(inputElement).toHaveAttribute('type', 'password')
     })
 
     test('show password', () => {
         renderPasswordField()
         fireEvent.click(screen.getByRole('button'))
-        const inputElement = screen.getByPlaceholderText('Password')
+        const inputElement = screen.getByPlaceholderText('placeholder')
         expect(inputElement).toHaveAttribute('type', 'text')
     })
 })

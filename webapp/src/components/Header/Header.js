@@ -24,6 +24,11 @@ const Header = props => {
       code: 'fr',
       name: 'Français',
       country_code: 'FR'
+    },
+    {
+      code: 'uk',
+      name: 'Ukranian',
+      country_code: 'UA'
     }
   ];
 

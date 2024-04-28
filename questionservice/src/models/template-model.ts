@@ -407,7 +407,7 @@ const generateSampleTest = () => {
         SERVICE wikibase:label { bd:serviceParam wikibase:language "[AUTO_LANGUAGE],en". }
       }
       ORDER BY UUID()
-      LIMIT 10              
+      LIMIT 5              
       `,
       entities: [],
       typeName: 'geography',
@@ -418,7 +418,7 @@ const generateSampleTest = () => {
     questionTemplate: 'Which painting is this?',
     question_type: {
       name: 'Images_Paintings',
-      query: `SELECT DISTINCT ?templateLabel ?answer WHERE {
+      query: `SELECT DISTINCT ?templateLabel ?answerLabel WHERE {
         ?answer wdt:P31 wd:Q3305213;    # Instance of painting
                   wdt:P18 ?template;         # Image of the painting
                   wdt:P135 wd:Q947129.    # Genre: Gothic painting
@@ -436,7 +436,7 @@ const generateSampleTest = () => {
     questionTemplate: 'Which painting is this?',
     question_type: {
       name: 'Images_Paintings',
-      query: `SELECT DISTINCT ?templateLabel ?answer WHERE {
+      query: `SELECT DISTINCT ?templateLabel ?answerLabel WHERE {
         ?answer wdt:P31 wd:Q3305213;    # Instance of painting
                   wdt:P18 ?template;         # Image of the painting
                   wdt:P170 wd:Q104884.    

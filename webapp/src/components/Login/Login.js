@@ -87,7 +87,7 @@ const Login = () => {
         />
         <p className="form-error">{formErrors.username}</p>
 
-        <PasswordField password={password} setPassword={setPassword} />
+        <PasswordField id="password" name="password" placeholder={t("login.password_placeholder")} password={password} setPassword={setPassword} />
 
         <p className="form-error">{formErrors.password}</p>
         <button className="button-common" onClick={loginHandler}>

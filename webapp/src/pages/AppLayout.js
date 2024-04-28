@@ -50,19 +50,19 @@ const AppLayout = ({ volume }) => {
                     />
                 )}
 
-            <Header
-                onToggleNav={toggleNav}
-                onChangeTheme={changeThemeHandler}
-                theme={theme}
-                volume={volume}
-            />
+                <Header
+                    onToggleNav={toggleNav}
+                    onChangeTheme={changeThemeHandler}
+                    theme={theme}
+                    volume={volume}
+                />
 
-            <Nav openNav={nav} onToggleNav={toggleNav}/>
+                <Nav openNav={nav} onToggleNav={toggleNav} />
 
             </div>
 
             <main>
-                <Outlet/>
+                <Outlet />
 
             </main>
         </div>

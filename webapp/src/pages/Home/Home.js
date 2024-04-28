@@ -23,7 +23,7 @@ function Home() {
         <>
           <img className="App-logo" src="KaW.png" alt="Logo of Know and Win APP" />
           <div className="welcome-message">
-            {t("home.welcome")}<span className="username">{user.username}</span>!
+            {t("home.welcome")} <strong>{user.username}</strong>
           </div>
         </>
       ) : (

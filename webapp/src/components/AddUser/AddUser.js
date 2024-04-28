@@ -108,20 +108,16 @@ const AddUser = () => {
         />
         <p className="form-error">{formErrors.username}</p>
 
-        <PasswordField password={password} setPassword={setPassword} />
+        <PasswordField id="password" name="password" placeholder={t("register.password_placeholder")} password={password} setPassword={setPassword} />
 
         <PasswordStrengthBar password={password} shortScoreWord={t("register.strength.very_week")} scoreWords={strengthWords} minLength={8} />
 
         <p className="form-error">{formErrors.password}</p>
-        <input
-          type="password"
-          name="repeatPassword"
-          id="repeatPassword"
-          placeholder={t("register.password_confirm_placeholder")}
-          onChange={e => setRepeatPassword(e.target.value)}
-          value={repeatPassword}
-        />
+
+        <PasswordField id="repeatPassword" name="repeatPassword" placeholder={t("register.password_confirm_placeholder")} password={repeatPassword} setPassword={setRepeatPassword} />
+
         <p className="form-error">{formErrors.repeatPassword}</p>
+
         <button className="button-common">{t("register.button")}</button>
       </form>
       <Link to="/login">{t("register.go_login")}</Link>

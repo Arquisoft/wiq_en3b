@@ -18,7 +18,7 @@ const pageNotFound = () => {
             <div className="content">
                 <h1>Oops...</h1>
                 <p>It seems you've reached a page that's lost in cyberspace</p>
-                <div className="animation">
+                <div className="animation" data-testid="animation-container">
                     <Lottie options={defaultOptions} height={455} width={674} />
                 </div>
             </div>

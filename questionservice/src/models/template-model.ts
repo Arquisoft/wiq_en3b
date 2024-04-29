@@ -451,7 +451,7 @@ const generateSampleTest = () => {
       entities: [
         'Q5582', // Van Gogh
         'Q104884', // Caspar David Friedrich
-        'Q5593', // Pablo Picassoç
+        'Q5593', // Pablo Picasso
         'Q5598', // Rembrandt
         'Q296', // Monet
         'Q5597', // Raphael

@@ -19,6 +19,7 @@
 
 .profile-title {
     margin-top: 1rem;
+    overflow-wrap: anywhere;
 }
 
 /* Profile header section */

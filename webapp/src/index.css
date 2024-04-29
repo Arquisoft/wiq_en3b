@@ -54,22 +54,22 @@ main {
 
 .dark .selected-language{
   background-color: var(--almost-dark-gray);
-  color: #747ae7;
+  color: #fff;
 }
 
 .dark .selected-language:hover{
   background-color: var(--light-gray);
-  color: #747ae7;
+  color: #fff;
 }
 
 .dark .language-options {
   background-color: var(--almost-dark-gray);
-  color: #747ae7;
+  color: #fff;
 }
 
 .dark .language-option:hover {
   background-color: var(--light-gray);
-  color: #747ae7;
+  color: #fff;
 }
 
 .dark .volume-slider-container {
@@ -95,12 +95,12 @@ main {
 
 .dark .sound:hover {
   background-color: var(--light-gray);
-  color: #747ae7;
+  color: #fff;
 }
 
 .dark .theme:hover {
   background-color: var(--light-gray);
-  color: #747ae7;
+  color: #fff;
 }
 
 .dark .answer-item:hover {
@@ -139,12 +139,12 @@ main {
 
 .dark .theme {
   background-color: var(--dark-gray);
-  color: #747ae7;
+  color: #fff;
 }
 
 .dark .sound {
   background-color: var(--dark-gray);
-  color: #747ae7;
+  color: #fff;
 }
 
 .dark .swipe {

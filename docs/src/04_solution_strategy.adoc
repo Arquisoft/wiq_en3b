@@ -80,13 +80,13 @@ https://chromewebstore.google.com/detail/lighthouse/blipmdconlkpinefehnmjammfjpm
 
 
 === Organization and management
-The team will follow the SCRUM methodology to focus on continuous delivering of products with value to 
-the stakeholders as well as improving the quality of the whole project in each iteration. 
+The team will follow an agile methodology to focus on continuous delivering of products with value to 
+the stakeholders as well as improving the quality of the whole project in each delivery. 
 
 Each week the team will have a meeting to discuss the work performed
 through the week, the tasks not done and all the decisions taken for next weeks, which will 
 be recorded on the Wiki of the GitHub repository. All the work performed and its progress is going to be tracked by means of the Kanban and the issues.
 Any unforeseen issue that may arise during development will be discussed in the issue itself or via our WhatsApp group if of low relevance or importance.
 
-In the end, SCRUM promotes the continuous collaboration of the team to ship quality products
+In the end, agile methodologies promotes the continuous collaboration of the team to ship quality products
 that stakeholders can really make value of, which is one of the objectives from the team.

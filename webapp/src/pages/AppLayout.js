@@ -3,7 +3,6 @@ import Header from '../components/Header/Header'
 import Nav from '../components/Nav/Nav'
 import { useTheme } from '../hooks/useTheme'
 import { useToggle } from '../hooks/useToggle'
-import './cursor.css'
 import Lottie from 'react-lottie'
 import darkAnimationData from '../lotties/sleeping_cat.json';
 import lightAnimationData from '../lotties/asleep_cat.json';

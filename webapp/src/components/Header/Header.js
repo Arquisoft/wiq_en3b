@@ -38,7 +38,7 @@ const Header = props => {
   return (
     <header className="header">
       <Link className='homeButton' to="/">
-        <img src={props.theme === "light" ? "KaW.png" : "KaW_D.png"} alt="Logo of Know and Win APP" />
+        <img src={props.theme === "light" ? "/KaW.png" : "/KaW_D.png"} alt="Logo of Know and Win APP" />
       </Link>
       
       <div className="options">

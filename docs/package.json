@@ -4,7 +4,7 @@
     "description": "Npm project just for the docs",
     "main": "index.js",
     "scripts": {
-        "build": "shx rm -rf build && asciidoctor -D build -a imagesdir=./images -r asciidoctor-diagram index.adoc && shx cp -R images build",
+        "build": "shx rm -rf build && asciidoctor -D build -a imagesdir=./images -r asciidoctor-diagram index.adoc && shx cp -R images build && shx cp -R gatling build && shx cp -R lighthouse_results build",
         "deploy": "gh-pages -d build"
     },
     "dependencies": {

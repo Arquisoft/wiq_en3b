@@ -70,9 +70,7 @@ corresponding service that answers that petition and return its value.
 
 | Performance 
 | Web-app should work smoothly and respond quickly.  
-|
-- Implementing caching mechanisms for Question generation.
-- Optimizing database queries through indexing and query optimization techniques.
+| Implementing caching mechanisms for Question generation.
 
 | Usability 
 | The application aims for user-friendly accessibility with an intuitive design. 

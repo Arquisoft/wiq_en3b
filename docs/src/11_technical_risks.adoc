@@ -75,5 +75,11 @@ to avoid the rate limit (1000 requests/hr)
 | Azure
 | The decision of using this platform is fully based on the team's knowdlege. Although, it could not be the best option/approach since other platforms such as AWS or hosting ones can have other benefits. 
 
+| Game Logic
+| The decision of having our game logic like controlling the points, time played by player, etc; in
+the Frontend part may seem a good option when trying to develop a game quickly. Although, it is possible
+to add to a single user more points than it should be through programs like POSTMAN, so a backend game
+logic could tackle this issue. 
+
 |===
 

@@ -192,33 +192,12 @@ sequenceDiagram
 
 === User statistics recording scenario
 
-When a user answers a question, the WebApp determines if the answer was correct or not. Then, 
-that data is sent to the Gateway and then forwarded to the User Service, which is in charge of 
-updating the Database with the updated user history. This process is repeated for each answer to 
-a question.
-
-Once the user answer the final question of the game, appart from doing the beforementioned process,
-the user history is also updated with the game "highlights" such as time spent playing.
+When a user answers the final question, the WebApp determines if the answer was correct or not. Then, 
+all the data collected from the current game (the WebApp is collecting infromation while playing) is 
+sent to the Gateway and then forwarded to the User Service, which is in charge of 
+updating the Database with the updated user history. 
 
 This case scenario is also represented on the following diagram:
-
-[mermaid]
-....
- sequenceDiagram
-    actor U as User
-    participant FE as WebApp 
-    participant BE as Gateway 
-    participant HS as User Service
-    participant DB as UserDatabase 
-
-    U->>FE: Answers a Question
-    FE-->FE: Determines if the answer is correct
-    FE->>BE: Indicates correctness of the answer
-    BE->>HS: Save the user history
-    HS->>DB: Updates the user history
-....
-
-If the user, answers the final question:
 
 [mermaid]
 ....
@@ -229,10 +208,14 @@ sequenceDiagram
     participant HS as User Service
     participant DB as UserDatabase 
 
-    U->>FE: Answers final Question
+    U->>FE: Answer question
     FE-->FE: Determines if the answer is correct
-    FE->>BE: Indicates correctness of the answer.
+    FE-->FE: Save statistic for question
+    U->>FE: ... more questions answered ...
+    
+    U->>FE: Answers final Question
     FE->>BE: Indicates End of game.
+    FE->>BE: Send collected data.
     BE->>HS: Save the user history with other endgame statistics.
     HS->>DB: Updates the user history
 ....

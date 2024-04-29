@@ -44,7 +44,7 @@ for our stakeholders and users.
 to avoid the rate limit (1000 requests/hr) 
 
 | Inexperience
-| The little knowdlege about new tecnologies used in the project like React, Express or Docker; can cause a failure in the implementation of it.
+| The little knowledge about new technologies used in the project like React, Express or Docker; can cause a failure in the implementation of it.
 | Research and constant learning through development can lead to better understanding of the technologies.
 
 |===
@@ -55,9 +55,9 @@ to avoid the rate limit (1000 requests/hr)
 |===
 | Risk | Description | Mitigation
 
-| Reponse times
-| Having to wait for API responses can cause serious Bottlenecks on the WebApp. Users wpuld have to wait long time for each game they want to play.
-| The usage of asynchronus calls can be very beneficial for this risk to be mitigated.  
+| Response times
+| Having to wait for API responses can cause serious Bottlenecks on the WebApp. Users would have to wait a long time for each game they want to play.
+| The usage of asynchronous calls can be very beneficial for this risk to be mitigated.
 
 | Deadlines
 | Time constraints tied to the constant delivery of features can lead to not ending with the required project features.
@@ -73,7 +73,7 @@ to avoid the rate limit (1000 requests/hr)
 | Debt | Description
 
 | Azure
-| The decision of using this platform is fully based on the team's knowdlege. Although, it could not be the best option/approach since other platforms such as AWS or hosting ones can have other benefits. 
+| The decision of using this platform is fully based on the team's knowledge. Although, it could not be the best option/approach since other platforms such as AWS or hosting ones can have other benefits.
 
 | Game Logic
 | The decision of having our game logic like controlling the points, time played by player, etc; in

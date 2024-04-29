@@ -59,11 +59,11 @@ See https://docs.arc42.org/section-8/[Concepts] in the arc42 documentation.
 
 ==== Internationalization
 
-One of the things to increase accesibility is giving our application the
-capability of beign in various languages so people around the world can play
+One of the things to increase accessibility is giving our application the
+capability of being in various languages so people around the world can play
 our game. Obviously, internationalization is more than just changing the 
 language of the Application but due to time constraints we will just offer 
-Spanish, English and French languages ( although, our API can generate questions
+Spanish, English, Ukrainian and French languages ( although, our API can generate questions
 in other languages different from described, to see the whole list, refer to 
 our https://kawgame.xyz:8000/[API documentation] ).
 
@@ -71,7 +71,7 @@ The library used for language translation in our KaW game is called
 https://react.i18next.com/[*react-i18next*]. 
 For simplicity (and due to just only having three languages), all of the translations
 of messages are stored locally in properties files. Eventually, if the Application
-grows and we wanted to  have more than 3 languages the best approach is to
+grows and we wanted to  have more than 4 languages the best approach is to
 store those properties in a server and let the application to request
 those on the fly. Again, for simplicity the option of having all bundle
 together in the Frontend just fits.
@@ -93,7 +93,7 @@ and avoid getting suspended.
 
 Keeping a secure website for our users is one of our main quality
 goals. For that, all the passwords stored in MongoDB are simply
-hashes so attackers cannot decypher easily. The library used
+hashes so attackers cannot decipher them easily. The library used
 in the AuthService and UserService to store or compare passwords
 is called *bcrypt*. This library provides with an easy way
 to hash passwords and keep user's data secured.
@@ -154,9 +154,9 @@ the quality standards we are required.
 
 - End-to-End Testing (included on CI/CD):
 
-Appart from testing functionality, all our code must also meet the required
+Apart from testing functionality, all our code must also meet the required
 domain functionality such as registration, login, etc. For that, Jest is used
-in combination with https://pptr.dev/[pupeeter] which provides a High-level API
+in combination with https://pptr.dev/[puppeteer] which provides a High-level API
 to control browsers and simulate our different User Stories (domain functionality)
 that the project requires.
 
@@ -279,7 +279,7 @@ image::Lighthouse_Result.png[Lighthouse_Result,640,480]
 
 ===== JSend
 
-To have an standarized way of responses for the different Microservices that our
+To have an standardized way of responses for the different Microservices that our
 application have, the JSend specification has been chosen. This specification allows
 the team to have uniform JSON responses so other parts of the system such as
 Frontend, always know what to expect from these services. 
@@ -324,7 +324,7 @@ flowchart LR
 
 === "Under-the-hood" concepts
 
-==== Persistency
+==== Persistence
 
 As stated in point 4.1, the chosen database for the project is MongoDB 
 which offers us a document-oriented schema. This type of database fits
@@ -404,8 +404,8 @@ erDiagram
 |===
 | Document | Description 
 | USER 
-| Holds all the data relationed to a user registered into our game. It
-has a relation with *ONE USER_HISTORY* and *ONE USER_PROFILe* document
+| Holds all the data related to a user registered into our game. It
+has a relation with *ONE USER_HISTORY* and *ONE USER_PROFILE* document
 | USER_HISTORY
 | Holds all the records/statistics of a single user through all played games.
 | USER_PROFILE
@@ -450,22 +450,22 @@ flowchart LR
 
 To handle the different sessions of our different users, JWT are also used
 for this purpose. For each logged in user, a token will be generated for
-authenticating them as stated previosly, and also, for mantaining a session
+authenticating them as stated previously, and also, for maintaining a session
 and hold the necessary information without having to reenter the users' credentials.
 In this way, the user will have to keep on its browser this token to maintain
 alive the session.
 
 === Operation concepts
 
-==== Monitoring with Grafana & Promotheus
+==== Monitoring with Grafana & Prometheus
 
-To provide with quality to the Application, a monitorance system has been applied using
+To provide with quality to the Application, a monitoring system has been applied using
 Grafana and Prometheus,to always keep track of how the application is performing. The 
 work is simple, it has been added Prometheus to "scrap" information from the Gateway Service
 like all the petitions it is asked to it.
 
 This information is available at kawgame.xyz:8000/metrics and the Prometheus application,
-that manages it, at kawgame.xyz:9091. Although, this is retrival is good, for the "humans"
+that manages it, at kawgame.xyz:9091. Although, this is retrieval is good, for the "humans"
 is not so comfortable to the "eye". For that, Grafana has been set up.
 
 This application help us to see in a graphical way all the load that our Application is
@@ -485,7 +485,7 @@ sequenceDiagram
     Grafana-->>-u: Display graphs
 ....
 
-==== Persisting the Persistance 
+==== Persisting the Persistence
 
 As requested by our shareholders, the application needed to keep all data from previous
 deployments. For that, the team has decided to have a simple yet powerful solution with
@@ -493,4 +493,4 @@ the usage of Volumes of Docker.
 
 With this approach, each container from the Infrastructure shown before has its own data
 stored in those Volumes and it is also independent from it, so any new release will use
-the previous data and "persist the persistance".
+the previous data and "persist the persistence".

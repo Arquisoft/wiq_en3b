@@ -59,7 +59,7 @@ image::03_business_context.png["Business Context"]
 |Communication partner|Inputs|Outputs
 | User | Interacts with WebApp by putting user credentials and answering to questions. | Receives question status (correct/incorrect) and history information about past games.
 | WebApp | User interaction by means of a graphical interface. This includes accepting the answers of questions. | Provides user information and question data including text, options and the correct answer.
-| Question Service | Accepts queries for generating questions based on size and language. | Generates the question data (text, options, images and correct answer).
+| Question Service | Accepts queries for generating questions based on size, type and language. | Generates the question data (text, options, images and correct answer).
 | Wikidata | Receives queries from the Question Service in order to generate the data of the question. | Responds to the queries with all the data of the generated question.
 |===
 
@@ -84,7 +84,7 @@ image::03_technical_context.png["Technical Context"]
 |===
 | Component | Description
 | WebApp | Accessible via the internet, allowing users to interact with the KaW application. 
-| Services | Provides access to user information and generated questions, enabling integration with external systems. Also, provides an API intreface for consulting certain information.
+| Services | Provide access to user information and generated questions, enabling integration with external systems. Also, provides an API interface for consulting certain information.
 | Database | Stores and retrieves user data, including registration information and participation history. Also, questions can be stored for caching purposes. 
 | Wikidata | Accepts SPARQL queries and returns the requested data about questions. 
 |===

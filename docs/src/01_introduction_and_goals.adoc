@@ -17,11 +17,11 @@ These include
 
 RTVE wants to offer a web application based on the famous Spanish TV show 
 https://es.wikipedia.org/wiki/Saber_y_ganar["Saber y Ganar"] 
-to its users in commemoration of the 28th anniversary of the show. This show consisted on 
+to its users in commemoration of the 28th anniversary of the show. This show consists on
 answering a number of questions with different types and subjects obtaining a prize for 
 each question well answered.
 
-The expected goal is to offer a well-desgined game that maintains all the quality standards
+The expected goal is to offer a well-designed game that maintains all the quality standards
 that the company offers like maintainability, security, etc...; while trying to fulfill the
 user's needs to provide a positive UX.   
 
@@ -100,9 +100,9 @@ A table with quality goals and concrete scenarios, ordered by priorities
 | Implementing redundancy and failover mechanisms can help ensure continuous availability.
 
 | 3
-| Accesibility 
+| Accessibility
 | Any user must be able to enjoy playing with our application despite any disability they could have. 
-| HTML standards must be followed to try to minimize the lack of Accesibility of our Application. Another important feature is the contrast of our web. All of these can be tested with Accessibilty tools available on Internet.  
+| HTML standards must be followed to try to minimize the lack of Accessibility of our Application. Another important feature is the contrast of our web. All of these can be tested with Accessibility tools available on Internet.
 
 | 4
 | Security
@@ -142,13 +142,13 @@ Table with role names, person names, and their expectations with respect to the 
 |===
 |Role/Name|Contact|Expectations
 | RTVE | rtve.dircom@rtve.es | A web application that emulates the functionality of the famous Spanish TV show "Saber y Ganar". 
-| HappySw | contact_projects@happysw.es | An application that meets all the  requirements asked by RTVE mantaining the quality that offers the company. 
+| HappySw | contact_projects@happysw.es | An application that meets all the  requirements asked by RTVE maintaining the quality that offers the company.
 | Professors 
 | 
 * Pablo González: gonzalezgpablo@uniovi.es 
 * Jose Labra: labra@uniovi.es
 | A well-designed web application that fulfills the functional requirements for the game to work, as well as, the quality requirements.
-| Users |  | A quiz game to test their knowdlege on different fields. The game must be easy to use and must record all of their past games. 
+| Users |  | A quiz game to test their knowledge on different fields. The game must be easy to use and must record all of their past games.
 | Development team
 |
 * Carlos Menéndez González (UO288056@uniovi.es)

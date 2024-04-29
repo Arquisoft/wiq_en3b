@@ -50,7 +50,7 @@ an error message showing "Invalid credentials" will appear to the user, and if t
 correct, a valid JSON response is created together with the creation of a session token that
 allows the user to stay authenticated for a period of time. Finally the user will be able to access the application.
 
-This case scenario is also represented on the following diagram (splitted in two for better readability):
+This case scenario is also represented on the following diagram (split in two for better readability):
 
 [mermaid]
 ....
@@ -97,7 +97,7 @@ from WQS, to also generate answers and distractors. If WQS gets timed out (e.g. 
 than 5 sec to retrieve the data to fill template), it is chosen an already generated question from
 cache to always try to return the exact number of questions requested.
 
-Second, the other half are simply retrieved from previosuly wikidata generated questions which are
+Second, the other half are simply retrieved from previously wikidata generated questions which are
 stored in DB. Then, both array of questions are combined to return the n questions requested.
 
 Optionally, if questions are required in a certain language. The QS queries a translation Service
@@ -109,7 +109,7 @@ reformatting the translated string into questions array.
 Finally, QS sends them back to the Gateway, so again the response can then be redirected 
 towards the WebApp. Finally, the WebApp displays the questions of the game.
 
-This case scenario is also represented with the following diagrams (splitted for better understanding).
+This case scenario is also represented with the following diagrams (split for better understanding).
 
 Overview of Question Generation workflow:
 [mermaid]

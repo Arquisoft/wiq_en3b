@@ -82,7 +82,7 @@ image::03_technical_context.png["Technical Context"]
 |===
 | Component | Description
 | WebApp | Accessible via the internet, allowing users to interact with the KaW application. 
-| Services | Provide access to user information and generated questions, enabling integration with external systems. Also, provides an API intreface for consulting certain information.
+| Services | Provide access to user information and generated questions, enabling integration with external systems. Also, provides an API interface for consulting certain information.
 | Database | Stores and retrieves user data, including registration information and participation history. Also, questions can be stored for caching purposes. 
 | Wikidata | Accepts SPARQL queries and returns the requested data about questions. 
 |===

@@ -376,7 +376,7 @@ function getRandomResponses(
   while (answersIndex < optionsNumber) {
     let answer = wikidataResponse[randomIndexes[i]].answerLabel;
     i++;
-    if (answersArrayContainsAnswer(answersArray, answer)) {
+    if (answersArrayContainsAnswer(answersArray, answer) || !answerHasLabel(answer)) {
       continue;
     }
     answersArray[answersIndex] = {
@@ -395,6 +395,11 @@ function getRandomResponses(
 
 function answersArrayContainsAnswer(answersArray: any, answer: string): boolean {
   return !answersArray.every((answerObject: any) => answerObject.text !== answer);
+}
+
+function answerHasLabel(answer: string): boolean {
+  const pattern: RegExp = /Q\d+/;
+  return !pattern.test(answer);
 }
 
 export { generateQuestions };

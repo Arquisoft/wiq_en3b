@@ -420,14 +420,17 @@ const generateSampleTest = () => {
       name: 'Images_Paintings',
       query: `SELECT DISTINCT ?templateLabel ?answerLabel WHERE {
         ?answer wdt:P31 wd:Q3305213;    # Instance of painting
-                  wdt:P18 ?template;         # Image of the painting
-                  wdt:P135 wd:Q947129.    # Genre: Gothic painting
+                  wdt:P18 ?template;    # Image of the painting
+                  wdt:P135 wd:$$$.      # Genre
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
       }
       ORDER BY UUID()
       LIMIT 5
       `,
-      entities: [],
+      entities: [
+        'Q947129', // Gothic painting
+        'Q37068', // Romanticism painting
+      ],
       typeName: 'art',
     },
   });
@@ -438,14 +441,22 @@ const generateSampleTest = () => {
       name: 'Images_Paintings',
       query: `SELECT DISTINCT ?templateLabel ?answerLabel WHERE {
         ?answer wdt:P31 wd:Q3305213;    # Instance of painting
-                  wdt:P18 ?template;         # Image of the painting
-                  wdt:P170 wd:Q104884.    
+                  wdt:P18 ?template;    # Image of the painting
+                  wdt:P170 wd:$$$.    
         SERVICE wikibase:label { bd:serviceParam wikibase:language "en". }
       }
       ORDER BY UUID()
       LIMIT 5
       `,
-      entities: [],
+      entities: [
+        'Q5582', // Van Gogh
+        'Q104884', // Caspar David Friedrich
+        'Q5593', // Pablo Picassoç
+        'Q5598', // Rembrandt
+        'Q296', // Monet
+        'Q5597', // Raphael
+        'Q5432' // Goya
+      ],
       typeName: 'art',
     },
   });
@@ -453,7 +464,7 @@ const generateSampleTest = () => {
   addQuestionTemplate({
     questionTemplate: 'Which sculpture is this?',
     question_type: {
-      name: 'Images_Paintings',
+      name: 'Images_Sculptures',
       query: `SELECT DISTINCT ?templateLabel ?answerLabel WHERE {
         ?answer wdt:P31 wd:Q860861;    # Instance of sculpture
                    wdt:P18 ?template.        # Image of the sculpture

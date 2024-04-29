@@ -1,18 +1,29 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import './Home.css'
 
 import { useTranslation } from 'react-i18next'
-import { useTheme } from '../../hooks/useTheme';
 
 function Home() {
   const navigate = useNavigate()
   const { user } = useAuth()
 
   const { t } = useTranslation()
-  const { theme } = useTheme();
+  const [theme, setTheme] = useState(localStorage.getItem('theme'))
+
+  useEffect(() => {
+    const handler = () => {
+        setTheme(localStorage.getItem('theme'))
+    }
+
+    window.addEventListener('theme-changed', handler)
+
+    return () => {
+        window.removeEventListener('theme-changed', handler)
+    }
+  }, [])
 
   useEffect(() => {
     if (!user) {
@@ -34,9 +45,9 @@ function Home() {
         <div>Please, login to play the game</div>
       )}
 
-      <Link to="game" class="btn">
-        <div class="swipe">{t("play.nav_title")}
-          <span class="container">
+      <Link to="game" className="btn">
+        <div className="swipe">{t("play.nav_title")}
+          <span className="container">
             <svg height="24" width="24" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
               <path d="M0 0h24v24H0z" fill="none">
               </path>

@@ -7,23 +7,36 @@ export const SettingsContext = createContext()
 export function SettingsProvider({ children }) {
   const [settings, setSettings] = useLocalStorage('settings', {
     time: DEFAULT_TIME,
+    theme: 'light',
   })
 
   const changeTimeTo = useCallback(
     newTime => {
-      setSettings({
+      const newSettings = {
+        ...settings,
         time: newTime,
-      })
+      };
+      setSettings(newSettings);
     },
-    [setSettings]
+    [settings, setSettings]
   )
+  
+  const toggleTheme = useCallback(() => {
+    const newSettings = {
+      ...settings,
+      theme: settings.theme === 'light' ? 'dark' : 'light',
+    };
+    setSettings(newSettings);
+  }, [settings, setSettings])
 
   const value = useMemo(
     () => ({
       time: settings.time,
+      theme: settings.theme,
       changeTimeTo,
+      toggleTheme,
     }),
-    [settings.time, changeTimeTo]
+    [settings.time, settings.theme, changeTimeTo, toggleTheme]
   )
 
   return (

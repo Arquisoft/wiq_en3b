@@ -155,5 +155,11 @@ img {
 }
 
 .homeButton {
-  align-items: center;
+  margin-top: 0;
+}
+
+.homeButton img {
+  max-width: 100%;
+  margin: 0;
+  vertical-align: middle;
 }

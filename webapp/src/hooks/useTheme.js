@@ -6,6 +6,7 @@ const useTheme = () => {
   useEffect(() => {
     if (localStorage.getItem("theme")) {
       setTheme(localStorage.getItem("theme"))
+      window.dispatchEvent(new Event('theme-changed'))
     }
   }, [theme])
 

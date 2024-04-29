@@ -114,7 +114,7 @@
     color: #f1f4f7;
 }
 
-.swipe:hover .container {
+.swipe:hover .startBtn {
     left: calc(100% - 55px);
 }
 

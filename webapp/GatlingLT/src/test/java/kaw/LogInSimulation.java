@@ -54,7 +54,7 @@ public class LogInSimulation extends Simulation {
 
     private static final int waitBeforeLogIn = 2;
     private static final int waitAfterLogIn = 10;
-    private static final int nUsersStored = 10;
+    private static final int nUsersStored = 3000;
 
     private final ScenarioBuilder scn = scenario("Load Test - LogIn")
             .exec(goToLoginPage(), pause(waitBeforeLogIn))
@@ -69,7 +69,7 @@ public class LogInSimulation extends Simulation {
     // the equation equal.
     public LogInSimulation() {
         MongoHandler.getInstance().addNUsers(nUsersStored);
-        setUp(scn.injectOpen(constantUsersPerSec(2).during(5))).protocols(httpProtocol);
+        setUp(scn.injectOpen( constantUsersPerSec(50).during(60))).protocols(httpProtocol);
         Runtime.getRuntime().addShutdownHook(new Thread(() -> {
             MongoHandler.getInstance().flush();
         }));

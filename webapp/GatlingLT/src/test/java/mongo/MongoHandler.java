@@ -21,7 +21,7 @@ public class MongoHandler {
     public static final String defaultPassword = "test123456";
     public static final String defaultPasswordHashed = "$2b$10$dfRfG/BhQJ2/n/CFeUtMCO6ngMPCJj0aCgEawYXMbtNhyCx04J8ZC";
 
-    private static final String usersUri = "mongodb://localhost:27019/";
+    private static final String usersUri = "mongodb://localhost:27017/";
     private static final String usersDBName = "userdb";
     private static final String usersCollectionName = "users";
     

@@ -17,15 +17,18 @@ const PageNotFound = () => {
   const { t } = useTranslation();
 
   return (
-    <div className="container">
       <div className="content">
+
         <h1>{t('error_page.title')}</h1>
         <p>{t('error_page.description')}</p>
         <div className="animation" data-testid="animation-container">
-          <Lottie options={defaultOptions} />
+
+          <Lottie options={defaultOptions}/>
+          <div className="container">
+
+          </div>
         </div>
       </div>
-    </div>
   )
 }
 

@@ -6,7 +6,7 @@
 // configure EN settings for asciidoc
 include::src/config.adoc[]
 [.text-justify]
-= image:arc42-logo.png[arc42] Template
+= image:KaW.png[GameIcon] KaW Docs
 :revnumber: 8.2 EN
 :revdate: January 2023
 :revremark: (based upon AsciiDoc version)
@@ -27,12 +27,6 @@ ifdef::backend-html5[]
 </style>
 ++++
 endif::backend-html5[]
-
-
-include::src/about-arc42.adoc[]
-
-// horizontal line
-***
 
 
 // numbering from here on
@@ -86,4 +80,5 @@ include::src/11_technical_risks.adoc[]
 // 12. Glossary
 include::src/12_glossary.adoc[]
 
-
+// About arc42
+include::src/about-arc42.adoc[]

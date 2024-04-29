@@ -47,7 +47,7 @@ public class RegisterSimulation extends Simulation {
   
   private static final String uri1 = "localhost";
   private static final int waitBeforeRegister = 2;
-  private static final int nUsersRegistering = 600;
+  private static final int nUsersRegistering = 3000;
 
   private ScenarioBuilder scn = scenario("RegisterSimulation")
           .exec(goToLoginPage(), pause(waitBeforeRegister))
@@ -58,7 +58,7 @@ public class RegisterSimulation extends Simulation {
 
   // Registering 10 users per second during 600s = In the end, 600 users will be registered
   public RegisterSimulation(){
-	  setUp(scn.injectOpen(constantUsersPerSec(10).during(60)).protocols(httpProtocol));
+	  setUp(scn.injectOpen(constantUsersPerSec(50).during(60)).protocols(httpProtocol));
       Runtime.getRuntime().addShutdownHook(new Thread(() -> {
           MongoHandler.getInstance().flush();
       }));

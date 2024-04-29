@@ -71,21 +71,25 @@ public class HardGameSimulation extends Simulation {
 
   private static final String urlWiki = "https://commons.wikimedia.org/wiki/Special:FilePath";
   private static final int waitAfterLogIn = 2;
-  private final static int nUsersStored = 100;
+  private final static int nUsersStored = 3000;
   private final static String uri1 = "localhost";
 
   private ScenarioBuilder scn = scenario("kaw.HardGameSimulation")
           .exec( goToLoginPage(), pause(5) )
           .exec( logIn() )
           .exec( requestQuestions(), pause(5) )
+          .exec(updatingHistory());
+  /*
           .exec(getFlagNorway(), pause(5) )
           .exec(getFlagBetis(), pause(5) )
           .exec(getFlagVanuatu(), pause(5))
-          .exec(updatingHistory());
+
+   */
+
 
   public HardGameSimulation(){
     MongoHandler.getInstance().addNUsers(nUsersStored);
-    setUp(scn.injectOpen(constantUsersPerSec(5).during(20))).protocols(httpProtocol);
+    setUp(scn.injectOpen(constantUsersPerSec(50).during(60))).protocols(httpProtocol);
     Runtime.getRuntime().addShutdownHook(new Thread(() -> {
       MongoHandler.getInstance().flush();
     }));

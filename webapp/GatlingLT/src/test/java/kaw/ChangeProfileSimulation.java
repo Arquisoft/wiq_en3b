@@ -97,7 +97,7 @@ public class ChangeProfileSimulation extends Simulation {
   );
   
   private final static String uri1 = "localhost";
-  private final static int nUsersStored = 100;
+  private final static int nUsersStored = 3000;
   private final static int waitAfterLogIn = 1;
 
 
@@ -111,12 +111,12 @@ public class ChangeProfileSimulation extends Simulation {
           .exec(changeBio(), pause(2))
           .exec(enterProfile());
 
-  // It works but take in mind to change the token in headers_7
+  // It works but take in mind to change the token in headers_18
   // I have seek ways to do it, but it seems that Gatling does not load the JSON responses in
   // logIn()
   public ChangeProfileSimulation(){
       MongoHandler.getInstance().addNUsers(nUsersStored);
-	  setUp(scn.injectOpen(constantUsersPerSec(5).during(20))).protocols(httpProtocol);
+	  setUp(scn.injectOpen(constantUsersPerSec(50).during(60))).protocols(httpProtocol);
       Runtime.getRuntime().addShutdownHook(new Thread(() -> {
         MongoHandler.getInstance().flush();
       }));

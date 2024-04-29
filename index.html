@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.20">
+<meta name="generator" content="Asciidoctor 2.0.22">
 <title>KaW Docs</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,6 +162,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
+body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -327,7 +328,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -1353,7 +1354,7 @@ Thus it contains the white box description of selected building blocks of level 
 <h3 id="_scope_and_context">5.1. Scope and Context</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-ed79cba539d8cad55211d0cbfddef30b.png" alt="Diagram" width="465" height="74">
+<img src="./images/diag-mermaid-md5-ed79cba539d8cad55211d0cbfddef30b.png" alt="Diagram" width="464" height="72">
 </div>
 </div>
 <div class="dlist">
@@ -1399,7 +1400,7 @@ our API to retrieve or generate information to be used in other applications.</p
 <h3 id="_level_1">5.2. Level 1</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-5da3a1f1dc3835b4825542d08d343d98.png" alt="Diagram" width="784" height="218">
+<img src="./images/diag-mermaid-md5-5da3a1f1dc3835b4825542d08d343d98.png" alt="Diagram" width="784" height="214">
 </div>
 </div>
 <div class="dlist">
@@ -1445,7 +1446,7 @@ system&#8217;s components.</p>
 <h3 id="_level_2">5.3. Level 2</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-5cfe8256fe3a6490bbc9b7a480ee3d85.png" alt="Diagram" width="784" height="578">
+<img src="./images/diag-mermaid-md5-5cfe8256fe3a6490bbc9b7a480ee3d85.png" alt="Diagram" width="784" height="562">
 </div>
 </div>
 <div class="dlist">
@@ -1596,12 +1597,12 @@ allows the user to stay authenticated for a period of time. Finally the user wil
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-cbf414214f537f5bf7eecf42055d334d.png" alt="Diagram" width="784" height="445">
+<img src="./images/diag-mermaid-md5-cbf414214f537f5bf7eecf42055d334d.png" alt="Diagram" width="784" height="454">
 </div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-275bb226c138498d4814f923d1680eec.png" alt="Diagram" width="784" height="436">
+<img src="./images/diag-mermaid-md5-275bb226c138498d4814f923d1680eec.png" alt="Diagram" width="784" height="444">
 </div>
 </div>
 </div>
@@ -1643,7 +1644,7 @@ towards the WebApp. Finally, the WebApp displays the questions of the game.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-b79f0639d5807d5bf23436a886c8ed2a.png" alt="Diagram" width="784" height="603">
+<img src="./images/diag-mermaid-md5-b79f0639d5807d5bf23436a886c8ed2a.png" alt="Diagram" width="784" height="612">
 </div>
 </div>
 <div class="paragraph">
@@ -1651,7 +1652,7 @@ towards the WebApp. Finally, the WebApp displays the questions of the game.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-ed1cd6a98ec20b31ab2da87eb389a21c.png" alt="Diagram" width="707" height="654">
+<img src="./images/diag-mermaid-md5-ed1cd6a98ec20b31ab2da87eb389a21c.png" alt="Diagram" width="707" height="662">
 </div>
 </div>
 <div class="paragraph">
@@ -1659,7 +1660,7 @@ towards the WebApp. Finally, the WebApp displays the questions of the game.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-859e443d6b27e2b40a528da509381f37.png" alt="Diagram" width="450" height="328">
+<img src="./images/diag-mermaid-md5-859e443d6b27e2b40a528da509381f37.png" alt="Diagram" width="450" height="332">
 </div>
 </div>
 <div class="paragraph">
@@ -1667,7 +1668,7 @@ towards the WebApp. Finally, the WebApp displays the questions of the game.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-9d88c20c1b7d085430f41fedf201269b.png" alt="Diagram" width="601" height="492">
+<img src="./images/diag-mermaid-md5-9d88c20c1b7d085430f41fedf201269b.png" alt="Diagram" width="600" height="500">
 </div>
 </div>
 </div>
@@ -1684,7 +1685,7 @@ updating the Database with the updated user history.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-1eb2cf02f0d9d50fe61d4477fe922e09.png" alt="Diagram" width="784" height="363">
+<img src="./images/diag-mermaid-md5-1eb2cf02f0d9d50fe61d4477fe922e09.png" alt="Diagram" width="784" height="370">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -1788,7 +1789,7 @@ continuous integration (CI).</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-23c679754c8b7a9c0637bb89f9bd296c.png" alt="Diagram" width="784" height="1045">
+<img src="./images/diag-mermaid-md5-23c679754c8b7a9c0637bb89f9bd296c.png" alt="Diagram" width="784" height="1027">
 </div>
 </div>
 <div class="dlist">
@@ -2174,28 +2175,56 @@ capacity so it breaks. The following results are provided below:</p>
 <div class="ulist circle">
 <ul class="circle">
 <li>
-<p>LOGIN-1 (Considerable load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/LogInConsiderable/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/LogInConsiderable/index.html</a></p>
+<p>LOGIN:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://arquisoft.github.io/wiq_en3b/gatling/LogInConsiderable/index.html">Considerable</a></p>
 </li>
 <li>
-<p>LOGIN-2 (Stress load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/LogInStress/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/LogInStress/index.html</a></p>
+<p><a href="https://arquisoft.github.io/wiq_en3b/gatling/LogInStress/index.html">Stress</a></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>REGISTER-1 (Considerable load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/RegisterConsiderable/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/RegisterConsiderable/index.html</a></p>
+<p>REGISTER:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://arquisoft.github.io/wiq_en3b/gatling/RegisterConsiderable/index.html">Considerable</a></p>
 </li>
 <li>
-<p>REGISTER-2 (Stress load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/RegisterStress/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/RegisterStress/index.html</a></p>
+<p><a href="https://arquisoft.github.io/wiq_en3b/gatling/RegisterStress/index.html">Stress</a></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>PROFILECHANGES-1 (Considerable load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/PPConsiderable/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/PPConsiderable/index.html</a></p>
+<p>PROFILECHANGES:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://arquisoft.github.io/wiq_en3b/gatling/PPConsiderable/index.html">Considerable</a></p>
 </li>
 <li>
-<p>PROFILECHANGES-2 (Stress load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/PPStress/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/PPStress/index.html</a></p>
+<p><a href="https://arquisoft.github.io/wiq_en3b/gatling/PPStress/index.html">Stress</a></p>
+</li>
+</ul>
+</div>
 </li>
 <li>
-<p>HARDGAME (Considerable load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/HardGameConsiderable/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/HardGameConsiderable/index.html</a></p>
+<p>HARDGAME:</p>
+<div class="ulist">
+<ul>
+<li>
+<p><a href="https://arquisoft.github.io/wiq_en3b/gatling/HardGameConsiderable/index.html">Considerable</a></p>
 </li>
 <li>
-<p>HARDGAME (Stress load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/HardGameStress/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/HardGameStress/index.html</a></p>
+<p><a href="https://arquisoft.github.io/wiq_en3b/gatling/HardGameStress/index.html">Stress</a></p>
+</li>
+</ul>
+</div>
 </li>
 </ul>
 </div>
@@ -2307,29 +2336,13 @@ improve the performance and correctness of our web Application.</p>
 </div>
 <div class="paragraph">
 <p>It has been tested each page of our Application against this tool to see any flaw
-into our application, and, as it can be seen, our game has a very good mark on each one.</p>
-</div>
-<div class="ulist circle">
-<ul class="circle">
-<li>
-<p>Game: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_game.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_game.html</a></p>
-</li>
-<li>
-<p>Home: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_home.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_home.html</a></p>
-</li>
-<li>
-<p>Leaderboard: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_leaderboard.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_leaderboard.html</a></p>
-</li>
-<li>
-<p>Login: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_login.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_login.html</a></p>
-</li>
-<li>
-<p>Profile: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_profile.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_profile.html</a></p>
-</li>
-<li>
-<p>Register: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_register.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_register.html</a></p>
-</li>
-</ul>
+into our application, and, as it can be seen, our game has a very good mark on each one:
+<a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_game.html">GamePage</a>,
+<a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_home.html">HomePage</a>,
+<a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_leaderboard.html">LeaderboardPage</a>,
+<a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_login.html">LoginPage</a>,
+<a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_profile.html">ProfilePage</a>,
+<a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_register.html">RegisterPage</a>.</p>
 </div>
 <div class="imageblock">
 <div class="content">
@@ -2373,7 +2386,7 @@ a uniform interface.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-995c5214ca788ef9fb6de14fa6a9096c.png" alt="Diagram" width="664" height="221">
+<img src="./images/diag-mermaid-md5-995c5214ca788ef9fb6de14fa6a9096c.png" alt="Diagram" width="665" height="216">
 </div>
 </div>
 </div>
@@ -2391,7 +2404,7 @@ perfectly with our services since the mainly work with JSON-formatted data.</p>
 <h5 id="_er_model_questiondatabase">ER model - QuestionDatabase</h5>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-7e0a05f86a82dd3b1746098cd42875e5.png" alt="Diagram" width="419" height="386">
+<img src="./images/diag-mermaid-md5-7e0a05f86a82dd3b1746098cd42875e5.png" alt="Diagram" width="432" height="377">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2427,7 +2440,7 @@ can be selected one entity to change the whole query (e.g. Capitals of Europe or
 <h5 id="_er_model_userdatabase">ER model - UserDatabase</h5>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-38b0e1a306a402fd0cee501f7a160844.png" alt="Diagram" width="357" height="364">
+<img src="./images/diag-mermaid-md5-38b0e1a306a402fd0cee501f7a160844.png" alt="Diagram" width="385" height="356">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2465,7 +2478,7 @@ connections.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-f1c7a04257c186c9bd14a39499059216.png" alt="Diagram" width="579" height="425">
+<img src="./images/diag-mermaid-md5-f1c7a04257c186c9bd14a39499059216.png" alt="Diagram" width="592" height="419">
 </div>
 </div>
 </div>
@@ -2507,7 +2520,7 @@ up to prevent other people from knowing this information.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-fd5fe2ec0b7447df473b371da7b5a033.png" alt="Diagram" width="784" height="361">
+<img src="./images/diag-mermaid-md5-fd5fe2ec0b7447df473b371da7b5a033.png" alt="Diagram" width="784" height="363">
 </div>
 </div>
 </div>
@@ -3081,7 +3094,7 @@ See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-29 16:58:16 +0200
+Last updated 2024-04-29 15:54:09 UTC
 </div>
 </div>
 </body>

@@ -27,7 +27,7 @@ function App() {
       <AuthProvider>
         <Routes>
           <Route element={<AppLayout volume={volume} />}>
-            <Route path="/" index element={<Home />}></Route>
+            <Route path="/" index element={<Home  />}></Route>
             <Route path="/login" element={<Login />}></Route>
             <Route path="/register" element={<Register />}></Route>
             <Route path="/logout" element={<Logout />} />

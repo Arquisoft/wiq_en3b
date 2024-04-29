@@ -1,31 +1,31 @@
-import { useEffect, useContext } from 'react'
+import { useEffect } from 'react'
 import { useAuth } from '../../hooks/useAuth'
 import { useNavigate } from 'react-router-dom'
 import { Link } from 'react-router-dom'
 import './Home.css'
 
 import { useTranslation } from 'react-i18next'
-import { SettingsContext } from '../../context/SettingsContext'
+import { useTheme } from '../../hooks/useTheme';
 
 function Home() {
   const navigate = useNavigate()
   const { user } = useAuth()
 
   const { t } = useTranslation()
-
-  const { theme } = useContext(SettingsContext)
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!user) {
       navigate('/login')
     }
   }, [user, navigate])
+  
 
   return (
     <div className='homeDiv'>
       {user ? (
         <>
-          <img className="App-logo" src={theme === 'dark' ? "KaW_D.png" : "KaW.png"} alt="Logo of Know and Win APP" />
+          <img className="App-logo" src={theme === 'light' ? "KaW.png" : "KaW_D.png"} alt="Logo of Know and Win APP" />
           <div className="welcome-message">
             {t("home.welcome")} <strong>{user.username}</strong>
           </div>

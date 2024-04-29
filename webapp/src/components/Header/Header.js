@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ReactComponent as BarIcon } from "../../assets/bars-solid.svg";
 import { ReactComponent as SunIcon } from "../../assets/sun-solid.svg";
@@ -8,12 +8,10 @@ import Slider from "../../components/Slider/ContinuousSlider";
 import "./Header.css";
 import LanguageSelector from '../../components/LanguageSelector/LanguageSelector';
 // import { useTranslation } from 'react-i18next';
-import { SettingsContext } from '../../context/SettingsContext';
 
 const Header = props => {
 
   // const {t} = useTranslation();
-  const { toggleTheme } = useContext(SettingsContext);
 
 
   const languages = [
@@ -37,15 +35,6 @@ const Header = props => {
 
   const [showVolumeSlider, setShowVolumeSlider] = useState(false);
 
-  useEffect(() => {
-    localStorage.setItem('theme', props.theme);
-  }, [props.theme]);
-
-  const handleClick = (event) => {
-    props.onChangeTheme();
-    toggleTheme();
-  }
-
   return (
     <header className="header">
       <Link className='homeButton' to="/">
@@ -54,7 +43,7 @@ const Header = props => {
       
       <div className="options">
         <LanguageSelector languages={languages} />
-        <div className="theme" onClick={handleClick} tabIndex={0}
+        <div className="theme" onClick={props.onChangeTheme} tabIndex={0}
           onKeyDown={(event) => {
             if (event.key === 'Enter' || event.key === ' ') {
               props.onChangeTheme();

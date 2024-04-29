@@ -198,14 +198,18 @@ is a type of load testing called Stress testing where the Application is put at 
 capacity so it breaks. The following results are provided below:
 
 [circle]
-* LOGIN-1 (Considerable load): https://arquisoft.github.io/wiq_en3b/gatling/LogInConsiderable/index.html
-* LOGIN-2 (Stress load): https://arquisoft.github.io/wiq_en3b/gatling/LogInStress/index.html
-* REGISTER-1 (Considerable load): https://arquisoft.github.io/wiq_en3b/gatling/RegisterConsiderable/index.html
-* REGISTER-2 (Stress load): https://arquisoft.github.io/wiq_en3b/gatling/RegisterStress/index.html
-* PROFILECHANGES-1 (Considerable load): https://arquisoft.github.io/wiq_en3b/gatling/PPConsiderable/index.html
-* PROFILECHANGES-2 (Stress load): https://arquisoft.github.io/wiq_en3b/gatling/PPStress/index.html
-* HARDGAME (Considerable load): https://arquisoft.github.io/wiq_en3b/gatling/HardGameConsiderable/index.html
-* HARDGAME (Stress load): https://arquisoft.github.io/wiq_en3b/gatling/HardGameStress/index.html
+* LOGIN:
+** https://arquisoft.github.io/wiq_en3b/gatling/LogInConsiderable/index.html[Considerable]
+** https://arquisoft.github.io/wiq_en3b/gatling/LogInStress/index.html[Stress]
+* REGISTER: 
+** https://arquisoft.github.io/wiq_en3b/gatling/RegisterConsiderable/index.html[Considerable]
+** https://arquisoft.github.io/wiq_en3b/gatling/RegisterStress/index.html[Stress]
+* PROFILECHANGES: 
+** https://arquisoft.github.io/wiq_en3b/gatling/PPConsiderable/index.html[Considerable]
+** https://arquisoft.github.io/wiq_en3b/gatling/PPStress/index.html[Stress]
+* HARDGAME:
+** https://arquisoft.github.io/wiq_en3b/gatling/HardGameConsiderable/index.html[Considerable]
+** https://arquisoft.github.io/wiq_en3b/gatling/HardGameStress/index.html[Stress]
 
 As it can be seen, the Application runs smoothly with 1200 concurrent users and it is
 more than enough to meet the quality requirements and taking in mind where the Application
@@ -269,15 +273,13 @@ Google's automated tool LightHouse is used to perform several of "cross-cutting"
 improve the performance and correctness of our web Application.
 
 It has been tested each page of our Application against this tool to see any flaw 
-into our application, and, as it can be seen, our game has a very good mark on each one.
-
-[circle]
-* Game: https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_game.html
-* Home: https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_home.html
-* Leaderboard: https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_leaderboard.html
-* Login: https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_login.html
-* Profile: https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_profile.html
-* Register: https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_register.html
+into our application, and, as it can be seen, our game has a very good mark on each one:
+https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_game.html[GamePage],
+https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_home.html[HomePage],
+https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_leaderboard.html[LeaderboardPage],
+https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_login.html[LoginPage],
+https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_profile.html[ProfilePage],
+https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_register.html[RegisterPage].
 
 image::Lighthouse_Result.png[Lighthouse_Result,640,480]
 

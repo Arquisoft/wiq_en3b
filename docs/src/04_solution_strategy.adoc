@@ -36,13 +36,13 @@ See https://docs.arc42.org/section-4/[Solution Strategy] in the arc42 documentat
 - *React* : React will simplify the task build reusable and modular UI elements for our application thanks to its component-based structure. It also allows us to use JSX, which is a syntax extension for JavaScript that allows us to write HTML elements inside our JavaScript code. This will make our code more readable and easier to debug.
 - *Express* : Web application framework for Node.js which will simplify development on the server side. There is also available a wide range of third-party middlewares that we could include on our application.
 - *TypeScript* : Since we will be using JavaScript and are more familiar with statically typed languages we will use TypeScript for the services of our application. This will also reduce the likelihood of some unexpected errors at runtime.
-- *MongoDB* : We chose MongoDB since we consider we could take advantage of it's flexible schema. Its native support for JSON and its simple query language also influenced our decision. We also consider this a valauable oportunity to learn and work with a document database.
+- *MongoDB* : We chose MongoDB since we consider we could take advantage of it's flexible schema. Its native support for JSON and its simple query language also influenced our decision. We also consider this a valuable opportunity to learn and work with a document database.
 - *Docker*: To deploy our project, Docker was chosen due to its handy portability and its perfect integration with microservices applications. 
 
 
 === Decomposition of the System 
 
-==== Arquitectural patterns
+==== Architectural patterns
 - *Microservices*: 
 As the main architecture for the whole project. The system is divided into several modules representing
 a functional requirement like question generation. Each of these modules will be independent from
@@ -75,7 +75,7 @@ corresponding service that answers that petition and returns its value.
 
 | Usability 
 | The application aims for user-friendly accessibility with an intuitive design. 
-| Different web tools can be used to test accesibility and responsive design such as 
+| Different web tools can be used to test accessibility and responsive design such as
 https://chromewebstore.google.com/detail/lighthouse/blipmdconlkpinefehnmjammfjpmpbjk?hl=es&pli=1[Google LightHouse], https://webaim.org/resources/contrastchecker/[Contrast Checker] or https://wave.webaim.org/[Wave].
 |===
 

@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="generator" content="Asciidoctor 2.0.22">
-<title>Template</title>
+<meta name="generator" content="Asciidoctor 2.0.20">
+<title>KaW Docs</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /*! Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -140,7 +140,7 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #content::before{content:none}
 #header>h1:first-child{color:rgba(0,0,0,.85);margin-top:2.25rem;margin-bottom:0}
 #header>h1:first-child+#toc{margin-top:8px;border-top:1px solid #dddddf}
-#header>h1:only-child{border-bottom:1px solid #dddddf;padding-bottom:8px}
+#header>h1:only-child,body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #header .details{border-bottom:1px solid #dddddf;line-height:1.45;padding-top:.25em;padding-bottom:.25em;padding-left:.25em;color:rgba(0,0,0,.6);display:flex;flex-flow:row wrap}
 #header .details span:first-child{margin-left:-.125em}
 #header .details span.email a{color:rgba(0,0,0,.85)}
@@ -162,7 +162,6 @@ p a>code:hover{color:rgba(0,0,0,.9)}
 #toctitle{color:#7a2518;font-size:1.2em}
 @media screen and (min-width:768px){#toctitle{font-size:1.375em}
 body.toc2{padding-left:15em;padding-right:0}
-body.toc2 #header>h1:nth-last-child(2){border-bottom:1px solid #dddddf;padding-bottom:8px}
 #toc.toc2{margin-top:0!important;background:#f8f8f7;position:fixed;width:15em;left:0;top:0;border-right:1px solid #e7e7e9;border-top-width:0!important;border-bottom-width:0!important;z-index:1000;padding:1.25em 1em;height:100%;overflow:auto}
 #toc.toc2 #toctitle{margin-top:0;margin-bottom:.8rem;font-size:1.2em}
 #toc.toc2>ul{font-size:.9em;margin-bottom:0}
@@ -328,7 +327,7 @@ a.image{text-decoration:none;display:inline-block}
 a.image object{pointer-events:none}
 sup.footnote,sup.footnoteref{font-size:.875em;position:static;vertical-align:super}
 sup.footnote a,sup.footnoteref a{text-decoration:none}
-sup.footnote a:active,sup.footnoteref a:active,#footnotes .footnote a:first-of-type:active{text-decoration:underline}
+sup.footnote a:active,sup.footnoteref a:active{text-decoration:underline}
 #footnotes{padding-top:.75em;padding-bottom:.75em;margin-bottom:.625em}
 #footnotes hr{width:20%;min-width:6.25em;margin:-.25em 0 .75em;border-width:1px 0 0}
 #footnotes .footnote{padding:0 .375em 0 .225em;line-height:1.3334;font-size:.875em;margin-left:1.2em;margin-bottom:.2em}
@@ -434,15 +433,15 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article text-justify">
+<body class="article toc2 toc-left text-justify">
 <div id="header">
-<h1><span class="image"><img src="./images/arc42-logo.png" alt="arc42"></span> Template</h1>
+<h1><span class="image"><img src="./images/KaW.png" alt="GameIcon"></span> KaW Docs</h1>
 <div class="details">
 <span id="revnumber">version 8.2 EN,</span>
 <span id="revdate">January 2023</span>
 <br><span id="revremark">(based upon AsciiDoc version)</span>
 </div>
-<div id="toc" class="toc">
+<div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
 <li><a href="#section-introduction-and-goals">1. Introduction and Goals</a>
@@ -540,20 +539,6 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 	.arc42help {display:none;}
 }
 </style>
-<div class="paragraph">
-<p><strong>About arc42</strong></p>
-</div>
-<div class="paragraph lead">
-<p>arc42, the template for documentation of software and system architecture.</p>
-</div>
-<div class="paragraph">
-<p>Template Version 8.2 EN. (based upon AsciiDoc version), January 2023</p>
-</div>
-<div class="paragraph">
-<p>Created, maintained and &#169; by Dr. Peter Hruschka, Dr. Gernot Starke and contributors.
-See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
-</div>
-<hr>
 <div style="page-break-after: always;"></div>
 </div>
 </div>
@@ -1042,7 +1027,9 @@ conventions (e.g. programming or versioning guidelines, documentation or naming 
 <div class="sect2">
 <h3 id="_introduction">3.1. Introduction</h3>
 <div class="paragraph">
-<p>The KaW project aims to develop a new experimental version of the Saber y Ganar quiz show for RTVE, led by the software development company HappySw. This project involves creating a web application where users can register, log in, and participate in quiz games. Questions for the quiz will be automatically generated from data available in Wikidata.</p>
+<p>The KaW project aims to develop a new experimental version of the "Saber y Ganar" quiz show for RTVE
+that involves creating a web application where users can register, log in, and participate in quiz
+games. Questions for the quiz will be automatically generated from data available in Wikidata.</p>
 </div>
 </div>
 <div class="sect2">
@@ -1283,8 +1270,7 @@ corresponding service that answers that petition and returns its value.</p>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Web-app should work smoothly and respond quickly.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing caching mechanisms for Question generation.
-  Optimizing database queries through indexing and query optimization techniques.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing caching mechanisms for Question generation.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Usability</p></td>
@@ -1367,7 +1353,7 @@ Thus it contains the white box description of selected building blocks of level 
 <h3 id="_scope_and_context">5.1. Scope and Context</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-ed79cba539d8cad55211d0cbfddef30b.png" alt="Diagram" width="464" height="72">
+<img src="./images/diag-mermaid-md5-ed79cba539d8cad55211d0cbfddef30b.png" alt="Diagram" width="465" height="74">
 </div>
 </div>
 <div class="dlist">
@@ -1413,7 +1399,7 @@ our API to retrieve or generate information to be used in other applications.</p
 <h3 id="_level_1">5.2. Level 1</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-5da3a1f1dc3835b4825542d08d343d98.png" alt="Diagram" width="784" height="214">
+<img src="./images/diag-mermaid-md5-5da3a1f1dc3835b4825542d08d343d98.png" alt="Diagram" width="784" height="218">
 </div>
 </div>
 <div class="dlist">
@@ -1459,7 +1445,7 @@ system&#8217;s components.</p>
 <h3 id="_level_2">5.3. Level 2</h3>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-5cfe8256fe3a6490bbc9b7a480ee3d85.png" alt="Diagram" width="784" height="562">
+<img src="./images/diag-mermaid-md5-5cfe8256fe3a6490bbc9b7a480ee3d85.png" alt="Diagram" width="784" height="578">
 </div>
 </div>
 <div class="dlist">
@@ -1610,12 +1596,12 @@ allows the user to stay authenticated for a period of time. Finally the user wil
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-cbf414214f537f5bf7eecf42055d334d.png" alt="Diagram" width="784" height="454">
+<img src="./images/diag-mermaid-md5-cbf414214f537f5bf7eecf42055d334d.png" alt="Diagram" width="784" height="445">
 </div>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-275bb226c138498d4814f923d1680eec.png" alt="Diagram" width="784" height="444">
+<img src="./images/diag-mermaid-md5-275bb226c138498d4814f923d1680eec.png" alt="Diagram" width="784" height="436">
 </div>
 </div>
 </div>
@@ -1657,7 +1643,7 @@ towards the WebApp. Finally, the WebApp displays the questions of the game.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-b79f0639d5807d5bf23436a886c8ed2a.png" alt="Diagram" width="784" height="612">
+<img src="./images/diag-mermaid-md5-b79f0639d5807d5bf23436a886c8ed2a.png" alt="Diagram" width="784" height="603">
 </div>
 </div>
 <div class="paragraph">
@@ -1665,7 +1651,7 @@ towards the WebApp. Finally, the WebApp displays the questions of the game.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-ed1cd6a98ec20b31ab2da87eb389a21c.png" alt="Diagram" width="707" height="662">
+<img src="./images/diag-mermaid-md5-ed1cd6a98ec20b31ab2da87eb389a21c.png" alt="Diagram" width="707" height="654">
 </div>
 </div>
 <div class="paragraph">
@@ -1673,7 +1659,7 @@ towards the WebApp. Finally, the WebApp displays the questions of the game.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-859e443d6b27e2b40a528da509381f37.png" alt="Diagram" width="450" height="332">
+<img src="./images/diag-mermaid-md5-859e443d6b27e2b40a528da509381f37.png" alt="Diagram" width="450" height="328">
 </div>
 </div>
 <div class="paragraph">
@@ -1681,36 +1667,24 @@ towards the WebApp. Finally, the WebApp displays the questions of the game.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-9d88c20c1b7d085430f41fedf201269b.png" alt="Diagram" width="600" height="500">
+<img src="./images/diag-mermaid-md5-9d88c20c1b7d085430f41fedf201269b.png" alt="Diagram" width="601" height="492">
 </div>
 </div>
 </div>
 <div class="sect2">
 <h3 id="_user_statistics_recording_scenario">6.3. User statistics recording scenario</h3>
 <div class="paragraph">
-<p>When a user answers a question, the WebApp determines if the answer was correct or not. Then,
-that data is sent to the Gateway and then forwarded to the User Service, which is in charge of
-updating the Database with the updated user history. This process is repeated for each answer to
-a question.</p>
-</div>
-<div class="paragraph">
-<p>Once the user answer the final question of the game, apart from doing the before-mentioned process,
-the user history is also updated with the game "highlights" such as time spent playing.</p>
+<p>When a user answers the final question, the WebApp determines if the answer was correct or not. Then,
+all the data collected from the current game (the WebApp is collecting infromation while playing) is
+sent to the Gateway and then forwarded to the User Service, which is in charge of
+updating the Database with the updated user history.</p>
 </div>
 <div class="paragraph">
 <p>This case scenario is also represented on the following diagram:</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-75a3a2794e06ffe20e1ea05a1cbee026.png" alt="Diagram" width="784" height="284">
-</div>
-</div>
-<div class="paragraph">
-<p>If the user, answers the final question:</p>
-</div>
-<div class="imageblock">
-<div class="content">
-<img src="./images/diag-mermaid-md5-d18207bf0154833285c67f11d6065f61.png" alt="Diagram" width="784" height="266">
+<img src="./images/diag-mermaid-md5-1eb2cf02f0d9d50fe61d4477fe922e09.png" alt="Diagram" width="784" height="363">
 </div>
 </div>
 <div style="page-break-after: always;"></div>
@@ -1814,7 +1788,7 @@ continuous integration (CI).</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-23c679754c8b7a9c0637bb89f9bd296c.png" alt="Diagram" width="784" height="1027">
+<img src="./images/diag-mermaid-md5-23c679754c8b7a9c0637bb89f9bd296c.png" alt="Diagram" width="784" height="1045">
 </div>
 </div>
 <div class="dlist">
@@ -2008,7 +1982,7 @@ our game. Obviously, internationalization is more than just changing the
 language of the Application but due to time constraints we will just offer
 Spanish, English, Ukrainian and French languages ( although, our API can generate questions
 in other languages different from described, to see the whole list, refer to
-our <a href="https://kawgame.xyz:8000/">API documentation</a> ).</p>
+our <a href="https://kawgame.xyz:8000/api-doc">API documentation</a> ).</p>
 </div>
 <div class="paragraph">
 <p>The library used for language translation in our KaW game is called
@@ -2101,7 +2075,7 @@ following ones:</p>
 <div class="ulist">
 <ul>
 <li>
-<p>Unitary Testing:</p>
+<p>Unitary Testing (included on CI/CD):</p>
 </li>
 </ul>
 </div>
@@ -2109,14 +2083,17 @@ following ones:</p>
 <p>Each new code is tested independently to ensure its correct
 functionality and not breaking the main project. The testing framework used both
 for Backend and Frontend is <a href="https://jestjs.io/">Jest</a> due to its simplicity and its great bound with
-Javascript files. Also, the usage of SonarCloud gives us more than security checking,
+Javascript files.</p>
+</div>
+<div class="paragraph">
+<p>Also, the usage of SonarCloud gives us more than security checking,
 it also enforces each member of the team to have a good coverage on our code to meet
 the quality standards we are required.</p>
 </div>
 <div class="ulist">
 <ul>
 <li>
-<p>End-to-End Testing:</p>
+<p>End-to-End Testing (included on CI/CD):</p>
 </li>
 </ul>
 </div>
@@ -2126,6 +2103,45 @@ domain functionality such as registration, login, etc. For that, Jest is used
 in combination with <a href="https://pptr.dev/">puppeteer</a> which provides a High-level API
 to control browsers and simulate our different User Stories (domain functionality)
 that the project requires.</p>
+</div>
+<div class="paragraph">
+<p>The following functional requirements have been tested:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>LOGIN-1: Registered user logs in successfully</p>
+</li>
+<li>
+<p>LOGIN-2: Registered user logs in with incorrect password</p>
+</li>
+<li>
+<p>PROFILEMGT-1: User updates profile information (profile picture and bio)</p>
+</li>
+<li>
+<p>REGISTER-1: The user is not registered in the site</p>
+</li>
+<li>
+<p>REGISTER-2: The user is already registered in the site</p>
+</li>
+<li>
+<p>GAME-1: The user wants to go to the game menu</p>
+</li>
+<li>
+<p>GAME-2: The user wants to start an easy game</p>
+</li>
+<li>
+<p>GAME-3: The user wants to start a medium game</p>
+</li>
+<li>
+<p>GAME-4: The user wants to start a hard game</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>The combination of both Unitary and End-to-End tests gives our Application
+with enough robustness to meet the expectations of delivering high quality
+code.</p>
 </div>
 <div class="ulist">
 <ul>
@@ -2148,6 +2164,51 @@ a light and simple framework to build these kind of tests. Also,the files
 generated by it are Java files which eases the tasks due to the vast knowledge of
 the team on this programming language.</p>
 </div>
+<div class="paragraph">
+<p>To see a real workload and how our application behaves to it, it has been carried two different
+tests per each case scenario. The first one could be consider a "considerable" amount of
+users where 20 users arrive to the application per second during 60 seconds. The second one
+is a type of load testing called Stress testing where the Application is put at its maximum
+capacity so it breaks. The following results are provided below:</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>LOGIN-1 (Considerable load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/LogInConsiderable/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/LogInConsiderable/index.html</a></p>
+</li>
+<li>
+<p>LOGIN-2 (Stress load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/LogInStress/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/LogInStress/index.html</a></p>
+</li>
+<li>
+<p>REGISTER-1 (Considerable load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/RegisterConsiderable/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/RegisterConsiderable/index.html</a></p>
+</li>
+<li>
+<p>REGISTER-2 (Stress load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/RegisterStress/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/RegisterStress/index.html</a></p>
+</li>
+<li>
+<p>PROFILECHANGES-1 (Considerable load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/PPConsiderable/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/PPConsiderable/index.html</a></p>
+</li>
+<li>
+<p>PROFILECHANGES-2 (Stress load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/PPStress/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/PPStress/index.html</a></p>
+</li>
+<li>
+<p>HARDGAME (Considerable load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/HardGameConsiderable/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/HardGameConsiderable/index.html</a></p>
+</li>
+<li>
+<p>HARDGAME (Stress load): <a href="https://arquisoft.github.io/wiq_en3b/gatling/HardGameStress/index.html" class="bare">https://arquisoft.github.io/wiq_en3b/gatling/HardGameStress/index.html</a></p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>As it can be seen, the Application runs smoothly with 1200 concurrent users and it is
+more than enough to meet the quality requirements and taking in mind where the Application
+is hosted. On the other hand, it is currently impossible to achieve availiability and
+performance if 3000 users use our Application.</p>
+</div>
+<div class="paragraph">
+<p>If more information is needed on how to run those tests, please go
+<a href="https://github.com/Arquisoft/wiq_en3b/blob/master/webapp/GatlingLT/gettingOurHandsOn.md">here</a>.</p>
+</div>
 <div class="ulist">
 <ul>
 <li>
@@ -2162,9 +2223,118 @@ users by simply testing with them and examine its behaviour.</p>
 </div>
 <div class="paragraph">
 <p>The team will select different people to try our application to get Information
-on how to improve it, at the end, this application is for them! Also, accessibility
-and contrast color checks will be carried out since they are part of any
-usability testing process.</p>
+on how to improve it, at the end, this application is for them!</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>Home page:
+As stated by many users, they were a little bit lost when logging in directly into
+the application since they have to "guess" where the play button was (it was in navbar).
+For that, the team decided to include a direct play button that takes the user to the
+Game Page. Also, after checking with contrast tools, the name displayed on the Home
+Page was not readable enough, so it was also changed.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/HomePage_Old.png" alt="OldHomePage" width="640" height="480">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/HomePage_Change.png" alt="NewHomePage" width="640" height="480">
+</div>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>Game modes:
+Another thing the team noticed is the difficulty of users to select one game mode from
+our Game since they did not what did it mean "Easy", "Medium", &#8230;&#8203; So the team decided
+to put a descriptive text in each of the game modes so the user can truly understand
+what challengue is facing.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Game_Old.png" alt="OldGamePage" width="640" height="480">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Game_Change.png" alt="NewGamePage" width="640" height="480">
+</div>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>Password fields
+Some users have been very frustated when registering/logging into our Application
+since there was no "See password" button to correct their mistakes when typing. Since
+this is a simple yet powerful change to improve the User Experience, the team has decided
+to also support that capability.</p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Password_Old.png" alt="OldPasswordPage" width="640" height="480">
+</div>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Password_Change.png" alt="NewPasswordPage" width="640" height="480">
+</div>
+</div>
+<div class="paragraph">
+<p>Usability testing does not ends here since it is needed a real one with lots of users
+of different ages and also, taking into account its timing on completing certain tasks.
+Although, taking already care of these details makes really the difference.</p>
+</div>
+<div class="ulist">
+<ul>
+<li>
+<p>Accesibility, color checker and more</p>
+</li>
+</ul>
+</div>
+<div class="paragraph">
+<p>Google&#8217;s automated tool LightHouse is used to perform several of "cross-cutting" tests to
+improve the performance and correctness of our web Application.</p>
+</div>
+<div class="paragraph">
+<p>It has been tested each page of our Application against this tool to see any flaw
+into our application, and, as it can be seen, our game has a very good mark on each one.</p>
+</div>
+<div class="ulist circle">
+<ul class="circle">
+<li>
+<p>Game: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_game.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_game.html</a></p>
+</li>
+<li>
+<p>Home: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_home.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_home.html</a></p>
+</li>
+<li>
+<p>Leaderboard: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_leaderboard.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_leaderboard.html</a></p>
+</li>
+<li>
+<p>Login: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_login.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_login.html</a></p>
+</li>
+<li>
+<p>Profile: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_profile.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_profile.html</a></p>
+</li>
+<li>
+<p>Register: <a href="https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_register.html" class="bare">https://arquisoft.github.io/wiq_en3b/lighthouse_results/lighthouse_register.html</a></p>
+</li>
+</ul>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="./images/Lighthouse_Result.png" alt="Lighthouse_Result" width="640" height="480">
+</div>
 </div>
 </div>
 <div class="sect3">
@@ -2203,7 +2373,7 @@ a uniform interface.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-995c5214ca788ef9fb6de14fa6a9096c.png" alt="Diagram" width="665" height="216">
+<img src="./images/diag-mermaid-md5-995c5214ca788ef9fb6de14fa6a9096c.png" alt="Diagram" width="664" height="221">
 </div>
 </div>
 </div>
@@ -2221,7 +2391,7 @@ perfectly with our services since the mainly work with JSON-formatted data.</p>
 <h5 id="_er_model_questiondatabase">ER model - QuestionDatabase</h5>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-7e0a05f86a82dd3b1746098cd42875e5.png" alt="Diagram" width="432" height="377">
+<img src="./images/diag-mermaid-md5-7e0a05f86a82dd3b1746098cd42875e5.png" alt="Diagram" width="419" height="386">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2257,7 +2427,7 @@ can be selected one entity to change the whole query (e.g. Capitals of Europe or
 <h5 id="_er_model_userdatabase">ER model - UserDatabase</h5>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-38b0e1a306a402fd0cee501f7a160844.png" alt="Diagram" width="385" height="356">
+<img src="./images/diag-mermaid-md5-38b0e1a306a402fd0cee501f7a160844.png" alt="Diagram" width="357" height="364">
 </div>
 </div>
 <table class="tableblock frame-all grid-all stretch">
@@ -2295,7 +2465,7 @@ connections.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-f1c7a04257c186c9bd14a39499059216.png" alt="Diagram" width="592" height="419">
+<img src="./images/diag-mermaid-md5-f1c7a04257c186c9bd14a39499059216.png" alt="Diagram" width="579" height="425">
 </div>
 </div>
 </div>
@@ -2337,7 +2507,7 @@ up to prevent other people from knowing this information.</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="./images/diag-mermaid-md5-fd5fe2ec0b7447df473b371da7b5a033.png" alt="Diagram" width="784" height="363">
+<img src="./images/diag-mermaid-md5-fd5fe2ec0b7447df473b371da7b5a033.png" alt="Diagram" width="784" height="361">
 </div>
 </div>
 </div>
@@ -2787,6 +2957,13 @@ to avoid the rate limit (1000 requests/hr)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Azure</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">The decision of using this platform is fully based on the team&#8217;s knowledge. Although, it could not be the best option/approach since other platforms such as AWS or hosting ones can have other benefits.</p></td>
 </tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Game Logic</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The decision of having our game logic like controlling the points, time played by player, etc; in
+the Frontend part may seem a good option when trying to develop a game quickly. Although, it is possible
+to add to a single user more points than it should be through programs like POSTMAN, so a backend game
+logic could tackle this issue.</p></td>
+</tr>
 </tbody>
 </table>
 <div style="page-break-after: always;"></div>
@@ -2881,22 +3058,30 @@ to avoid the rate limit (1000 requests/hr)</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>A project management method used to visualize workflow.</em></p></td>
 </tr>
 <tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>CSS Frameworks</em></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><em>Pre-designed styles and components for building responsive and visually appealing user interfaces.</em></p></td>
-</tr>
-<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>Gatling</em></p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock"><em>A load testing tool used to simulate a great amount of users accessing and using our system.</em></p></td>
 </tr>
 </tbody>
 </table>
+<hr>
+<div class="paragraph">
+<p><strong>About arc42</strong></p>
+</div>
+<div class="paragraph">
+<p>This documentation is based on arc42 template for documentation of software and
+system architecture. Template Version 8.2 EN, January 2023</p>
+</div>
+<div class="paragraph">
+<p>Created, maintained and &#169; by Dr. Peter Hruschka, Dr. Gernot Starke and contributors.
+See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
+</div>
 </div>
 </div>
 </div>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-04-29 15:28:46 UTC
+Last updated 2024-04-29 16:58:16 +0200
 </div>
 </div>
 </body>

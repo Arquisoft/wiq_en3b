@@ -99,7 +99,8 @@
     color: #324B4C;
 }
 
-.container {
+
+.startBtn {
     position: absolute;
     left: 5px;
     width: 50px;

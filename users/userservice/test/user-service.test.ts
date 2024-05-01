@@ -47,6 +47,16 @@ describe('User Service', () => {
     expect(response.status).toBe(400);
   });
 
+  it('should get an error when registering a user with a blank space on POST /adduser', async () => {
+    const newUser = {
+      username: 'invaliduser01 ',
+      password: 'testpassword2',
+    };
+
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+  });
+
   // GET /history error (no user)
   it('should get an error in GET /history when not passing a user', async () => {
     const response = await request(app)

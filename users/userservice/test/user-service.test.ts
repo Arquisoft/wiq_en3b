@@ -57,6 +57,16 @@ describe('User Service', () => {
     expect(response.status).toBe(400);
   });
 
+  it('should get an error when registering a user with more than 20 characters POST /adduser', async () => {
+    const newUser = {
+      username: 'thisusernamehasmorethan20characters',
+      password: 'testpassword2',
+    };
+
+    const response = await request(app).post('/adduser').send(newUser);
+    expect(response.status).toBe(400);
+  });
+
   // GET /history error (no user)
   it('should get an error in GET /history when not passing a user', async () => {
     const response = await request(app)

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import bcrypt from 'bcrypt';
 import { validateProfileBody } from '../utils/profile-body-validation';
-import { validateNoSpaces } from '../utils/username-validation';
+import { validateNoSpaces, validateMaxLength } from '../utils/username-validation';
 
 const {
   validateRequiredFields,
@@ -19,6 +19,7 @@ const addUser = async (req: Request, res: Response) => {
     validateNotEmpty(req, ['username']);
     validateRequiredLength(req, ['password'], 8);
     validateNoSpaces(req, ['username']);
+    validateMaxLength(req, ['username'], 20);
 
     const username = req.body.username.toString();
     const password = req.body.password.toString();

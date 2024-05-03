@@ -8,7 +8,7 @@ function validateNoSpaces(req: Request, fieldsThatCannotHaveSpace: string[]) {
     }
 }
 
-function validateMaxLength(req: Request, fields: string[], maxLength: Number) {
+function validateMaxLength(req: Request, fields: string[], maxLength: number) {
     for (const field of fields) {
         if (req.body[field]!.length > maxLength) {
             throw new Error(`The field "${field}" cannot have more than ${maxLength} characters`);

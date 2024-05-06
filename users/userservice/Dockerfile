@@ -13,6 +13,9 @@ RUN npm install
 # Copy the app source code to the working directory
 COPY . .
 
+ARG JWT_KEY='your-secret-key'
+ENV JWT_SECRET_KEY=$JWT_KEY
+
 # Expose the port the app runs on
 EXPOSE 8001
 

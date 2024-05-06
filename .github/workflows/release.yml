@@ -83,12 +83,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
+        env:
+          JWT_KEY: ${{ secrets.JWT_KEY }}
         with:
           name: arquisoft/wiq_en3b/authservice
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: users/authservice
+          buildargs: JWT_KEY
 
   docker-push-userservice:
     name: Push user service Docker Image to GitHub Packages
@@ -101,12 +104,15 @@ jobs:
       - uses: actions/checkout@v4
       - name: Publish to Registry
         uses: elgohr/Publish-Docker-Github-Action@v5
+        env:
+          JWT_KEY: ${{ secrets.JWT_KEY }}
         with:
           name: arquisoft/wiq_en3b/userservice
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
           registry: ghcr.io
           workdir: users/userservice
+          buildargs: JWT_KEY
 
   docker-push-questionservice:
     name: Push question service Docker Image to GitHub Packages

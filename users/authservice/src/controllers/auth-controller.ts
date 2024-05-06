@@ -6,6 +6,8 @@ const { validateRequiredFields } = require('kaw-users-utils');
 
 import User from '../models/auth-model';
 
+const JWT_SECRET_KEY = process.env.JWT_SECRET_KEY ?? 'your-secret-key';
+
 const loginUser = async (req: Request, res: Response) => {
   try {
     validateRequiredFields(req, ['username', 'password']);
@@ -28,7 +30,7 @@ const loginUser = async (req: Request, res: Response) => {
     // Check if the user exists and verify the password
     if (user && (await bcrypt.compare(password, user.password))) {
       // Generate a JWT token
-      const token = jwt.sign({ userId: user._id }, 'your-secret-key', {
+      const token = jwt.sign({ userId: user._id }, JWT_SECRET_KEY, {
         expiresIn: '1h',
       });
       // Respond with the token and user information

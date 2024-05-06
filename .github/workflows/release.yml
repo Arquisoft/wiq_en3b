@@ -188,4 +188,4 @@ jobs:
             wget https://raw.githubusercontent.com/arquisoft/wiq_en3b/master/.env
             docker compose --profile prod down
             docker compose --profile prod up -d --pull always
-            docker exec grafana-wiq_en3b grafana-cli admin reset-admin-password ${{ secrets.GRAFANA_PASSWORD }}
+            docker exec grafana-defaultASW grafana-cli admin reset-admin-password ${{ secrets.GRAFANA_PASSWORD }}

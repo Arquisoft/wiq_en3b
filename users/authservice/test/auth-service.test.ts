@@ -64,6 +64,12 @@ describe('Auth Service', () => {
     });
     expect(response.status).toBe(500);
   });
+  // JWT token
+  it('JWT token should be properly initialized', async () => {
+    process.env.JWT_SECRET_KEY = 'just_a_different_key'
+    jest.resetModules();
+    await import('../src/controllers/auth-controller');
+  });
 });
 
 async function testWithoutDatabase(paramFunc : Function) {

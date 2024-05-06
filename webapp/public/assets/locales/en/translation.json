@@ -85,7 +85,7 @@
             "play_again": "Play Again",
             "go_back_button": "Go Back",
             "xshare_button": "Share your results",
-            "tweetShare": "---- 🤔 Know and Win 🤔 ----%0A%0AI have correctly answered {{correct}}/{{total}} questions and earned {{points}} points 💪💪%0ACome and play this incredible trivia game and try to beat me!! 😎%0A"
+            "tweetShare": "---- 🤔 Know and Win 🤔 ----%0A%0AI have correctly answered {{xresult}} questions and earned {{points}} points 💪💪%0ACome and play this incredible trivia game and try to beat me!! 😎%0A"
         }
     },
     "home": {

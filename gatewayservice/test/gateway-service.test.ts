@@ -382,6 +382,39 @@ describe('Gateway Service', () => {
 
     expect(response.statusCode).toBe(500);
   });
+
+  // Test environment variables
+  it('URI constants should initialize properly to environment variables', async () => {
+    process.env.WEBAPP_ENDPOINT = 'totallydifferenturi';
+    process.env.GATEWAY_ENDPOINT = 'totallydifferenturi';
+
+    jest.resetModules();
+    await import('../src/app');
+  });
+
+  // Test environment variable constants
+  it('constants should initialize properly to environment variables', async () => {
+
+    let constants = await import('../src/utils/constants');
+
+    let OLD_AUTH_SERVICE_URL = constants.AUTH_SERVICE_URL;
+    let OLD_USER_SERVICE_URL = constants.USER_SERVICE_URL;
+    let OLD_HISTORY_SERVICE_URL = constants.HISTORY_SERVICE_URL;
+    let OLD_QUESTION_SERVICE_URL = constants.QUESTION_SERVICE_URL;
+
+    process.env.AUTH_SERVICE_URL = 'totallydifferenturl';
+    process.env.USER_SERVICE_URL = 'totallydifferenturl';
+    process.env.HISTORY_SERVICE_URL = 'totallydifferenturl';
+    process.env.QUESTION_SERVICE_URL = 'totallydifferenturl';
+    jest.resetModules();
+    constants = await import('../src/utils/constants');
+
+    expect(constants.AUTH_SERVICE_URL).not.toMatch(OLD_AUTH_SERVICE_URL);
+    expect(constants.USER_SERVICE_URL).not.toMatch(OLD_USER_SERVICE_URL);
+    expect(constants.HISTORY_SERVICE_URL).not.toMatch(OLD_HISTORY_SERVICE_URL);
+    expect(constants.QUESTION_SERVICE_URL).not.toMatch(OLD_QUESTION_SERVICE_URL);
+
+  });
 });
 
 async function testWithoutServices(paramFunc: Function) {

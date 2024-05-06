@@ -85,7 +85,7 @@
             "play_again": "Jugar de nuevo",
             "go_back_button": "Volver",
             "xshare_button": "Comparte tu resultado",
-            "tweetShare": "---- 🤔 Saber y Ganar 🤔 ----%0A%0AHe respondido correctamente {{correct}}/{{total}} preguntas y he ganado {{points}} puntos 💪💪%0AVen y juega este increíble juego de preguntas e intenta vencerme!!😎%0A"
+            "tweetShare": "---- 🤔 Saber y Ganar 🤔 ----%0A%0AHe respondido correctamente {{xresult}} preguntas y he ganado {{points}} puntos 💪💪%0AVen y juega este increíble juego de preguntas e intenta vencerme!!😎%0A"
         }
     },
     "home": {

@@ -11,6 +11,7 @@ import { Request, Response } from 'express';
 import { verifyJWT } from "../src/utils/async-verification";
 
 let mongoServer: MongoMemoryServer;
+const JWT_SECRET_KEY = 'your-secret-key';
 
 beforeAll(async () => {
   mongoServer = await MongoMemoryServer.create();
@@ -122,7 +123,7 @@ describe('User Service', () => {
     const user = await User.findOne({ username:'testuser' });
 
     // Generates a temporary token for this and other tests
-    testToken = jwt.sign({ userId: user!._id }, 'your-secret-key', {
+    testToken = jwt.sign({ userId: user!._id }, JWT_SECRET_KEY, {
       expiresIn: '2m',
     });
 
@@ -237,7 +238,7 @@ describe('User Service', () => {
     };
     const newUser = await User.findOne({ username:'highestscoreuser' });
     // Generates a temporary token for this test
-    const testToken2 = jwt.sign({ userId: newUser!._id }, 'your-secret-key', {
+    const testToken2 = jwt.sign({ userId: newUser!._id }, JWT_SECRET_KEY, {
       expiresIn: '2m',
     });
 
@@ -570,6 +571,19 @@ describe('User Service', () => {
       const user = await User.find({ username:'testuser' });
 
       expect(() => validateProfileBody(mockRequest, user[0])).toThrow();
+    });
+
+    // JWT token
+    it('JWT token should be properly initialized', async () => {
+      jest.resetModules();
+      let verification = await import('../src/utils/async-verification');
+      let isTokenValid = await verification.verifyJWT(testToken);
+      expect(isTokenValid).not.toBeUndefined();
+
+      process.env.JWT_SECRET_KEY = 'just_a_different_key'
+      jest.resetModules();
+      verification = await import('../src/utils/async-verification');
+      await expect(verification.verifyJWT(testToken)).rejects.toThrow();
     });
 });
 

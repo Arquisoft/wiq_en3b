@@ -96,28 +96,28 @@ Tabular or free form text.
 The application should meet usability standards.
 | High
 
+| Adaptability
+| If a user accesses the application from a different device than a PC, the application should be able to adapt to the different screen size, providing a satisfactory user experience.
+| High
+
 | Performance
 | When a user interacts with the system it should react within one second to ensure a smooth and responsive user experience.
 | High
-
-| Privacy
-| If a user provides personal information during the registration, the application should securely handle and store user-provided personal information.
-Encryption should be applied for data storage.
-| High
-
-| Security
-| If a malicious user attempts unauthorized access to the application, the application should implement robust authentication mechanisms,
-including secure password storage to prevent unauthorized access.
-| High
-
-| Adaptability
-| If a user accesses the application from a different device than a PC, the application should be able to adapt to the different screen size, providing a satisfactory user experience.
-| Medium
 
 | Accessibility
 | In case a user with a visual impairment interacts with the web application, it should follow HTML standards to ensure accessibility.
 All interactive elements must be navigable using screen readers, text alternatives should be provided for non-text content.
 Additionally, the application's color contrast should be enough for people with color blindness.
+| High
+
+| Privacy
+| If a user provides personal information during the registration, the application should securely handle and store user-provided personal information.
+Encryption should be applied for data storage.
+| Medium
+
+| Security
+| If a malicious user attempts unauthorized access to the application, the application should implement robust authentication mechanisms,
+including secure password storage to prevent unauthorized access.
 | Medium
 
 | Availability

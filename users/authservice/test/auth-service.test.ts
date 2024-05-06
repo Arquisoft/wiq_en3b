@@ -1,5 +1,3 @@
-import express from "express";
-
 const request = require('supertest');
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import bcrypt from 'bcrypt';

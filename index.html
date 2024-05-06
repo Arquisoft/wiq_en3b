@@ -706,15 +706,15 @@ If you as an architect do not know how the quality of your work will be judged&#
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">2</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The application must be accessible 24 hours a day. While complete availability may be impossible over extended periods, minimizing downtime and making interruptions imperceptible to users is key.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing redundancy and failover mechanisms can help ensure continuous availability.</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Accessibility</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Any user must be able to enjoy playing with our application despite any disability they could have.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">HTML standards must be followed to try to minimize the lack of Accessibility of our Application. Another important feature is the contrast of our web. All of these can be tested with Accessibility tools available on Internet.</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">3</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">The software should have acceptable response time to provide a smooth user experience.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Basic optimization techniques can improve performance.</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">4</p></td>
@@ -724,9 +724,9 @@ If you as an architect do not know how the quality of your work will be judged&#
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">5</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">The software should have acceptable response time to provide a smooth user experience.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Basic optimization techniques can improve performance.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Availability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Minimizing downtime and making interruptions imperceptible to users is desirable, however, it is difficult to achieve and not a strict requirement. For a game application, continuous availability is not crucial.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Implementing redundancy and failover mechanisms can enhance availability.</p></td>
 </tr>
 </tbody>
 </table>
@@ -2774,32 +2774,32 @@ The application should meet usability standards.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
 </tr>
 <tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Adaptability</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If a user accesses the application from a different device than a PC, the application should be able to adapt to the different screen size, providing a satisfactory user experience.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Performance</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">When a user interacts with the system it should react within one second to ensure a smooth and responsive user experience.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If a user provides personal information during the registration, the application should securely handle and store user-provided personal information.
-Encryption should be applied for data storage.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If a malicious user attempts unauthorized access to the application, the application should implement robust authentication mechanisms,
-including secure password storage to prevent unauthorized access.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Adaptability</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">If a user accesses the application from a different device than a PC, the application should be able to adapt to the different screen size, providing a satisfactory user experience.</p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
 </tr>
 <tr>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Accessibility</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">In case a user with a visual impairment interacts with the web application, it should follow HTML standards to ensure accessibility.
 All interactive elements must be navigable using screen readers, text alternatives should be provided for non-text content.
 Additionally, the application&#8217;s color contrast should be enough for people with color blindness.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">High</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Privacy</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If a user provides personal information during the registration, the application should securely handle and store user-provided personal information.
+Encryption should be applied for data storage.</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Security</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">If a malicious user attempts unauthorized access to the application, the application should implement robust authentication mechanisms,
+including secure password storage to prevent unauthorized access.</p></td>
 <td class="tableblock halign-left valign-top"><p class="tableblock">Medium</p></td>
 </tr>
 <tr>
@@ -3094,7 +3094,7 @@ See <a href="https://arc42.org" class="bare">https://arc42.org</a>.</p>
 <div id="footer">
 <div id="footer-text">
 Version 8.2 EN<br>
-Last updated 2024-05-04 10:55:59 UTC
+Last updated 2024-05-06 13:00:03 UTC
 </div>
 </div>
 </body>

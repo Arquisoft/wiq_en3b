@@ -95,23 +95,23 @@ A table with quality goals and concrete scenarios, ordered by priorities
 | Consider incorporating user feedback and usability testing to refine the user interface.
 
 | 2
-| Availability
-| The application must be accessible 24 hours a day. While complete availability may be impossible over extended periods, minimizing downtime and making interruptions imperceptible to users is key. 
-| Implementing redundancy and failover mechanisms can help ensure continuous availability.
+| Accessibility
+| Any user must be able to enjoy playing with our application despite any disability they could have.
+| HTML standards must be followed to try to minimize the lack of Accessibility of our Application. Another important feature is the contrast of our web. All of these can be tested with Accessibility tools available on Internet.
 
 | 3
-| Accessibility
-| Any user must be able to enjoy playing with our application despite any disability they could have. 
-| HTML standards must be followed to try to minimize the lack of Accessibility of our Application. Another important feature is the contrast of our web. All of these can be tested with Accessibility tools available on Internet.
+| Performance
+| The software should have acceptable response time to provide a smooth user experience. | Basic optimization techniques can improve performance.
 
 | 4
 | Security
-| The application should stick to industry best practices for security to protect against unauthorized access, data breaches, and other threats. 
+| The application should stick to industry best practices for security to protect against unauthorized access, data breaches, and other threats.
 | Regular security audits and implementing basic security controls are essential.
 
 | 5
-| Performance
-| The software should have acceptable response time to provide a smooth user experience. | Basic optimization techniques can improve performance.
+| Availability
+| Minimizing downtime and making interruptions imperceptible to users is desirable, however, it is difficult to achieve and not a strict requirement. For a game application, continuous availability is not crucial.
+| Implementing redundancy and failover mechanisms can enhance availability.
 
 |===
 

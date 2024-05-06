@@ -1,3 +1,5 @@
+import express from "express";
+
 const request = require('supertest');
 import { MongoMemoryServer } from 'mongodb-memory-server';
 import bcrypt from 'bcrypt';
@@ -63,6 +65,12 @@ describe('Auth Service', () => {
       return request(app).post('/login').send(user)
     });
     expect(response.status).toBe(500);
+  });
+  // JWT token
+  it('JWT token should be properly initialized', async () => {
+    process.env.JWT_SECRET_KEY = 'just_a_different_key'
+    jest.resetModules();
+    await import('../src/controllers/auth-controller');
   });
 });
 
